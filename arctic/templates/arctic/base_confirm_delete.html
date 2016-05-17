@@ -1,0 +1,47 @@
+{% extends "arctic/base.html" %}
+
+
+{% load i18n arctic_tags staticfiles %}
+
+
+{% block body_class %}
+    {{ block.super }}
+    template-delete
+{% endblock %}
+
+
+{% block content %}
+    <div>
+        {% if can_delete %}
+            <form class="warning callout text-center" action="" method="post">
+
+                {% csrf_token %}
+                <h5>Are you sure you want to delete "{{ object }}"?</h5>
+                <p>This cannot be undone</p>
+                <p></p>
+
+                <div class="button-group text-center">
+                    {# Javascript cause forms, get filled values back #}
+                    <a href="#" onclick="history.go(-1)" class="secondary button">Cancel</a>
+                    <input type="submit" value="Confirm" class="alert button" />
+                </div>
+            </form>
+        {% else %}
+            <section class="warning callout">
+                <header>
+                    <h5>{{ collector_message }}</h5>
+                </header>
+
+                <ul class="tags warning">
+                    {% for obj in protected_objects %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                </ul>
+
+                {# Javascript cause forms, get filled values back #}
+                <a href="#" onclick="history.go(-1)" class="secondary button">Back</a>
+
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

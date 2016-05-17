@@ -1,0 +1,26 @@
+.page-login {
+
+    .align-middle {
+        height: 100vh; // set 100% height for flexbox
+    }
+
+    .block-wrapper {
+        &:first-child {
+            border-radius: $global-radius $global-radius 0 0;
+            border-bottom: 0;
+            background: $greyLightest;
+        }
+
+        &:last-child {
+            border-radius: 0 0 $global-radius $global-radius;
+        }
+    }
+
+    header {
+        text-align: center;
+
+        h4 { margin: 0;}
+    }
+
+    .button { margin-bottom: 0;}
+}

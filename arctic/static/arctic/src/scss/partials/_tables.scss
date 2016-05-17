@@ -1,0 +1,16 @@
+table {
+    thead th,
+    tbody th {
+        border: 1px solid darken($green,5%);
+    }
+
+    tbody td {
+        border: 1px solid $greyLight;
+    }
+}
+
+@include breakpoint(medium down) {
+    table {
+        @include table-scroll;
+    }
+}

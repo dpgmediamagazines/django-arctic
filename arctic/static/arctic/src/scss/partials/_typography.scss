@@ -1,0 +1,7 @@
+p {
+    margin: 0;
+
+    &:not(:first-child) {
+        margin: $marginLarge 0 0;
+    }
+}

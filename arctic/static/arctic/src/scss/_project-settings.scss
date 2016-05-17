@@ -1,0 +1,196 @@
+/*------------------------------------
+    FOUNDATION OVERRIDES
+
+    Do not override default Foundation settings inside the seetings file
+    since these will be overwritten when Foundation is updated to an newer
+    version.
+
+    Use the _project-settings instead to make sure changes stay where they
+    should be.
+------------------------------------*/
+
+/*------------------------------------
+    COLORS
+------------------------------------*/
+$blueMedium:                    #337ab7;
+
+$greyLightest:                  #FAFAFA;
+$greyLight:                     #E3E3E3;
+$greyMedium:                    #797979;
+$greyDark:                      #2B4049;
+$greyDarkest:                   #253841;
+
+//primary colors
+$blue:                          #5D9CEC;
+$green:                         #5FBEAA;
+$orange:                        #FFBD4A;
+$pink:                          #FB6D9D;
+$purple:                        #7266BA;
+$red:                           #F05050;
+$white:                         #ffffff;
+
+// body + nav background colors
+$pageBackground:                #ebeff2;
+$navBackground:                 #ffffff;
+$navBackgroundItemActive:       #f4f8fb;
+$headerBackground:				#36404a;
+
+// text colors
+$textColorDark:                 #505458;
+$textColorMedium:               #797979;
+$textColorLight:                #a0a0a0;
+$textLinkBlue:                  #337ab7;
+
+// default foundation color resets
+$primary-color:                 #2199e8;
+$secondary-color:               #777;
+$success-color:                 $green;
+$warning-color:                 $orange;
+$alert-color:                   $red;
+$light-gray:                    #e6e6e6;
+$medium-gray:                   #cacaca;
+$dark-gray:                     #8a8a8a;
+
+$foundation-palette: (
+    primary: #2199e8,
+    secondary: #777,
+    success: $green,
+    warning: $orange,
+    alert: $red,
+);
+
+/*------------------------------------
+    FONTS
+------------------------------------*/
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+
+$fontFamilyDefault:             'Noto Sans', sans-serif;
+
+$fontSizeDefault:               12px;
+$fontSizeSmall:                 $fontSizeDefault - 2px;
+$fontSizeMedium:                $fontSizeDefault;
+$fontSizeLarge:                 $fontSizeDefault + 4px;
+$fontSizeExtraLarge:            $fontSizeDefault + 8px;
+
+$fontWeightNormal:              400;
+$fontWeightBold:                700;
+
+/*------------------------------------
+    MARGINS
+------------------------------------*/
+$marginSmall:                   5px;
+$marginMedium:                  10px;
+$marginLarge:                   15px;
+$marginExtraLarge:              30px;
+
+/*------------------------------------
+    GRID SETTINGS
+------------------------------------*/
+$global-width:                  100%;
+$grid-row-width:                $global-width;
+$grid-column-count:             12;
+$grid-column-gutter:            $marginLarge;
+$block-grid-max:                12;
+$hr-width:                      $global-width;
+
+/*------------------------------------
+    OFF CANVAS
+------------------------------------*/
+$offcanvas-size: 				170px;
+$offcanvas-background: 			$white;
+$offcanvas-zindex: 				-1;
+$offcanvas-transition-length: 	0.5s;
+$offcanvas-transition-timing: 	ease;
+$offcanvas-fixed-reveal: 		true;
+$offcanvas-exit-background: 	rgba($white, 0.25);
+$maincontent-class: 			'off-canvas-content';
+$maincontent-shadow: 			0 0 10px rgba($black, 0.5);
+
+/*------------------------------------
+    BUTTON OVERRIDES
+------------------------------------*/
+$input-prefix-background: $white;
+$input-border-color: $greyLight;
+
+// see for more info: foundation/scss/foundation/components/_forms.scss
+$input-height: ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
+
+/*------------------------------------
+    BUTTON OVERRIDES
+------------------------------------*/
+$button-padding: 				0.81em 1em;
+
+/*------------------------------------
+    TABLES
+------------------------------------*/
+$table-background: $white;
+$table-head-background: $green;
+$table-head-font-color: $white;
+$table-striped-background: $greyLightest;
+$table-row-hover: $blue;
+$table-border: 1px solid $greyLight;
+
+/*------------------------------------
+    TABS
+------------------------------------*/
+$tab-margin: 0;
+$tab-background: $white;
+$tab-background-active: $white;
+$tab-item-font-size: $fontSizeMedium;
+$tab-item-background-hover: $white;
+$tab-item-padding: $marginLarge $marginExtraLarge;
+$tab-expand-max: 6;
+$tab-content-background: $white;
+$tab-content-border: 0;
+$tab-content-color: $greyDark;
+$tab-content-padding: $marginLarge 0;
+
+/*------------------------------------
+    ACCORDION
+------------------------------------*/
+$accordion-background: $greyLightest;
+$accordion-plusminus: true;
+$accordion-item-color: $greyDark;
+$accordion-item-background-hover: $green;
+$accordion-item-padding: $marginLarge;
+$accordion-content-background: $white;
+$accordion-content-border: 1px solid $greyLight;
+$accordion-content-color: $greyDark;
+$accordion-content-padding: $marginLarge;
+
+/*------------------------------------
+    SWITCH
+------------------------------------*/
+$switch-background: $greyLight;
+$switch-background-active: $green;
+$switch-height: 2rem;
+$switch-height-tiny: 1.5rem;
+$switch-height-small: 1.75rem;
+$switch-height-large: 2.5rem;
+$switch-radius: $global-radius;
+$switch-margin: $global-margin;
+$switch-paddle-background: $white;
+$switch-paddle-offset: 0.25rem;
+$switch-paddle-radius: $global-radius;
+$switch-paddle-transition: all 0.25s ease-out;
+
+/*------------------------------------
+    TOPBAR
+------------------------------------*/
+$topbar-background: transparent;
+
+/*------------------------------------
+    TOPBAR
+------------------------------------*/
+$pagination-margin-bottom: 0;
+
+/*------------------------------------
+    FONT AWESOME
+------------------------------------*/
+$fa-font-path:   "../components/font-awesome/fonts/";
+
+
+/*------------------------------------
+    PIZZA
+------------------------------------*/
+$pie-color: $green;

@@ -1,0 +1,26 @@
+{
+    "path": {
+        "bower": "components/",
+        "build": "build/",
+        "css": "css/",
+        "html": "arctic/templates/autoweek/",
+        "images": "images/",
+        "javascript": "js/",
+        "scss": "scss/",
+        "src": "src/",
+        "static": "./arctic/static/arctic/"
+    },
+    "sass": {
+        "main": "app.scss",
+        "outputStyle": "compressed",
+        "modules": [
+            "./build/components/font-awesome/scss",
+            "./build/components/foundation-sites/scss",
+            "./build/components/motion-ui/src",
+            "./build/components/pizza/scss"
+        ]
+    },
+    "autoprefixer": {
+        "browsers": ["last 2 versions", "ie >= 9"]
+    }
+}

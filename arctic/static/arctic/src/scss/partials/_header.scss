@@ -1,0 +1,87 @@
+.primary-header {
+    $menuHeight: 60px;
+    @include flex;
+    @include flex-align(right, middle);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding: 0 $marginLarge;
+    color: $white;
+    background: $greyDark;
+    z-index: 10;
+
+    // secondary menu on right side of header
+    .menu {
+        @include flex;
+        @include flex-align(right, middle);
+    }
+
+    // global styling
+    a {
+        color: inherit;
+    }
+
+    // hamburger
+    .btn-menu {
+        position: relative;
+        margin-right: $marginExtraLarge;
+    }
+
+    // logo and project name
+    .logo {
+        transition: all .2s ease-in-out;
+        height: 20px;
+        font-size: 18px;
+        line-height: 1;
+
+        @include breakpoint(small down) {
+            padding-left: $marginExtraLarge;
+            border-left: 1px solid $greyMedium;
+        }
+
+        img {
+            margin-top: -5px;
+            max-height: 100%;
+            border: 0;
+        }
+
+        span {
+            display: none;
+
+            @include breakpoint(medium) {
+                display: inline;
+            }
+        }
+    }
+
+    // search
+    .search {
+        position: relative;
+
+        input, button {
+            height: $menuHeight;
+        }
+
+        input[type='text'] {
+            padding-left: $marginExtraLarge + $marginLarge;
+            border: 0;
+            color: $white;
+            background-color: $greyDarkest;
+        }
+
+        button {
+            position: absolute;
+            top: 0;
+            left: $marginLarge;
+            font-size: $fontSizeLarge;
+            outline: 0;
+        }
+
+        button:before {
+
+            color: inherit;
+        }
+    }
+}

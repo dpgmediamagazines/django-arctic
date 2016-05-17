@@ -1,0 +1,107 @@
+.off-canvas-wrapper,
+.off-canvas-wrapper-inner {
+    min-height: 100vh;
+}
+
+.off-canvas {
+    height: 100%;
+    padding: 75px $marginLarge 30px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+    .search {
+        margin-bottom: $marginLarge;
+        padding-bottom: $marginLarge;
+        border-bottom: 1px solid $greyLight;
+    }
+
+    .side-menu {
+        margin: 0 #{-$marginLarge}; // Pull menu to left and right side
+        list-style: none;
+
+        // first level menu items
+        > li {
+            position: relative;
+
+            > a {
+                position: relative;
+                display: block;
+                padding: $marginMedium $marginMedium $marginMedium ($marginExtraLarge * 1.5);
+                color: $textColorDark;
+
+                // needed for Magellan dummy menu
+                &.active {
+                    color: $green;
+                    background: $navBackgroundItemActive;
+
+                    &:before {
+                        position: absolute;
+                        display: block;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 4px;
+                        content: "";
+                        background: $green;
+                    }
+                }
+            }
+
+            i {
+                position: absolute;
+                top: 14px;
+                left: $marginLarge;
+            }
+
+            // active menu item
+            &.active,
+            &.selected,
+            &:hover {
+                > a {
+                    @extend a.active;
+                }
+            }
+
+            &.selected {
+                > a {
+                    color: $greyDark;
+
+                    &:before {
+                        background: $greyMedium;
+                    }
+                }
+            }
+
+            &.sub--collapsed > ul {
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            &.sub--expanded > ul,
+            &.sub--collapsed.active ul {
+                max-height: 999px;
+            }
+        }
+
+        // secondary level
+        ul {
+            margin: 0;
+            list-style: none;
+
+            > li {
+                > a {
+                    position: relative;
+                    display: block;
+                    padding: $marginSmall $marginMedium $marginSmall ($marginExtraLarge * 2);
+                    color: $textColorMedium;
+                }
+
+                &.active,
+                &:hover {
+                    > a {
+                        color: $green;
+                    }
+                }
+            }
+        }
+    }
+}

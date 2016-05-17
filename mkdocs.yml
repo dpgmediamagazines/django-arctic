@@ -1,0 +1,5 @@
+site_name: Django Arctic
+theme: readthedocs
+pages:
+- Home: index.md
+- Reference: reference.md

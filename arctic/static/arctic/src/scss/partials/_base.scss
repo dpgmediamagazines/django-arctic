@@ -1,0 +1,20 @@
+body {
+    color: $textColorDark;
+    font-family: $fontFamilyDefault;
+    font-size: $fontSizeDefault;
+    background: $pageBackground;
+}
+
+
+// off canvas foundation content reset
+.off-canvas-content {
+    padding: 75px $marginExtraLarge $marginExtraLarge;
+    background: none;
+    box-shadow: 0 0 0 0;
+}
+
+// page content wrapper
+.block-wrapper {
+    padding: $marginLarge;
+    background: $white;
+}

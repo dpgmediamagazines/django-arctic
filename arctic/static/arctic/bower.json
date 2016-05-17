@@ -1,0 +1,27 @@
+{
+  "name": "foundation-sites-template",
+  "version": "1.0.0",
+  "authors": [
+    "Sanoma"
+  ],
+  "description": "Front-end JavaScript dependecies",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "https://github.com/Sanoma",
+  "dependencies": {
+    "chosen": "1.5.1",
+    "font-awesome": "4.6.2",
+    "foundation-sites": "6.2.0",
+    "motion-ui": "1.2.2",
+    "pizza": "0.2.1"
+  },
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true
+}

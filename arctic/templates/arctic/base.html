@@ -1,0 +1,120 @@
+{% load i18n staticfiles arctic_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>
+            {% block title %}
+                {{ SITE_NAME }} – {{ page_title }}
+            {% endblock %}
+        </title>
+
+        <link href="{% static "arctic/build/css/app.css" %}" rel="stylesheet">
+
+        {% block head_extras %}{% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+
+        {% block body %}
+
+            {# page header #}
+            <header class="primary-header">
+                <a href="#" class="btn-menu hide-for-large" id="btn-menu" data-toggle="offCanvas">
+                    <span>Menu</span>
+                </a>
+
+                <a href="/dashboard" class="logo">
+                    <img src="{% static SITE_LOGO %}" />
+                    <span>{{ SITE_NAME }}</span>
+                </a>
+                {# menu columns #}
+                <ul class="menu columns">
+                {% block topbar_menu %}
+                {#     <li> #}
+                {#         <form class="search"> #}
+                {#             <input class="input-group-field" type="text"> #}
+                {#             <button type="submit" class="fa fa-search" value="Submit"></button> #}
+                {#         </form> #}
+                {#     </li> #}
+                {#     <li> #}
+                {#         <a href="">Logout</a> #}
+                {#     </li> #}
+                {% endblock %} {# topbar_menu #}
+                </ul>
+            </header>
+
+            <div class="off-canvas-wrapper">
+                <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+                    {# sidebar #}
+                    <div class="off-canvas position-left reveal-for-large" id="offCanvas" data-off-canvas>
+
+                    {% include "arctic/partials/menu.html" %}
+                </div>
+
+                    {# page content #}
+                    <div class="off-canvas-content" data-off-canvas-content>
+
+                        {% block outer_content %}
+                            <div class="block-wrapper">
+
+                                {# page page header #}
+                                <div class="row">
+                                    <h3 class="columns">
+                                        {{ page_title }}
+                                    </h3>
+
+                                    {% if tool_links %}
+                                        <div class="shrink columns button-group">
+                                            {% for link in tool_links %}
+                                                <a class="button" href="{% url link.1 %}">
+                                                    {{ link.0 }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                {# page page description #}
+                                {% if page_description %}
+                                    <div class="row">
+                                        <small>{{ page_description }}</small>
+                                    </div>
+                                {% endif %}
+
+                                {# page messages #}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="callout {{ message.tags }}" data-closable>
+                                            {{ message }}
+                                            <button class="fa fa-times close-button" aria-label="Dismiss alert" type="button" data-close></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {# content #}
+                                {% block content %}content here{% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+
+                </div>
+            </div>
+        {% endblock %} {# body #}
+        {% block scripts_bottom %}
+        <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script>
+        <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script>
+        <script src="{% static "arctic/build/js/app.js" %}"></script>
+        <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,42 @@
+{% load arctic_tags %}
+{% load i18n %}
+
+<div class="row align-middle align-justify">
+
+    {% if paginator.num_pages > 1 %}
+        <ul class="pagination" role="navigation" aria-label="Pagination">
+
+            {% if page_obj.has_previous %}
+                <li>
+                    <a href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous page">
+                        Previous <span class="show-for-sr">page</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    Previous <span class="show-for-sr">page</span>
+                </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li>
+                    <a href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" aria-label="Next page">
+                        Next <span class="show-for-sr">page</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    Next <span class="show-for-sr">page</span>
+                </li>
+            {% endif %}
+
+        </ul>
+
+        <div class="pagination-info float-right">
+            {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
+                Showing {{ start }} to {{ end }} of {{ count }} entries
+            {% endblocktrans %}
+        </div>
+    {% endif %}
+
+</div>

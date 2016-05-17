@@ -1,0 +1,62 @@
+{% extends "arctic/base.html" %}
+
+
+{% load i18n staticfiles %}
+
+
+{% block title %}
+    {{ AVALANCHE_SITE_NAME }} - Login
+{% endblock %}
+
+
+{% block body_class %}page-login{% endblock %}
+
+
+{% block body %}
+    <div class="row align-middle align-center">
+        <div class="small-10 medium-4 large-3">
+
+            <div class="login-box">
+                <header class="block-wrapper">
+                    <h4>Arctic Login</h4>
+                </header>
+
+                <form class="block-wrapper" action=".?next={{ next }}" method="post">
+                    {% csrf_token %}
+
+                    {% if messages %}
+                        <div class="row">
+                            <div class="columns">
+                                {% for message in messages %}
+                                    <div class="{{ message.tags }}-message">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="columns">
+                            <label class="requiredField" for="username">{% trans "User" %}</label>
+                            <input class="form-control" name="username" id="username" type="text" autofocus="true" />
+
+                            <label class="requiredField" for="password">{% trans "Password" %}</label>
+                            <input class="form-control" name="password" id="password" type="password" value="" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="columns">
+                            <button type="submit" class="button pull-right">
+                                {% trans "Sign In" %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
