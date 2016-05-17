@@ -3,3 +3,4 @@ theme: readthedocs
 pages:
 - Home: index.md
 - Reference: reference.md
+- Frontend: frontend.md

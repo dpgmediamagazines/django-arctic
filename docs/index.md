@@ -1,6 +1,6 @@
 # Overview
 
-Django Arctic is a framework built on top of Django that facilitates the creation of custom Dashboards, Admin Interfaces or Content Management Systems in an quick and DRY way.
+Django Arctic is a framework that simplifies the creation of custom content management systems.
 
 
 ## Features
@@ -8,7 +8,7 @@ Django Arctic is a framework built on top of Django that facilitates the creatio
 * Does not depend on any models
 * Optional Authentication/Permission system
 * Class based views that match and extend the ones from Django
-* Default User Interface which can be customised or replaced.
+* Default User Interface which can be customised or replaced
 
 
 ## Installation
@@ -36,6 +36,19 @@ In `TEMPLATES` - `OPTIONS` - `context_processors` add:
 
 Add `'arctic'` to `INSTALLED_APPS`
 
+Setup the menu:
+
+    ARCTIC_MENU = (
+        ('menu label', 'named url', 'optional icon class', (optional submenu)),
+        ('menu label2', 'named url2', 'optional icon class2', (optional submenu2)),
+        ...
+    )
 
 
+Set the site name and logo:
 
+    ARCTIC_SITE_NAME = 'Arctic Project'
+    ARCTIC_SITE_LOGO = '/path/to/logo.png'
+
+
+Within the Arctic project there's an `example` project with a more extensive usage of Arctic's features.
