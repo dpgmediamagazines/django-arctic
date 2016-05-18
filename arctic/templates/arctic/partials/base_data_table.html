@@ -51,7 +51,7 @@
                     {% if list_display_links %}
                         <td class="actions">
                             {% for link in list_display_links %}
-                                <a href="{% dashboard_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0 }}">
+                                <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0 }}">
                                     <span class="zmdi zmdi-{{ link.0 }}"></span>
                                 </a>
                             {% endfor %}
