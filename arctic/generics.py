@@ -152,7 +152,7 @@ class ListView(View, base.ListView):
     # common method to be used for column_links and column_widgets
     def _get_column_items(self, column_items):
         result = {}
-        list_display = OrderedDict(self.get_list_display()).keys()
+        list_display = list(OrderedDict(self.get_list_display()).keys())
         for key, value in column_items.items():
             try:
                 result[list_display.index(key)] = value
