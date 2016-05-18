@@ -152,7 +152,7 @@ def query_string_ordering(context, value, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
-def dashboard_url(context, link, *args, **kwargs):
+def arctic_url(context, link, *args, **kwargs):
     """
     Resolves display- and tool-link tuples into urls with optional
     item IDs and parent IDs. See base_list.html for example usage.
@@ -169,11 +169,6 @@ def dashboard_url(context, link, *args, **kwargs):
             url_args = context['parent_ids']
 
     return reverse(link, args=url_args, kwargs=None)
-
-
-@register.simple_tag(takes_context=True)
-def arctic_url(context, link, *args, **kwargs):
-    return dashboard_url(context, link, *args, **kwargs)
 
 
 class SubViewNode(template.Node):
