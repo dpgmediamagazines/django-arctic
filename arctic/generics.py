@@ -4,6 +4,7 @@
 Generic views that provide commonly needed behaviour.
 """
 from __future__ import unicode_literals, division
+from collections import OrderedDict
 
 from collections import OrderedDict
 from django.views import generic as base
@@ -148,19 +149,26 @@ class ListView(View, base.ListView):
 
         return result
 
-    def get_column_links(self):
-        column_links = {}
-        for key, value in self.column_links.items():
-            column_links[self.list_display.index(key)] = value
+    # common method to be used for column_links and column_widgets
+    def _get_column_items(self, column_items):
+        result = {}
+        list_display = OrderedDict(self.get_list_display()).keys()
+        for key, value in column_items.items():
+            try:
+                result[list_display.index(key)] = value
+            except ValueError:
+                pass
 
-        return column_links
+        return result
+
+
+    def get_column_links(self):
+        return self._get_column_items(self.column_links)
+
 
     def get_column_widgets(self):
-        column_widgets = {}
-        for key, value in self.column_widgets.items():
-            column_widgets[self.list_display.index(key)] = value
+        return self._get_column_items(self.column_widgets)
 
-        return column_widgets
 
     def get_list_items(self, objects):
         items = []
