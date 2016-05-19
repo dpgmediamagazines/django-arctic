@@ -7,14 +7,22 @@ from django.conf.urls.static import static
 
 from articles.views import (
     ArticleListView, ArticleCreateView,
-    ArticleDetailView, ArticleDeleteView)
+    ArticleDetailView, ArticleDeleteView,
+    CategoryListView, CategoryCreateView,
+    CategoryDetailView, CategoryDeleteView,
+)
 from dashboard.views import DashboardView
+
 
 article_patterns = [
     url(r'^$', ArticleListView.as_view(), name='list'),
     url(r'^create/$', ArticleCreateView.as_view(), name='create'),
     url(r'^(?P<pk>\d+)/$', ArticleDetailView.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/delete/$', ArticleDeleteView.as_view(), name='delete'),
+    url(r'^category/$', CategoryListView.as_view(), name='category-list'),
+    url(r'^category/create/$', CategoryCreateView.as_view(), name='category-create'),
+    url(r'^category/(?P<pk>\d+)/$', CategoryDetailView.as_view(), name='category-detail'),
+    url(r'^category/(?P<pk>\d+)/delete/$', CategoryDeleteView.as_view(), name='category-delete'),
 ]
 
 urlpatterns = [
