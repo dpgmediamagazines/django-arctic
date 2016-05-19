@@ -9,8 +9,10 @@ table {
     }
 }
 
-@include breakpoint(medium down) {
+.responsive-table {
+    overflow-x: scroll;
+
     table {
-        @include table-scroll;
+        min-width: 100%;
     }
 }
