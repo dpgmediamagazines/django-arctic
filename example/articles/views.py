@@ -3,15 +3,13 @@ from __future__ import unicode_literals, absolute_import
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse_lazy, reverse
 
-# TODO: Move extra views into our own views. So we can override where needed
-from extra_views import InlineFormSet
-
 from arctic.generics import (
     ListView, UpdateView, CreateView,
     DeleteView, TemplateView)
 
-from .models import Article
+from .models import Article, Category
 from .forms import ArticleForm
+from .inlines import ArticleInline, TagsInline
 
 
 class DashboardView(TemplateView):
@@ -43,17 +41,27 @@ class ArticleListView(ListView):
     ]
 
 
+class ArticleListViewInline(ArticleListView):
+    template_name = 'arctic/partials/base_data_table.html'
+    prefix = 'articles'
+
+    def get_object_list_for_parent(self, parent_id):
+        return self.get_object_list().filter(category_id=parent_id)
+
+
 class ArticleDetailView(UpdateView):
     page_title = _("Edit Article")
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm
+    inlines = [TagsInline]
+    inline_views = [ArticleListViewInline]
 
 
 class ArticleCreateView(CreateView):
     page_title = _("Create Article")
     model = Article
-    fields = ['title', 'description']
+    fields = ['title', 'description', 'category']
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -62,3 +70,35 @@ class ArticleCreateView(CreateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('articles:list')
+
+
+class CategoryListView(ListView):
+    page_title = _("Categories")
+    model = Category
+    list_display = ['name']
+    column_links = {
+        'name': 'articles:category-detail',
+    }
+    tool_links = [
+        (_('Add Category'), 'articles:category-create'),
+    ]
+
+
+class CategoryDetailView(UpdateView):
+    page_title = _("Edit Category")
+    model = Category
+    inlines = [ArticleInline]
+    success_url = reverse_lazy('articles:category-list')
+
+
+class CategoryCreateView(CreateView):
+    page_title = _("Create Category")
+    model = Category
+    fields = ['name']
+    def get_success_url(self):
+        return reverse('articles:category-detail', args=(self.object.pk,))
+
+
+class CategoryDeleteView(DeleteView):
+    model = Category
+    success_url = reverse_lazy('articles:category-list')

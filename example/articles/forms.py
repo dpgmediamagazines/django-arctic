@@ -8,5 +8,5 @@ from .models import Article
 
 class ArticleForm(forms.ModelForm):
     class Meta:
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'category']
         model = Article
