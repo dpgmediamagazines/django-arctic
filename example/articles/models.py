@@ -9,5 +9,14 @@ class Article(models.Model):
     title = models.CharField("Title", max_length=255, null=False)
     description = models.TextField("Description", blank=True, null=False)
     published = models.BooleanField(default=False)
-    tags = models.CharField(max_length=255, null=False)
     image = models.ForeignKey('images.Image', null=True, blank=True)
+    category = models.ForeignKey('articles.Category', null=True, blank=True)
+    tags = models.ManyToManyField('articles.Tag')
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255, null=False, blank=False, unique=True)
+
+
+class Tag(models.Model):
+    term = models.CharField(max_length=255, null=False, blank=False, unique=True)
