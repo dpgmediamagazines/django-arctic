@@ -1,2 +1,3 @@
 *.css binary
-build/* linguist-vendored
+build/* binary
+static/* linguist-vendored
