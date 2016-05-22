@@ -23,27 +23,38 @@
         color: inherit;
     }
 
-    // hamburger
-    .btn-menu {
-        position: relative;
-        margin-right: $marginExtraLarge;
+    // burger menu
+    .menu-button {
+    	display: inline-block;
+    	padding: 0.5em $marginLarge 0.5em 0em;
+    	background-color: transparent;
+    	border: 0;
+    }
+
+    .burger-icon {
+    	@include burger(25px, 3px, 5px, $light-gray);
+    }
+
+    .menu-button.is-active .burger-icon {
+    	@include burger-to-cross;
     }
 
     // logo and project name
     .logo {
         transition: all .2s ease-in-out;
-        height: 20px;
-        font-size: 18px;
+        height: 25px;
+        font-size: 20px;
         line-height: 1;
 
-        @include breakpoint(small down) {
-            padding-left: $marginExtraLarge;
-            border-left: 1px solid $greyMedium;
-        }
+//        @include breakpoint(small down) {
+//            padding-left: $marginLarge;
+//            border-left: 1px solid $greyMedium;
+//        }
 
         img {
-            margin-top: -5px;
+            //margin-top: -2px;
             max-height: 100%;
+            padding-bottom: 2px;
             border: 0;
         }
 

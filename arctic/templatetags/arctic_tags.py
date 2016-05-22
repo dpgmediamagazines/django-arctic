@@ -2,6 +2,8 @@ from __future__ import unicode_literals, absolute_import
 from django import template
 from django.core.urlresolvers import reverse
 
+from collections import OrderedDict
+
 register = template.Library()
 
 
@@ -198,6 +200,7 @@ def subview(parser, token):
 def lookup(dct, key):
     return dct.get(key)
 
+
 @register.filter()
 def typename(obj):
     return type(obj).__name__
@@ -206,6 +209,14 @@ def typename(obj):
 @register.filter
 def index(List, i):
     return List[int(i)]
+
+
+@register.filter
+def keys(obj):
+    if type(obj) in (dict, OrderedDict,):
+        return list(obj.keys())
+    return []
+
 
 @register.filter
 def get_item(dictionary, key):

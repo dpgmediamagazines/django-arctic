@@ -25,6 +25,7 @@ class ArticleListView(ListView):
     paginate_by = 20
     model = Article
     list_filter = []
+    ordering_fields = ['title', 'description']
     search_fields = ['title']
     list_display = ['title', 'description']
     list_display_links = [

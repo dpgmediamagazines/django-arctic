@@ -21,14 +21,18 @@
             {# data table #}
             {% if list_items %}
                 <div class="small-12 columns">
-
                     <div class="responsive-table">
-                        <table>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     {% for item in list_header %}
                                         <th>
-                                            {{ item.1 }}
+                                            {% if item.order_url %}
+                                                <a href="{{ item.order_url }}">{{ item.label }}
+                                                    <i>{% if item.order_direction == 'desc' %}▼{% elif item.order_direction == 'asc' %}▲{% endif %}</i></a>
+                                            {% else %}
+                                                {{ item.label }}
+                                            {% endif %}
                                         </th>
                                     {% endfor %}
 
@@ -51,14 +55,14 @@
                                                 </td>
                                             {% else %}
 
-                                                {% if column_widgets|get_item:forloop.counter0 %}
-                                                    <td class="{{ column_widgets|get_item:forloop.counter0 }}">
+                                                {% if list_header|index:forloop.counter0|get_item:'widget' %}
+                                                    <td class="{{ list_header|index:forloop.counter0|get_item:'widget' }}">
                                                 {% else %}
                                                     <td>
                                                 {% endif %}
 
-                                                {% if column_links|get_item:forloop.counter0 %}
-                                                    <a href="{% arctic_url column_links|get_item:forloop.counter0 item.0 %}">
+                                                {% if list_header|index:forloop.counter0|get_item:'column_link' %}
+                                                    <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'column_link' item.0 %}">
                                                         {{ v|safe|default_if_none:""|linebreaks }}
                                                     </a>
                                                 {% else %}
@@ -85,8 +89,7 @@
 
                             </tbody>
                         </table>
-                    </div>
-
+                </div>
                     {% block pagination %}
                         {% with page_obj=page_obj paginator=page_obj.paginator %}
                             {% include "arctic/partials/pagination.html" %}

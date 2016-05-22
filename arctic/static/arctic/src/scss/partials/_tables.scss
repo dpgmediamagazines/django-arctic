@@ -1,11 +1,42 @@
+// to solve a webkit rendering bug with background cells bleeding out the table
+// when using a table with flexbox, border-collapse is set as separate and cell
+// borders are configured not to duplicate an existing border.
+
 table {
+    border-collapse: separate;
+
+    thead tr:first-child th {
+        border-top: 1px solid darken($green,5%);
+    }
+
     thead th,
     tbody th {
-        border: 1px solid darken($green,5%);
+        border-right: 1px solid darken($green,5%);
+        border-bottom: 1px solid darken($green,5%);
+
+        &:first-child {
+            border-left: 1px solid darken($green,5%);
+        }
+
+        a {
+            width: 100%;
+            display: block;
+            color: $white;
+
+            i {
+                float: right;
+                font-style: normal;
+            }
+        }
     }
 
     tbody td {
-        border: 1px solid $greyLight;
+        border-right: 1px solid $greyLight;
+        border-bottom: 1px solid darken($greyLight,5%);
+
+        &:first-child {
+            border-left: 1px solid darken($greyLight,5%);
+        }
     }
 }
 
