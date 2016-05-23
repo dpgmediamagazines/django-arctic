@@ -130,44 +130,76 @@ class ListView(View, base.ListView):
         """
         return None
 
+    def ordering_url(self, field):
+        """
+        Creates a url link for sorting the given field, the direction of sorting
+        will be either ascending if the field is not yet sorted, or the
+        opposite of the current sorting if the field is sorted.
+        """
+
+        path = self.request.path
+        direction = ''
+        query_params = self.request.GET.copy()
+        ordering = self.request.GET.get('order', '').split(',')
+        if not ordering:
+            ordering = self.get_default_ordering()
+        merged_ordering = list(ordering) # copy the list
+
+        for ordering_field in self.ordering_fields:
+            if (ordering_field.lstrip('-') not in ordering) and \
+               (('-' + ordering_field.lstrip('-')) not in ordering):
+               merged_ordering.append(ordering_field)
+
+        new_ordering = []
+        for item in merged_ordering:
+            if item.lstrip('-') == field.lstrip('-'):
+                if (item[0] == '-') or not (item in ordering):
+                    if item in ordering:
+                        direction = 'desc'
+                    new_ordering.insert(0, item.lstrip('-'))
+                else:
+                    direction = 'asc'
+                    new_ordering.insert(0, '-' + item)
+
+        query_params['order'] = ','.join(new_ordering)
+
+        return (path + '?' + query_params.urlencode(safe=','), direction)
+
+
     def get_list_display(self):
+        """
+        Creates a list of dictionaries with the field names, labels,
+        column_links, widget classes, order_url and order_direction,
+        this simplifies the creation of a table in a template.
+        """
+
         model = self.object_list.model
         result = []
         if not self.list_display:
-            result.append(('', str(model._meta.verbose_name)))
+            result.append({
+                'name': '',
+                'verbose': str(model._meta.verbose_name),
+            })
         else:
             prefix = self.get_prefix()
             for field_name in self.list_display:
+                item = {}
                 if isinstance(field_name, tuple):
                     # custom property that is not a field of the model
-                    name = prefix + field_name[0]
-                    verbose = field_name[1]
+                    item['name'] = prefix + field_name[0]
+                    item['label'] = field_name[1]
                 else:
-                    name = prefix + field_name
-                    verbose = model._meta.get_field(field_name).verbose_name
-                result.append((name, verbose))
+                    item['name'] = prefix + field_name
+                    item['label'] = model._meta.get_field(field_name).verbose_name
+                if item['name'] in self.column_links.keys():
+                    item['column_link'] = self.column_links[item['name']]
+                if item['name'] in self.column_widgets.keys():
+                    item['widget'] = self.column_widgets[item['name']]
+                if item['name'] in self.ordering_fields:
+                    item['order_url'], item['order_direction'] = self.ordering_url(item['name'])
+                result.append(item)
 
         return result
-
-    # common method to be used for column_links and column_widgets
-    def _get_column_items(self, column_items):
-        result = {}
-        list_display = list(OrderedDict(self.get_list_display()).keys())
-        for key, value in column_items.items():
-            try:
-                result[list_display.index(key)] = value
-            except ValueError:
-                pass
-
-        return result
-
-
-    def get_column_links(self):
-        return self._get_column_items(self.column_links)
-
-
-    def get_column_widgets(self):
-        return self._get_column_items(self.column_widgets)
 
 
     def get_list_items(self, objects):
@@ -232,10 +264,6 @@ class ListView(View, base.ListView):
     def get_prefix(self):
         return self.prefix + '-' if self.prefix else ''
 
-    def get_ordering_fields(self):
-        prefix = self.get_prefix()
-        return [prefix + f for f in self.ordering_fields]
-
     def get_default_ordering(self):
         prefix = self.get_prefix()
         return [prefix + f for f in self.default_ordering]
@@ -289,15 +317,8 @@ class ListView(View, base.ListView):
         context['list_header'] = self.get_list_display()
         context['list_items'] = self.get_list_items(context['object_list'])
         context['list_display_links'] = self.get_list_display_links()
-        context['column_links'] = self.get_column_links()
-        context['column_widgets'] = self.get_column_widgets()
         context['tool_links'] = self.get_tool_links()
         context['parent_ids'] = self.get_parent_ids()
-        context['ordering_fields'] = self.get_ordering_fields()
-        context['ordering'] = {
-            f.lstrip('-'): 'desc' if f.startswith('-') else 'asc'
-            for f in self.get_ordering_with_prefix()
-        }
         if self.list_filter or self.search_fields:
             context['has_filter'] = True
             context['filter'] = self.filterset
