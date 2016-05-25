@@ -6,6 +6,7 @@ from __future__ import unicode_literals, absolute_import
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 from .utils import menu
 
@@ -25,6 +26,7 @@ class ViewMixin(object):
         context['menu'] = menu(user=self.request.user, request=self.request)
         context['breadcrumbs'] = self.get_breadcrumbs()
         context['sections'] = self.get_sections()
+        context['index_url'] = self.get_index_url()
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_LOGO'] = self.get_site_logo()
         return context
@@ -47,6 +49,12 @@ class ViewMixin(object):
 
     def get_site_name(self):
         return getattr(settings, 'ARCTIC_SITE_NAME', 'Arctic Site Name')
+
+    def get_index_url(self):
+        try:
+            return reverse('index')
+        except NoReverseMatch:
+            return '/'
 
 
 class SuccessMessageMixin(object):

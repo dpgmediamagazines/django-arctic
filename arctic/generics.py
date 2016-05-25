@@ -90,7 +90,7 @@ class ListView(View, base.ListView):
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     list_display_links = []  # "Action" links on item level. For example "Edit"
     column_links = {}
-    column_widgets = {}
+    column_classes = {}
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
 
@@ -169,7 +169,7 @@ class ListView(View, base.ListView):
     def get_list_display(self):
         """
         Creates a list of dictionaries with the field names, labels,
-        column_links, widget classes, order_url and order_direction,
+        column_links, css classes, order_url and order_direction,
         this simplifies the creation of a table in a template.
         """
 
@@ -193,8 +193,8 @@ class ListView(View, base.ListView):
                     item['label'] = model._meta.get_field(field_name).verbose_name
                 if item['name'] in self.column_links.keys():
                     item['column_link'] = self.column_links[item['name']]
-                if item['name'] in self.column_widgets.keys():
-                    item['widget'] = self.column_widgets[item['name']]
+                if item['name'] in self.column_classes.keys():
+                    item['class'] = self.column_classes[item['name']]
                 if item['name'] in self.ordering_fields:
                     item['order_url'], item['order_direction'] = self.ordering_url(item['name'])
                 result.append(item)

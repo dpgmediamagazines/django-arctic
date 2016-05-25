@@ -2,22 +2,22 @@
 
 {% load i18n staticfiles arctic_tags %}
 
-
 {% block content %}
     {% block list_content %}
-        <div class="row">
-
             {# filters #}
             {% if has_filter %}
-                {# todo #}
-                <div id="data-table-selection-header" class="small-12 columns">
-                    <form action="" method="GET" class="row">
-                        {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                        <input type="submit" value="Filter" class="button shrink" />
-                    </form>
-                </div>
+                <form action="" method="GET" class="row">
+                    {# <div class="row"> #}
+                        <div class="small-9 medium-10 columns">
+                            {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+                        </div>
+                        <div class="small-3 medium-2 columns">
+                            <input type="submit" value="Filter" class="button secondary expand" />
+                        </div>
+                    {# </div> row  #}
+                </form>
             {% endif %}
-
+            <div class="row">
             {# data table #}
             {% if list_items %}
                 <div class="small-12 columns">
@@ -55,8 +55,8 @@
                                                 </td>
                                             {% else %}
 
-                                                {% if list_header|index:forloop.counter0|get_item:'widget' %}
-                                                    <td class="{{ list_header|index:forloop.counter0|get_item:'widget' }}">
+                                                {% if list_header|index:forloop.counter0|get_item:'class' %}
+                                                    <td class="{{ list_header|index:forloop.counter0|get_item:'class' }}">
                                                 {% else %}
                                                     <td>
                                                 {% endif %}
@@ -90,18 +90,14 @@
                             </tbody>
                         </table>
                 </div>
-                    {% block pagination %}
-                        {% with page_obj=page_obj paginator=page_obj.paginator %}
-                            {% include "arctic/partials/pagination.html" %}
-                        {% endwith %}
-                    {% endblock %}
+                {% block pagination %}
+                    {% with page_obj=page_obj paginator=page_obj.paginator %}
+                        {% include "arctic/partials/pagination.html" %}
+                    {% endwith %}
+                {% endblock %}
 
-                </div>
-            {% endif %}
-
+            </div>
+        {% endif %}
         </div>
     {% endblock %}
 {% endblock %}
-
-
-{% block body_bottom_scripts %}{% endblock %}
