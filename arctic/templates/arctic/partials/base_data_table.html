@@ -1,75 +1,93 @@
 {% load i18n staticfiles arctic_tags %}
 
-
-
+{# filters #}
 {% if has_filter %}
-    <div id="data-table-selection-header">
-        <div class="row">
-            <div class="input-group">
-                <form action="" method="GET">
-                    {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                    <div class="input-group-button">
-                        <input type="submit" value="Filter" class="button" />
-                    </div>
-                </form>
-            </div>
-        </div>
+    {# todo #}
+    <div id="data-table-selection-header" class="small-12 columns">
+        <form action="" method="GET" class="row">
+            {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+            <input type="submit" value="Filter" class="button shrink" />
+        </form>
     </div>
 {% endif %}
 
+{# data table #}
 {% if list_items %}
-    <div class="responsive-table">
-        <table class="table">
-            <thead>
-                <tr>
-                    {% for item in list_header %}
-                        <th>
-                            {{ item.1 }}
-                        </th>
-                    {% endfor %}
-
-                    {% if list_display_links %}
-                        <th>{% trans "Actions" %}</th>
-                    {% endif %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in list_items %}
+    <div class="small-12 columns">
+        <div class="responsive-table">
+            <table class="table">
+                <thead>
                     <tr>
-                        {% for v in item|slice:"1:" %}
-                            {% if v|typename == 'ManyRelatedManager' %}
-                                <td>
-                                    {% for item in v.all %}
-                                        <span class="badge">{{ item }}</span>
-                                    {% endfor %}
-                                </td>
-                            {% else %}
-                                <td>{{ v|safe|default_if_none:""|linebreaks }}</td>
-                            {% endif %}
+                        {% for item in list_header %}
+                            <th>
+                                {% if item.order_url %}
+                                    <a href="{{ item.order_url }}">{{ item.label }}
+                                        <i>{% if item.order_direction == 'desc' %}▼{% elif item.order_direction == 'asc' %}▲{% endif %}</i></a>
+                                {% else %}
+                                    {{ item.label }}
+                                {% endif %}
+                            </th>
                         {% endfor %}
 
                         {% if list_display_links %}
-                            <td class="actions">
-                                {% for link in list_display_links %}
-                                    <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0 }}">
-                                        <span class="zmdi zmdi-{{ link.0 }}"></span>
-                                    </a>
-                                {% endfor %}
-                            </td>
+                            <th>{% trans "Actions" %}</th>
                         {% endif %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+
+                <tbody>
+                    {% for item in list_items %}
+                        <tr>
+
+                            {% for v in item|slice:"1:" %}
+                                {% if v|typename == 'ManyRelatedManager' %}
+                                    <td>
+                                        {% for item in v.all %}
+                                            <span class="badge">{{ item }}</span>
+                                        {% endfor %}
+                                    </td>
+                                {% else %}
+
+                                    {% if list_header|index:forloop.counter0|get_item:'widget' %}
+                                        <td class="{{ list_header|index:forloop.counter0|get_item:'widget' }}">
+                                    {% else %}
+                                        <td>
+                                    {% endif %}
+
+                                    {% if list_header|index:forloop.counter0|get_item:'column_link' %}
+                                        <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'column_link' item.0 %}">
+                                            {{ v|safe|default_if_none:""|linebreaks }}
+                                        </a>
+                                    {% else %}
+                                        {{ v|safe|default_if_none:""|linebreaks }}
+                                    {% endif %}
+
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if list_display_links %}
+                                <td class="actions">
+                                    {% for link in list_display_links %}
+                                        <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0|capfirst }}">
+                                            {# <span class="fa fa-pencil-square-o"></span> #}
+                                            {{ link.0|capfirst }}
+                                        </a>
+                                        &nbsp;
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        {% block pagination %}
+            {% with page_obj=page_obj paginator=page_obj.paginator %}
+                {% include "arctic/partials/pagination.html" %}
+            {% endwith %}
+        {% endblock %}
+
     </div>
-
-    {% block pagination %}
-        {% with page_obj=page_obj paginator=page_obj.paginator %}
-            {% include "arctic/partials/pagination.html" %}
-        {% endwith %}
-    {% endblock %}
-
-{% else %}
-    <div class="notification-message">{% trans "No items available" %}</div>
 {% endif %}
