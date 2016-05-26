@@ -165,7 +165,6 @@ class ListView(View, base.ListView):
 
         return (path + '?' + query_params.urlencode(safe=','), direction)
 
-
     def get_list_display(self):
         """
         Creates a list of dictionaries with the field names, labels,
@@ -186,21 +185,21 @@ class ListView(View, base.ListView):
                 item = {}
                 if isinstance(field_name, tuple):
                     # custom property that is not a field of the model
-                    item['name'] = prefix + field_name[0]
+                    name = field_name[0]
                     item['label'] = field_name[1]
                 else:
-                    item['name'] = prefix + field_name
+                    name = field_name
                     item['label'] = model._meta.get_field(field_name).verbose_name
-                if item['name'] in self.column_links.keys():
-                    item['column_link'] = self.column_links[item['name']]
-                if item['name'] in self.column_classes.keys():
-                    item['class'] = self.column_classes[item['name']]
-                if item['name'] in self.ordering_fields:
-                    item['order_url'], item['order_direction'] = self.ordering_url(item['name'])
+                item['name'] = prefix + name
+                if name in self.column_links.keys():
+                    item['column_link'] = self.column_links[name]
+                if name in self.column_classes.keys():
+                    item['class'] = self.column_classes[name]
+                if name in self.ordering_fields:
+                    item['order_url'], item['order_direction'] = self.ordering_url(name)
                 result.append(item)
 
         return result
-
 
     def get_list_items(self, objects):
         items = []

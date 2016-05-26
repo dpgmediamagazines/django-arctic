@@ -92,32 +92,13 @@
     </form>
 
     {% if inline_views %}
-        <div class="tile">
-            <div role="small-12 columns">
-                <ul class="tab-nav" role="tablist">
-
-                    {% for view in inline_views %}
-                        <!-- TODO: must keep track of currently selected tab -->
-                        <li {% if forloop.first %}class="active"{% endif %}>
-                            <a href="#{{ view.prefix }}"
-                            aria-controls="{{ view.prefix }}" role="tab"
-                            data-toggle="tab" aria-expanded="false">
-                                {{ view.model|verbose_name_plural }}
-                            </a>
-                        </li>
-                    {% endfor %}
-
-                </ul>
-                <div class="tab-content">
-
-                    {% for view in inline_views %}
-                        <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ view.prefix }}">
-                            {% subview view %}
-                        </div>
-                    {% endfor %}
-
+        <div role="small-12 columns">
+            {% for view in inline_views %}
+                <h3>{{ view.model|verbose_name_plural }}</h3>
+                <div id="{{ view.prefix }}">
+                    {% subview view %}
                 </div>
-            </div>
+            {% endfor %}
         </div>
     {% endif %}
 

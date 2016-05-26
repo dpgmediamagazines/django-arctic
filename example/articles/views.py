@@ -37,6 +37,7 @@ class ArticleListView(ListView):
     }
     column_classes = {
         'published': 'list-widget boolean-circle',
+        'description': 'list-widget flag',
     }
     tool_links = [
         (_('Add Article'), 'articles:create'),

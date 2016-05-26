@@ -1,5 +1,66 @@
 $(document).foundation();
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
+function lowercase_keys(dict) {
+    var key, keys = Object.keys(dict);
+    var n = keys.length;
+    var new_dict={}
+    while (n--) {
+        key = keys[n];
+        new_dict[key.toLowerCase()] = dict[key];
+    }
+    return new_dict;
+}
+
+function listWidget(css_class, template, dict, list_separator) {
+    $('.list-widget.' + css_class).html(function(i, content) {
+        var has_link = false;
+        var text = $(content).text();
+        var result = "";
+        if ($(content).attr('href')) {
+            text = $(content).children(':first').text();
+            has_link = true;
+        }
+
+        var text_list = [text];
+        if (list_separator) {
+            text_list = text.split(list_separator);
+        }
+
+        for (i = 0; i < text_list.length; i++)
+        {
+            item = text_list[i];
+            if (list_separator) {
+                item += list_separator
+            }
+
+            if (!dict) {
+                item = template.replaceAll('{{ key }}', text_list[i]);
+            }
+            else {
+                lower_dict = lowercase_keys(dict);
+                lower_text_item = text_list[i].toLowerCase();
+
+                if (lower_text_item in lower_dict) {
+                    item = template.replaceAll('{{ value }}', lower_dict[lower_text_item]);
+                    item = item.replaceAll('{{ key }}', text_list[i]);
+                }
+            }
+            result += item;
+        }
+
+        if (has_link) {
+            result = $(content).empty().append(result);
+        }
+
+        return result;
+    });
+}
+
 // jquery stuff goes here
 $(document).ready(function() {
 
@@ -15,29 +76,6 @@ $(document).ready(function() {
         // e.preventDefault();
     });
 
-    function listWidget(css_class, template, dict) {
-        $('.list-widget.' + css_class).html(function(i, content) {
-            var has_link = false;
-            var text = $(content).text();
-            var result = content;
-            if ($(content).attr('href')) {
-                text = $(content).children(':first').text();
-                has_link = true;
-            }
-            if (text in dict) {
-                result = template.replace('{{ value }}', dict[text]);
-                result = result.replace('{{ key }}', text);
-                if (has_link) {
-                    result = $(content).empty().append(result)
-                }
-            }
-            return result;
-        });
-    }
-
-    var template = '<i title="{{ key }}" style="color:{{ value }}" class="fa fa-circle"></i>';
-    var dict = {"False": "red", "True": "green"};
-    listWidget('boolean-circle', template, dict);
 
     // Stepper input
     var $stepperInput = $('.stepper-input input');
