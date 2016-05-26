@@ -6,7 +6,7 @@ from __future__ import unicode_literals, absolute_import
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 
 from .utils import menu
 
