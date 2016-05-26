@@ -25,17 +25,19 @@ class ArticleListView(ListView):
     paginate_by = 20
     model = Article
     list_filter = []
-    ordering_fields = ['title', 'description']
+    ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
-    list_display = ['title', 'description']
+    list_display = ['title', 'description', 'published']
     list_display_links = [
         ('delete', 'articles:delete'),
     ]
     column_links = {
         'title': 'articles:detail',
+        'published': 'articles:detail',
     }
-    column_widgets = {
-        'title': 'widget-test',
+    column_classes = {
+        'published': 'list-widget boolean-circle',
+        'description': 'list-widget flag',
     }
     tool_links = [
         (_('Add Article'), 'articles:create'),
@@ -55,6 +57,7 @@ class ArticleDetailView(UpdateView):
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm
+    links = [('Back to list', 'articles:list')]
     inlines = [TagsInline]
     inline_views = [ArticleListViewInline]
 

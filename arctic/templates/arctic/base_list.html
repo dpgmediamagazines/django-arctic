@@ -2,16 +2,8 @@
 
 {% load i18n staticfiles arctic_tags %}
 
-
 {% block content %}
     {% block list_content %}
-        <div class="row">
-
-            {% include "arctic/partials/base_data_table.html" %}
-
-        </div>
+        {% include "arctic/partials/base_data_table.html" %}
     {% endblock %}
 {% endblock %}
-
-
-{% block body_bottom_scripts %}{% endblock %}

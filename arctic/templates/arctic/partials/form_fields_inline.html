@@ -7,8 +7,6 @@
         {{ field }}
     {% else %}
 
-    <div class="columns">
-
         {% if not hide_label %}
             {{ field.label_tag }}
         {% endif %}
@@ -33,7 +31,5 @@
         </ul>
         {% endfor %}
         {# No help text as it wraps #}
-
-    </div>
-    {% endif %}
+        {% endif %}
 {% endfor %}
