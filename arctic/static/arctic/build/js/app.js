@@ -3,9 +3,9 @@ $(document).foundation();
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
-};
+}
 
-function lowercase_keys(dict) {
+function lowerCaseKeys(dict) {
     var key, keys = Object.keys(dict);
     var n = keys.length;
     var new_dict={}
@@ -35,14 +35,14 @@ function listWidget(css_class, template, dict, list_separator) {
         {
             item = text_list[i];
             if (list_separator) {
-                item += list_separator
+                item += list_separator;
             }
 
             if (!dict) {
                 item = template.replaceAll('{{ key }}', text_list[i]);
             }
             else {
-                lower_dict = lowercase_keys(dict);
+                lower_dict = lowerCaseKeys(dict);
                 lower_text_item = text_list[i].toLowerCase();
 
                 if (lower_text_item in lower_dict) {
