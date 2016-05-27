@@ -9,10 +9,10 @@
     $(document).ready(function() {
         var template = '<i title="{{ key }}" style="color:{{ value }}" class="fa fa-circle"></i>';
         var dict = {"False": "red", "True": "green"};
-        listWidget('boolean-circle', template, dict);
+        inlineWidget('boolean-circle', template, dict);
 
         var template = '<img class="flag-{{ key }}" title="{{ key }}" alt="{{ key }} flag" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeAQMAAABkE86eAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBh6AAAAtAABsa9cTAAAAABJRU5ErkJggg=="> ';
-        listWidget('flag', template, false, ' ');
+        inlineWidget('flag', template, false, ' ');
     });
     </script>
     {% endverbatim %}

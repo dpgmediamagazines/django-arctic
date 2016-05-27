@@ -27,7 +27,7 @@ body {
     width: 100%;
 }
 
-.list-widget {
+.inline-widget {
     a {
         display: block;
         width: 100%;
@@ -36,4 +36,9 @@ body {
     p {
         visibility: hidden;
     }
+}
+
+.pagination-info {
+    float: right;
+    padding-right: rem-calc(10);
 }

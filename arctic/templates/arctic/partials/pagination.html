@@ -1,11 +1,9 @@
 {% load arctic_tags %}
 {% load i18n %}
 
-<div class="row align-middle align-justify">
-
-    {% if paginator.num_pages > 1 %}
+{% if paginator.num_pages > 1 %}
+    <div class="row align-middle align-justify">
         <ul class="pagination column" role="navigation" aria-label="Pagination">
-
             {% if page_obj.has_previous %}
                 <li>
                     <a href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous page">
@@ -32,11 +30,12 @@
 
         </ul>
 
-        <div class="pagination-info float-right">
+        <div class="column">
+            <div class="pagination-info">
             {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
                 Showing {{ start }} to {{ end }} of {{ count }} entries
             {% endblocktrans %}
+            </div>
         </div>
-    {% endif %}
-
-</div>
+    </div>
+{% endif %}

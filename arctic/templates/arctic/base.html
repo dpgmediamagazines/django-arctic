@@ -93,10 +93,16 @@
                                 {# page messages #}
                                 {% if messages %}
                                     {% for message in messages %}
+                                    <div class="row">
+                                        <div class="column">
                                         <div class="callout {{ message.tags }}" data-closable>
                                             {{ message }}
-                                            <button class="fa fa-times close-button" aria-label="Dismiss alert" type="button" data-close></button>
+                                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
+                                        </div>
+                                    </div>
                                     {% endfor %}
                                 {% endif %}
 

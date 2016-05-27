@@ -27,7 +27,7 @@ class ArticleListView(ListView):
     list_filter = []
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
-    list_display = ['title', 'description', 'published']
+    list_display = ['title', 'description', 'published', 'category']
     list_display_links = [
         ('delete', 'articles:delete'),
     ]
@@ -36,12 +36,12 @@ class ArticleListView(ListView):
         'published': 'articles:detail',
     }
     column_classes = {
-        'published': 'list-widget boolean-circle',
-        'description': 'list-widget flag',
+        'published': 'inline-widget boolean-circle',
     }
     tool_links = [
         (_('Add Article'), 'articles:create'),
     ]
+    paginate_by = 2
 
 
 class ArticleListViewInline(ArticleListView):
@@ -65,7 +65,7 @@ class ArticleDetailView(UpdateView):
 class ArticleCreateView(CreateView):
     page_title = _("Create Article")
     model = Article
-    fields = ['title', 'description', 'category']
+    fields = ['title', 'description', 'category', 'published']
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))

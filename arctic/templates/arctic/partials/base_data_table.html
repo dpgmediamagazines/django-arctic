@@ -37,11 +37,9 @@
                             {% endif %}
                         </tr>
                     </thead>
-
                     <tbody>
                         {% for item in list_items %}
                             <tr>
-
                                 {% for v in item|slice:"1:" %}
                                     {% if v|typename == 'ManyRelatedManager' %}
                                         <td>
@@ -67,30 +65,28 @@
 
                                         </td>
                                     {% endif %}
-                                {% endfor %}
+                            {% endfor %}
 
-                                {% if list_display_links %}
-                                    <td class="actions">
-                                        {% for link in list_display_links %}
-                                            <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0|capfirst }}">
-                                                {# <span class="fa fa-pencil-square-o"></span> #}
-                                                {{ link.0|capfirst }}
-                                            </a>
-                                            &nbsp;
-                                        {% endfor %}
-                                    </td>
-                                {% endif %}
+                            {% if list_display_links %}
+                                <td class="actions">
+                                    {% for link in list_display_links %}
+                                        <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0|capfirst }}">
+                                            {{ link.0|capfirst }}
+                                        </a>
+                                        &nbsp;
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
                             </tr>
                         {% endfor %}
-
                     </tbody>
                 </table>
-        </div>
-        {% block pagination %}
-            {% with page_obj=page_obj paginator=page_obj.paginator %}
-                {% include "arctic/partials/pagination.html" %}
-            {% endwith %}
-        {% endblock %}
-
-    </div>
+            </div> {# responsive table #}
+        </div> {# small-12 columns #}
+    </div> {# row #}
+    {% block pagination %}
+        {% with page_obj=page_obj paginator=page_obj.paginator %}
+            {% include "arctic/partials/pagination.html" %}
+        {% endwith %}
+    {% endblock %}
 {% endif %}

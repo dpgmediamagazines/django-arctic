@@ -16,8 +16,8 @@ function lowerCaseKeys(dict) {
     return new_dict;
 }
 
-function listWidget(css_class, template, dict, list_separator) {
-    $('.list-widget.' + css_class).html(function(i, content) {
+function inlineWidget(css_class, template, dict, list_separator) {
+    $('.inline-widget.' + css_class).html(function(i, content) {
         var has_link = false;
         var text = $(content).text();
         var result = "";
