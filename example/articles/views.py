@@ -28,7 +28,7 @@ class ArticleListView(ListView):
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     list_display = ['title', 'description', 'published', 'category']
-    list_display_links = [
+    action_links = [
         ('delete', 'articles:delete'),
     ]
     column_links = {

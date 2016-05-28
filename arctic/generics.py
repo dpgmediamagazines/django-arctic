@@ -12,28 +12,66 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
 from django.db.models.deletion import Collector, ProtectedError
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.conf import settings
 
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import ViewMixin, SuccessMessageMixin, LinksMixin
+from .mixins import SuccessMessageMixin, LinksMixin
 from .templatetags.arctic_tags import arctic_url
+from .utils import menu
 
 
-class View(ViewMixin, base.View):
+class View(base.View):
     """
-    This view needs to be used for all your views in the arctic, only exception is the LoginView
-
-    # breadcrumbs
-    self.breadcrumbs = [
-        {'url': '/absolute/url/to/breadcrumb/', 'name': 'Link name', },
-        {'url': '/users/', 'name': 'Users', },
-        ...
-    ]
-
-    If you want no breadcrumbs, overload get_breadcrumbs method, return None
+    This view needs to be used for all Arctic views, except the LoginView
+    It includes integration with the Arctic user interface elements, such as
+    the menu, site logo, site title, page title and breadcrumbs.
     """
-    pass
+
+    page_title = ''
+    page_description = ''
+    breadcrumbs = None
+
+    def get_context_data(self, **kwargs):
+        context = super(View, self).get_context_data(**kwargs)
+        context['page_title'] = self.get_page_title()
+        context['page_description'] = self.get_page_description()
+        context['menu'] = menu(user=self.request.user, request=self.request)
+        context['breadcrumbs'] = self.get_breadcrumbs()
+        context['index_url'] = self.get_index_url()
+        context['SITE_NAME'] = self.get_site_name()
+        context['SITE_LOGO'] = self.get_site_logo()
+        return context
+
+    def get_breadcrumbs(self):
+        """
+        breadcrumb format:
+        (('name', 'url'), ...)
+        or None if breadcrumbs are not to be used.
+        """
+        return self.breadcrumbs
+
+    def get_page_title(self):
+        return self.page_title
+
+    def get_page_description(self):
+        return self.page_description
+
+    def get_site_logo(self):
+        return getattr(settings, 'ARCTIC_SITE_LOGO',
+                       'arctic/build/images/logo.png')
+
+    def get_site_name(self):
+        return getattr(settings, 'ARCTIC_SITE_NAME',
+                       'Arctic Site Name')
+
+    def get_index_url(self):
+        try:
+            return reverse('index')
+        except NoReverseMatch:
+            return '/'
 
 
 class TemplateView(View, base.TemplateView):
@@ -57,8 +95,8 @@ class DetailView(View, LinksMixin, base.DetailView):
                     result[field_name[1]] = getattr(obj, field_name[0])
                 else:
                     field = self.model._meta.get_field(field_name)
-                    result[field.verbose_name.title()] = getattr(obj, field_name)
-
+                    result[field.verbose_name.title()] = getattr(obj,
+                                                                 field_name)
         return result
 
     def get_parent_ids(self):
@@ -88,9 +126,9 @@ class ListView(View, base.ListView):
     search_fields = []
     ordering_fields = []  # Fields with ordering (subset of list_display)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
-    list_display_links = []  # "Action" links on item level. For example "Edit"
-    column_links = {}
-    column_classes = {}
+    action_links = []  # "Action" links on item level. For example "Edit"
+    field_links = {}
+    field_classes = {}
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
 
@@ -132,8 +170,8 @@ class ListView(View, base.ListView):
 
     def ordering_url(self, field):
         """
-        Creates a url link for sorting the given field, the direction of sorting
-        will be either ascending if the field is not yet sorted, or the
+        Creates a url link for sorting the given field, the direction of
+        sorting will be either ascending if the field is not yet sorted, or the
         opposite of the current sorting if the field is sorted.
         """
 
@@ -143,12 +181,12 @@ class ListView(View, base.ListView):
         ordering = self.request.GET.get('order', '').split(',')
         if not ordering:
             ordering = self.get_default_ordering()
-        merged_ordering = list(ordering) # copy the list
+        merged_ordering = list(ordering)  # copy the list
 
         for ordering_field in self.ordering_fields:
             if (ordering_field.lstrip('-') not in ordering) and \
                (('-' + ordering_field.lstrip('-')) not in ordering):
-               merged_ordering.append(ordering_field)
+                merged_ordering.append(ordering_field)
 
         new_ordering = []
         for item in merged_ordering:
@@ -166,22 +204,31 @@ class ListView(View, base.ListView):
         return (path + '?' + query_params.urlencode(safe=','), direction)
 
     def get_list_display(self):
+        return self.list_display
+
+    def get_field_links(self):
+        return self.field_links
+
+    def get_field_classes(self):
+        return self.field_classes
+
+    def get_list_header(self):
         """
         Creates a list of dictionaries with the field names, labels,
-        column_links, css classes, order_url and order_direction,
+        field links, field css classes, order_url and order_direction,
         this simplifies the creation of a table in a template.
         """
 
         model = self.object_list.model
         result = []
-        if not self.list_display:
+        if not self.get_list_display():
             result.append({
                 'name': '',
                 'verbose': str(model._meta.verbose_name),
             })
         else:
             prefix = self.get_prefix()
-            for field_name in self.list_display:
+            for field_name in self.get_list_display():
                 item = {}
                 if isinstance(field_name, tuple):
                     # custom property that is not a field of the model
@@ -189,14 +236,16 @@ class ListView(View, base.ListView):
                     item['label'] = field_name[1]
                 else:
                     name = field_name
-                    item['label'] = model._meta.get_field(field_name).verbose_name
+                    item['label'] = model._meta.get_field(field_name).\
+                        verbose_name
                 item['name'] = prefix + name
-                if name in self.column_links.keys():
-                    item['column_link'] = self.column_links[name]
-                if name in self.column_classes.keys():
-                    item['class'] = self.column_classes[name]
+                if name in self.get_field_links().keys():
+                    item['field_link'] = self.get_field_links()[name]
+                if name in self.get_field_classes().keys():
+                    item['class'] = self.get_field_classes()[name]
                 if name in self.ordering_fields:
-                    item['order_url'], item['order_direction'] = self.ordering_url(name)
+                    item['order_url'], item['order_direction'] = \
+                        self.ordering_url(name)
                 result.append(item)
 
         return result
@@ -226,16 +275,19 @@ class ListView(View, base.ListView):
 
         return items
 
-    def get_list_display_links(self):
-        if not self.list_display_links:
+    def get_action_links(self):
+        if not self.action_links:
             return None
         else:
-            allowed_list_display_links = []
+            allowed_action_links = []
             for link in self.list_display_links:
                 # Lets check permissions
-                # TODO: Hardcoded pk added as arg list, refactor when we implement object level permissions.
-                # NOT sure if we should refactor, it makes more sense to check for object level permissions
-                # when gathering the queryset. If we do it while rendering a page, then we work on paginated
+                # TODO: Hardcoded pk added as arg list, refactor when we
+                # implement object level permissions.
+                # NOT sure if we should refactor, it makes more sense to check
+                # for object level permissions
+                # when gathering the queryset. If we do it while rendering a
+                # page, then we work on paginated
                 # queryset and we may get uneven sized pages.
                 '''
                 url_args = (1,)
@@ -244,9 +296,8 @@ class ListView(View, base.ListView):
                     url_args += parent_ids
                 if check_url_access(self.request.user, link[1], url_args):
                 '''
-                allowed_list_display_links.append(link)
-
-            return allowed_list_display_links
+                allowed_action_links.append(link)
+            return allowed_action_links
 
     def get_tool_links(self):
         if not self.tool_links:
@@ -255,7 +306,8 @@ class ListView(View, base.ListView):
             allowed_tool_links = []
             for link in self.tool_links:
                 # Lets check permissions
-                # if check_url_access(self.request.user, link[1], self.get_parent_ids()):
+                # if check_url_access(self.request.user, link[1],
+                # self.get_parent_ids()):
                 allowed_tool_links.append(link)
 
             return allowed_tool_links
@@ -307,15 +359,14 @@ class ListView(View, base.ListView):
     def get_page_title(self):
         if not self.page_title:
             return capfirst(self.object_list.model._meta.verbose_name_plural)
-
         return self.page_title
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)
         context['prefix'] = self.prefix
-        context['list_header'] = self.get_list_display()
+        context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(context['object_list'])
-        context['list_display_links'] = self.get_list_display_links()
+        context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
         context['parent_ids'] = self.get_parent_ids()
         if self.list_filter or self.search_fields:
@@ -331,7 +382,6 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
     def get_page_title(self):
         if not self.page_title:
             return _("Create %s") % self.model._meta.verbose_name
-
         return self.page_title
 
 
@@ -356,14 +406,13 @@ class UpdateWithInlinesView(LinksMixin, extra_views.UpdateWithInlinesView):
         return context
 
 
-class UpdateView(SuccessMessageMixin, ViewMixin, UpdateWithInlinesView):
+class UpdateView(SuccessMessageMixin, View, UpdateWithInlinesView):
     template_name = 'arctic/base_detail.html'
     success_message = _('%(object)s was updated successfully')
 
     def get_page_title(self):
         if not self.page_title:
             return _("Edit %s") % self.model._meta.verbose_name
-
         return self.page_title
 
 
@@ -382,9 +431,13 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
         try:
             collector.collect([self.object])
         except ProtectedError as e:
-            collector_message = "Cannot delete %s because it has relations that depends on it." % self.object
+            collector_message = "Cannot delete %s because it has relations " \
+                                "that depends on it." % self.object
             protected_objects = e.protected_objects
             can_delete = False
 
-        context = self.get_context_data(object=self.object, can_delete=can_delete, collector_message=collector_message, protected_objects=protected_objects)
+        context = self.get_context_data(object=self.object,
+                                        can_delete=can_delete,
+                                        collector_message=collector_message,
+                                        protected_objects=protected_objects)
         return self.render_to_response(context)
