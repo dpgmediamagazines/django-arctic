@@ -1,19 +1,32 @@
 # Settings Variables
 
+## `ARCTIC_SITE_LOGO`
+
+The url of the logo to be displayed on every page, it will also be the link to
+the homepage.
+
+## `ARCTIC_SITE_NAME`
+
+Name of the site.
+
+## `ARCTIC_MENU`
+
+Main menu that enables navigation between the different pages in Arctic.
+It is a list with the format:
+`(('menu label', 'named url', 'optional icon class', (optional submenu)), ...)`
 
 
 # Class Based Views
 
-Arctic provides a number class based views, that add integration with the
+Arctic provides a number of class based views that add integration with the
 user interface and extra functionality for common use cases.
 The class names match and work the same way as the ones that Django provides and should be used instead.
-
 
 ## View
 
 `class arctic.generics.View`
 
-This view is used for all the views in the arctic, except the LoginView.
+This view is used for all the views in Arctic, except the LoginView.
 
 **Extends**
 
@@ -64,7 +77,7 @@ template and is able to do filtering, sorting, pagination and linking.
 
 **Properties**
 
-### `list_display`
+### `fields`
 
 list of fields that should be displayed in the table, it is possible to
 customize the field name by using a (name, verbose_name) tuple in the list
@@ -85,14 +98,12 @@ standard notation by prepending a minus to the field, for example `-name`.
 
 ### `action_links`
 
-optional list of `('name', 'base_url')` links, that appear on the last column of the table and can apply a certain action, such as delete, to a specific
-entry.
+optional list of `('name', 'base_url')` links, that appear on the last column of the table and can apply a certain action, such as delete.
 
 ### `field_links`
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
-content of the specified field that can apply a certain action, like edit, to
-a specific entry.
+content of the specified field that can apply a certain action, like edit.
 
 ### `field_classes`
 

@@ -121,10 +121,10 @@ class ListView(View, base.ListView):
     Custom listview. Adding filter, sorting and display logic.
     """
     template_name = 'arctic/base_list.html'
-    list_display = None  # Which fields should be shown in listing
-    list_filter = []  # One on one maping to django-filter fields meta option
+    fields = None  # Which fields should be shown in listing
+    filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
-    ordering_fields = []  # Fields with ordering (subset of list_display)
+    ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     action_links = []  # "Action" links on item level. For example "Edit"
     field_links = {}
@@ -147,7 +147,7 @@ class ListView(View, base.ListView):
         return result
 
     def get_object_list(self):
-        if self.list_filter or self.search_fields:
+        if self.filter_fields or self.search_fields:
             filterset_class = self.get_filterset_class()
             self.filterset = self.get_filterset(filterset_class)
             self.object_list = self.filterset.qs
@@ -203,8 +203,8 @@ class ListView(View, base.ListView):
 
         return (path + '?' + query_params.urlencode(safe=','), direction)
 
-    def get_list_display(self):
-        return self.list_display
+    def get_fields(self):
+        return self.fields
 
     def get_field_links(self):
         return self.field_links
@@ -221,14 +221,14 @@ class ListView(View, base.ListView):
 
         model = self.object_list.model
         result = []
-        if not self.get_list_display():
+        if not self.get_fields():
             result.append({
                 'name': '',
                 'verbose': str(model._meta.verbose_name),
             })
         else:
             prefix = self.get_prefix()
-            for field_name in self.get_list_display():
+            for field_name in self.get_fields():
                 item = {}
                 if isinstance(field_name, tuple):
                     # custom property that is not a field of the model
@@ -240,7 +240,7 @@ class ListView(View, base.ListView):
                         verbose_name
                 item['name'] = prefix + name
                 if name in self.get_field_links().keys():
-                    item['field_link'] = self.get_field_links()[name]
+                    item['link'] = self.get_field_links()[name]
                 if name in self.get_field_classes().keys():
                     item['class'] = self.get_field_classes()[name]
                 if name in self.ordering_fields:
@@ -252,13 +252,13 @@ class ListView(View, base.ListView):
 
     def get_list_items(self, objects):
         items = []
-        if not self.list_display:
+        if not self.fields:
             for obj in objects:
                 items.append([obj.pk, str(obj)])
         else:
             for obj in objects:
                 item = [obj.pk]
-                for field_name in self.list_display:
+                for field_name in self.fields:
                     if isinstance(field_name, tuple):
                         value = getattr(obj, field_name[0])
                     else:
@@ -280,7 +280,7 @@ class ListView(View, base.ListView):
             return None
         else:
             allowed_action_links = []
-            for link in self.list_display_links:
+            for link in self.action_links:
                 # Lets check permissions
                 # TODO: Hardcoded pk added as arg list, refactor when we
                 # implement object level permissions.
@@ -331,11 +331,11 @@ class ListView(View, base.ListView):
         return [f for f in fields if f.lstrip('-') in self.ordering_fields]
 
     def get_filterset_class(self):
-        if not self.list_filter and not self.search_fields:
+        if not self.filter_fields and not self.search_fields:
             return None
 
         return filterset_factory(self.model or self.queryset.model,
-                                 self.list_filter, self.search_fields)
+                                 self.filter_fields, self.search_fields)
 
     def get_filterset(self, filterset_class):
         """
@@ -369,7 +369,7 @@ class ListView(View, base.ListView):
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
         context['parent_ids'] = self.get_parent_ids()
-        if self.list_filter or self.search_fields:
+        if self.filter_fields or self.search_fields:
             context['has_filter'] = True
             context['filter'] = self.filterset
         return context

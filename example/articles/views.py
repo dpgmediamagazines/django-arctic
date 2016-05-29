@@ -24,18 +24,17 @@ class DashboardView(TemplateView):
 class ArticleListView(ListView):
     paginate_by = 20
     model = Article
-    list_filter = []
+    fields = ['title', 'description', 'published', 'category']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
-    list_display = ['title', 'description', 'published', 'category']
     action_links = [
         ('delete', 'articles:delete'),
     ]
-    column_links = {
+    field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
     }
-    column_classes = {
+    field_classes = {
         'published': 'inline-widget boolean-circle',
     }
     tool_links = [
@@ -59,7 +58,7 @@ class ArticleDetailView(UpdateView):
     form_class = ArticleForm
     links = [('Back to list', 'articles:list')]
     inlines = [TagsInline]
-    inline_views = [ArticleListViewInline]
+    # inline_views = [ArticleListViewInline]
 
 
 class ArticleCreateView(CreateView):

@@ -38,7 +38,7 @@ class SuccessMessageMixin(object):
 
 class LinksMixin(object):
     """
-    Adding links to view, to be resolved with 'dashboard_url' template tag
+    Adding links to view, to be resolved with 'arctic_url' template tag
     """
     def get_links(self):
         if not self.links:

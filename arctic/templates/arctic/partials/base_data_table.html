@@ -55,8 +55,8 @@
                                             <td>
                                         {% endif %}
 
-                                        {% if list_header|index:forloop.counter0|get_item:'column_link' %}
-                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'column_link' item.0 %}">
+                                        {% if list_header|index:forloop.counter0|get_item:'link' %}
+                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
                                                 {{ v|safe|default_if_none:""|linebreaks }}
                                             </a>
                                         {% else %}
