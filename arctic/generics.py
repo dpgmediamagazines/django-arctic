@@ -67,6 +67,10 @@ class View(base.View):
         return getattr(settings, 'ARCTIC_SITE_NAME',
                        'Arctic Site Name')
 
+    def get_site_title(self):
+        return getattr(settings, 'ARCTIC_SITE_TITLE',
+                       self.get_site_name())
+
     def get_index_url(self):
         try:
             return reverse('index')

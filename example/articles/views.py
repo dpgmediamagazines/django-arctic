@@ -27,6 +27,7 @@ class ArticleListView(ListView):
     fields = ['title', 'description', 'published', 'category']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
+    breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
         ('delete', 'articles:delete'),
     ]

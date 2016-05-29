@@ -36,7 +36,9 @@ This view is used for all the views in Arctic, except the LoginView.
 
 ### `breadcrumbs`
 
-list of `('name', 'url')` that represents a breadcrumb trail.
+list of `('name', 'url')` that represents a breadcrumb trail. The last item will
+represent the current page and the url will be ignored, so `None` can be used
+instead of an url.
 
 ### `page_title`
 
@@ -56,6 +58,12 @@ url path to the site logo, it will try to use `ARCTIC_SITE_LOGO` from the projec
 ### `get_site_name()`
 
 site name, , it will try to use `ARCTIC_SITE_NAME` from the project settings, if none given a default name will be used.
+
+### `get_site_title()`
+
+site title to be used in the html `title` tag, it will try to use
+`ARCTIC_SITE_TITLE` from the project settings, if none given it will fallback
+to `ARCTIC_SITE_NAME`.
 
 ### `get_index_url()`
 
@@ -80,7 +88,7 @@ template and is able to do filtering, sorting, pagination and linking.
 ### `fields`
 
 list of fields that should be displayed in the table, it is possible to
-customize the field name by using a (name, verbose_name) tuple in the list
+customize the field name by using a `(name, verbose_name)` tuple in the list
 instead of a string.
 
 ### `search_fields`
@@ -118,5 +126,3 @@ list of links with the format `('name', 'url')`, not connected to the table data
 # Permissions
 
 # Apps
-
-# User Interface
