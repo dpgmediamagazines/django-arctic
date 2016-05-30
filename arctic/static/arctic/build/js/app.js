@@ -94,6 +94,6 @@ $(document).ready(function() {
         incrementStepperInput(1);
     });
 
-    $('.chosen-select').chosen({width: '95%'});
+    $('.chosen-select').chosen({width: '100%'});
 });
 
