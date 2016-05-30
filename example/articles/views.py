@@ -79,8 +79,8 @@ class ArticleDeleteView(DeleteView):
 class CategoryListView(ListView):
     page_title = _("Categories")
     model = Category
-    list_display = ['name']
-    column_links = {
+    fields = ['name']
+    field_links = {
         'name': 'articles:category-detail',
     }
     tool_links = [

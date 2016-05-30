@@ -9,6 +9,10 @@ the homepage.
 
 Name of the site.
 
+## `ARCTIC_SITE_TITLE`
+
+Title of the site to be used in the title tag.
+
 ## `ARCTIC_MENU`
 
 Main menu that enables navigation between the different pages in Arctic.
