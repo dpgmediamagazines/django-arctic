@@ -65,6 +65,19 @@
 
                         {% block outer_content %}
                             <div class="block-wrapper">
+                            {% if breadcrumbs %}
+                                <nav aria-label="You are here:" role="navigation">
+                                    <ul class="breadcrumbs">
+                                        {% for name, url in breadcrumbs %}
+                                            {% if forloop.last %}
+                                                <li><span class="show-for-sr">Current: </span>{{ name }}</li>
+                                            {% else %}
+                                                <li><a href="{% url url %}">{{ name }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
 
                                 {# page page header #}
                                 <div class="row">
