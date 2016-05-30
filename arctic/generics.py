@@ -103,20 +103,10 @@ class DetailView(View, LinksMixin, base.DetailView):
                                                                  field_name)
         return result
 
-    def get_parent_ids(self):
-        """
-        Used for resolving urls when displaying nested objects.
-        Generally, you just have /foo/create as a url, but with nested,
-        you may have: /foo/<id>/bar/create/ and <id> would be a parent id.
-        These are then required to resolve urls.
-        """
-        return (self.object.id,)
-
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         context['fields'] = self.get_fields(context['object'])
         context['links'] = self.get_links()
-        context['parent_ids'] = self.get_parent_ids()
         return context
 
 
@@ -372,7 +362,6 @@ class ListView(View, base.ListView):
         context['list_items'] = self.get_list_items(context['object_list'])
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
-        context['parent_ids'] = self.get_parent_ids()
         if self.filter_fields or self.search_fields:
             context['has_filter'] = True
             context['filter'] = self.filterset
@@ -406,7 +395,6 @@ class UpdateWithInlinesView(LinksMixin, extra_views.UpdateWithInlinesView):
         context = super(UpdateWithInlinesView, self).get_context_data(**kwargs)
         context['links'] = self.get_links()
         context['inline_views'] = self.inline_views
-        context['parent_ids'] = self.get_parent_ids()
         return context
 
 
