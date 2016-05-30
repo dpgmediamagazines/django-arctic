@@ -115,7 +115,7 @@ content of the specified field that can apply a certain action, like edit.
 
 ### `field_classes`
 
-dictionary of `{'field': 'base_url', ...}` that adds an extra class to the specified field's cell, this enables the usage of client side widgets that
+dictionary of `{'field': 'css class', ...}` that adds an extra class to the specified field's cell, this enables the usage of client side widgets that
 can transform the field data into a graphic representation.
 
 ### `tool_links`
