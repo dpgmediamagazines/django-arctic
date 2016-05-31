@@ -76,6 +76,20 @@ By default will attempt to use the `index` named url, if it doesn't exist, will
 return the `/` url path.
 
 
+## TemplateView
+
+`class arctic.generics.TemplateView`
+
+This view extends the standard Django TemplateView and integrates it in the
+Arctic user interface. There are no added methods or properties besides the
+ones inherited by its ancestors.
+
+**Extends**
+
+* `arctic.generics.View`
+* `django.views.generic.TemplateView`
+
+
 ## ListView
 
 `class arctic.generics.ListView`
