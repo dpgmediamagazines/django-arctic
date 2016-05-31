@@ -72,8 +72,10 @@
                                 {% endfor %}
 
                             {# select #}
-                            {% elif field|widget_type == 'select' or field|widget_type == 'selectmultiple' or field|widget_type == 'toggleselectwidget' %}
-                                {% render_field field class+='chosen' %}
+                            {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' %}
+                                {% render_field field class+='chosen-select' %}
+                            {% elif field|widget_type == 'selectmultiple' %}
+                                {% render_field field class+='chosen-select' multiple="" %}
 
                             {# text and a-like #}
                             {% else %}
