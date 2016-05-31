@@ -4,11 +4,9 @@
 Generic views that provide commonly needed behaviour.
 """
 from __future__ import unicode_literals, division
-from collections import OrderedDict
 
 from collections import OrderedDict
 from django.views import generic as base
-from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
 from django.db.models.deletion import Collector, ProtectedError
@@ -19,7 +17,6 @@ import extra_views
 
 from .filters import filterset_factory
 from .mixins import SuccessMessageMixin, LinksMixin
-from .templatetags.arctic_tags import arctic_url
 from .utils import menu
 
 
@@ -33,17 +30,33 @@ class View(base.View):
     page_title = ''
     page_description = ''
     breadcrumbs = None
+    tabs = None
+    urls = {}
 
     def get_context_data(self, **kwargs):
         context = super(View, self).get_context_data(**kwargs)
         context['page_title'] = self.get_page_title()
         context['page_description'] = self.get_page_description()
         context['menu'] = menu(user=self.request.user, request=self.request)
+        context['urls'] = self.get_urls()
         context['breadcrumbs'] = self.get_breadcrumbs()
+        context['tabs'] = self.get_tabs()
         context['index_url'] = self.get_index_url()
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_LOGO'] = self.get_site_logo()
         return context
+
+    def get_urls(self):
+        """
+        Used for resolving urls when displaying nested objects. (@see arctic_url)
+        For example, generally you just have /foo/create as a url, but with nested,
+        you may have: /foo/<id>/bar/create/ and <id> would be a parent id.
+        These are then required to resolve urls.
+
+        @returns
+        {named_url, (url_param, url_param),}
+        """
+        return self.urls
 
     def get_breadcrumbs(self):
         """
@@ -52,6 +65,14 @@ class View(base.View):
         or None if breadcrumbs are not to be used.
         """
         return self.breadcrumbs
+
+    def get_tabs(self):
+        """
+        tabs format:
+        (('name', 'url'), ...)
+        or None if tabs are not to be used.
+        """
+        return self.tabs
 
     def get_page_title(self):
         return self.page_title
@@ -132,14 +153,6 @@ class ListView(View, base.ListView):
 
         return self.render_to_response(context)
 
-    def render(self, parent_id):
-        """Render to string in context of parent with parent_id."""
-        objects = self.get_object_list_for_parent(parent_id)
-        context = self.get_context_data(object_list=objects)
-        result = render_to_string(self.template_name, context,
-                                  request=self.request)
-        return result
-
     def get_object_list(self):
         if self.filter_fields or self.search_fields:
             filterset_class = self.get_filterset_class()
@@ -149,18 +162,6 @@ class ListView(View, base.ListView):
             self.object_list = self.get_queryset()
 
         return self.object_list
-
-    def get_object_list_for_parent(self, parent_id):
-        raise NotImplementedError('Must override for embedded list view')
-
-    def get_parent_ids(self):
-        """
-        Used for resolving urls when displaying nested objects.
-        Generally, you just have /foo/create as a url, but with nexted,
-        you may have: /foo/<id>/bar/create/ and <id> would be a parent id.
-        These are then required to resolve urls.
-        """
-        return None
 
     def ordering_url(self, field):
         """
@@ -275,21 +276,6 @@ class ListView(View, base.ListView):
         else:
             allowed_action_links = []
             for link in self.action_links:
-                # Lets check permissions
-                # TODO: Hardcoded pk added as arg list, refactor when we
-                # implement object level permissions.
-                # NOT sure if we should refactor, it makes more sense to check
-                # for object level permissions
-                # when gathering the queryset. If we do it while rendering a
-                # page, then we work on paginated
-                # queryset and we may get uneven sized pages.
-                '''
-                url_args = (1,)
-                parent_ids = self.get_parent_ids()
-                if parent_ids:
-                    url_args += parent_ids
-                if check_url_access(self.request.user, link[1], url_args):
-                '''
                 allowed_action_links.append(link)
             return allowed_action_links
 
@@ -299,9 +285,6 @@ class ListView(View, base.ListView):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                # Lets check permissions
-                # if check_url_access(self.request.user, link[1],
-                # self.get_parent_ids()):
                 allowed_tool_links.append(link)
 
             return allowed_tool_links
@@ -378,34 +361,21 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
         return self.page_title
 
 
-class UpdateWithInlinesView(LinksMixin, extra_views.UpdateWithInlinesView):
-    links = None   # Optional links such as viewing list of linked items
-    inline_views = []
-
-    def get_parent_ids(self):
-        """
-        Used for resolving urls when displaying nested objects.
-        Generally, you just have /foo/create as a url, but with nested,
-        you may have: /foo/<id>/bar/create/ and <id> would be a parent id.
-        These are then required to resolve urls.
-        """
-        return (self.object.id,)
-
-    def get_context_data(self, **kwargs):
-        context = super(UpdateWithInlinesView, self).get_context_data(**kwargs)
-        context['links'] = self.get_links()
-        context['inline_views'] = self.inline_views
-        return context
-
-
-class UpdateView(SuccessMessageMixin, View, UpdateWithInlinesView):
+class UpdateView(SuccessMessageMixin, View, LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_detail.html'
     success_message = _('%(object)s was updated successfully')
+
+    links = None  # Optional links such as viewing list of linked items
 
     def get_page_title(self):
         if not self.page_title:
             return _("Edit %s") % self.model._meta.verbose_name
         return self.page_title
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context['links'] = self.get_links()
+        return context
 
 
 class DeleteView(SuccessMessageMixin, View, base.DeleteView):

@@ -7,7 +7,7 @@ from arctic.generics import (
     ListView, UpdateView, CreateView,
     DeleteView, TemplateView)
 
-from .models import Article, Category
+from .models import Article, Category, Tag
 from .forms import ArticleForm
 from .inlines import ArticleInline, TagsInline
 
@@ -44,12 +44,23 @@ class ArticleListView(ListView):
     paginate_by = 2
 
 
-class ArticleListViewInline(ArticleListView):
-    template_name = 'arctic/partials/base_data_table.html'
-    prefix = 'articles'
+class ArticleDetailTagsView(UpdateView):
+    page_title = _("Edit Article: Tags")
+    model = Article
+    inlines = [TagsInline]
+    fields = []
+    success_url = reverse_lazy('articles:list')
 
-    def get_object_list_for_parent(self, parent_id):
-        return self.get_object_list().filter(category_id=parent_id)
+    tabs = [
+        ('Detail', 'articles:detail'),
+        ('Tags', 'articles:detail-tags'),
+    ]
+
+    def get_urls(self):
+        return {
+            'articles:detail': (self.object.pk,),
+            'articles:detail-tags': (self.object.pk,),
+        }
 
 
 class ArticleDetailView(UpdateView):
@@ -57,9 +68,21 @@ class ArticleDetailView(UpdateView):
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm
-    links = [('Back to list', 'articles:list')]
-    inlines = [TagsInline]
-    # inline_views = [ArticleListViewInline]
+    links = [
+        ('Back to list', 'articles:list'),
+        ('Goto main category', 'articles:category-detail'),
+    ]
+    tabs = [
+        ('Detail', 'articles:detail'),
+        ('Tags', 'articles:detail-tags'),
+    ]
+
+    def get_urls(self):
+        return {
+            'articles:detail': (self.object.pk,),
+            'articles:category-detail': (self.object.category.pk,),
+            'articles:detail-tags': (self.object.pk,),
+        }
 
 
 class ArticleCreateView(CreateView):
@@ -88,11 +111,48 @@ class CategoryListView(ListView):
     ]
 
 
+class CategoryArticlesListView(ArticleListView):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = kwargs.pop('pk')
+        return super(CategoryArticlesListView, self).dispatch(request, *args, **kwargs)
+
+    # disable some settings from the default article list
+    tool_links = [
+    ]
+    page_title = "Edit Category: Articles"
+    breadcrumbs = None
+
+    tabs = [
+        ('Detail', 'articles:category-detail'),
+        ('Articles', 'articles:category-articles-list'),
+    ]
+
+    def get_urls(self):
+        return {
+            'articles:category-detail': (self.pk,),
+            'articles:category-articles-list': (self.pk,),
+        }
+
+    def get_queryset(self):
+        qs = super(CategoryArticlesListView, self).get_queryset()
+        return qs.filter(category_id=self.pk)
+
+
 class CategoryDetailView(UpdateView):
     page_title = _("Edit Category")
     model = Category
-    inlines = [ArticleInline]
     success_url = reverse_lazy('articles:category-list')
+    tabs = [
+        ('Detail', 'articles:category-detail'),
+        ('Articles', 'articles:category-articles-list'),
+    ]
+
+    def get_urls(self):
+        return {
+            'articles:category-detail': (self.object.pk,),
+            'articles:category-articles-list': (self.object.pk,),
+        }
 
 
 class CategoryCreateView(CreateView):

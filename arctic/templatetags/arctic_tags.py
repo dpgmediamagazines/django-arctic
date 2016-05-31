@@ -156,44 +156,19 @@ def query_string_ordering(context, value, **kwargs):
 @register.simple_tag(takes_context=True)
 def arctic_url(context, link, *args, **kwargs):
     """
-    Resolves display- and tool-link tuples into urls with optional
-    item IDs and parent IDs. See base_list.html for example usage.
+    Resolves links into urls with optional
+    arguments set in self.urls.
 
     We could tie this to check_url_access() to check for permissions,
     including object-level.
     """
     url_args = args
 
-    if 'parent_ids' in context:
-        if args and context['parent_ids']:
-            url_args = context['parent_ids'] + args
-        elif context['parent_ids']:
-            url_args = context['parent_ids']
+    # set arguments defined in get_urls if provided
+    if link in context['urls']:
+        url_args = context['urls'][link]
 
     return reverse(link, args=url_args, kwargs=None)
-
-
-class SubViewNode(template.Node):
-
-    def __init__(self, view):
-        self.view = template.Variable(view)
-
-    def render(self, context):
-        view = self.view.resolve(context)
-        view.request = context['request']
-        view.args = []
-        view.kwargs = {}
-
-        return view.render(context['parent_ids'][-1])
-
-
-@register.tag
-def subview(parser, token):
-    args = token.split_contents()
-    if len(args) != 2:
-        raise template.TemplateSyntaxError(
-            "subview tag takes one argument")
-    return SubViewNode(args[1])
 
 
 @register.filter()
