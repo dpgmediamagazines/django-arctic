@@ -157,16 +157,38 @@ def query_string_ordering(context, value, **kwargs):
 def arctic_url(context, link, *args, **kwargs):
     """
     Resolves links into urls with optional
-    arguments set in self.urls.
+    arguments set in self.urls. please check get_urls method in View.
 
     We could tie this to check_url_access() to check for permissions,
     including object-level.
     """
+
+    def reverse_mutable_url_args(url_args):
+        mutated_url_args = []
+        for arg in url_args:
+
+            # listview item, and argument is a string
+            if 'item' in context and type(arg) == str:
+                # try to get attribute of this object
+                try:
+                    arg = getattr(context['v'], arg)
+                # if not found, fall back to pk of row, which is always first column
+                except:
+                    arg = context['item'][0]
+            mutated_url_args.append(arg)
+        return reverse(link, args=mutated_url_args, kwargs=None)
+
     url_args = args
 
     # set arguments defined in get_urls if provided
     if link in context['urls']:
+
+        # for where the params directly given. e.g. ('article-detail', (self.object.pk,))
         url_args = context['urls'][link]
+
+        # list given, which means it's mutable!
+        if isinstance(url_args, list):
+            return reverse_mutable_url_args(url_args)
 
     return reverse(link, args=url_args, kwargs=None)
 

@@ -54,7 +54,10 @@ class View(base.View):
         These are then required to resolve urls.
 
         @returns
-        {named_url, (url_param, url_param),}
+        {named_url, (url_param, url_param),} || {named_url, [url_param, url_param],}
+
+        if you provide a list and in this list there are strings, it will try to get field of that item. This
+        is especially useful for listviews with action_links and field_links.
         """
         return self.urls
 
