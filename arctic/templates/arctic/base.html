@@ -103,6 +103,16 @@
                                     </div>
                                 {% endif %}
 
+                                {# tabs #}
+                                {% if tabs %}
+                                    <ul class="tabs" id="table-tabs">
+                                        {% for name, url in tabs %}
+                                            {% arctic_url url as url %}
+                                            <li class="tabs-title {% if request.get_full_path == url %}is-active{% endif %}"><a href="{{ url }}">{{ name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
                                 {# page messages #}
                                 {% if messages %}
                                     {% for message in messages %}

@@ -46,8 +46,5 @@ class LinksMixin(object):
         else:
             allowed_links = []
             for link in self.links:
-                # Lets check permissions
-                # if check_url_access(self.request.user, link[1],
-                #                     self.get_parent_ids()):
                 allowed_links.append(link)
             return allowed_links

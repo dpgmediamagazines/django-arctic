@@ -17,27 +17,10 @@
 
         <div class="small-12 columns">
 
-            {# tabs #}
-            <ul class="tabs" data-tabs id="tabs">
-                {% if inlines %}
-                    {% for formset in inlines %}
-                        <li class="tabs-title">
-                            <a href="#{{ formset.prefix }}" aria-selected="false">
-                                {{ formset.fk.model|verbose_name_plural }}
-
-                                {% if not formset.is_valid and formset.total_error_count != 0 %}
-                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                {% endif %}
-                            </a>
-                        </li>
-                    {% endfor %}
-                {% endif %}
-            </ul>
-
             {# tabs panels #}
-            <div class="tabs-content" data-tabs-content="tabs">
+            <div>
 
-                <div class="tabs-panel is-active">
+                <div>
                     {% block form %}
                         {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
                     {% endblock %}
@@ -45,7 +28,7 @@
 
                 {% if inlines %}
                     {% for formset in inlines %}
-                        <div class="tabs-panel" id="{{ formset.prefix }}">
+                        <div>
                             {{ formset.management_form }}
                             {{ formset.non_form_errors }}
 
@@ -91,18 +74,6 @@
         </div>
     </form>
 
-    {% if inline_views %}
-        <div role="small-12 columns">
-            {% for view in inline_views %}
-                <h3>{{ view.model|verbose_name_plural }}</h3>
-                <div id="{{ view.prefix }}">
-                    {% subview view %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
     {% block extra_content %}{% endblock %}
-
 {% endblock %}
 

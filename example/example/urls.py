@@ -10,6 +10,7 @@ from articles.views import (
     ArticleDetailView, ArticleDeleteView,
     CategoryListView, CategoryCreateView,
     CategoryDetailView, CategoryDeleteView,
+    CategoryArticlesListView, ArticleDetailTagsView
 )
 from dashboard.views import DashboardView
 
@@ -19,9 +20,11 @@ article_patterns = [
     url(r'^create/$', ArticleCreateView.as_view(), name='create'),
     url(r'^(?P<pk>\d+)/$', ArticleDetailView.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/delete/$', ArticleDeleteView.as_view(), name='delete'),
+    url(r'^(?P<pk>\d+)/tags/$', ArticleDetailTagsView.as_view(), name='detail-tags'),
     url(r'^category/$', CategoryListView.as_view(), name='category-list'),
     url(r'^category/create/$', CategoryCreateView.as_view(), name='category-create'),
     url(r'^category/(?P<pk>\d+)/$', CategoryDetailView.as_view(), name='category-detail'),
+    url(r'^category/articles/(?P<pk>\d+)/$', CategoryArticlesListView.as_view(), name='category-articles-list'),
     url(r'^category/(?P<pk>\d+)/delete/$', CategoryDeleteView.as_view(), name='category-delete'),
 ]
 
