@@ -3,14 +3,14 @@
     {# filters #}
     {% if has_filter %}
         <form action="" method="GET" class="row">
-            {# <div class="row"> #}
-                <div class="small-9 medium-10 columns">
-                    {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                </div>
-                <div class="small-3 medium-2 columns">
-                    <input type="submit" value="Filter" class="button secondary expand" />
-                </div>
-            {# </div> row  #}
+            <div class="small-10 medium-11 columns">
+                {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+            </div>
+            <div class="small-2 medium-1 columns">
+                <button type="submit" class="button secondary expand">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
         </form>
     {% endif %}
     <div class="row">
