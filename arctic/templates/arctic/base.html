@@ -109,7 +109,11 @@
                                         <div class="small-12 columns">
                                             <ul class="tabs" id="table-tabs">
                                                 {% for name, url in tabs %}
-                                                    {% arctic_url url as url %}
+                                                    {% if pk %}
+                                                        {% arctic_url url pk as url %}
+                                                    {% else %}
+                                                        {% arctic_url url as url %}
+                                                    {% endif %}
                                                     <li class="tabs-title {% if request.get_full_path == url %}is-active{% endif %}"><a href="{{ url }}">{{ name }}</a></li>
                                                 {% endfor %}
                                             </ul>
