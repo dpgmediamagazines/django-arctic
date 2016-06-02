@@ -55,7 +55,11 @@
                                     {% endif %}
 
                                     {% if list_header|index:forloop.counter0|get_item:'link' %}
-                                        <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
+                                        {% if v.pk %}
+                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' v.pk %}">
+                                        {% else %}
+                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
+                                         {% endif %}
                                             {{ v|safe|default_if_none:""|linebreaks }}
                                         </a>
                                     {% else %}
