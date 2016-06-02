@@ -59,7 +59,11 @@
                 <div class="columns small-6">
                     {% if links %}
                         {% for link in links %}
-                            <a class="button secondary" href="{% arctic_url link.1 pk %}">
+                            {% if pk %}
+                                <a class="button secondary" href="{% arctic_url link.1 pk %}">
+                            {% else %}
+                                <a class="button secondary" href="{% arctic_url link.1 %}">
+                            {% endif %}
                                 {{ link.0 }}
                             </a>
                         {% endfor %}
