@@ -13,6 +13,7 @@ table {
     tbody th {
         border-right: 1px solid darken($green,5%);
         border-bottom: 1px solid darken($green,5%);
+        position:relative;
 
         &:first-child {
             border-left: 1px solid darken($green,5%);
@@ -22,10 +23,18 @@ table {
             width: 100%;
             display: block;
             color: $white;
+            padding-right: rem-calc(15);
 
             i {
-                float: right;
+                margin-right: rem-calc(10);
+                right: 0;
+                padding-top: 0.3em;
+                position: absolute;
                 font-style: normal;
+
+                &.fa-sort {
+                    opacity: 0.5;
+                }
             }
         }
     }

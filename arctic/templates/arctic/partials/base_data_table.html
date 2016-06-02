@@ -24,7 +24,13 @@
                             <th>
                                 {% if item.order_url %}
                                     <a href="{{ item.order_url }}">{{ item.label }}
-                                        <i>{% if item.order_direction == 'desc' %}▼{% elif item.order_direction == 'asc' %}▲{% endif %}</i></a>
+                                        {% if item.order_direction == 'desc' %}
+                                            <i class="fa fa-sort-desc"></i>
+                                        {% elif item.order_direction == 'asc' %}
+                                            <i class="fa fa-sort-asc"></i>
+                                        {% else %}
+                                            <i class="fa fa-sort"></i>
+                                        {% endif %}</a>
                                 {% else %}
                                     {{ item.label }}
                                 {% endif %}

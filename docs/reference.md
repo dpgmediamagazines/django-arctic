@@ -52,6 +52,11 @@ title to be displayed in title tag and page header.
 
 description of the current page.
 
+### `tabs`
+
+list of `('title', 'url')` tabs that relate the current views with other views,
+one of the tuples should point to the current view.
+
 
 **Methods**
 
@@ -139,6 +144,26 @@ can transform the field data into a graphic representation.
 ### `tool_links`
 
 list of links with the format `('name', 'url')`, not connected to the table data.
+
+
+## CreateView
+
+`class arctic.generics.CreateView`
+
+This view displays tabular data from a django model, it includes a default
+template and is able to do filtering, sorting, pagination and linking.
+
+**Extends**
+
+* `arctic.generics.View`
+
+**Properties**
+
+### `fields`
+
+list of fields that should be displayed in the table, it is possible to
+customize the field name by using a `(name, verbose_name)` tuple in the list
+instead of a string.
 
 
 # Permissions

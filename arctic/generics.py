@@ -48,16 +48,18 @@ class View(base.View):
 
     def get_urls(self):
         """
-        Used for resolving urls when displaying nested objects. (@see arctic_url)
-        For example, generally you just have /foo/create as a url, but with nested,
-        you may have: /foo/<id>/bar/create/ and <id> would be a parent id.
-        These are then required to resolve urls.
+        Used for resolving urls when displaying nested objects.
+        (@see arctic_url). For example, generally you just have /foo/create as
+        a url, but with nested, you may have: /foo/<id>/bar/create/ and <id>
+        would be a parent id. These are then required to resolve urls.
 
         @returns
-        {named_url, (url_param, url_param),} || {named_url, [url_param, url_param],}
+        {named_url, (url_param, url_param),}
+        || {named_url, [url_param, url_param],}
 
-        if you provide a list and in this list there are strings, it will try to get field of that item. This
-        is especially useful for listviews with action_links and field_links.
+        if you provide a list and in this list there are strings, it will try
+        to get field of that item. This is especially useful for listviews with
+        action_links and field_links.
         """
         return self.urls
 
@@ -364,7 +366,8 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
         return self.page_title
 
 
-class UpdateView(SuccessMessageMixin, View, LinksMixin, extra_views.UpdateWithInlinesView):
+class UpdateView(SuccessMessageMixin, View, LinksMixin,
+                 extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_detail.html'
     success_message = _('%(object)s was updated successfully')
 
