@@ -79,6 +79,7 @@ class ArticleDetailView(UpdateView):
 
     def get_urls(self):
         return {
+            'articles:list': (),
             'articles:detail': (self.object.pk,),
             'articles:category-detail': (self.object.category.pk,),
             'articles:detail-tags': (self.object.pk,),
