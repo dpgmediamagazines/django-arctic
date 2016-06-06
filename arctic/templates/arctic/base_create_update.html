@@ -15,7 +15,12 @@
 
         {% csrf_token %}
         {% block form %}
-            {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+            {% block form_validation %}
+                {% include "arctic/partials/form_validation.html" with form=form style="horizontal" %}
+            {% endblock %}
+            {% block form_fields %}
+                {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+            {% endblock %}
         {% endblock %}
 
         {% if inlines %}

@@ -1,27 +1,3 @@
-{% load i18n %}
-
-
-{% if form.is_bound and not form.is_valid %}
-    <div class="callout alert" data-closable>
-        <button class="fa fa-times close-button" aria-label="Dismiss alert" type="button" data-close></button>
-        <strong>
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {% trans "Oops! We found some errors" %}
-        </strong>
-         - {% trans "please check the error messages below and try again" %}
-    </div>
-{% endif %}
-
-
-{% if form.non_field_errors %}
-    {% for error in form.non_field_errors %}
-        {# todo #}
-        <p>{{ error }}</p>
-
-    {% endfor %}
-{% endif %}
-
-
 {% for field in form %}
     {% include 'arctic/partials/form_field.html' with field=field style=style %}
 {% endfor %}
