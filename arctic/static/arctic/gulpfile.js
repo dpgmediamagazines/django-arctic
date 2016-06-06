@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var config = require('./config.json');
+const del = require('del');
 var $    = require('gulp-load-plugins')();
 
 
@@ -15,6 +16,21 @@ gulp.task('copy:javascript', function() {
     .pipe(gulp.dest( config.path.build + config.path.javascript ));
 
 });
+
+// delete unnecessary files
+gulp.task('cleanup', function() {
+    del.sync([
+        'build/components/font-awesome/less',
+        'build/components/foundation/css',
+        'build/components/jquery/src',
+        'build/components/modernizr/feature-detects',
+        'build/components/modernizr/media',
+        'build/components/modernizr/test',
+        'build/components/motion-ui/docs',
+        'build/components/Snap.svg/doc',
+    ]);
+});
+
 
 // bundle copy tasks
 gulp.task('copy', ['copy:images', 'copy:javascript']);
@@ -44,4 +60,4 @@ gulp.task('default', ['copy', 'sass'], function() {
 });
 
 // build new assets
-gulp.task('build', ['copy', 'sass']);
+gulp.task('build', ['copy', 'sass', 'cleanup']);

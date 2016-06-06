@@ -37,6 +37,7 @@ setup(
     long_description=README,
     install_requires=REQUIREMENTS,
     packages=find_packages(),
+    include_package_data=True,
     license='MIT',
     url='https://github.com/sanoma/django-arctic',
     author='Sanoma Netherlands',

@@ -3,7 +3,6 @@
         "bower": "components/",
         "build": "build/",
         "css": "css/",
-        "html": "arctic/templates/autoweek/",
         "images": "images/",
         "javascript": "js/",
         "scss": "scss/",
