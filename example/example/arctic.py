@@ -8,14 +8,14 @@ ARCTIC_MENU = (
         ('List', 'articles:list', 'fa-list'),
         ('Create', 'articles:create', 'fa-pencil'),
     )),
-    ('Categories', 'articles:category-list', 'fa-file-text-o', (
+    ('Categories', 'articles:category-list', 'fa-tasks', (
         ('List', 'articles:category-list', 'fa-list'),
         ('Create', 'articles:category-create', 'fa-pencil'),
     )),
-    # ('Images', 'images:list', 'fa-picture-o', (
-    #     ('Browse', 'images:list', 'fa-paper'),
-    #     ('New', 'images:list', 'fa-pencil'),
-    # )),
+    ('Tags', 'articles:tag-list', 'fa-tags', (
+        ('Browse', 'articles:tag-list', 'fa-paper'),
+        ('Create', 'articles:tag-create', 'fa-pencil'),
+    )),
 )
 
 

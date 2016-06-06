@@ -1,7 +1,7 @@
 {
     "name": "Arctic",
     "version": "1.0.0",
-    "description": "Installs and runs frontend dependecies. It has also some handy npm scripts for deployment",
+    "description": "Installs and runs frontend dependencies. It has also some handy npm scripts for deployment",
     "main": "gulpfile.js",
     "devDependencies": {
         "gulp": "^3.9.1",
@@ -19,10 +19,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Sanoma"
+        "url": "https://github.com/sanoma"
     },
     "bugs": {
-        "url": "https://github.com/Sanoma/arctic/issues",
+        "url": "https://github.com/sanoma/arctic/issues",
         "email": "opensource@sanoma.com"
     },
     "author": "Sanoma",

@@ -114,7 +114,11 @@
                                                     {% else %}
                                                         {% arctic_url url as url %}
                                                     {% endif %}
-                                                    <li class="tabs-title {% if request.get_full_path == url %}is-active{% endif %}"><a href="{{ url }}">{{ name }}</a></li>
+                                                    {% if request.path == url %}
+                                                        <li class="tabs-title is-active"><a href="javascript:">{{ name }}</a></li>
+                                                    {% else %}
+                                                        <li class="tabs-title"><a href="{{ url }}">{{ name }}</a></li>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </ul>
                                         </div>
@@ -150,8 +154,9 @@
         <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script>
         <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script>
         <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script>
-        <script src="{% static "arctic/build/js/app.js" %}"></script>
         <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script>
+        <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script>
+        <script src="{% static "arctic/build/js/app.js" %}"></script>
         {% endblock %}
     </body>
 </html>

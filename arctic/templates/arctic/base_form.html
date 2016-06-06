@@ -1,0 +1,66 @@
+{% extends "arctic/base.html" %}
+
+
+{% load i18n arctic_tags staticfiles %}
+
+
+{% block body_class %}
+    {{ block.super }}
+    template-detail
+{% endblock %}
+
+
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide>
+
+        {% csrf_token %}
+        {% block form %}
+            {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+        {% endblock %}
+
+        {% if inlines %}
+            {% for formset in inlines %}
+                {{ formset.management_form }}
+                {{ formset.non_form_errors }}
+
+                {% for form in formset %}
+                    {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+
+                    {% if not forloop.last %}
+                        <div class="row">
+                            <div class="column">
+                                <hr />
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {% block extra_forms %} {% endblock %}
+
+        {# form actions #}
+        <div class="row">
+            <div class="columns small-6">
+                {% if links %}
+                    {% for link in links %}
+                        {% if pk %}
+                            <a class="button secondary" href="{% arctic_url link.1 pk %}">
+                        {% else %}
+                            <a class="button secondary" href="{% arctic_url link.1 %}">
+                        {% endif %}
+                            {{ link.0 }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="columns small-6 text-right">
+                <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
+            </div>
+        </div>
+    </form>
+
+    {% block extra_content %}{% endblock %}
+{% endblock %}
+
