@@ -100,7 +100,6 @@ $(document).ready(function() {
 
     $('form').on('dirty.areYouSure', function() {
         var tab = $('.tabs-title.is-active a')[0];
-        var title = $('title')[0];
         if (tab) {
             tab.text = '●' + tab.text;
         }
@@ -109,7 +108,6 @@ $(document).ready(function() {
 
     $('form').on('clean.areYouSure', function() {
         var tab = $('.tabs-title.is-active a')[0];
-        var title = $('title')[0];
         if (tab) {
             tab.text = tab.text.slice(1);
         }

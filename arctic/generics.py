@@ -357,7 +357,7 @@ class ListView(View, base.ListView):
 
 
 class CreateView(View, SuccessMessageMixin, base.CreateView):
-    template_name = 'arctic/base_form.html'
+    template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
     def get_page_title(self):
@@ -368,7 +368,7 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
 
 class UpdateView(SuccessMessageMixin, View, LinksMixin,
                  extra_views.UpdateWithInlinesView):
-    template_name = 'arctic/base_form.html'
+    template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
     links = None  # Optional links such as viewing list of linked items
