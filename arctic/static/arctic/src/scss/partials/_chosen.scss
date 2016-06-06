@@ -51,7 +51,50 @@
 
     li.highlighted {
       background-color: $green;
-      background-image:none;
+      background-image: none;
     }
   }
+}
+
+
+.chosen-container-multi .chosen-choices {
+    background-image: none;
+    padding: 0.3rem;
+    border: 1px solid darken($greyLight, 10%);
+}
+
+.chosen-container-active {
+    border-shadow: none;
+    border-radius: 0;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice {
+    background-image: none;
+    border-radius: 0;
+    border-color: darken($greyLight, 10%);
+    background-color: lighten($greyLight, 5%);
+}
+
+.chosen-container-active .chosen-choices {
+  border: 1px solid darken($greyLight, 25%);
+  box-shadow: none;
+}
+
+.chosen-container-single .chosen-drop {
+    border-radius: 0;
+}
+
+.chosen-container-single .chosen-single {
+    &.chosen-default {
+        color: darken($greyLight, 25%);
+    }
+    font-size: 1em;
+}
+
+.chosen-container-multi {
+    padding-bottom: 1rem;
+}
+
+.chosen-container-multi .chosen-drop {
+    margin-top: -1rem;
 }

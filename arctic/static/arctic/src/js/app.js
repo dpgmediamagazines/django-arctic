@@ -94,6 +94,19 @@ $(document).ready(function() {
         incrementStepperInput(1);
     });
 
-    $('.chosen-select').chosen({width: '100%'});
+    $('.chosen-select').chosen({width: '100%', disable_search_threshold: 10});
+
+    $('form.dirty-check').areYouSure();
+
+    $('form').on('dirty.areYouSure', function() {
+        var tab = $('.tabs-title.is-active a')[0];
+        tab.text = '●' + tab.text;
+    });
+
+    $('form').on('clean.areYouSure', function() {
+        var tab = $('.tabs-title.is-active a')[0];
+        tab.text = tab.text.slice(1);
+    });
+
 });
 

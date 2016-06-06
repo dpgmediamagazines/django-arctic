@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'rolepermissions',
     'dashboard',
     'articles',
-    'images',
     'arctic',
 )
 

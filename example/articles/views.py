@@ -44,38 +44,18 @@ class ArticleListView(ListView):
     paginate_by = 2
 
 
-class ArticleDetailTagsView(UpdateView):
-    page_title = _("Edit Article: Tags")
-    model = Article
-    inlines = [TagsInline]
-    fields = []
-    success_url = reverse_lazy('articles:list')
-
-    tabs = [
-        ('Detail', 'articles:detail'),
-        ('Tags', 'articles:detail-tags'),
-    ]
-
-    def get_urls(self):
-        return {
-            'articles:detail': (self.object.pk,),
-            'articles:detail-tags': (self.object.pk,),
-        }
-
-
-class ArticleDetailView(UpdateView):
+class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm
     links = [
         ('Back to list', 'articles:list'),
-        ('Goto main category', 'articles:category-detail'),
     ]
-    tabs = [
-        ('Detail', 'articles:detail'),
-        ('Tags', 'articles:detail-tags'),
-    ]
+    # tabs = [
+    #     ('Detail', 'articles:detail'),
+        # ('Tags', 'articles:detail-tags'),
+    # ]
 
     def get_urls(self):
         return {
@@ -88,8 +68,9 @@ class ArticleDetailView(UpdateView):
 
 class ArticleCreateView(CreateView):
     page_title = _("Create Article")
+    #fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
-    fields = ['title', 'description', 'category', 'published']
+    form_class = ArticleForm
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -126,7 +107,7 @@ class CategoryArticlesListView(ArticleListView):
 
     tabs = [
         ('Detail', 'articles:category-detail'),
-        ('Articles', 'articles:category-articles-list'),
+        ('Related Articles', 'articles:category-articles-list'),
     ]
 
     def get_urls(self):
@@ -140,13 +121,13 @@ class CategoryArticlesListView(ArticleListView):
         return qs.filter(category_id=self.pk)
 
 
-class CategoryDetailView(UpdateView):
+class CategoryUpdateView(UpdateView):
     page_title = _("Edit Category")
     model = Category
     success_url = reverse_lazy('articles:category-list')
     tabs = [
         ('Detail', 'articles:category-detail'),
-        ('Articles', 'articles:category-articles-list'),
+        ('Related Articles', 'articles:category-articles-list'),
     ]
 
     def get_urls(self):
@@ -167,3 +148,35 @@ class CategoryCreateView(CreateView):
 class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('articles:category-list')
+
+
+class TagListView(ListView):
+    page_title = _("Tags")
+    model = Tag
+    fields = ['term']
+    field_links = {
+        'term': 'articles:tag-detail',
+    }
+    tool_links = [
+        (_('Add Tag'), 'articles:tag-create'),
+    ]
+
+
+class TagUpdateView(UpdateView):
+    page_title = _("Edit Tag")
+    model = Tag
+    success_url = reverse_lazy('articles:tag-list')
+
+
+class TagCreateView(CreateView):
+    page_title = _("Create Tag")
+    model = Tag
+    fields = ['term']
+
+    def get_success_url(self):
+        return reverse('articles:tag-detail', args=(self.object.pk,))
+
+
+class TagDeleteView(DeleteView):
+    model = Tag
+    success_url = reverse_lazy('articles:tag-list')

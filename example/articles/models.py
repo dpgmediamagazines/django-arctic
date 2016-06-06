@@ -9,7 +9,6 @@ class Article(models.Model):
     title = models.CharField("Title", max_length=255, null=False)
     description = models.TextField("Description", blank=True, null=False)
     published = models.BooleanField("Published", default=False)
-    image = models.ForeignKey('images.Image', null=True, blank=True)
     category = models.ForeignKey('articles.Category', verbose_name="Category")
     tags = models.ManyToManyField('articles.Tag')
 
