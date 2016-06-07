@@ -39,7 +39,7 @@ class ArticleListView(ListView):
         'published': 'inline-widget boolean-circle',
     }
     tool_links = [
-        (_('Add Article'), 'articles:create'),
+        (_('Create Article'), 'articles:create'),
     ]
     paginate_by = 2
 
@@ -89,7 +89,7 @@ class CategoryListView(ListView):
         'name': 'articles:category-detail',
     }
     tool_links = [
-        (_('Add Category'), 'articles:category-create'),
+        (_('Create Category'), 'articles:category-create'),
     ]
 
 
@@ -158,7 +158,7 @@ class TagListView(ListView):
         'term': 'articles:tag-detail',
     }
     tool_links = [
-        (_('Add Tag'), 'articles:tag-create'),
+        (_('Create Tag'), 'articles:tag-create'),
     ]
 
 

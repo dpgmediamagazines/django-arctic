@@ -8,7 +8,7 @@ ARCTIC_MENU = (
         ('List', 'articles:list', 'fa-list'),
         ('Create', 'articles:create', 'fa-pencil'),
     )),
-    ('Categories', 'articles:category-list', 'fa-tasks', (
+    ('Categories', 'articles:category-list', 'fa-sitemap', (
         ('List', 'articles:category-list', 'fa-list'),
         ('Create', 'articles:category-create', 'fa-pencil'),
     )),
