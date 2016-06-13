@@ -9,6 +9,7 @@ from django.db.models import DateTimeField, Q
 import django_filters
 from django_filters.widgets import RangeWidget
 
+
 class SearchInput(forms.TextInput):
     """ Normal text input with search flag.
     Just so the frontend knows it's a search box
@@ -38,12 +39,15 @@ class FilterSet(django_filters.FilterSet):
         super(FilterSet, self).__init__(*args, **kwargs)
         for filter_name in self.filters:
             """ We want a descriptive title for selects """
-            if isinstance(self.filters[filter_name], django_filters.ModelChoiceFilter):
+            if isinstance(self.filters[filter_name],
+                          django_filters.ModelChoiceFilter):
                 self.filters[filter_name].extra.update(
                     {'empty_label': u"%s" % self.filters[filter_name].label}
                 )
-            elif isinstance(self.filters[filter_name], django_filters.ChoiceFilter):
-                choices = (('', self.filters[filter_name].label),) + self.filters[filter_name].extra['choices']
+            elif isinstance(self.filters[filter_name],
+                            django_filters.ChoiceFilter):
+                choices = (('', self.filters[filter_name].label),) + \
+                          self.filters[filter_name].extra['choices']
                 self.filters[filter_name].extra.update(
                     {'choices': choices}
                 )
@@ -65,7 +69,8 @@ def filterset_factory(model, fields, search_fields=None):
 
     class DynamicFilterSet(FilterSet):
         if search_fields:
-            search = django_filters.MethodFilter(action='search_filter', widget=SearchInput)
+            search = django_filters.MethodFilter(action='search_filter',
+                                                 widget=SearchInput)
 
     meta = type(str('Meta'), (object,), {
         'model': model,

@@ -38,7 +38,9 @@ def menu(menu_config=None, **kwargs):
             # check if the last item in a menu entry is a submenu
             last_item = menu_entry[len(menu_entry) - 1]
             if type(last_item) in (list, tuple):
-                menu_dict[menu_entry[0]]['submenu'] = menu(last_item, user=user, request=request)
+                menu_dict[menu_entry[0]]['submenu'] = menu(last_item,
+                                                           user=user,
+                                                           request=request)
 
     return menu_clean(menu_dict)
 

@@ -112,7 +112,8 @@ def query_string_ordering(context, value, **kwargs):
     """
     Add ordering param to the given query string
     :param context: template context
-    :param value: examples would be '-id' or 'id'. A minus indicates that the default sorting is descending
+    :param value: examples would be '-id' or 'id'. A minus indicates that the
+                  default sorting is descending
     :param kwargs: not used
     :return: Adjusted query string, starting with '?'
     """
