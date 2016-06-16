@@ -11,9 +11,10 @@ from articles.views import (
     CategoryListView, CategoryCreateView,
     CategoryUpdateView, CategoryDeleteView,
     CategoryArticlesListView, TagListView,
-    TagCreateView, TagUpdateView, TagDeleteView
+    TagCreateView, TagUpdateView, TagDeleteView,
 )
 from dashboard.views import DashboardView
+from arctic.generics import LoginView
 
 
 article_patterns = [
@@ -34,6 +35,7 @@ article_patterns = [
 
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='index'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^articles/', include(article_patterns, namespace='articles')),
 ]
 

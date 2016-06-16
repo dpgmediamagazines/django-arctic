@@ -22,7 +22,7 @@ class DashboardView(TemplateView):
 
 
 class ArticleListView(ListView):
-    paginate_by = 20
+    paginate_by = 2
     model = Article
     fields = ['title', 'description', 'published', 'category']
     ordering_fields = ['title', 'description', 'published']
@@ -41,7 +41,6 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create'),
     ]
-    paginate_by = 2
 
 
 class ArticleUpdateView(UpdateView):

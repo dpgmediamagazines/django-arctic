@@ -42,7 +42,6 @@ INSTALLED_APPS = (
 
     'widget_tweaks',
     'sorl.thumbnail',
-    'rolepermissions',
     'dashboard',
     'articles',
     'arctic',
@@ -138,5 +137,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = location("media")
 MEDIA_URL = '/media/'
 
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/login/'
 
 from .arctic import *

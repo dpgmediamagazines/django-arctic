@@ -12,7 +12,7 @@
 
         <title>
             {% block title %}
-                {{ SITE_NAME }} – {{ page_title }}
+                {{ SITE_TITLE }} – {{ page_title }}
             {% endblock %}
         </title>
 
@@ -38,15 +38,13 @@
                 {# menu columns #}
                 <ul class="menu columns">
                 {% block topbar_menu %}
-                {#     <li> #}
-                {#         <form class="search"> #}
-                {#             <input class="input-group-field" type="text"> #}
-                {#             <button type="submit" class="fa fa-search" value="Submit"></button> #}
-                {#         </form> #}
-                {#     </li> #}
-                {#     <li> #}
-                {#         <a href="">Logout</a> #}
-                {#     </li> #}
+                {% if request.user.username %}
+                    <li>
+                        {{ request.user.username }} | <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i></a>
+                    </li>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
                 {% endblock %} {# topbar_menu #}
                 </ul>
             </header>

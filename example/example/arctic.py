@@ -13,7 +13,7 @@ ARCTIC_MENU = (
         ('Create', 'articles:category-create', 'fa-pencil'),
     )),
     ('Tags', 'articles:tag-list', 'fa-tags', (
-        ('Browse', 'articles:tag-list', 'fa-paper'),
+        ('List', 'articles:tag-list', 'fa-paper'),
         ('Create', 'articles:tag-create', 'fa-pencil'),
     )),
 )

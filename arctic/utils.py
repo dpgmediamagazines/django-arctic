@@ -1,10 +1,11 @@
 # -*-*- encoding: utf-8 -*-*-
 # pylint: disable=E1101
 from __future__ import unicode_literals, absolute_import
+import importlib
 
 from collections import OrderedDict
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 
 
 def is_active(path, path_to_check):
@@ -38,7 +39,9 @@ def menu(menu_config=None, **kwargs):
             # check if the last item in a menu entry is a submenu
             last_item = menu_entry[len(menu_entry) - 1]
             if type(last_item) in (list, tuple):
-                menu_dict[menu_entry[0]]['submenu'] = menu(last_item, user=user, request=request)
+                menu_dict[menu_entry[0]]['submenu'] = menu(last_item,
+                                                           user=user,
+                                                           request=request)
 
     return menu_clean(menu_dict)
 
@@ -69,3 +72,14 @@ def menu_clean(menu_config):
                 max_weight = max(value['active_weight'], max_weight)
                 value['active'] = False
     return menu_config
+
+
+def view_from_url(named_url):
+    """
+    Finds and returns the view class from a named url
+    """
+    view_func = resolve(reverse(named_url)).func
+    module = importlib.import_module(view_func.__module__)
+    view = getattr(module, view_func.__name__)
+
+    return view

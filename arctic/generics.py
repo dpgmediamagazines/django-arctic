@@ -1,17 +1,14 @@
-# -*-*- encoding: utf-8 -*-*-
-# pylint: disable=E1101,W0201
-"""
-Generic views that provide commonly needed behaviour.
-"""
 from __future__ import unicode_literals, division
-
 from collections import OrderedDict
+
 from django.views import generic as base
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
 from django.db.models.deletion import Collector, ProtectedError
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
 
 import extra_views
 
@@ -31,7 +28,19 @@ class View(base.View):
     page_description = ''
     breadcrumbs = None
     tabs = None
+    requires_login = True
     urls = {}
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        In a CMS most views tipically require a login, so this is the default
+        setup, if a login is not required then the requires_login property
+        can be set to False to disable this.
+        """
+        if (not request.user.is_authenticated()) and self.requires_login:
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        return super(View, self).dispatch(request, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         context = super(View, self).get_context_data(**kwargs)
@@ -43,6 +52,7 @@ class View(base.View):
         context['tabs'] = self.get_tabs()
         context['index_url'] = self.get_index_url()
         context['SITE_NAME'] = self.get_site_name()
+        context['SITE_TITLE'] = self.get_site_title()
         context['SITE_LOGO'] = self.get_site_logo()
         return context
 
@@ -409,3 +419,33 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
                                         collector_message=collector_message,
                                         protected_objects=protected_objects)
         return self.render_to_response(context)
+
+
+class LoginView(TemplateView):
+    template_name = 'arctic/login.html'
+    page_title = 'Login'
+    requires_login = False
+    messages = []
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next', '/')
+        context['messages'] = set(self.messages)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LoginView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = authenticate(username=request.POST['username'],
+                            password=request.POST['password'])
+        if user:
+            login(request, user)
+            return redirect(request.GET.get('next', '/'))
+
+        self.messages.append('Invalid username/password combination')
+
+        return render(request, self.template_name,
+                      self.get_context_data(**kwargs))
