@@ -11,10 +11,10 @@ from articles.views import (
     CategoryListView, CategoryCreateView,
     CategoryUpdateView, CategoryDeleteView,
     CategoryArticlesListView, TagListView,
-    TagCreateView, TagUpdateView, TagDeleteView
+    TagCreateView, TagUpdateView, TagDeleteView,
 )
 from dashboard.views import DashboardView
-from users.views import LoginView
+from arctic.generics import LoginView
 
 
 article_patterns = [

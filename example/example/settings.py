@@ -42,7 +42,6 @@ INSTALLED_APPS = (
 
     'widget_tweaks',
     'sorl.thumbnail',
-    'rolepermissions',
     'dashboard',
     'articles',
     'arctic',

@@ -7,7 +7,8 @@ from django.utils.text import capfirst
 from django.db.models.deletion import Collector, ProtectedError
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
 
 import extra_views
 
@@ -32,11 +33,11 @@ class View(base.View):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        In a CMS most views tippically require a login, so this is the default
+        In a CMS most views tipically require a login, so this is the default
         setup, if a login is not required then the requires_login property
         can be set to False to disable this.
         """
-        if  (not request.user.is_authenticated()) and self.requires_login:
+        if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
         return super(View, self).dispatch(request, *args, **kwargs)
 
@@ -418,3 +419,33 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
                                         collector_message=collector_message,
                                         protected_objects=protected_objects)
         return self.render_to_response(context)
+
+
+class LoginView(TemplateView):
+    template_name = 'arctic/login.html'
+    page_title = 'Login'
+    requires_login = False
+    messages = []
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next', '/')
+        context['messages'] = set(self.messages)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LoginView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = authenticate(username=request.POST['username'],
+                            password=request.POST['password'])
+        if user:
+            login(request, user)
+            return redirect(request.GET.get('next', '/'))
+
+        self.messages.append('Invalid username/password combination')
+
+        return render(request, self.template_name,
+                      self.get_context_data(**kwargs))

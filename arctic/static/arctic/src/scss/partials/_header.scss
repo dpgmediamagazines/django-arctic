@@ -16,6 +16,15 @@
     .menu {
         @include flex;
         @include flex-align(right, middle);
+
+        li a {
+            display: inline;
+            padding: 0;
+
+            &:hover {
+                color: lighten($textLinkBlue, 10%);
+            }
+        }
     }
 
     // global styling
