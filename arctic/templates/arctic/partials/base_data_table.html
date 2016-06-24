@@ -66,10 +66,10 @@
                                         {% else %}
                                             <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
                                          {% endif %}
-                                            {{ v|safe|default_if_none:""|linebreaks }}
+                                            {{ v|default_if_none:""|safe|linebreaks }}
                                         </a>
                                     {% else %}
-                                        {{ v|safe|default_if_none:""|linebreaks }}
+                                        {{ v|default_if_none:""|safe|linebreaks }}
                                     {% endif %}
                                         </td>
                                 {% endif %}
