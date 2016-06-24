@@ -23,6 +23,7 @@
             {% endblock %}
         {% endblock %}
 
+        {% block inlines %}
         {% if inlines %}
             {% for formset in inlines %}
                 {{ formset.management_form }}
@@ -41,6 +42,7 @@
                 {% endfor %}
             {% endfor %}
         {% endif %}
+        {% endblock inlines %}
 
         {% block extra_forms %} {% endblock %}
 
