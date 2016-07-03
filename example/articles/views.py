@@ -29,7 +29,7 @@ class ArticleListView(ListView):
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
-        ('delete', 'articles:delete'),
+        ('delete', 'articles:delete', 'fa-trash'),
     ]
     field_links = {
         'title': 'articles:detail',
@@ -41,10 +41,12 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create'),
     ]
+    required_permission = "articles_view"
 
 
 class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
+    required_permission = "articles_change"
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm

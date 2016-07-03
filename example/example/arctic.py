@@ -16,6 +16,14 @@ ARCTIC_MENU = (
         ('List', 'articles:tag-list', 'fa-paper'),
         ('Create', 'articles:tag-create', 'fa-pencil'),
     )),
+    ('Users', 'users:list', 'fa-user', (
+        ('List', 'users:list', 'fa-paper'),
+    )),
 )
 
-
+ARCTIC_ROLES = {
+    'editor': (
+        'articles_view',
+        'articles_create',
+    ),
+}

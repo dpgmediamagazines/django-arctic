@@ -46,6 +46,15 @@ table {
         &:first-child {
             border-left: 1px solid darken($greyLight,5%);
         }
+
+        a {
+            .fa {
+                color: $textColorMedium;
+                &:hover {
+                    color: $textLinkBlue;
+                };
+            }
+        }
     }
 }
 

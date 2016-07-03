@@ -9,15 +9,16 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import PermissionDenied, FieldDoesNotExist
 
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import SuccessMessageMixin, LinksMixin
-from .utils import menu
+from .mixins import SuccessMessageMixin, LinksMixin, RoleAuthentication
+from .utils import menu, find_attribute, find_field_meta
 
 
-class View(base.View):
+class View(RoleAuthentication, base.View):
     """
     This view needs to be used for all Arctic views, except the LoginView
     It includes integration with the Arctic user interface elements, such as
@@ -39,8 +40,9 @@ class View(base.View):
         """
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+        if not self.has_perm(request.user):
+            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
-
 
     def get_context_data(self, **kwargs):
         context = super(View, self).get_context_data(**kwargs)
@@ -246,8 +248,13 @@ class ListView(View, base.ListView):
                     item['label'] = field_name[1]
                 else:
                     name = field_name
-                    item['label'] = model._meta.get_field(field_name).\
-                        verbose_name
+                    try:
+                        item['label'] = find_field_meta(model, field_name).verbose_name
+
+                        # item['label'] = model._meta.get_field(field_name).\
+                        #     verbose_name
+                    except FieldDoesNotExist:
+                        item['label'] = field_name
                 item['name'] = prefix + name
                 if name in self.get_field_links().keys():
                     item['link'] = self.get_field_links()[name]
@@ -270,19 +277,20 @@ class ListView(View, base.ListView):
                 item = [obj.pk]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        value = getattr(obj, field_name[0])
+                        value = find_attribute(obj, field_name[0])
                     else:
                         try:
                             # Get the choice display value
-                            method_name = 'get_{}_display'.format(field_name)
-                            value = getattr(obj, method_name)()
+                            parent_objs = '__'.join(field_name.split('__')[:-1])
+                            method_name = 'get_{}_display'.format(
+                                                     field_name.split('__')[-1])
+                            value = find_attribute(obj, parent_objs + '__' + \
+                                                  method_name)()
                         except AttributeError:
-                            # Get the regular field value
-                            value = getattr(obj, field_name)
+                            value = find_attribute(obj, field_name)
 
                     item.append(value)
                 items.append(item)
-
         return items
 
     def get_action_links(self):
@@ -291,7 +299,12 @@ class ListView(View, base.ListView):
         else:
             allowed_action_links = []
             for link in self.action_links:
-                allowed_action_links.append(link)
+                icon = None
+                if len(link) == 3: # if an icon class is given
+                    icon = link[2]
+                allowed_action_links.append({'label': link[0],
+                                             'url': link[1],
+                                             'icon': icon})
             return allowed_action_links
 
     def get_tool_links(self):

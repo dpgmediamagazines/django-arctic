@@ -11,13 +11,19 @@ Name of the site.
 
 ## `ARCTIC_SITE_TITLE`
 
-Title of the site to be used in the title tag.
+Title of the site to be used in the title tag. If not set it will use
+`ARCTIC_SITE_NAME`
 
 ## `ARCTIC_MENU`
 
 Main menu that enables navigation between the different pages in Arctic.
 It is a list with the format:
 `(('menu label', 'named url', 'optional icon class', (optional submenu)), ...)`
+
+## `ARCTIC_ROLES`
+
+Dictionary of roles and their permissions, it uses the format:
+`{'role1': ('permission1', 'permission2', ...), ...}`
 
 
 # Class Based Views
@@ -35,6 +41,7 @@ This view is used for all the views in Arctic, except the LoginView.
 **Extends**
 
 * `django.views.generic.View`
+* `arctic.mixins.RoleAuthentication`
 
 **Properties**
 
@@ -56,6 +63,11 @@ description of the current page.
 
 list of `('title', 'url')` tabs that relate the current views with other views,
 one of the tuples should point to the current view.
+
+### `requires_login`
+
+indicates if this view can only be accessed by authenticated users.
+Can be `True` or `False`, default is `True`.
 
 
 **Methods**
@@ -105,6 +117,7 @@ template and is able to do filtering, sorting, pagination and linking.
 **Extends**
 
 * `arctic.generics.View`
+* `django.views.generic.ListView`
 
 **Properties**
 
@@ -113,6 +126,9 @@ template and is able to do filtering, sorting, pagination and linking.
 list of fields that should be displayed in the table, it is possible to
 customize the field name by using a `(name, verbose_name)` tuple in the list
 instead of a string.
+Accessing fields from related objects is possible by using a double underscore
+notation, for example if a model `book` has a foreign key to a model author
+with a field name, `author__name` will display the field.
 
 ### `search_fields`
 
@@ -129,7 +145,9 @@ standard notation by prepending a minus to the field, for example `-name`.
 
 ### `action_links`
 
-optional list of `('name', 'base_url')` links, that appear on the last column of the table and can apply a certain action, such as delete.
+optional list of `('name', 'base_url', 'optional icon class')` links, that
+appear on the last column of the table and can apply a certain action, such
+as delete.
 
 ### `field_links`
 
@@ -156,6 +174,8 @@ template and is able to do filtering, sorting, pagination and linking.
 **Extends**
 
 * `arctic.generics.View`
+* `arctic.mixins.SuccessMessageMixin`
+* `django.views.CreateView`
 
 **Properties**
 
