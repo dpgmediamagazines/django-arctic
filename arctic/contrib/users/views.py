@@ -7,12 +7,12 @@ from arctic.generics import (
     ListView, UpdateView, CreateView,
     DeleteView)
 
-#User = get_user_model()
 
 class UserListView(ListView):
     paginate_by = 20
     model = UserRole
-    fields = [('user__username', 'Username'), 'role__name', 'user__is_active', 'user__last_login']
+    fields = [('user__username', 'Username'), 'role__name', 'user__is_active',
+              'user__last_login']
     ordering_fields = ['user__username']
     search_fields = ['user__username']
     # action_links = [
