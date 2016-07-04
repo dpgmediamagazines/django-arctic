@@ -39,7 +39,7 @@ Arctic is available on PIP:
 
 or directly from Github:
 
-    pip install git+https://github.com/sanoma/django-arctic.git#egg=django-arctic
+    pip install git+ssh://git@github.com:sanoma/django-arctic.git
 
 
 ## Getting Started

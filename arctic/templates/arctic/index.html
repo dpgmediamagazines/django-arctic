@@ -1,28 +1,5 @@
 {% extends "arctic/base.html" %}
 
-{% block menu %}
-<ul class="side-menu" data-magellan>
-    <li><a href="#form"><i class="fa fa-wpforms" aria-hidden="true"></i>Forms</a></li>
-    <li><a href="#tooltips"><i class="fa fa-comment-o" aria-hidden="true"></i>Tooltips</a></li>
-    <li><a href="#pieChart"><i class="fa fa-pie-chart" aria-hidden="true"></i>Pie chart</a></li>
-    <li><a href="#donutChart"><i class="fa fa-pie-chart" aria-hidden="true"></i>Donut chart</a></li>
-    <li><a href="#barChart"><i class="fa fa-bar-chart" aria-hidden="true"></i>Bar chart</a></li>
-    <li><a href="#lineChart"><i class="fa fa-area-chart" aria-hidden="true"></i>Line chart</a></li>
-    <li><a href="#pagination"><i class="fa fa-ellipsis-h" aria-hidden="true"></i>Pagination</a></li>
-    <li><a href="#tables"><i class="fa fa-table" aria-hidden="true"></i>Tables</a></li>
-    <li><a href="#callouts"><i class="fa fa-info-circle" aria-hidden="true"></i>Callouts</a></li>
-    <li><a href="#inputSlider"><i class="fa fa-sliders" aria-hidden="true"></i>Input Slider</a></li>
-    <li><a href="#stickyElements"><i class="fa fa-magnet" aria-hidden="true"></i>Sticky elements</a></li>
-    <li><a href="#meters"><i class="fa fa-tasks" aria-hidden="true"></i>Meters</a></li>
-    <li><a href="#modal"><i class="fa fa-object-group" aria-hidden="true"></i>Modal</a></li>
-    <li><a href="#progress"><i class="fa fa-tasks" aria-hidden="true"></i>Progress</a></li>
-    <li><a href="#badges"><i class="fa fa-tasks" aria-hidden="true"></i>Badges</a></li>
-    <li><a href="#labels"><i class="fa fa-tasks" aria-hidden="true"></i>Labels</a></li>
-    <li><a href="#cards"><i class="fa fa-tasks" aria-hidden="true"></i>Cards</a></li>
-    <li><a href="#cardgroup"><i class="fa fa-tasks" aria-hidden="true"></i>Card group</a></li>
-    <li><a href="#stepperInput"><i class="fa fa-tasks" aria-hidden="true"></i>Stepper input</a></li>
-</ul>
-{% endblock %}
 
 {% block content %}
     <hr class="clearfix" />
@@ -596,6 +573,7 @@
 {% endblock %}
 
 {% block scripts_bottom %}
+    {{ block.super }}
     <script src="/static/arctic/build/components/pizza/dist/js/vendor/dependencies.js"></script>
     <script src="/static/arctic/build/components/pizza/dist/js/pizza.min.js"></script>
     <script>
