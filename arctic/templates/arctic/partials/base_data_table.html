@@ -76,14 +76,18 @@
                                 {% endif %}
                             {% endfor %}
 
-                        {% if action_links %}
-                            <td class="actions">
-                                {% for link in action_links %}
-                                    <a href="{% arctic_url link.1 item.0 %}" class="action-{{ link.0 }}" title="{{ link.0|capfirst }}">
-                                        {{ link.0|capfirst }}
-                                    </a>
-                                    &nbsp;
-                                {% endfor %}
+                    {% if action_links %}
+                        <td class="actions">
+                            {% for link in action_links %}
+                                <a href="{% arctic_url link.url item.0 %}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                    {% if link.icon %}
+                                        <i class="fa {{ link.icon }} fa-lg"></i>
+                                    {% else %}
+                                        {{ link.label|capfirst }}
+                                    {% endif %}
+                                </a>
+                                &nbsp;
+                            {% endfor %}
                             </td>
                         {% endif %}
                         </tr>
