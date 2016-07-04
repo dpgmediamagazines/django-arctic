@@ -107,8 +107,8 @@
                                         <div class="small-12 columns">
                                             <ul class="tabs" id="table-tabs">
                                                 {% for name, url in tabs %}
-                                                    {% if pk %}
-                                                        {% arctic_url url pk as url %}
+                                                    {% if object.pk %}
+                                                        {% arctic_url url object.pk as url %}
                                                     {% else %}
                                                         {% arctic_url url as url %}
                                                     {% endif %}

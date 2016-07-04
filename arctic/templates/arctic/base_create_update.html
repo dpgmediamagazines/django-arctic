@@ -23,6 +23,7 @@
             {% endblock %}
         {% endblock %}
 
+        {% block inlines %}
         {% if inlines %}
             {% for formset in inlines %}
                 {{ formset.management_form }}
@@ -41,6 +42,7 @@
                 {% endfor %}
             {% endfor %}
         {% endif %}
+        {% endblock inlines %}
 
         {% block extra_forms %} {% endblock %}
 
@@ -49,8 +51,8 @@
             <div class="columns small-6">
                 {% if links %}
                     {% for link in links %}
-                        {% if pk %}
-                            <a class="button secondary" href="{% arctic_url link.1 pk %}">
+                        {% if object.pk %}
+                            <a class="button secondary" href="{% arctic_url link.1 object.pk %}">
                         {% else %}
                             <a class="button secondary" href="{% arctic_url link.1 %}">
                         {% endif %}

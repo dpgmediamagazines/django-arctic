@@ -22,11 +22,14 @@ $greyDarkest:                   #253841;
 
 //primary colors
 $blue:                          #5D9CEC;
+$blueLight:                     lighten( $blue, 34% );
 $green:                         #5FBEAA;
 $orange:                        #FFBD4A;
+$orangeLight:                   lighten( $orange, 34% );
 $pink:                          #FB6D9D;
 $purple:                        #7266BA;
 $red:                           #F05050;
+$redLight:                      lighten( $red, 35% );
 $white:                         #ffffff;
 
 // body + nav background colors
@@ -194,3 +197,34 @@ $fa-font-path:   "../components/font-awesome/fonts/";
     PIZZA
 ------------------------------------*/
 $pie-color: $green;
+
+
+/*------------------------------------
+    RULE
+------------------------------------*/
+
+$rules-border-color: $greyLight;
+
+$rule-simple-background: $white;
+$rule-simple-striped-background: darken($white,1%);
+$rule-simple-label-bg: $white;
+$rule-simple-label-border-color: $greyLight;
+$rule-simple-label-text-color: inherit;
+
+$rule-feature-background: $greyLightest;
+$rule-feature-striped-background: darken($greyLightest,2%);
+$rule-feature-label-bg: $greyLight;
+$rule-feature-label-border-color: $rule-feature-label-bg;
+$rule-feature-label-text-color: inherit;
+
+$rule-replace-background: $orangeLight;
+$rule-replace-striped-background: darken($orangeLight, 2%);
+$rule-replace-label-bg: $orange;
+$rule-replace-label-border-color: $rule-replace-label-bg;
+$rule-replace-label-text-color: inherit;
+
+$rule-skip-background: $redLight;
+$rule-skip-striped-background: darken($redLight, 2%);
+$rule-skip-label-bg: $red;
+$rule-skip-label-border-color: $rule-skip-label-bg;
+$rule-skip-label-text-color: $white;
