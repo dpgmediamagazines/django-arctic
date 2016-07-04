@@ -1,18 +1,19 @@
+{% load widget_tweaks %}
+
 {% load i18n staticfiles arctic_tags %}
 
     {# filters #}
     {% if has_filter %}
-        <form action="" method="GET" class="row">
-            <div class="small-10 medium-11 columns">
-                {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-            </div>
-            <div class="small-2 medium-1 columns">
-                <button type="submit" class="button secondary expand">
+        <form action="" method="GET" class="page-filters row">
+            {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+            <div class="columns shrink">
+                <button type="submit" class="button secondary">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </form>
     {% endif %}
+
     <div class="row">
     {# data table #}
     {% if list_items %}
