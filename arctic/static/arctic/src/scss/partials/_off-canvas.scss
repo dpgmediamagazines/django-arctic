@@ -3,10 +3,15 @@
     min-height: 100vh;
 }
 
+.off-canvas-content {
+    padding: 50px 0px 0px;
+}
+
+
 .off-canvas {
     height: 100%;
-    padding: 75px $marginLarge 30px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    padding: 60px $marginLarge 30px;
+    background: lighten($greyLight, 5%);
 
     .search {
         margin-bottom: $marginLarge;
@@ -17,6 +22,7 @@
     .side-menu {
         margin: 0 #{-$marginLarge}; // Pull menu to left and right side
         list-style: none;
+        font-size: 13px;
 
         // first level menu items
         > li {
@@ -31,7 +37,7 @@
                 // needed for Magellan dummy menu
                 &.active {
                     color: $green;
-                    background: $navBackgroundItemActive;
+                    background: $white;
 
                     &:before {
                         position: absolute;

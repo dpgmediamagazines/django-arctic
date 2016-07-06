@@ -9,6 +9,8 @@
     should be.
 ------------------------------------*/
 
+$global-radius: 3px;
+
 /*------------------------------------
     COLORS
 ------------------------------------*/
@@ -33,7 +35,7 @@ $redLight:                      lighten( $red, 35% );
 $white:                         #ffffff;
 
 // body + nav background colors
-$pageBackground:                #ebeff2;
+$pageBackground:                #ffffff;
 $navBackground:                 #ffffff;
 $navBackgroundItemActive:       #f4f8fb;
 $headerBackground:				#36404a;
@@ -99,7 +101,7 @@ $hr-width:                      $global-width;
 /*------------------------------------
     OFF CANVAS
 ------------------------------------*/
-$offcanvas-size: 				170px;
+$offcanvas-size: 				180px;
 $offcanvas-background: 			$white;
 $offcanvas-zindex: 				-1;
 $offcanvas-transition-length: 	0.5s;
@@ -116,12 +118,14 @@ $input-prefix-background: $white;
 $input-border-color: $greyLight;
 
 // see for more info: foundation/scss/foundation/components/_forms.scss
+$form-spacing: rem-calc(14);
 $input-height: ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
 
 /*------------------------------------
     BUTTON OVERRIDES
 ------------------------------------*/
-$button-padding: 				0.81em 1em;
+$button-padding: 				0.69em 1em;
+$button-radius: $global-radius;
 
 /*------------------------------------
     TABLES
@@ -180,7 +184,7 @@ $switch-paddle-transition: all 0.25s ease-out;
 /*------------------------------------
     TOPBAR
 ------------------------------------*/
-$topbar-background: transparent;
+$topbar-background: darken($greyMedium, 5%);
 
 /*------------------------------------
     TOPBAR

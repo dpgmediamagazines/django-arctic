@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var config = require('./config.json');
 const del = require('del');
 var $    = require('gulp-load-plugins')();
-
+var sourcemaps = require('gulp-sourcemaps');
 
 // copy images into build
 gulp.task('copy:images', function() {
@@ -39,6 +39,7 @@ gulp.task('copy', ['copy:images', 'copy:javascript']);
 // run sass
 gulp.task('sass', function() {
   return gulp.src( config.path.src + config.path.scss + config.sass.main )
+      .pipe(sourcemaps.init())
       .pipe( $.sass( {
               includePaths: config.sass.modules,
               outputStyle: config.sass.outputStyle,
@@ -48,6 +49,7 @@ gulp.task('sass', function() {
           browsers: config.autoprefixer.browsers
       } ) )
       // Todo: add build date
+      .pipe(sourcemaps.write())
       .pipe( gulp.dest( config.path.build + config.path.css ) );
 });
 

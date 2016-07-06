@@ -6,10 +6,10 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
+    height: 50px;
     padding: 0 $marginLarge;
     color: $white;
-    background: $greyDark;
+    background: $topbar-background;
     z-index: 10;
 
     // secondary menu on right side of header
@@ -41,7 +41,7 @@
     }
 
     .burger-icon {
-    	@include burger(25px, 3px, 5px, $light-gray);
+    	@include burger(25px, 3px, 5px, darken($white, 5%));
     }
 
     .menu-button.is-active .burger-icon {
@@ -51,7 +51,7 @@
     // logo and project name
     .logo {
         transition: all .2s ease-in-out;
-        height: 25px;
+        height: 80%;
         font-size: 20px;
         line-height: 1;
 
