@@ -3,36 +3,42 @@
     var element = $( 'input[name="slug"]' );
     var title = element.closest( '.row' ).prev().find( 'input[name="title"]' );
 
-    // create slugified title
-    title.on( "keyup", function () {
-        element.val( slugify( title.val() ) );
+
+    // only keep title and slug in sync when they have the same values
+    if ( slugify( title.val() ) == element.val() ) {
+        title.on( "keyup", function () {
+            element.val( slugify( title.val() ) );
+        } );
+    }
+
+
+    // when slug is manualy changed
+    element.on( "keyup", function ( e ) {
+        var code = e.which;
+
+        //keycode 9 = tab
+        if ( code == 9 ) {
+            return;
+        }
+
+        title.off( "keyup" );
     } );
 
-    // validate title or slug change
+
+    // Is it edit or new?
     if ( element.val() != '' || title.val() != '' ) {
 
-        // save init values
-        var initelementVal = element.val()
-        var initTitleVal = title.val()
-
-        // submit is clicked
+        // form is submitted
         element.closest( 'form' ).on( 'submit', function () {
 
-            // compare init values to current values
-            if ( initelementVal != element.val() || initTitleVal != title.val ) {
+            var currentTitle = slugify( title.val() );
 
+            // are title and slug different?
+            if ( currentTitle != element.val() ) {
+
+                // it's changed, we need to confirm that
                 var msg;
-
-                // set a message to confirm
-                if ( initelementVal != element.val() ) {
-                    msg = "Slug is aangepast";
-                }
-
-                if ( initTitleVal != title.val() ) {
-                    msg = "Titel is aangepast";
-                }
-
-                // confirm changes
+                msg = "Slug is aangepast";
                 if ( !confirm( msg ) ) {
                     return false;
                 }
