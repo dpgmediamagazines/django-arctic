@@ -1,4 +1,4 @@
-// deps: jquery.slugify.js
+// deps: js/utils/helpers.js
 ( function () {
     var element = $( 'input[name="slug"]' );
     var title = element.closest( '.row' ).prev().find( 'input[name="title"]' );
