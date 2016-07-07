@@ -5,7 +5,7 @@ from django.db import models
 
 class Article(models.Model):
     created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField()
     title = models.CharField("Title", max_length=255, null=False)
     description = models.TextField("Description", blank=True, null=False)
     published = models.BooleanField("Published", default=False)

@@ -1,6 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.shortcuts import redirect, render
-from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext as _
+
 from .models import UserRole
 
 from arctic.generics import (
@@ -15,17 +17,12 @@ class UserListView(ListView):
               'user__last_login']
     ordering_fields = ['user__username']
     search_fields = ['user__username']
-    # action_links = [
-    #     ('delete', 'articles:delete'),
-    # ]
-    # field_links = {
-    #     'title': 'articles:detail',
-    #     'published': 'articles:detail',
-    # }
-    # field_classes = {
-    #     'published': 'inline-widget boolean-circle',
-    # }
-    # tool_links = [
-    #     (_('Create Article'), 'articles:create'),
-    # ]
-    # required_permission = "articles_view"
+    action_links = [
+        ('delete', 'users:delete', 'fa-trash'),
+    ]
+    field_links = {
+        'user__username': 'users:detail',
+    }
+    tool_links = [
+        (_('Create Users'), 'users:create'),
+    ]

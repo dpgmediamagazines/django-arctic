@@ -12,6 +12,7 @@
     "chosen": "1.5.1",
     "font-awesome": "4.6.2",
     "foundation-sites": "6.2.0",
+    "foundation-datepicker": "1.5.3",
     "motion-ui": "1.2.2",
     "pizza": "0.2.1",
     "jquery.are-you-sure": "1.9.0"
