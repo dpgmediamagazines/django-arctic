@@ -2,17 +2,13 @@
     margin-bottom: 1em;
     cursor: pointer;
 
-    // @media screen and (min-width: 74em) {
-    //     flex: 0 0 calc(100% / 6);
-    // }
+    &:hover {
+        opacity: 0.85;
+    }
 
     img {
         margin-bottom: 1em;
         width: 100%;
-    }
-
-    &:hover img {
-        opacity: 0.85;
     }
 
 
