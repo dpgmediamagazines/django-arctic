@@ -11,30 +11,30 @@
     {% endcomment %}
 
     {% block control_group %}
-        <div class="row {% if field.errors %}error{% endif %}">
+        <div class="row row align-center {% if field.errors %}error{% endif %}">
 
             {# label #}
-            {% block label %}
-                <div class="small-4 medium-3 large-2 columns">
-                    <label for="{{ field.auto_id }}" class="middle{% if field.field.required %} required{% endif %}">
-                        {% if field|widget_type != 'checkboxinput' %}
-                            {{ field.label|safe }}
-                        {% endif %}
-
-                        {% if field.field.required %}
-                            <span>*</span>
-                        {% endif %}
-                    </label>
-                </div>
-            {% endblock %}
+            {# {% block label %} #}
+            {#     <div class="small-4 medium-3 large-2 columns"> #}
+            {#         <label for="{{ field.auto_id }}" class="middle{% if field.field.required %} required{% endif %}"> #}
+            {#             {% if field|widget_type != 'checkboxinput' %} #}
+            {#                 {{ field.label|safe }} #}
+            {#             {% endif %} #}
+            {#  #}
+            {#             {% if field.field.required %} #}
+            {#                 <span>*</span> #}
+            {#             {% endif %} #}
+            {#         </label> #}
+            {#     </div> #}
+            {# {% endblock %} #}
 
             {# field #}
             {% block controls %}
-                <div class="small-8 medium-9 large-10 columns">
+                <div class="small-12 medium-8 columns">
                     <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
 
                         {% block widget %}
-
+                            {{ field|widget_type }}
                             {# checkbox #}
                             {% if field|widget_type == 'checkboxinput' %}
                                 <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
@@ -60,26 +60,34 @@
 
                                 </label>
 
-                            {# multiple checkboxes #}
-                            {% elif field|widget_type == 'checkboxselectmultiple' %}
-                                {% for checkbox in field %}
-                                    <div class="checkbox">
-                                        <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
-                                            {{ checkbox.tag }}
-                                            {{ checkbox.choice_label|safe }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-
-                            {# select #}
-                            {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' %}
-                                {% render_field field class+='chosen-select' %}
-                            {% elif field|widget_type == 'selectmultiple' %}
-                                {% render_field field class+='chosen-select' multiple="" %}
-
-                            {# text and a-like #}
                             {% else %}
-                                {% render_field field %}
+                                {% if field.field.required %}
+                                    <b>{{ field.label|safe }}</b>
+                                {% else %}
+                                    {{ field.label|safe }}
+                                {% endif %}
+                                <br>
+                                {# multiple checkboxes #}
+                                {% if field|widget_type == 'checkboxselectmultiple' %}
+                                    {% for checkbox in field %}
+                                        <div class="checkbox">
+                                            <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
+                                                {{ checkbox.tag }}
+                                                {{ checkbox.choice_label|safe }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+
+                                {# select #}
+                                {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' %}
+                                    {% render_field field class+='chosen-select' %}
+                                {% elif field|widget_type == 'selectmultiple' %}
+                                    {% render_field field class+='chosen-select' multiple="" %}
+
+                                {# text and a-like #}
+                                {% else %}
+                                    {% render_field field %}
+                                {% endif %}
                             {% endif %}
 
                         {% endblock %}

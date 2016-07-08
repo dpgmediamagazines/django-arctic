@@ -12,6 +12,16 @@
                 </button>
             </div>
         </form>
+        {% if tool_links %}
+            <div class="shrink columns button-group">
+                {% for link in tool_links %}
+                    <a class="button" href="{% url link.1 %}">
+                        {# link.0 #}<i class="fa fa-wrench"></i>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
     {% endif %}
 
     <div class="row">

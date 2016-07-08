@@ -26,27 +26,39 @@
         {% block body %}
 
             {# page header #}
-            <header class="primary-header">
-                <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
-                    <span class="burger-icon"></span>
-                </a>
+            <header class="primary-header row align-justify">
+                <div class="columns shrink">
+                    <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
+                        <span class="burger-icon"></span>
+                    </a>
 
-                <a href="{{ index_url }}" class="logo">
-                    <img src="{% static SITE_LOGO %}" />
-                    <span>{{ SITE_NAME }}</span>
-                </a>
-                {# menu columns #}
-                <ul class="menu columns">
-                {% block topbar_menu %}
-                {% if request.user.username %}
-                    <li>
-                        {{ request.user.username }} | <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i></a>
-                    </li>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                {% endif %}
-                {% endblock %} {# topbar_menu #}
-                </ul>
+                    <a href="{{ index_url }}" class="logo">
+                        <img src="{% static SITE_LOGO %}" />
+                        <span>{{ SITE_NAME }}</span>
+                    </a>
+                </div>
+                <ul class="dropdown menu columns shrink" data-dropdown-menu data-disable-hover>
+                  <li>
+                    <a href="#">Item 1</a>
+                    <ul>
+                      <li><a href="#">Item 1A</a></li>
+                      <li><a href="#">Item 1A</a></li>
+                      <li><a href="#">Item 1A</a></li>
+                      <li><a href="#">Item 1A</a></li>
+                    </ul>
+                  </li>
+                </ul>                {# <ul class="menu columns"> #}
+                {# {% block topbar_menu %} #}
+                {#  #}
+                {# {% if request.user.username %} #}
+                {#     <li> #}
+                {#         {{ request.user.username }} | <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i></a> #}
+                {#     </li> #}
+                {# {% else %} #}
+                {#     <a href="{% url 'login' %}">Login</a> #}
+                {# {% endif %} #}
+                {# {% endblock %} {# topbar_menu #}
+                {# </ul> #}
             </header>
 
             <div class="off-canvas-wrapper">
@@ -82,16 +94,6 @@
                                     <h3 class="columns">
                                         {{ page_title }}
                                     </h3>
-
-                                    {% if tool_links %}
-                                        <div class="shrink columns button-group">
-                                            {% for link in tool_links %}
-                                                <a class="button" href="{% url link.1 %}">
-                                                    {{ link.0 }}
-                                                </a>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
                                 </div>
 
                                 {# page page description #}
