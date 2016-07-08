@@ -1,0 +1,18 @@
+.accordion {
+
+}
+
+.accordion-item {
+    > a {
+        font-size: $fontSizeMedium;
+        font-weight: 600;
+    }
+
+    &:hover,
+    &.is-active {
+        background: $green;
+
+        > a {
+            color: $white;        }
+    }
+}

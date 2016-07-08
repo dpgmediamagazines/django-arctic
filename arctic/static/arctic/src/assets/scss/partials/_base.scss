@@ -1,0 +1,45 @@
+body {
+    color: $textColorDark;
+    font-family: $fontFamilyDefault;
+    font-size: $fontSizeDefault;
+    background: $pageBackground;
+}
+
+
+// off canvas foundation content reset
+.off-canvas-content {
+    padding: 75px $marginLarge $marginLarge;
+    background: none;
+    box-shadow: 0 0 0 0;
+}
+
+// page content wrapper
+.block-wrapper {
+    padding: $marginLarge;
+    background: $white;
+
+    h3 {
+        margin-bottom: $marginExtraLarge;
+        text-align: center;
+    }
+}
+
+.expand {
+    width: 100%;
+}
+
+.inline-widget {
+    a {
+        display: block;
+        width: 100%;
+    }
+
+    p {
+        visibility: hidden;
+    }
+}
+
+.pagination-info {
+    float: right;
+    padding-right: rem-calc(10);
+}

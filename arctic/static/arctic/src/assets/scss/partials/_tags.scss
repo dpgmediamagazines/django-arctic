@@ -1,0 +1,28 @@
+.tags {
+    @extend .no-bullet;
+    margin-bottom: 0.3em;
+
+    // when this gives bugs, make it more specific by adding: .callout &
+    overflow: auto;
+    max-height: 210px;
+
+    li {
+        @include label;
+        margin: 0  0 .5em 0;
+    }
+
+    &.notify li {
+        background-color: $blue;
+        color: $white;
+    }
+
+    &.warning li {
+        background-color: $orange;
+        color: $white;
+    }
+
+    &.alert li {
+        background-color: $red;
+        color: $white;
+    }
+}

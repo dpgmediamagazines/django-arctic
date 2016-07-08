@@ -1,0 +1,17 @@
+.switch {
+	&.tiny .switch-paddle {
+		border-radius: 1.5rem;
+	}
+
+	&.small .switch-paddle {
+		border-radius: calc(1.75rem / 2);
+	}
+
+	&.large .switch-paddle {
+		border-radius: calc(2.5rem / 2);
+	}
+
+	.switch-paddle:after {
+		border-radius: 100%;
+	}
+}

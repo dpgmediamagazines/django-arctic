@@ -2,9 +2,9 @@
 
 
 {% block content %}
-    <div class="row collapse">
+    <div class="row">
         <div class="columns medium-6" style="border: 1px solid blue">
-            <div class="row collapse">
+            <div class="row">
                 <div class="columns medium-6" style="border: 1px solid red">
                     gfgffdgf
                 </div>
@@ -588,11 +588,4 @@
 
 {% block scripts_bottom %}
     {{ block.super }}
-    <script src="/static/arctic/build/components/pizza/dist/js/vendor/dependencies.js"></script>
-    <script src="/static/arctic/build/components/pizza/dist/js/pizza.min.js"></script>
-    <script>
-        $(window).load(function() {
-            Pizza.init();
-        });
-    </script>
 {% endblock %}

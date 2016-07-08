@@ -1,0 +1,16 @@
+.slider {
+    background: $greyLightest;
+}
+
+.slider-handle {
+    background: $green;
+    border-radius: 50%;
+    
+    &:hover {
+        background: darken($green, 10%);
+    }
+}
+
+.slider-fill {
+    background: lighten($green, 25%);
+}

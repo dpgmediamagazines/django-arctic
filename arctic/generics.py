@@ -99,7 +99,7 @@ class View(RoleAuthentication, base.View):
 
     def get_site_logo(self):
         return getattr(settings, 'ARCTIC_SITE_LOGO',
-                       'arctic/build/images/arctic_logo.svg')
+                       'arctic/dist/assets/img/arctic_logo.svg')
 
     def get_site_name(self):
         return getattr(settings, 'ARCTIC_SITE_NAME',

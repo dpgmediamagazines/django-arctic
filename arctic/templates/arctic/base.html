@@ -16,7 +16,7 @@
             {% endblock %}
         </title>
 
-        <link href="{% static "arctic/build/css/app.css" %}" rel="stylesheet">
+        <link href="{% static "arctic/dist/assets/css/app.css" %}" rel="stylesheet">
 
         {% block head_extras %}{% endblock %}
     </head>
@@ -26,16 +26,48 @@
         {% block body %}
 
             {# page header #}
-            <header class="primary-header row align-justify">
+            <header class="primary-header row align-middle align-justify">
                 <div class="columns shrink">
                     <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
                         <span class="burger-icon"></span>
                     </a>
-
                     <a href="{{ index_url }}" class="logo">
                         <img src="{% static SITE_LOGO %}" />
                         <span>{{ SITE_NAME }}</span>
                     </a>
+                </div>
+                <div class="columns shrink">
+                    <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
+                        <li>
+                            <a href="#">Item 1</a>
+                            <ul class="menu">
+                                <li><a href="#">Item 1A</a></li>
+                                <li><a href="#">Item 1B</a></li>
+                                <li><a href="#">Item 1C</a></li>
+                                <li><a href="#">Item 1D</a></li>
+                                <li><a href="#">Item 1E</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Item 2</a>
+                            <ul class="menu">
+                                <li><a href="#">Item 1A</a></li>
+                                <li><a href="#">Item 1B</a></li>
+                                <li><a href="#">Item 1C</a></li>
+                                <li><a href="#">Item 1D</a></li>
+                                <li><a href="#">Item 1E</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Item 3</a></li>
+                        <li><a href="#">Item 4</a></li>
+                    </ul>
+                </div>
+            </header>
+            <!-- <header class="primary-header row align-justify">
+                <div class="columns shrink">
+
+
+
                 </div>
                 <ul class="dropdown menu columns shrink" data-dropdown-menu data-disable-hover>
                   <li>
@@ -59,7 +91,7 @@
                 {# {% endif %} #}
                 {# {% endblock %} {# topbar_menu #}
                 {# </ul> #}
-            </header>
+            </header> -->
 
             <div class="off-canvas-wrapper">
                 <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
@@ -151,12 +183,12 @@
             </div>
         {% endblock %} {# body #}
         {% block scripts_bottom %}
-        <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script>
-        <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script>
-        <script src="{% static "arctic/build/js/app.js" %}"></script>
+        <!-- <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script> -->
+        <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
         {% endblock %}
     </body>
 </html>
