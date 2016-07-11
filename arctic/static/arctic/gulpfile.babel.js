@@ -27,7 +27,7 @@ function loadConfig() {
 }
 
 // Build the "dist" folder by running all of the below tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy)));
+gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts)));
 
 // Build the site for development purpose
 gulp.task('default', gulp.series('build', watch));
@@ -43,6 +43,12 @@ function copy() {
     return gulp.src(PATHS.assets)
     .pipe(gulp.dest(PATHS.dist + '/assets'));
 }
+
+// This task kopiert die Iconfont ins css-verzeichnis
+function copyFonts() {
+    return gulp.src('./bower_components/fontawesome/fonts/*')
+    .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
+};
 
 // Compile Sass into CSS. In production, the CSS is compressed
 function sass() {

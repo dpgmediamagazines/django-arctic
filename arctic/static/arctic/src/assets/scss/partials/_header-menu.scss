@@ -1,0 +1,11 @@
+.primary-header {
+    .dropdown.menu {
+        li.is-dropdown-submenu-parent a {
+            color: $white;
+
+            // &:after {
+            //     border-color: $white;
+            // }
+        }
+    }
+}

@@ -36,62 +36,27 @@
                         <span>{{ SITE_NAME }}</span>
                     </a>
                 </div>
+                {% block topbar_menu %}
                 <div class="columns shrink">
                     <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
+                        {% if request.user.username %}
                         <li>
-                            <a href="#">Item 1</a>
+                            <a href="#">{{ request.user.username }}</a>
                             <ul class="menu">
-                                <li><a href="#">Item 1A</a></li>
-                                <li><a href="#">Item 1B</a></li>
-                                <li><a href="#">Item 1C</a></li>
-                                <li><a href="#">Item 1D</a></li>
-                                <li><a href="#">Item 1E</a></li>
+                                <li>
+                                	<a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i> Logout</a>
+                                </li>
                             </ul>
                         </li>
+                        {% else %}
                         <li>
-                            <a href="#">Item 2</a>
-                            <ul class="menu">
-                                <li><a href="#">Item 1A</a></li>
-                                <li><a href="#">Item 1B</a></li>
-                                <li><a href="#">Item 1C</a></li>
-                                <li><a href="#">Item 1D</a></li>
-                                <li><a href="#">Item 1E</a></li>
-                            </ul>
+                        	<a href="{% url 'login' %}">Login</a>
                         </li>
-                        <li><a href="#">Item 3</a></li>
-                        <li><a href="#">Item 4</a></li>
+                        {% endif %}
                     </ul>
                 </div>
+                {% endblock %}
             </header>
-            <!-- <header class="primary-header row align-justify">
-                <div class="columns shrink">
-
-
-
-                </div>
-                <ul class="dropdown menu columns shrink" data-dropdown-menu data-disable-hover>
-                  <li>
-                    <a href="#">Item 1</a>
-                    <ul>
-                      <li><a href="#">Item 1A</a></li>
-                      <li><a href="#">Item 1A</a></li>
-                      <li><a href="#">Item 1A</a></li>
-                      <li><a href="#">Item 1A</a></li>
-                    </ul>
-                  </li>
-                </ul>                {# <ul class="menu columns"> #}
-                {# {% block topbar_menu %} #}
-                {#  #}
-                {# {% if request.user.username %} #}
-                {#     <li> #}
-                {#         {{ request.user.username }} | <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i></a> #}
-                {#     </li> #}
-                {# {% else %} #}
-                {#     <a href="{% url 'login' %}">Login</a> #}
-                {# {% endif %} #}
-                {# {% endblock %} {# topbar_menu #}
-                {# </ul> #}
-            </header> -->
 
             <div class="off-canvas-wrapper">
                 <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>

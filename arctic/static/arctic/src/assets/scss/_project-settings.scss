@@ -194,14 +194,21 @@ $pagination-margin-bottom: 0;
 /*------------------------------------
     FONT AWESOME
 ------------------------------------*/
-$fa-font-path:   "../components/font-awesome/fonts/";
-
+$fa-font-path:   "../fonts";
 
 /*------------------------------------
     PIZZA
 ------------------------------------*/
 $pie-color: $green;
 
+/*------------------------------------
+    DROPDOWN MENU
+------------------------------------*/
+$dropdownmenu-arrows: true;
+$dropdownmenu-arrow-color: $anchor-color;
+$dropdownmenu-min-width: 200px;
+$dropdownmenu-background: $white;
+$dropdownmenu-border: 1px solid $medium-gray;
 
 /*------------------------------------
     RULE
