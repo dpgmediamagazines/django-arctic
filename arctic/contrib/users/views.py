@@ -4,10 +4,11 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 
 from .models import UserRole
+from .forms import UserCreationMultiForm
 
 from arctic.generics import (
     ListView, UpdateView, CreateView,
-    DeleteView)
+    DeleteView, FormView)
 
 
 class UserListView(ListView):
@@ -17,12 +18,18 @@ class UserListView(ListView):
               'user__last_login']
     ordering_fields = ['user__username']
     search_fields = ['user__username']
-    action_links = [
-        ('delete', 'users:delete', 'fa-trash'),
-    ]
+    # action_links = [
+    #     ('delete', 'users:delete', 'fa-trash'),
+    # ]
     field_links = {
         'user__username': 'users:detail',
     }
     tool_links = [
         (_('Create Users'), 'users:create'),
     ]
+
+class UserCreateView(FormView):
+    form_class = UserCreationMultiForm
+
+class UserUpdateView(FormView):
+    form_class = UserCreationMultiForm

@@ -407,6 +407,10 @@ class UpdateView(SuccessMessageMixin, View, LinksMixin,
         return context
 
 
+class FormView(View, SuccessMessageMixin, base.FormView):
+    template_name = 'arctic/base_create_update.html'
+
+
 class DeleteView(SuccessMessageMixin, View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
 

@@ -15,7 +15,7 @@ from articles.views import (
 )
 from dashboard.views import DashboardView
 from arctic.generics import LoginView
-from arctic.contrib.users.views import UserListView
+from arctic.contrib.users.urls import user_patterns
 
 
 article_patterns = [
@@ -32,10 +32,6 @@ article_patterns = [
     url(r'^tags/create/$', TagCreateView.as_view(), name='tag-create'),
     url(r'^tags/(?P<pk>\d+)/$', TagUpdateView.as_view(), name='tag-detail'),
     url(r'^tags/(?P<pk>\d+)/delete/$', TagDeleteView.as_view(), name='tag-delete'),
-]
-
-user_patterns = [
- url(r'^$', UserListView.as_view(), name='list'),
 ]
 
 urlpatterns = [

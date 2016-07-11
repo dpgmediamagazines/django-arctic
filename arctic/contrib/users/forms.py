@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django import forms
 from django.contrib.auth import get_user_model
 
@@ -20,7 +22,7 @@ class UserRoleForm(forms.ModelForm):
 
 
 class UserCreationMultiForm(MultiModelForm):
-    form_classes = {
-        'user': UserForm,
-        'role': UserRoleForm,
-    }
+    form_classes = OrderedDict([
+        ('user', UserForm),
+        ('role', UserRoleForm),
+    ])
