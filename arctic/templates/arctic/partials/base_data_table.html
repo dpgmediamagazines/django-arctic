@@ -11,8 +11,7 @@
                     <i class="fa fa-search"></i>
                 </button>
             </div>
-        </form>
-        {% if tool_links %}
+            {% if tool_links %}
             <div class="shrink columns button-group">
                 {% for link in tool_links %}
                     <a class="button" href="{% url link.1 %}">
@@ -21,8 +20,8 @@
                     </a>
                 {% endfor %}
             </div>
-        {% endif %}
-
+            {% endif %}
+        </form>
     {% endif %}
 
     <div class="row">

@@ -94,10 +94,10 @@ $(document).ready(function() {
         incrementStepperInput(1);
     });
 
-    var chosen = $('.chosen-select');
-    if (chosen.size()) {
-        chosen.chosen({width: '100%', disable_search_threshold: 10});
-    }
+    // var chosen = $('.chosen-select');
+    // if (chosen.size()) {
+    //     chosen.chosen({width: '100%', disable_search_threshold: 10});
+    // }
 
     var dirty_check = $('form.dirty-check');
     if (dirty_check.size()) {

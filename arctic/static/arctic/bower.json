@@ -17,7 +17,8 @@
   "dependencies": {
     "foundation-sites": "~6.2.3",
     "motion-ui": "~1.2.2",
-    "fontawesome": "~4.6.3"
+    "fontawesome": "~4.6.3",
+    "jquery.are-you-sure": "1.9.0"
   },
   "private": true
 }
