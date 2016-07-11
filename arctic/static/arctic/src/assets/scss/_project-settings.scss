@@ -80,6 +80,9 @@ $fontSizeExtraLarge:            $fontSizeDefault + 8px;
 $fontWeightNormal:              400;
 $fontWeightBold:                700;
 
+// fontawesome is implemented tru bower, we only need to set the path over here
+$fa-font-path:                  "../fonts";
+
 /*------------------------------------
     MARGINS
 ------------------------------------*/
@@ -187,14 +190,9 @@ $switch-paddle-transition: all 0.25s ease-out;
 $topbar-background: darken($greyMedium, 5%);
 
 /*------------------------------------
-    TOPBAR
+    PAGINATION
 ------------------------------------*/
 $pagination-margin-bottom: 0;
-
-/*------------------------------------
-    FONT AWESOME
-------------------------------------*/
-$fa-font-path:   "../fonts";
 
 /*------------------------------------
     PIZZA
@@ -205,9 +203,9 @@ $pie-color: $green;
     DROPDOWN MENU
 ------------------------------------*/
 $dropdownmenu-arrows: true;
-$dropdownmenu-arrow-color: $anchor-color;
+$dropdownmenu-arrow-color: $white;
 $dropdownmenu-min-width: 200px;
-$dropdownmenu-background: $white;
+$dropdownmenu-background: $green;
 $dropdownmenu-border: 1px solid $medium-gray;
 
 /*------------------------------------

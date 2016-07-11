@@ -3,11 +3,11 @@
 // Import the dependency plugins from Foundation
 import plugins  from 'gulp-load-plugins';
 import yargs    from 'yargs';
-import browser  from 'browser-sync';
+//import browser  from 'browser-sync';
 import gulp     from 'gulp';
-import panini   from 'panini';
+//import panini   from 'panini';
 import rimraf   from 'rimraf';
-import sherpa   from 'style-sherpa';
+//import sherpa   from 'style-sherpa';
 import yaml     from 'js-yaml';
 import fs       from 'fs';
 
@@ -44,7 +44,7 @@ function copy() {
     .pipe(gulp.dest(PATHS.dist + '/assets'));
 }
 
-// This task kopiert die Iconfont ins css-verzeichnis
+// Copy files out the fonts from the fontawesome folder
 function copyFonts() {
     return gulp.src('./bower_components/fontawesome/fonts/*')
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
