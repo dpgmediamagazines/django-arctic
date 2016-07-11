@@ -32,7 +32,10 @@ PATHS:
     # Libraries requried by Foundation
     - "bower_components/jquery/dist/jquery.js"
     - "bower_components/what-input/what-input.js"
+
+    # Custom addons
     - "bower_components/jquery.are-you-sure/jquery.are-you-sure.js"
+
     # Core Foundation files
     - "bower_components/foundation-sites/js/foundation.core.js"
     - "bower_components/foundation-sites/js/foundation.util.*.js"
