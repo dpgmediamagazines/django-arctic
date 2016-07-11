@@ -574,4 +574,11 @@
 
 {% block scripts_bottom %}
     {{ block.super }}
+    <script src="/static/arctic/dist/assets/components/pizza/vendor/dependencies.js"></script>
+    <script src="/static/arctic/dist/assets/components/pizza/pizza.min.js"></script>
+    <script>
+        $(window).load(function() {
+            Pizza.init();
+        });
+    </script>
 {% endblock %}
