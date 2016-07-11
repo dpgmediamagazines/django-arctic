@@ -81,6 +81,7 @@ $fontWeightNormal:              400;
 $fontWeightBold:                700;
 
 // fontawesome is implemented tru bower, we only need to set the path over here
+$fontFamilyIcon:                'FontAwesome';
 $fa-font-path:                  "../fonts";
 
 /*------------------------------------
@@ -117,123 +118,133 @@ $maincontent-shadow: 			0 0 10px rgba($black, 0.5);
 /*------------------------------------
     BUTTON OVERRIDES
 ------------------------------------*/
-$input-prefix-background: $white;
-$input-border-color: $greyLight;
+$input-prefix-background:       $white;
+$input-border-color:            $greyLight;
 
 // see for more info: foundation/scss/foundation/components/_forms.scss
-$form-spacing: rem-calc(14);
-$input-height: ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
+$form-spacing:                  rem-calc(14);
+$input-height:                  ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
 
 /*------------------------------------
     BUTTON OVERRIDES
 ------------------------------------*/
-$button-padding: 				0.69em 1em;
-$button-radius: $global-radius;
+$button-padding: 				   0.69em 1em;
+$button-radius:                    $global-radius;
 
 /*------------------------------------
     TABLES
 ------------------------------------*/
-$table-background: $white;
-$table-head-background: $green;
-$table-head-font-color: $white;
-$table-striped-background: $greyLightest;
-$table-row-hover: $blue;
-$table-border: 1px solid $greyLight;
+$table-background:                  $white;
+$table-head-background:             $green;
+$table-head-font-color:             $white;
+$table-striped-background:          $greyLightest;
+$table-row-hover:                   $blue;
+$table-border:                      1px solid $greyLight;
 
 /*------------------------------------
     TABS
 ------------------------------------*/
-$tab-margin: 0;
-$tab-background: $white;
-$tab-background-active: $white;
-$tab-item-font-size: $fontSizeMedium;
-$tab-item-background-hover: $white;
-$tab-item-padding: $marginLarge $marginExtraLarge;
-$tab-expand-max: 6;
-$tab-content-background: $white;
-$tab-content-border: 0;
-$tab-content-color: $greyDark;
-$tab-content-padding: $marginLarge 0;
+$tab-margin:                        0;
+$tab-background:                    $white;
+$tab-background-active:             $white;
+$tab-item-font-size:                $fontSizeMedium;
+$tab-item-background-hover:         $white;
+$tab-item-padding:                  $marginLarge $marginExtraLarge;
+$tab-expand-max:                    6;
+$tab-content-background:            $white;
+$tab-content-border:                0;
+$tab-content-color:                 $greyDark;
+$tab-content-padding:               $marginLarge 0;
 
 /*------------------------------------
     ACCORDION
 ------------------------------------*/
-$accordion-background: $greyLightest;
-$accordion-plusminus: true;
-$accordion-item-color: $greyDark;
-$accordion-item-background-hover: $green;
-$accordion-item-padding: $marginLarge;
-$accordion-content-background: $white;
-$accordion-content-border: 1px solid $greyLight;
-$accordion-content-color: $greyDark;
-$accordion-content-padding: $marginLarge;
+$accordion-background:              $greyLightest;
+$accordion-plusminus:               true;
+$accordion-item-color:              $greyDark;
+$accordion-item-background-hover:   $green;
+$accordion-item-padding:            $marginLarge;
+$accordion-content-background:      $white;
+$accordion-content-border:          1px solid $greyLight;
+$accordion-content-color:           $greyDark;
+$accordion-content-padding:         $marginLarge;
 
 /*------------------------------------
     SWITCH
 ------------------------------------*/
-$switch-background: $greyLight;
-$switch-background-active: $green;
-$switch-height: 2rem;
-$switch-height-tiny: 1.5rem;
-$switch-height-small: 1.75rem;
-$switch-height-large: 2.5rem;
-$switch-radius: $global-radius;
-$switch-margin: $global-margin;
-$switch-paddle-background: $white;
-$switch-paddle-offset: 0.25rem;
-$switch-paddle-radius: $global-radius;
-$switch-paddle-transition: all 0.25s ease-out;
+$switch-background:                 $greyLight;
+$switch-background-active:          $green;
+$switch-height:                     2rem;
+$switch-height-tiny:                1.5rem;
+$switch-height-small:               1.75rem;
+$switch-height-large:               2.5rem;
+$switch-radius:                     $global-radius;
+$switch-margin:                     $global-margin;
+$switch-paddle-background:          $white;
+$switch-paddle-offset:              0.25rem;
+$switch-paddle-radius:              $global-radius;
+$switch-paddle-transition:          all 0.25s ease-out;
 
 /*------------------------------------
     TOPBAR
 ------------------------------------*/
-$topbar-background: darken($greyMedium, 5%);
+$topbar-background:                 $headerBackground;
 
 /*------------------------------------
     PAGINATION
 ------------------------------------*/
-$pagination-margin-bottom: 0;
+$pagination-margin-bottom:          0;
 
 /*------------------------------------
     PIZZA
 ------------------------------------*/
-$pie-color: $green;
+$pie-color:                         $green;
 
 /*------------------------------------
     DROPDOWN MENU
 ------------------------------------*/
-$dropdownmenu-arrows: true;
-$dropdownmenu-arrow-color: $white;
-$dropdownmenu-min-width: 200px;
-$dropdownmenu-background: $green;
-$dropdownmenu-border: 1px solid $medium-gray;
+$dropdownmenu-arrows:               true;
+$dropdownmenu-arrow-color:          $white;
+$dropdownmenu-min-width:            200px;
+$dropdownmenu-background:           $white;
+$dropdownmenu-border:               1px solid $greyLight;
+
+/*------------------------------------
+    MENU
+------------------------------------*/
+$menu-margin:                       0;
+$menu-margin-nested:                1rem;
+$menu-item-padding:                 0.7rem 1rem;
+$menu-item-color-active:            $white;
+$menu-item-background-active:       map-get($foundation-palette, primary);
+$menu-icon-spacing:                 0.25rem;
 
 /*------------------------------------
     RULE
 ------------------------------------*/
 
-$rules-border-color: $greyLight;
+$rules-border-color:                $greyLight;
 
-$rule-simple-background: $white;
-$rule-simple-striped-background: darken($white,1%);
-$rule-simple-label-bg: $white;
-$rule-simple-label-border-color: $greyLight;
-$rule-simple-label-text-color: inherit;
+$rule-simple-background:            $white;
+$rule-simple-striped-background:    darken($white,1%);
+$rule-simple-label-bg:              $white;
+$rule-simple-label-border-color:    $greyLight;
+$rule-simple-label-text-color:      inherit;
 
-$rule-feature-background: $greyLightest;
-$rule-feature-striped-background: darken($greyLightest,2%);
-$rule-feature-label-bg: $greyLight;
-$rule-feature-label-border-color: $rule-feature-label-bg;
-$rule-feature-label-text-color: inherit;
+$rule-feature-background:           $greyLightest;
+$rule-feature-striped-background:   darken($greyLightest,2%);
+$rule-feature-label-bg:             $greyLight;
+$rule-feature-label-border-color:   $rule-feature-label-bg;
+$rule-feature-label-text-color:     inherit;
 
-$rule-replace-background: $orangeLight;
-$rule-replace-striped-background: darken($orangeLight, 2%);
-$rule-replace-label-bg: $orange;
-$rule-replace-label-border-color: $rule-replace-label-bg;
-$rule-replace-label-text-color: inherit;
+$rule-replace-background:           $orangeLight;
+$rule-replace-striped-background:   darken($orangeLight, 2%);
+$rule-replace-label-bg:             $orange;
+$rule-replace-label-border-color:   $rule-replace-label-bg;
+$rule-replace-label-text-color:     inherit;
 
-$rule-skip-background: $redLight;
-$rule-skip-striped-background: darken($redLight, 2%);
-$rule-skip-label-bg: $red;
-$rule-skip-label-border-color: $rule-skip-label-bg;
-$rule-skip-label-text-color: $white;
+$rule-skip-background:              $redLight;
+$rule-skip-striped-background:      darken($redLight, 2%);
+$rule-skip-label-bg:                $red;
+$rule-skip-label-border-color:      $rule-skip-label-bg;
+$rule-skip-label-text-color:        $white;

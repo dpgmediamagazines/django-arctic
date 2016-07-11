@@ -41,10 +41,19 @@
                     <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
                         {% if request.user.username %}
                         <li>
-                            <a href="#">{{ request.user.username }}</a>
+                            <a href="#" class="user">{{ request.user.username }}</a>
                             <ul class="menu">
                                 <li>
                                 	<a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i> Logout</a>
+                                </li>
+                                <li>
+                                	<a href="">Dummy link</a>
+                                </li>
+                                <li>
+                                	<a href="">Dummy link</a>
+                                </li>
+                                <li>
+                                	<a href="">Dummy link</a>
                                 </li>
                             </ul>
                         </li>

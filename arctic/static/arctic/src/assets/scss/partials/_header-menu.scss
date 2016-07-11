@@ -1,11 +1,27 @@
-.primary-header {
-    .dropdown.menu {
-        li.is-dropdown-submenu-parent a {
-            color: $white;
+.primary-header .dropdown.menu {
+    a {
+        display: block;
+        padding: 0;
+        color: $greyLight;
+        font-size: $fontSizeLarge;
+        line-height: 50px;
+        text-transform: uppercase;
+    }
 
-            // &:after {
-            //     border-color: $white;
-            // }
+    .submenu {
+        box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.4);
+
+        li {
+            &:not(:first-of-type) {
+                border-top: 1px solid $greyLight;
+            }
+        }
+
+        a {
+            padding: $marginSmall $marginLarge;
+            color: $greyDark;
+            font-size: inherit;
+            line-height: 24px;
         }
     }
 }
