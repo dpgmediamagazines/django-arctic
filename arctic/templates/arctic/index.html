@@ -573,7 +573,6 @@
 {% endblock %}
 
 {% block scripts_bottom %}
-    {{ block.super }}
     <script src="/static/arctic/dist/assets/components/pizza/vendor/dependencies.js"></script>
     <script src="/static/arctic/dist/assets/components/pizza/pizza.min.js"></script>
     <script>
@@ -581,4 +580,6 @@
             Pizza.init();
         });
     </script>
+
+    {{ block.super }}
 {% endblock %}
