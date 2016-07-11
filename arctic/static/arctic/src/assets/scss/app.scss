@@ -69,9 +69,12 @@
 ------------------------------------*/
 @import "modules/ellipsis";
 
+@import "components/selectize/_selectize";
+@import "components/selectize/_selectize.default";
+
 @import "partials/_accordion";
 @import "partials/_burger";
-@import "partials/_base.scss";
+@import "partials/_base";
 //@import "partials/_btn-menu";
 @import "partials/_callout";
 @import "partials/_cards";
