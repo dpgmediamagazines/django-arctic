@@ -9,8 +9,6 @@
     should be.
 ------------------------------------*/
 
-$global-radius: 3px;
-
 /*------------------------------------
     COLORS
 ------------------------------------*/
@@ -102,6 +100,15 @@ $grid-column-gutter:            $marginLarge;
 $block-grid-max:                12;
 $hr-width:                      $global-width;
 
+
+/*------------------------------------
+    OFF CANVAS
+------------------------------------*/
+$global-radius:                 3px;
+$borderRadiusSmall:             3px;
+$borderRadiusMedium:            6px;
+$borderRadiusLarge:             9px;
+
 /*------------------------------------
     OFF CANVAS
 ------------------------------------*/
@@ -116,7 +123,7 @@ $maincontent-class: 			'off-canvas-content';
 $maincontent-shadow: 			0 0 10px rgba($black, 0.5);
 
 /*------------------------------------
-    BUTTON OVERRIDES
+    FORM OVERRIDES
 ------------------------------------*/
 $input-prefix-background:       $white;
 $input-border-color:            $greyLight;
@@ -194,11 +201,6 @@ $topbar-background:                 $headerBackground;
     PAGINATION
 ------------------------------------*/
 $pagination-margin-bottom:          0;
-
-/*------------------------------------
-    PIZZA
-------------------------------------*/
-$pie-color:                         $green;
 
 /*------------------------------------
     DROPDOWN MENU

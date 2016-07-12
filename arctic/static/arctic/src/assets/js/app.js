@@ -120,9 +120,9 @@ $(document).ready(function() {
         });
     }
 
-    $('.selectize').selectize();
+    $('.js-selectize').selectize();
 
-    $('.selectize-tags').selectize({
+    $('.js-selectize-tags').selectize({
         delimiter: ',',
         persist: false,
         create: function(input) {
