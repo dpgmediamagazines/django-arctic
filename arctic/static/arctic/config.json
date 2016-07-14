@@ -16,7 +16,8 @@
             "./build/components/font-awesome/scss",
             "./build/components/foundation-sites/scss",
             "./build/components/motion-ui/src",
-            "./build/components/pizza/scss"
+            "./build/components/pizza/scss",
+            "./build/components"
         ]
     },
     "autoprefixer": {

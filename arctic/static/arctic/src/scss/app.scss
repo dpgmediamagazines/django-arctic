@@ -6,6 +6,7 @@
 @import 'foundation';
 @import 'motion-ui';
 @import 'pizza';
+@import 'jQuery-QueryBuilder/dist/scss/default';
 
 // if switched to libsass, remove .css extension to -really- include it
 @import '../components/chosen/chosen.css';
@@ -81,6 +82,7 @@
 @import "partials/_input-fields";
 @import "partials/_off-canvas";
 @import "partials/_pizza.scss";
+@import "partials/_query-builder";
 @import "partials/_slider";
 @import "partials/_stepper-input";
 @import "partials/_switch";
