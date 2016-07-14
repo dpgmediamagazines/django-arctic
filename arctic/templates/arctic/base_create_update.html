@@ -71,3 +71,7 @@
     {% block extra_content %}{% endblock %}
 {% endblock %}
 
+{% block scripts_bottom %}
+    {{ block.super }}
+    <script src="/static/arctic/build/js/components/form.js"></script>
+{% endblock %}
