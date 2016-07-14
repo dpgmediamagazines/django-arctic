@@ -39,6 +39,7 @@
                 </label>
             </div>
         </div>
+
         <div class="row">
             <div class="small-12 medium-6 columns">
                 <label>Straatnaam
@@ -59,6 +60,22 @@
                 </label>
             </div>
         </div>
+
+        <div class="row">
+            <div class="small-12 medium-6 columns">
+                <label>Titel
+                    <input type="text" name="title" placeholder="Titel" aria-describedby="exampleHelpText" required pattern="text">
+                    <span class="form-error">Alleen cijfers aub</span>
+                </label>
+            </div>
+            <div class="small-12 medium-6 columns">
+                <label>Slug
+                    <input type="text" data-to-slugify='input[name="title"]' placeholder="Slug" aria-describedby="exampleHelpText" required pattern="text">
+                    <span class="form-error">Veld mag alleen numerieke waarde bevatten</span>
+                </label>
+            </div>
+        </div>
+
         <div class="row button-group">
             <div class="small-12 columns">
                 <button class="button" type="submit" value="Submit">Submit</button>
