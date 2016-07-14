@@ -147,7 +147,7 @@
 
                 </div>
             </div>
-        {% endblock %} {# body #}
+        {% endblock %}
         {% block scripts_bottom %}
         <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script>
         <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script>
@@ -157,6 +157,9 @@
 
         <script src="{% static "arctic/build/js/utils/helpers.js" %}"></script>
         <script src="{% static "arctic/build/js/app.js" %}"></script>
+
+        <script src="{% static "arctic/build/components/jQuery-QueryBuilder/dist/js/query-builder.standalone.min.js" %}"></script>
+        <script src="{% static "arctic/build/js/components/query-builder.js" %}"></script>
         {% endblock %}
     </body>
 </html>
