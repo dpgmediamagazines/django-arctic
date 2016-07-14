@@ -11,23 +11,13 @@
         width: 100%;
     }
 
-
-    // ellipses hack for max 2 rows
     h5 {
-        /* autoprefixer: off */
-        display: block;
-        display: box;
         display: -webkit-box;
-
         font-size: 1.25em;
         line-height: 1.5em;
         max-height: 3em;
-        overflow: hidden;
-        line-clamp: 2;
         -webkit-line-clamp: 2;
-        box-orient: vertical;
         -webkit-box-orient: vertical;
-        text-overflow: ellipsis;
-        /* autoprefixer: on */
+        overflow: hidden;
     }
 }
