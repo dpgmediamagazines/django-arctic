@@ -1,6 +1,9 @@
 {% extends "arctic/base.html" %}
 
 
+{% load staticfiles %}
+
+
 {% block content %}
     <hr class="clearfix" />
     <h4 id="form" data-magellan-target="form">Form with validation</h4>
@@ -598,4 +601,5 @@
             Pizza.init();
         });
     </script>
+    <script src="{% static "arctic/build/js/components/form.js" %}"></script>
 {% endblock %}
