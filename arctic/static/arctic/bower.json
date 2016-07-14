@@ -14,7 +14,8 @@
     "foundation-sites": "6.2.0",
     "motion-ui": "1.2.2",
     "pizza": "0.2.1",
-    "jquery.are-you-sure": "1.9.0"
+    "jquery.are-you-sure": "1.9.0",
+    "jQuery-QueryBuilder": "2.3.3"
   },
   "ignore": [
     "**/.*",
