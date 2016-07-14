@@ -16,9 +16,8 @@
             <form class="warning callout text-center" action="" method="post">
                 {% csrf_token %}
 
-                <h5>Are you sure you want to delete "{{ object }}"?</h5>
-
-                {% block confirm_notes %}
+                {% block confirm_message %}
+                    <h5>Are you sure you want to delete "{{ object }}"?</h5>
                     <p>This cannot be undone</p>
                 {% endblock %}
 
