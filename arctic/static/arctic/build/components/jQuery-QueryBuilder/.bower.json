@@ -58,7 +58,6 @@
     "commit": "11259a944c4143e46c883ca684524f9ad7c5d09f"
   },
   "_source": "https://github.com/mistic100/jQuery-QueryBuilder.git",
-  "_target": "^2.3.3",
-  "_originalSource": "jQuery-QueryBuilder",
-  "_direct": true
+  "_target": "2.3.3",
+  "_originalSource": "jQuery-QueryBuilder"
 }
