@@ -27,7 +27,6 @@ textarea {
     font-size: $fontSizeDefault;
     border-radius: 0;
     box-shadow: 0 0 0 0;
-    overflow: hidden;
 
     &:focus {
         border-color: darken($greyLight, 25%);
