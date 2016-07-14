@@ -1,14 +1,18 @@
 // deps: js/utils/helpers.js
 ( function () {
-    var element = $( 'input[name="slug"]' );
-    var title = element.closest( '.row' ).prev().find( 'input[name="title"]' );
 
-    if ( element.length && title.length ) {
+    // example:
+    // <input data-to-slugify="input['title']" />
 
-        // only keep title and slug in sync when they have the same values
-        if ( slugify( title.val() ) == element.val() ) {
-            title.on( "keyup", function () {
-                element.val( slugify( title.val() ) );
+    var element = $( 'input[data-to-slugify]' );
+    var target = $( element.data( 'to-slugify' ) );
+
+    if ( element.length && target.length ) {
+
+        // only keep target and slug in sync when they have the same values
+        if ( slugify( target.val() ) == element.val() ) {
+            target.on( "keyup", function () {
+                element.val( slugify( target.val() ) );
             } );
         }
 
@@ -22,20 +26,20 @@
                 return;
             }
 
-            title.off( "keyup" );
+            target.off( "keyup" );
         } );
 
 
         // Is it edit or new?
-        if ( element.val() != '' || title.val() != '' ) {
+        if ( element.val() != '' || target.val() != '' ) {
 
             // form is submitted
             element.closest( 'form' ).on( 'submit', function () {
 
-                var currentTitle = slugify( title.val() );
+                var targetSlugified = slugify( target.val() );
 
-                // are title and slug different?
-                if ( currentTitle != element.val() ) {
+                // are target and slug different?
+                if ( targetSlugified != element.val() ) {
 
                     // it's changed, we need to confirm that
                     var msg;

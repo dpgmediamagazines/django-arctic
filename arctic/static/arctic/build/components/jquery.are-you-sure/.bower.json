@@ -34,7 +34,6 @@
     "commit": "098b3d3a35a0bd09fd3bbab514dd7d2f4159e680"
   },
   "_source": "https://github.com/codedance/jquery.AreYouSure.git",
-  "_target": "^1.9.0",
-  "_originalSource": "jquery.are-you-sure",
-  "_direct": true
+  "_target": "1.9.0",
+  "_originalSource": "jquery.are-you-sure"
 }
