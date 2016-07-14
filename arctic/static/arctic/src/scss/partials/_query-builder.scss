@@ -1,0 +1,125 @@
+// support bootstrap components within .query-builder
+// see: http://querybuilder.js.org/dev/no-bootstrap.html
+
+.query-builder {
+    font-family: sans-serif;
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .pull-right {
+        float: right !important;
+    }
+
+    .btn {
+        text-transform: none;
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        touch-action: manipulation;
+        cursor: pointer;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .btn.focus, .btn:focus, .btn:hover {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .btn.active, .btn:active {
+        background-image: none;
+        outline: 0px none;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.125) inset;
+    }
+
+    .btn-success {
+        color: #FFF;
+        background-color: #5CB85C;
+        border-color: #4CAE4C;
+    }
+
+    .btn-primary {
+        color: #FFF;
+        background-color: #337AB7;
+        border-color: #2E6DA4;
+    }
+
+    .btn-danger {
+        color: #FFF;
+        background-color: #D9534F;
+        border-color: #D43F3A;
+    }
+
+    .btn-success.active, .btn-success.focus,
+    .btn-success:active, .btn-success:focus,
+    .btn-success:hover {
+        color: #FFF;
+        background-color: #449D44;
+        border-color: #398439;
+    }
+
+    .btn-primary.active, .btn-primary.focus,
+    .btn-primary:active, .btn-primary:focus,
+    .btn-primary:hover {
+        color: #FFF;
+        background-color: #286090;
+        border-color: #204D74;
+    }
+
+    .btn-danger.active, .btn-danger.focus,
+    .btn-danger:active, .btn-danger:focus,
+    .btn-danger:hover {
+        color: #FFF;
+        background-color: #C9302C;
+        border-color: #AC2925;
+    }
+
+    .btn-group {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .btn-group > .btn {
+        position: relative;
+        float: left;
+    }
+
+    .btn-group > .btn:first-child {
+        margin-left: 0px;
+    }
+
+    .btn-group > .btn:first-child:not(:last-child) {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+
+    .btn-group > .btn:last-child:not(:first-child) {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+
+    .btn-group .btn + .btn, .btn-group .btn + .btn-group,
+    .btn-group .btn-group + .btn, .btn-group .btn-group + .btn-group {
+        margin-left: -1px;
+    }
+
+    .btn-xs, .btn-group-xs > .btn {
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+}
