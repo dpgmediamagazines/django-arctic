@@ -7,26 +7,26 @@
     var element = $( 'input[data-to-slugify]' );
     var target = $( element.data( 'to-slugify' ) );
 
+    var elementVal = element.val();
+    var targetVal = target.val();
+
+
     if ( element.length && target.length ) {
 
-        // only keep target and slug in sync when they have the same values
-        if ( slugify( target.val() ) == element.val() ) {
-            target.on( "keyup", function () {
-                element.val( slugify( target.val() ) );
-            } );
-        }
+        var targetValCache = targetVal;
 
+        target.on( "keyup", function () {
+            var currentTargetVal = target.val()
 
-        // when slug is manualy changed
-        element.on( "keyup", function ( e ) {
-            var code = e.which;
-
-            //keycode 9 = tab
-            if ( code == 9 ) {
+            // check if it really is a change
+            if ( targetValCache == currentTargetVal ) {
                 return;
+            } else {
+                targetValCache = currentTargetVal;
             }
 
-            target.off( "keyup" );
+            // there's a change update slug
+            element.val( slugify( target.val() ) );
         } );
 
 
@@ -38,8 +38,8 @@
 
                 var targetSlugified = slugify( target.val() );
 
-                // are target and slug different?
-                if ( targetSlugified != element.val() ) {
+                // are element or target updated ?
+                if ( elementVal != element.val() || targetVal != target.val() ) {
 
                     // it's changed, we need to confirm that
                     var msg;
