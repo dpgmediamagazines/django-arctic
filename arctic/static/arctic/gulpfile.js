@@ -47,7 +47,6 @@ gulp.task('sass', function() {
       .pipe( $.autoprefixer( {
           browsers: config.autoprefixer.browsers
       } ) )
-      .pipe($.csso())
       // Todo: add build date
       .pipe( gulp.dest( config.path.build + config.path.css ) );
 });

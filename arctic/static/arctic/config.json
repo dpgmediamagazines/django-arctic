@@ -11,7 +11,7 @@
     },
     "sass": {
         "main": "app.scss",
-        "outputStyle": "compact",
+        "outputStyle": "compressed",
         "modules": [
             "./build/components/font-awesome/scss",
             "./build/components/foundation-sites/scss",
