@@ -4,11 +4,12 @@
 .query-builder {
     font-family: sans-serif;
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    // REMOVED BY US
+    // * {
+    //     margin: 0;
+    //     padding: 0;
+    //     box-sizing: border-box;
+    // }
 
     .pull-right {
         float: right !important;
@@ -121,5 +122,138 @@
         font-size: 12px;
         line-height: 1.5;
         border-radius: 3px;
+    }
+}
+
+
+// Custom styling
+body .query-builder {
+
+    // add undone code from above with some tweaks
+    * {
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    *:not(input):not(select):not(number) {
+        padding: 0;
+    }
+
+    .rule-value-container {
+        border: 0;
+        padding: 0;
+
+        // undo changes inherit from querybuilder sass file
+        select, input[type=text], input[type=number] {
+          padding: ($form-spacing / 2);
+        }
+    }
+
+    // rules
+    .rules-group-header {
+        position: relative;
+        z-index: 1;
+    }
+
+    .rules-group-container {
+        border: 0;
+        border-radius: 0;
+        padding: $marginLarge;
+        background-color: $greyLightest;
+    }
+
+    .rules-group-container .rules-group-container {
+        background-color: darken( $greyLightest, 3% );
+    }
+
+    .rule-container {
+        border: 0;
+        border-radius: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+
+        + .rule-container {
+            margin-top: -4px;;
+        }
+    }
+
+    // rule lines
+    .rules-list > *::before,
+    .rules-list > *::after {
+        border-color: darken($greyLight,5%);
+        width: 20px;
+        left: -20px;
+    }
+
+    .rules-list {
+        padding: 0 0 0 35px;
+    }
+
+
+    // buttons
+    .btn-group > .btn {
+        @include button();
+        margin-bottom: 0;
+        border-radius: 0;
+        border: 0;
+        font-size: map-get($button-sizes, tiny);
+
+        &.active, &:active {
+            box-shadow: 0 0 0 0 transparent;
+        }
+    }
+
+    .group-actions > .btn[type="button"] {
+        margin-left: .5em;
+
+        i {
+            display: none;
+        }
+
+        &.btn-danger {
+            background-color: $red;
+        }
+    }
+
+
+    .rule-actions {
+
+        > .btn-danger {
+            font-size:0;
+            padding: 10px;
+            background-color: transparent;
+            color: $textColorLight;
+
+            &:hover,
+            &:focus {
+                color: $red;
+                background-color: transparent;
+            }
+
+            i {
+                font-size: 16px;
+            }
+
+            i:before {
+                content: "\f00d";
+            }
+        }
+    }
+
+    // and / or
+    .group-conditions > .btn {
+        background-color: $green;
+
+        &:hover,
+        &.active {
+            box-shadow: 0 0 0 transparent;
+        }
+
+        &:hover {
+            background-color: darken( $green, 5% );
+        }
+
+        &.active {
+            background-color: darken( $green, 10% );
+        }
     }
 }
