@@ -215,7 +215,6 @@ $pie-color: $green;
 /*------------------------------------
     RULE
 ------------------------------------*/
-
 $rules-border-color: $greyLight;
 
 $rule-simple-background: $white;
@@ -241,3 +240,9 @@ $rule-skip-striped-background: darken($redLight, 2%);
 $rule-skip-label-bg: $red;
 $rule-skip-label-border-color: $rule-skip-label-bg;
 $rule-skip-label-text-color: $white;
+
+
+/*------------------------------------
+    TILE
+------------------------------------*/
+$tile-background-color: #f4f8fb;

@@ -7,8 +7,8 @@
     }
 
     div {
-        border: 1px solid $pageBackground;
-        background-color: $pageBackground;
+        border: $marginMedium solid $tile-background-color;
+        background-color: $tile-background-color;
     }
 
     img {
