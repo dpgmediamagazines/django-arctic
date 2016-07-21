@@ -14,8 +14,15 @@
             color: $greyDark;
         }
 
-        &.is-active,
         &:hover {
+            background-color: $greyLight;
+        }
+
+        &.is-active {
+            border-width: 2px 2px 0;
+            border-style: solid;
+            border-color: $greyLight;
+
             a {
                 color: $green;
             }
@@ -28,7 +35,7 @@
                 height: 2px;
                 width: 100%;
                 content: "";
-                background: $green;
+                background: $white;
             }
         }
     }
