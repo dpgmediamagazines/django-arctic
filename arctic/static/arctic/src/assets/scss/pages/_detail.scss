@@ -1,6 +1,6 @@
 .template-detail {
     .block-wrapper {
-        max-width: 1000px;
+        max-width: $detail-max-width;
         margin: 0 auto;
     }
 }
