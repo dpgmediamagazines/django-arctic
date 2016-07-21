@@ -6,6 +6,11 @@
         opacity: 0.85;
     }
 
+    div {
+        border: 1px solid $pageBackground;
+        background-color: $pageBackground;
+    }
+
     img {
         margin-bottom: 1em;
         width: 100%;
@@ -13,6 +18,8 @@
 
     h5 {
         display: -webkit-box;
+        padding: 0 1em;
+        margin-bottom: .75em;
         font-size: 1.25em;
         line-height: 1.5em;
         max-height: 3em;
