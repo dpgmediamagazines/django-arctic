@@ -3,7 +3,7 @@
 ( function () {
 
     // required fields
-    var element = $( '.rule-builder' );
+    var element = $( '.query-builder' );
     var filters = element.data( 'filters' );
 
     if ( element.length && filters.length ) {
