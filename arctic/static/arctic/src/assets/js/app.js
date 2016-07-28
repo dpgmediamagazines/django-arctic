@@ -33,7 +33,7 @@ function inlineWidget(css_class, template, dict, list_separator) {
 
         for (i = 0; i < text_list.length; i++)
         {
-            item = text_list[i];
+            var item = text_list[i];
             if (list_separator) {
                 item += list_separator;
             }
@@ -42,8 +42,8 @@ function inlineWidget(css_class, template, dict, list_separator) {
                 item = template.replaceAll('{{ key }}', text_list[i]);
             }
             else {
-                lower_dict = lowerCaseKeys(dict);
-                lower_text_item = text_list[i].toLowerCase();
+                var lower_dict = lowerCaseKeys(dict);
+                var lower_text_item = text_list[i].toLowerCase();
 
                 if (lower_text_item in lower_dict) {
                     item = template.replaceAll('{{ value }}', lower_dict[lower_text_item]);
@@ -120,16 +120,45 @@ $(document).ready(function() {
         });
     }
 
-    $('.js-selectize').selectize();
+    var s = $('.js-selectize');
+    if (s.size()) {
+        s.selectize();
+    }
 
-    $('.js-selectize-tags').selectize({
-        delimiter: ',',
-        persist: false,
-        create: function(input) {
-            return {
-                value: input,
-                text: input
+    var s_tags = $('.js-selectize-tags');
+    if (s_tags.size()) {
+        s_tags.selectize({
+            delimiter: ',',
+            persist: false,
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
             }
-        }
-    });
+        });
+    }
+
+    var datepicker = $('.js-datepicker');
+    if (datepicker.size()) {
+        datepicker.fdatepicker({
+        		format: 'mm-dd-yyyy'
+        	});
+    }
+
+    var timepicker = $('.js-timepicker');
+    if (timepicker.size()) {
+        timepicker.fdatepicker({
+        		format: 'hh:ii',
+                pickTime: true
+        	});
+    }
+
+    var datetimepicker = $('.js-datetimepicker');
+    if (datetimepicker.size()) {
+        datetimepicker.fdatepicker({
+        		format: 'mm-dd-yyyy hh:ii',
+                pickTime: true
+        	});
+    }
 });

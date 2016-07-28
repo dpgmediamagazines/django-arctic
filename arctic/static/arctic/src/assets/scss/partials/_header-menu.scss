@@ -1,27 +1,45 @@
+.is-dropdown-submenu-parent.is-active {
+    background-color: rgba(0,0,0,0.15);
+
+}
+
+.dropdown.menu>li.is-dropdown-submenu-parent.is-active>a:hover {
+    background-color: transparent;
+};
+
 .primary-header .dropdown.menu {
+
     a {
         display: block;
-        padding: 0;
-        color: $greyLight;
-        font-size: $fontSizeLarge;
+        padding: 0 0 0 0.5rem;
         line-height: 50px;
-        text-transform: uppercase;
+
+        &:hover {
+            background-color: rgba(0,0,0,0.15);
+        }
+    }
+
+    li .is-active a:hover {
+        background-color: transparent;
     }
 
     .submenu {
-        box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.4);
-
-        li {
-            &:not(:first-of-type) {
-                border-top: 1px solid $greyLight;
-            }
-        }
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        background-color: lighten($greyLight, 5%);
+        border: $dropdown-border;
+        border-top: 0;
 
         a {
             padding: $marginSmall $marginLarge;
-            color: $greyDark;
+            color: $textColorDark;
             font-size: inherit;
             line-height: 24px;
         }
+
+        a:hover {
+            background-color: $primary-color;
+            color: $white;
+        }
+
     }
 }

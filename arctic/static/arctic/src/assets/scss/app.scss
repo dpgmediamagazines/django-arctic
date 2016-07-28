@@ -5,10 +5,7 @@
 @import "font-awesome";
 @import 'foundation';
 @import 'motion-ui';
-//@import 'pizza';
-
-// if switched to libsass, remove .css extension to -really- include it
-//@import '../components/chosen/chosen.css';
+@import 'foundation-datepicker.scss';
 
 /*------------------------------------
     DEFAULT FOUNDATION INCLUDES
@@ -74,10 +71,9 @@
 @import "partials/_accordion";
 @import "partials/_burger";
 @import "partials/_base";
-//@import "partials/_btn-menu";
 @import "partials/_callout";
 @import "partials/_cards";
-@import "partials/_chosen";
+@import "partials/_dropdown";
 @import "partials/_footer";
 @import "partials/_header";
 @import "partials/_header-menu";
@@ -94,4 +90,4 @@
 @import "partials/_widgets";
 
 @import "pages/_login";
-//@import "flags";
+@import "flags";

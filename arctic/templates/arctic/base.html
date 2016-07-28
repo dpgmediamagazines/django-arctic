@@ -18,6 +18,25 @@
 
         <link href="{% static "arctic/dist/assets/css/app.css" %}" rel="stylesheet">
 
+        <style>
+            {% if TOPBAR_BACKGROUND_COLOR %}
+                .topbar-background { background-color: {{ TOPBAR_BACKGROUND_COLOR }}; }
+            {% endif %}
+            {% if HIGHLIGHT_COLOR %}
+                .highlight-background,
+                .off-canvas .side-menu>li.active:before,
+                .selectize-control.multi .selectize-input .item {
+                    background-color: {{ HIGHLIGHT_COLOR }};
+                }
+                .highlight-color,
+                .off-canvas .side-menu>li.active,
+                .off-canvas .side-menu ul>li.active,
+                .off-canvas .side-menu>li.active.has-sub {
+                    color: {{ HIGHLIGHT_COLOR }};
+                }
+            {% endif %}
+        </style>
+
         {% block head_extras %}{% endblock %}
     </head>
 
@@ -26,14 +45,14 @@
         {% block body %}
 
             {# page header #}
-            <header class="primary-header row align-middle align-justify">
+            <header class="primary-header row align-middle align-justify topbar-background">
                 <div class="columns shrink">
                     <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
                         <span class="burger-icon"></span>
                     </a>
                     <a href="{{ index_url }}" class="logo">
                         <img src="{% static SITE_LOGO %}" />
-                        <span>{{ SITE_NAME }}</span>
+                        <span class="hide-for-small-only">{{ SITE_NAME }}</span>
                     </a>
                 </div>
                 {% block topbar_menu %}
@@ -44,16 +63,7 @@
                             <a href="#" class="user">{{ request.user.username }}</a>
                             <ul class="menu">
                                 <li>
-                                	<a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i> Logout</a>
-                                </li>
-                                <li>
-                                	<a href="">Dummy link</a>
-                                </li>
-                                <li>
-                                	<a href="">Dummy link</a>
-                                </li>
-                                <li>
-                                	<a href="">Dummy link</a>
+                                	<a href="{% url 'login' %}">Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -164,6 +174,7 @@
         <!-- <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script> -->
 
         <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+        <script src="/static/arctic/dist/assets/components/selectize/selectize.js"></script>
 
         {% endblock %}
     </body>

@@ -5,6 +5,9 @@ body {
     background: $pageBackground;
 }
 
+.datepicker th {
+    color: $textColorDark;
+}
 
 // off canvas foundation content reset
 .off-canvas-content {

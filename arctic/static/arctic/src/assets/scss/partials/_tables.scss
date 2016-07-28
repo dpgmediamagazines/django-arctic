@@ -6,17 +6,17 @@ table {
     border-collapse: separate;
 
     thead tr:first-child th {
-        border-top: 1px solid darken($green,5%);
+        border-top: 1px solid rgba(0,0,0, 0.05);
     }
 
     thead th,
     tbody th {
-        border-right: 1px solid darken($green,5%);
-        border-bottom: 1px solid darken($green,5%);
+        border-right: 1px solid rgba(0,0,0, 0.05);
+        border-bottom: 1px solid rgba(0,0,0, 0.05);
         position:relative;
 
         &:first-child {
-            border-left: 1px solid darken($green,5%);
+            border-left: 1px solid rgba(0,0,0, 0.05);
         }
 
         a {
@@ -58,10 +58,6 @@ table {
     }
 }
 
-.responsive-table {
-    overflow-x: scroll;
-
-    table {
-        min-width: 100%;
-    }
+.table-scroll table {
+    min-width: 100%;
 }

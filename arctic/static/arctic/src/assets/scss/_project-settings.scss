@@ -36,7 +36,7 @@ $white:                         #ffffff;
 $pageBackground:                #ffffff;
 $navBackground:                 #ffffff;
 $navBackgroundItemActive:       #f4f8fb;
-$headerBackground:				#36404a;
+$headerBackground:              #555555;
 
 // text colors
 $textColorDark:                 #505458;
@@ -69,11 +69,11 @@ $foundation-palette: (
 
 $fontFamilyDefault:             'Noto Sans', sans-serif;
 
-$fontSizeDefault:               12px;
+$fontSizeDefault:               13px;
 $fontSizeSmall:                 $fontSizeDefault - 2px;
 $fontSizeMedium:                $fontSizeDefault;
-$fontSizeLarge:                 $fontSizeDefault + 4px;
-$fontSizeExtraLarge:            $fontSizeDefault + 8px;
+$fontSizeLarge:                 $fontSizeDefault + 5px;
+$fontSizeExtraLarge:            $fontSizeDefault + 10px;
 
 $fontWeightNormal:              400;
 $fontWeightBold:                700;
@@ -112,7 +112,7 @@ $borderRadiusLarge:             9px;
 /*------------------------------------
     OFF CANVAS
 ------------------------------------*/
-$offcanvas-size: 				180px;
+$offcanvas-size: 				200px;
 $offcanvas-background: 			$white;
 $offcanvas-zindex: 				-1;
 $offcanvas-transition-length: 	0.5s;
@@ -202,6 +202,22 @@ $topbar-background:                 $headerBackground;
 ------------------------------------*/
 $pagination-margin-bottom:          0;
 
+
+// 16. Dropdown
+// ------------
+
+$dropdown-padding: 0rem;
+$dropdown-border: 1px solid darken($greyLight, 5%);
+$dropdown-font-size: 1rem;
+$dropdown-width: 200px;
+$dropdown-radius: 0;
+$dropdown-sizes: (
+  tiny: 100px,
+  small: 200px,
+  large: 400px,
+);
+
+
 /*------------------------------------
     DROPDOWN MENU
 ------------------------------------*/
@@ -209,7 +225,7 @@ $dropdownmenu-arrows:               true;
 $dropdownmenu-arrow-color:          $white;
 $dropdownmenu-min-width:            200px;
 $dropdownmenu-background:           $white;
-$dropdownmenu-border:               1px solid $greyLight;
+$dropdownmenu-border:               1px solid darken($greyLight, 5%);
 
 /*------------------------------------
     MENU

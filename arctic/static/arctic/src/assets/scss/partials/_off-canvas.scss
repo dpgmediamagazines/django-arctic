@@ -13,6 +13,10 @@
     padding: 60px $marginLarge 30px;
     background: lighten($greyLight, 5%);
 
+    .position-left {
+        width: $offcanvas-size;
+    }
+
     .search {
         margin-bottom: $marginLarge;
         padding-bottom: $marginLarge;
@@ -22,49 +26,63 @@
     .side-menu {
         margin: 0 #{-$marginLarge}; // Pull menu to left and right side
         list-style: none;
-        font-size: 13px;
 
         // first level menu items
         > li {
             position: relative;
 
+            .right {
+                padding-top: 0.3rem;
+                float: right;
+            }
+
             > a {
-                position: relative;
                 display: block;
-                padding: $marginMedium $marginMedium $marginMedium ($marginExtraLarge * 1.5);
+                padding: 0.3rem 0.3rem 0.3rem 8px;
+                position: relative;
                 color: $textColorDark;
 
-                // needed for Magellan dummy menu
-                &.active {
-                    color: $green;
-                    background: $white;
-
-                    &:before {
-                        position: absolute;
-                        display: block;
-                        top: 0;
-                        left: 0;
-                        height: 100%;
-                        width: 4px;
-                        content: "";
-                        background: $green;
-                    }
+                &:hover {
+                    background-color: rgba(0,0,0,0.15);
                 }
             }
+
+            &.active {
+                padding: 0.3rem 0 0.3rem 8px;
+                display: block;
+                position: relative;
+                color: $green;
+                background-color: $white;
+
+                .right {
+                    margin-right: 0.3rem;
+                }
+
+                ul {
+                    margin-top: 0.3rem;
+                }
+
+
+                &.has-sub {
+                    //background-color: transparent;
+                    padding-bottom: 0;
+                }
+
+                &:before {
+                    position: absolute;
+                    display: block;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 4px;
+                    content: "";
+                    background: $green;
+                }
+            }
+
 
             i {
-                position: absolute;
-                top: 14px;
-                left: $marginLarge;
-            }
-
-            // active menu item
-            &.active,
-            &.selected,
-            &:hover {
-                > a {
-                    @extend a.active;
-                }
+                width: 1.2rem;
             }
 
             &.selected {
@@ -92,19 +110,25 @@
         ul {
             margin: 0;
             list-style: none;
+            margin-left: -4px;
+            background: lighten($greyLight, 5%);
 
             > li {
                 > a {
+                    padding: 0.3rem 0 0.3rem 2.2rem;
                     position: relative;
                     display: block;
-                    padding: $marginSmall $marginMedium $marginSmall ($marginExtraLarge * 2);
-                    color: $textColorMedium;
+                    color: $greyDark;
                 }
 
-                &.active,
+                &.active {
+                    padding: 0.3rem 0 0.3rem 2.2rem;
+                    position: relative;
+                    display: block;
+                }
                 &:hover {
                     > a {
-                        color: $green;
+                        background-color: rgba(0,0,0,0.15);
                     }
                 }
             }

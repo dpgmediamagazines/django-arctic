@@ -13,9 +13,29 @@
         img {
             max-height: 40px;
         }
+        span {
+            vertical-align: middle;
+            padding-left: 5px;
+            font-size: $fontSizeExtraLarge;
+        }
     }
 
     a {
         color: $white;
     }
+
+    a.menu-button {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: $marginLarge;
+    }
+
+    .burger-icon {
+        @include burger(25px, 3px, 5px, $light-gray);
+    }
+
+    .menu-button.is-active .burger-icon {
+    	@include burger-to-cross;
+    }
+
 }
