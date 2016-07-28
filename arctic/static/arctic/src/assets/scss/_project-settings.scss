@@ -123,6 +123,11 @@ $maincontent-class: 			'off-canvas-content';
 $maincontent-shadow: 			0 0 10px rgba($black, 0.5);
 
 /*------------------------------------
+    DETAIL TEMPLATE
+------------------------------------*/
+$detail-max-width: 1180px;
+
+/*------------------------------------
     FORM OVERRIDES
 ------------------------------------*/
 $input-prefix-background:       $white;
