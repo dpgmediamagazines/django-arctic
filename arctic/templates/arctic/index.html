@@ -1,6 +1,9 @@
 {% extends "arctic/base.html" %}
 
 
+{% load staticfiles %}
+
+
 {% block content %}
     <hr class="clearfix" />
     <h4 id="form" data-magellan-target="form">Form with validation</h4>
@@ -39,6 +42,7 @@
                 </label>
             </div>
         </div>
+
         <div class="row">
             <div class="small-12 medium-6 columns">
                 <label>Straatnaam
@@ -59,6 +63,22 @@
                 </label>
             </div>
         </div>
+
+        <div class="row">
+            <div class="small-12 medium-6 columns">
+                <label>Titel
+                    <input type="text" name="title" placeholder="Titel" aria-describedby="exampleHelpText" required pattern="text">
+                    <span class="form-error">Alleen cijfers aub</span>
+                </label>
+            </div>
+            <div class="small-12 medium-6 columns">
+                <label>Slug
+                    <input type="text" data-to-slugify='input[name="title"]' placeholder="Slug" aria-describedby="exampleHelpText" required pattern="text">
+                    <span class="form-error">Veld mag alleen numerieke waarde bevatten</span>
+                </label>
+            </div>
+        </div>
+
         <div class="row button-group">
             <div class="small-12 columns">
                 <button class="button" type="submit" value="Submit">Submit</button>
@@ -562,6 +582,120 @@
             <span class="show-for-sr">Show Large Elephants</span>
         </label>
     </div>
+
+        <hr class="clearfix" />
+    <h4 id="tiles" data-magellan-target="form">Grid with tiles</h4>
+
+    <div class="row">
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+        <a href="#" class="tile small-4 medium-3 large-2 columns">
+            <div>
+                <img src="http://dummyimage.com/400x200/000/fff" alt="title" />
+                <h5>Lorem ipsum</h5>
+            </div>
+        </a>
+    </div>
 </div>
 
 <!--
@@ -581,4 +715,5 @@
             Pizza.init();
         });
     </script>
+    <script src="{% static "arctic/build/js/components/form.js" %}"></script>
 {% endblock %}
