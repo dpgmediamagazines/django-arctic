@@ -56,6 +56,8 @@ class View(RoleAuthentication, base.View):
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_TITLE'] = self.get_site_title()
         context['SITE_LOGO'] = self.get_site_logo()
+        context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
+        context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         return context
 
     def get_urls(self):
@@ -99,7 +101,7 @@ class View(RoleAuthentication, base.View):
 
     def get_site_logo(self):
         return getattr(settings, 'ARCTIC_SITE_LOGO',
-                       'arctic/build/images/logo.png')
+                       'arctic/dist/assets/img/arctic_logo.svg')
 
     def get_site_name(self):
         return getattr(settings, 'ARCTIC_SITE_NAME',
@@ -108,6 +110,13 @@ class View(RoleAuthentication, base.View):
     def get_site_title(self):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
                        self.get_site_name())
+
+    def get_topbar_background_color(self):
+        return getattr(settings, 'ARCTIC_TOPBAR_BACKGROUND_COLOR', None)
+
+
+    def get_highlight_color(self):
+        return getattr(settings, 'ARCTIC_HIGHLIGHT_COLOR', None)
 
     def get_index_url(self):
         try:
@@ -313,8 +322,12 @@ class ListView(View, base.ListView):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                allowed_tool_links.append(link)
-
+                icon = None
+                if len(link) == 3: # if an icon class is given
+                    icon = link[2]
+                allowed_tool_links.append({'label': link[0],
+                                           'url': link[1],
+                                           'icon': icon})
             return allowed_tool_links
 
     def get_prefix(self):

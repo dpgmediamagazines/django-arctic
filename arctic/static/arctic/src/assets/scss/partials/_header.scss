@@ -1,0 +1,41 @@
+.primary-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 50px;
+    padding: 0 $marginLarge;
+    color: $white;
+    background: $topbar-background;
+    z-index: 10;
+
+    .logo {
+        img {
+            max-height: 40px;
+        }
+        span {
+            vertical-align: middle;
+            padding-left: 5px;
+            font-size: $fontSizeExtraLarge;
+        }
+    }
+
+    a {
+        color: $white;
+    }
+
+    a.menu-button {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: $marginLarge;
+    }
+
+    .burger-icon {
+        @include burger(25px, 3px, 5px, $light-gray);
+    }
+
+    .menu-button.is-active .burger-icon {
+    	@include burger-to-cross;
+    }
+
+}

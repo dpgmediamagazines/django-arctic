@@ -1,0 +1,42 @@
+.tabs {
+    border-bottom: 2px solid $greyLight;
+    margin-bottom: 2em;
+
+    .tabs-title {
+        position: relative;
+        text-transform: uppercase;
+
+        &:not(:last-child) {
+            margin-right: $marginLarge;
+        }
+
+        a {
+            color: $greyDark;
+        }
+
+        &:hover {
+            background-color: $greyLight;
+        }
+
+        &.is-active {
+            border-width: 2px 2px 0;
+            border-style: solid;
+            border-color: $greyLight;
+
+            a {
+                color: $green;
+            }
+
+            &:after {
+                position: absolute;
+                display: block;
+                bottom: -2px;
+                left: 0;
+                height: 2px;
+                width: 100%;
+                content: "";
+                background: $white;
+            }
+        }
+    }
+}

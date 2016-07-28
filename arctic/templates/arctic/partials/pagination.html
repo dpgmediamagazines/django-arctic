@@ -33,7 +33,7 @@
         <div class="column">
             <div class="pagination-info">
             {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
-                Showing {{ start }} to {{ end }} of {{ count }} entries
+                {{ start }} to {{ end }} of {{ count }} entries
             {% endblocktrans %}
             </div>
         </div>

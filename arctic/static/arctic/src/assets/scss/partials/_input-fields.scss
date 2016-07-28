@@ -1,0 +1,84 @@
+label {
+    .error & {
+        color: $red;
+    }
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="color"],
+textarea {
+    color: $greyDark;
+    font-weight: 400;
+    font-size: $fontSizeDefault;
+    border-radius: $global-radius;
+    box-shadow: 0 0 0 0;
+    //overflow: hidden;
+
+    &:focus {
+        border-color: darken($greyLight, 25%);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled,
+    &[readonly] {
+        color: $greyMedium;
+        background: $greyLightest;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+// slider
+input[type="range"] {
+    &:focus {
+        border: none;
+        outline: none;
+    }
+}
+
+// inline date
+.field__date {
+    text-align: center;
+    line-height: $input-height;
+
+    input {
+        width: 45%;
+    }
+
+    input:first-child {
+        float: left;
+    }
+
+    input:last-child {
+        float: right;
+    }
+}
+
+// select
+select {
+    height: 2.5rem;
+}
+
+// error
+input:not([type="submit"]),
+textarea,
+select {
+    .error & {
+        @extend .callout.alert;
+        color: $red;
+    }
+}

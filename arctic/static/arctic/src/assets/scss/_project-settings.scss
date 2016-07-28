@@ -1,0 +1,273 @@
+/*------------------------------------
+    FOUNDATION OVERRIDES
+
+    Do not override default Foundation settings inside the seetings file
+    since these will be overwritten when Foundation is updated to an newer
+    version.
+
+    Use the _project-settings instead to make sure changes stay where they
+    should be.
+------------------------------------*/
+
+/*------------------------------------
+    COLORS
+------------------------------------*/
+$blueMedium:                    #337ab7;
+
+$greyLightest:                  #FAFAFA;
+$greyLight:                     #E3E3E3;
+$greyMedium:                    #797979;
+$greyDark:                      #2B4049;
+$greyDarkest:                   #253841;
+
+//primary colors
+$blue:                          #5D9CEC;
+$blueLight:                     lighten( $blue, 34% );
+$green:                         #5FBEAA;
+$orange:                        #FFBD4A;
+$orangeLight:                   lighten( $orange, 34% );
+$pink:                          #FB6D9D;
+$purple:                        #7266BA;
+$red:                           #F05050;
+$redLight:                      lighten( $red, 35% );
+$white:                         #ffffff;
+
+// body + nav background colors
+$pageBackground:                #ffffff;
+$navBackground:                 #ffffff;
+$navBackgroundItemActive:       #f4f8fb;
+$headerBackground:              #555555;
+
+// text colors
+$textColorDark:                 #505458;
+$textColorMedium:               #797979;
+$textColorLight:                #a0a0a0;
+$textLinkBlue:                  #337ab7;
+
+// default foundation color resets
+$primary-color:                 #2199e8;
+$secondary-color:               #8a8a8a;
+$success-color:                 $green;
+$warning-color:                 $orange;
+$alert-color:                   $red;
+$light-gray:                    #e6e6e6;
+$medium-gray:                   #cacaca;
+$dark-gray:                     #8a8a8a;
+
+$foundation-palette: (
+    primary: #2199e8,
+    secondary: #8a8a8a,
+    success: $green,
+    warning: $orange,
+    alert: $red,
+);
+
+/*------------------------------------
+    FONTS
+------------------------------------*/
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+
+$fontFamilyDefault:             'Noto Sans', sans-serif;
+
+$fontSizeDefault:               13px;
+$fontSizeSmall:                 $fontSizeDefault - 2px;
+$fontSizeMedium:                $fontSizeDefault;
+$fontSizeLarge:                 $fontSizeDefault + 5px;
+$fontSizeExtraLarge:            $fontSizeDefault + 10px;
+
+$fontWeightNormal:              400;
+$fontWeightBold:                700;
+
+// fontawesome is implemented tru bower, we only need to set the path over here
+$fontFamilyIcon:                'FontAwesome';
+$fa-font-path:                  "../fonts";
+
+/*------------------------------------
+    MARGINS
+------------------------------------*/
+$marginSmall:                   5px;
+$marginMedium:                  10px;
+$marginLarge:                   15px;
+$marginExtraLarge:              30px;
+
+/*------------------------------------
+    GRID SETTINGS
+------------------------------------*/
+$global-width:                  100%;
+$grid-row-width:                $global-width;
+$grid-column-count:             12;
+$grid-column-gutter:            $marginLarge;
+$block-grid-max:                12;
+$hr-width:                      $global-width;
+
+
+/*------------------------------------
+    OFF CANVAS
+------------------------------------*/
+$global-radius:                 3px;
+$borderRadiusSmall:             3px;
+$borderRadiusMedium:            6px;
+$borderRadiusLarge:             9px;
+
+/*------------------------------------
+    OFF CANVAS
+------------------------------------*/
+$offcanvas-size: 				200px;
+$offcanvas-background: 			$white;
+$offcanvas-zindex: 				-1;
+$offcanvas-transition-length: 	0.5s;
+$offcanvas-transition-timing: 	ease;
+$offcanvas-fixed-reveal: 		true;
+$offcanvas-exit-background: 	rgba($white, 0.25);
+$maincontent-class: 			'off-canvas-content';
+$maincontent-shadow: 			0 0 10px rgba($black, 0.5);
+
+/*------------------------------------
+    DETAIL TEMPLATE
+------------------------------------*/
+$detail-max-width: 1180px;
+
+/*------------------------------------
+    FORM OVERRIDES
+------------------------------------*/
+$input-prefix-background:       $white;
+$input-border-color:            $greyLight;
+
+// see for more info: foundation/scss/foundation/components/_forms.scss
+$form-spacing:                  rem-calc(14);
+$input-height:                  ($input-font-size + ($form-spacing * 1.5) - rem-calc(1));
+
+/*------------------------------------
+    BUTTON OVERRIDES
+------------------------------------*/
+$button-padding: 				   0.69em 1em;
+$button-radius:                    $global-radius;
+
+/*------------------------------------
+    TABLES
+------------------------------------*/
+$table-background:                  $white;
+$table-head-background:             $green;
+$table-head-font-color:             $white;
+$table-striped-background:          $greyLightest;
+$table-row-hover:                   $blue;
+$table-border:                      1px solid $greyLight;
+
+/*------------------------------------
+    TABS
+------------------------------------*/
+$tab-margin:                        0;
+$tab-background:                    $white;
+$tab-background-active:             $white;
+$tab-item-font-size:                $fontSizeMedium;
+$tab-item-background-hover:         $white;
+$tab-item-padding:                  $marginLarge $marginExtraLarge;
+$tab-expand-max:                    6;
+$tab-content-background:            $white;
+$tab-content-border:                0;
+$tab-content-color:                 $greyDark;
+$tab-content-padding:               $marginLarge 0;
+
+/*------------------------------------
+    ACCORDION
+------------------------------------*/
+$accordion-background:              $greyLightest;
+$accordion-plusminus:               true;
+$accordion-item-color:              $greyDark;
+$accordion-item-background-hover:   $green;
+$accordion-item-padding:            $marginLarge;
+$accordion-content-background:      $white;
+$accordion-content-border:          1px solid $greyLight;
+$accordion-content-color:           $greyDark;
+$accordion-content-padding:         $marginLarge;
+
+/*------------------------------------
+    SWITCH
+------------------------------------*/
+$switch-background:                 $greyLight;
+$switch-background-active:          $green;
+$switch-height:                     2rem;
+$switch-height-tiny:                1.5rem;
+$switch-height-small:               1.75rem;
+$switch-height-large:               2.5rem;
+$switch-radius:                     $global-radius;
+$switch-margin:                     $global-margin;
+$switch-paddle-background:          $white;
+$switch-paddle-offset:              0.25rem;
+$switch-paddle-radius:              $global-radius;
+$switch-paddle-transition:          all 0.25s ease-out;
+
+/*------------------------------------
+    TOPBAR
+------------------------------------*/
+$topbar-background:                 $headerBackground;
+
+/*------------------------------------
+    PAGINATION
+------------------------------------*/
+$pagination-margin-bottom:          0;
+
+
+// 16. Dropdown
+// ------------
+
+$dropdown-padding: 0rem;
+$dropdown-border: 1px solid darken($greyLight, 5%);
+$dropdown-font-size: 1rem;
+$dropdown-width: 200px;
+$dropdown-radius: 0;
+$dropdown-sizes: (
+  tiny: 100px,
+  small: 200px,
+  large: 400px,
+);
+
+
+/*------------------------------------
+    DROPDOWN MENU
+------------------------------------*/
+$dropdownmenu-arrows:               true;
+$dropdownmenu-arrow-color:          $white;
+$dropdownmenu-min-width:            200px;
+$dropdownmenu-background:           $white;
+$dropdownmenu-border:               1px solid darken($greyLight, 5%);
+
+/*------------------------------------
+    MENU
+------------------------------------*/
+$menu-margin:                       0;
+$menu-margin-nested:                1rem;
+$menu-item-padding:                 0.7rem 1rem;
+$menu-item-color-active:            $white;
+$menu-item-background-active:       map-get($foundation-palette, primary);
+$menu-icon-spacing:                 0.25rem;
+
+/*------------------------------------
+    RULE
+------------------------------------*/
+
+$rules-border-color:                $greyLight;
+
+$rule-simple-background:            $white;
+$rule-simple-striped-background:    darken($white,1%);
+$rule-simple-label-bg:              $white;
+$rule-simple-label-border-color:    $greyLight;
+$rule-simple-label-text-color:      inherit;
+
+$rule-feature-background:           $greyLightest;
+$rule-feature-striped-background:   darken($greyLightest,2%);
+$rule-feature-label-bg:             $greyLight;
+$rule-feature-label-border-color:   $rule-feature-label-bg;
+$rule-feature-label-text-color:     inherit;
+
+$rule-replace-background:           $orangeLight;
+$rule-replace-striped-background:   darken($orangeLight, 2%);
+$rule-replace-label-bg:             $orange;
+$rule-replace-label-border-color:   $rule-replace-label-bg;
+$rule-replace-label-text-color:     inherit;
+
+$rule-skip-background:              $redLight;
+$rule-skip-striped-background:      darken($redLight, 2%);
+$rule-skip-label-bg:                $red;
+$rule-skip-label-border-color:      $rule-skip-label-bg;
+$rule-skip-label-text-color:        $white;
