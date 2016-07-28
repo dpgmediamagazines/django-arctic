@@ -27,3 +27,6 @@ ARCTIC_ROLES = {
         'articles_create',
     ),
 }
+
+# ARCTIC_TOPBAR_BACKGROUND_COLOR = '#BF1D1D'
+# ARCTIC_HIGHLIGHT_COLOR = '#9ec3d5'

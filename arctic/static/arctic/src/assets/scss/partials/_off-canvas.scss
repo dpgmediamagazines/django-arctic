@@ -1,0 +1,137 @@
+.off-canvas-wrapper,
+.off-canvas-wrapper-inner {
+    min-height: 100vh;
+}
+
+.off-canvas-content {
+    padding: 50px 0px 0px;
+}
+
+
+.off-canvas {
+    height: 100%;
+    padding: 60px $marginLarge 30px;
+    background: lighten($greyLight, 5%);
+
+    .position-left {
+        width: $offcanvas-size;
+    }
+
+    .search {
+        margin-bottom: $marginLarge;
+        padding-bottom: $marginLarge;
+        border-bottom: 1px solid $greyLight;
+    }
+
+    .side-menu {
+        margin: 0 #{-$marginLarge}; // Pull menu to left and right side
+        list-style: none;
+
+        // first level menu items
+        > li {
+            position: relative;
+
+            .right {
+                padding-top: 0.3rem;
+                float: right;
+            }
+
+            > a {
+                display: block;
+                padding: 0.3rem 0.3rem 0.3rem 8px;
+                position: relative;
+                color: $textColorDark;
+
+                &:hover {
+                    background-color: rgba(0,0,0,0.15);
+                }
+            }
+
+            &.active {
+                padding: 0.3rem 0 0.3rem 8px;
+                display: block;
+                position: relative;
+                color: $green;
+                background-color: $white;
+
+                .right {
+                    margin-right: 0.3rem;
+                }
+
+                ul {
+                    margin-top: 0.3rem;
+                }
+
+
+                &.has-sub {
+                    //background-color: transparent;
+                    padding-bottom: 0;
+                }
+
+                &:before {
+                    position: absolute;
+                    display: block;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 4px;
+                    content: "";
+                    background: $green;
+                }
+            }
+
+
+            i {
+                width: 1.2rem;
+            }
+
+            &.selected {
+                > a {
+                    color: $greyDark;
+
+                    &:before {
+                        background: $greyMedium;
+                    }
+                }
+            }
+
+            &.sub--collapsed > ul {
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            &.sub--expanded > ul,
+            &.sub--collapsed.active ul {
+                max-height: 999px;
+            }
+        }
+
+        // secondary level
+        ul {
+            margin: 0;
+            list-style: none;
+            margin-left: -4px;
+            background: lighten($greyLight, 5%);
+
+            > li {
+                > a {
+                    padding: 0.3rem 0 0.3rem 2.2rem;
+                    position: relative;
+                    display: block;
+                    color: $greyDark;
+                }
+
+                &.active {
+                    padding: 0.3rem 0 0.3rem 2.2rem;
+                    position: relative;
+                    display: block;
+                }
+                &:hover {
+                    > a {
+                        background-color: rgba(0,0,0,0.15);
+                    }
+                }
+            }
+        }
+    }
+}

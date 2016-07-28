@@ -16,7 +16,26 @@
             {% endblock %}
         </title>
 
-        <link href="{% static "arctic/build/css/app.css" %}" rel="stylesheet">
+        <link href="{% static "arctic/dist/assets/css/app.css" %}" rel="stylesheet">
+
+        <style>
+            {% if TOPBAR_BACKGROUND_COLOR %}
+                .topbar-background { background-color: {{ TOPBAR_BACKGROUND_COLOR }}; }
+            {% endif %}
+            {% if HIGHLIGHT_COLOR %}
+                .highlight-background,
+                .off-canvas .side-menu>li.active:before,
+                .selectize-control.multi .selectize-input .item {
+                    background-color: {{ HIGHLIGHT_COLOR }};
+                }
+                .highlight-color,
+                .off-canvas .side-menu>li.active,
+                .off-canvas .side-menu ul>li.active,
+                .off-canvas .side-menu>li.active.has-sub {
+                    color: {{ HIGHLIGHT_COLOR }};
+                }
+            {% endif %}
+        </style>
 
         {% block head_extras %}{% endblock %}
     </head>
@@ -26,27 +45,36 @@
         {% block body %}
 
             {# page header #}
-            <header class="primary-header">
-                <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
-                    <span class="burger-icon"></span>
-                </a>
-
-                <a href="{{ index_url }}" class="logo">
-                    <img src="{% static SITE_LOGO %}" />
-                    <span>{{ SITE_NAME }}</span>
-                </a>
-                {# menu columns #}
-                <ul class="menu columns">
+            <header class="primary-header row align-middle align-justify topbar-background">
+                <div class="columns shrink">
+                    <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
+                        <span class="burger-icon"></span>
+                    </a>
+                    <a href="{{ index_url }}" class="logo">
+                        <img src="{% static SITE_LOGO %}" />
+                        <span class="hide-for-small-only">{{ SITE_NAME }}</span>
+                    </a>
+                </div>
                 {% block topbar_menu %}
-                {% if request.user.username %}
-                    <li>
-                        {{ request.user.username }} | <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-lg"></i></a>
-                    </li>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                {% endif %}
-                {% endblock %} {# topbar_menu #}
-                </ul>
+                <div class="columns shrink">
+                    <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
+                        {% if request.user.username %}
+                        <li>
+                            <a href="#" class="user">{{ request.user.username }}</a>
+                            <ul class="menu">
+                                <li>
+                                	<a href="{% url 'login' %}">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li>
+                        	<a href="{% url 'login' %}">Login</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endblock %}
             </header>
 
             <div class="off-canvas-wrapper">
@@ -82,16 +110,6 @@
                                     <h3 class="columns">
                                         {{ page_title }}
                                     </h3>
-
-                                    {% if tool_links %}
-                                        <div class="shrink columns button-group">
-                                            {% for link in tool_links %}
-                                                <a class="button" href="{% url link.1 %}">
-                                                    {{ link.0 }}
-                                                </a>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
                                 </div>
 
                                 {# page page description #}
@@ -149,14 +167,15 @@
             </div>
         {% endblock %} {# body #}
         {% block scripts_bottom %}
-        <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script>
-        <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script>
-        <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script>
+        <!-- <script src="{% static "arctic/build/components/jquery/dist/jquery.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/what-input/what-input.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/foundation-sites/dist/foundation.min.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/chosen/chosen.jquery.js" %}"></script> -->
+        <!-- <script src="{% static "arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script> -->
 
-        <script src="/static/arctic/build/js/utils/helpers.js"></script>
-        <script src="{% static "arctic/build/js/app.js" %}"></script>
+        <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+        <script src="/static/arctic/dist/assets/components/selectize/selectize.js"></script>
+
         {% endblock %}
     </body>
 </html>

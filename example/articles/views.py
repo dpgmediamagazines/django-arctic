@@ -39,7 +39,7 @@ class ArticleListView(ListView):
         'published': 'inline-widget boolean-circle',
     }
     tool_links = [
-        (_('Create Article'), 'articles:create'),
+        (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
     required_permission = "articles_view"
 
