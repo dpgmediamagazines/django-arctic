@@ -82,3 +82,11 @@ select {
         color: $red;
     }
 }
+
+.help-text {
+    margin-top: -.7rem;
+    margin-bottom: 0.6rem;
+    font-size: .7rem;
+    font-style: italic;
+    opacity: 0.55;
+}
