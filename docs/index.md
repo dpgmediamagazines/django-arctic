@@ -25,10 +25,9 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 
 ## Features
 
-* Doesn't depend on any models
-* Optional Authentication/Permission system
-* Class based views that match and extend the ones from Django
-* Default User Interface which can be customised or replaced.
+* Authentication/Permission/Role system based on Django Auth
+* Generic class based views that match and extend the ones from Django
+* Default User Interface which can be customized or replaced.
 
 
 ## Installation

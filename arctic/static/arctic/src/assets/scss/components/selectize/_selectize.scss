@@ -67,7 +67,8 @@
 
             &.active {
                 font-weight: $fontWeightBold;
-                background: darken($green, 10%);
+                //background: darken($green, 10%);
+                opacity: 0.85;
             }
         }
     }

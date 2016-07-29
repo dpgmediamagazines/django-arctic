@@ -1,27 +1,27 @@
 .tabs {
     border-bottom: 2px solid $greyLight;
     margin-bottom: 2em;
+    padding-left: 2em;
 
     .tabs-title {
         position: relative;
         text-transform: uppercase;
-
-        &:not(:last-child) {
-            margin-right: $marginLarge;
-        }
+        border-top: 2px solid transparent;
 
         a {
             color: $greyDark;
+            padding: $marginMedium $marginLarge;
         }
 
         &:hover {
-            background-color: $greyLight;
+            color: $greyLight;
         }
 
         &.is-active {
             border-width: 2px 2px 0;
             border-style: solid;
             border-color: $greyLight;
+            border-radius: $global-radius $global-radius 0 0;
 
             a {
                 color: $green;

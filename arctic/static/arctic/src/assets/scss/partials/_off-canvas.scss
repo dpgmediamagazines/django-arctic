@@ -32,13 +32,13 @@
             position: relative;
 
             .right {
-                padding-top: 0.3rem;
+                padding-top: 0.25rem;
                 float: right;
             }
 
             > a {
                 display: block;
-                padding: 0.3rem 0.3rem 0.3rem 8px;
+                padding: 0.3rem 0.3rem 0.4rem 8px;
                 position: relative;
                 color: $textColorDark;
 
@@ -48,7 +48,7 @@
             }
 
             &.active {
-                padding: 0.3rem 0 0.3rem 8px;
+                padding: 0.3rem 0 0.4rem 8px;
                 display: block;
                 position: relative;
                 color: $green;
@@ -115,14 +115,14 @@
 
             > li {
                 > a {
-                    padding: 0.3rem 0 0.3rem 2.2rem;
+                    padding: 0.3rem 0 0.4rem 2.2rem;
                     position: relative;
                     display: block;
                     color: $greyDark;
                 }
 
                 &.active {
-                    padding: 0.3rem 0 0.3rem 2.2rem;
+                    padding: 0.3rem 0 0.4rem 2.2rem;
                     position: relative;
                     display: block;
                 }

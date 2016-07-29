@@ -2,13 +2,15 @@
 
 
 {% if form.is_bound and not form.is_valid %}
-    <div class="callout alert" data-closable>
-        <button class="fa fa-times close-button" aria-label="Dismiss alert" type="button" data-close></button>
-        <strong>
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {% trans "Oops! We found some errors" %}
-        </strong>
-         - {% trans "please check the error messages below and try again" %}
+    <div class="row">
+        <div class="column">
+        <div class="callout alert" data-closable>
+            {% trans "Oops! We found some errors. Please check the error messages below and try again." %}
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        </div>
     </div>
 {% endif %}
 

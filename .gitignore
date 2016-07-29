@@ -130,8 +130,7 @@ keys/
 demo/media
 
 # frontend stuff
-arctic/static/arctic_foundation/bower_components
-arctic/static/arctic_foundation/node_modules
-arctic/static/arctic_foundation/npm-debug.log
+bower_components
+npm-debug.log
 node_modules
 npm-debug.log
