@@ -58,19 +58,38 @@ In `TEMPLATES` - `OPTIONS` - `context_processors` add:
 
 Add `'arctic'` to `INSTALLED_APPS`
 
+Setup the database:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 Setup the menu:
 
     ARCTIC_MENU = (
-        ('menu label', 'named url', 'optional icon class', (optional submenu)),
-        ('menu label2', 'named url2', 'optional icon class2', (optional submenu2)),
-        ...
+        ('Hello World', 'hello_world', 'fa-world')
     )
 
+Set the site name:
 
-Set the site name and logo:
+    ARCTIC_SITE_NAME = 'Arctic Hello World'
 
-    ARCTIC_SITE_NAME = 'Arctic Project'
-    ARCTIC_SITE_LOGO = '/path/to/logo.png'
+
+Create a helloworld app:
+
+    ./manage.py startapp hello_world
+
+
+In the terminal run the database migrations:
+
+    ./manage.py migrate
+
+Still in the terminal create a new admin user:
+
+    ./manage.py createsuperuser
 
 
 Within the Arctic project there's an `example` project with a more extensive usage of Arctic's features.
