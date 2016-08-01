@@ -122,7 +122,7 @@ $(document).ready(function() {
 
     var s = $('.js-selectize');
     if (s.size()) {
-        s.selectize();
+        s.selectize({allowEmptyOption: true, highlight: false});
     }
 
     var s_tags = $('.js-selectize-tags');

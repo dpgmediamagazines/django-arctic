@@ -13,6 +13,11 @@
     z-index: 10;
 }
 
+.error .selectize-input {
+    background-color: #fef4f4;
+    border: 1px solid #fcdddd;
+}
+
 .selectize-input {
     display: flex;
     flex-wrap: wrap;
