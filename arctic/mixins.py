@@ -68,10 +68,12 @@ class RoleAuthentication():
         role. Roles that are no longer specified in settings are set as
         inactive.
         """
-        if not settings.ARCTIC_ROLES:
-            return
 
-        settings_roles = set(settings.ARCTIC_ROLES.keys())
+        try:
+            settings_roles = set(settings.ARCTIC_ROLES.keys())
+        except AttributeError:
+            settings_roles = set()
+
         saved_roles = set(Role.objects.values_list('name', flat=True))
         unsaved_roles = settings_roles - saved_roles
         unused_roles = saved_roles - settings_roles - set(['admin'])
