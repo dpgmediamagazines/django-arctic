@@ -41,7 +41,7 @@
                 <thead>
                     <tr>
                         {% for item in list_header %}
-                            <th class="highlight-background">
+                            <th>
                                 {% if item.order_url %}
                                     <a href="{{ item.order_url }}">{{ item.label }}
                                         {% if item.order_direction == 'desc' %}

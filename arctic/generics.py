@@ -4,6 +4,7 @@ from collections import OrderedDict
 from django.views import generic as base
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
+from django.utils.http import quote
 from django.db.models.deletion import Collector, ProtectedError
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
@@ -366,8 +367,13 @@ class ListView(View, base.ListView):
         """
         Returns the keyword arguments for instanciating the filterset.
         """
+
+        data = None
+        if self.request.GET:
+            data = [item for item in self.request.GET if item]
+
         kwargs = {
-            'data': self.request.GET or None,
+            'data': data,
             'queryset': self.get_queryset(),
         }
         if self.prefix:
@@ -460,7 +466,7 @@ class LoginView(TemplateView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
-        context['next'] = self.request.GET.get('next', '/')
+        context['next'] = quote(self.request.GET.get('next', '/'))
         context['messages'] = set(self.messages)
         return context
 

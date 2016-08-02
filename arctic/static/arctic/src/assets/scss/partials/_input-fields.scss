@@ -79,7 +79,7 @@ textarea,
 select {
     .error & {
         @extend .callout.alert;
-        color: $red;
+//        color: $red;
     }
 }
 

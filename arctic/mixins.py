@@ -6,10 +6,10 @@ Basic mixins for generic class based views.
 from __future__ import unicode_literals, absolute_import
 
 from django.contrib import messages
-#from django.contrib.auth.models import Group
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
-from .contrib.users.models import Role
+from .models import Role, UserRole
 
 class SuccessMessageMixin(object):
     """
@@ -55,8 +55,8 @@ class LinksMixin(object):
 
 class RoleAuthentication():
     """
-    This class (mis)uses the groups concept from django auth to add role
-    based permissions support to any class.
+    This class adds a role relation to the standard django auth user to add
+    support for role based permissions in any class - usually a View.
     """
     required_permission = None
 
@@ -65,18 +65,42 @@ class RoleAuthentication():
         """
         Save all the roles defined in the settings that are not yet in the db
         this is needed to create a foreign key relation between a user and a
-        group.
+        role. Roles that are no longer specified in settings are set as
+        inactive.
         """
+        if not settings.ARCTIC_ROLES:
+            return
+
+        settings_roles = set(settings.ARCTIC_ROLES.keys())
         saved_roles = set(Role.objects.values_list('name', flat=True))
-        unsaved_roles = set(settings.ARCTIC_ROLES.keys()) - saved_roles
-        unused_roles = saved_roles - set(settings.ARCTIC_ROLES.keys())
+        unsaved_roles = settings_roles - saved_roles
+        unused_roles = saved_roles - settings_roles - set(['admin'])
+
+        # ensure that admin is not defined in settings
+        if 'admin' in settings_roles:
+            raise ImproperlyConfigured('"admin" role is reserved and cannot be '
+                                       'defined in settings')
+
+        # ensure that admin exists in the database
+        if not 'admin' in saved_roles:
+            Role(name='admin', is_active=True).save()
+
+        # check if the role defined in settings already exists in the database
+        # and if it does ensure it is enabled.
+        for role in saved_roles:
+            if role in settings_roles:
+                saved_role = Role.objects.get(name=role)
+                if not saved_role.is_active:
+                    saved_role.is_active = True
+                    saved_role.save()
 
         for role in unsaved_roles:
             Role(name=role).save()
+
         for role in unused_roles:
-            unused = Role.objects.get(name=role)
-            unused.is_active = False
-            unused.save()
+            unused_role = Role.objects.get(name=role)
+            unused_role.is_active = False
+            unused_role.save()
 
 
     def assign_role(self, role, user):
@@ -88,9 +112,11 @@ class RoleAuthentication():
         user.groups.clear()
 
     def has_perm(self, user):
-        if user.is_superuser or (not self.required_permission):
+        if not self.required_permission:
             return True
-        role = user.groups.all()[0].name # there is only one group per user
+        role = UserRole.objects.get(user=user).role.name
+        if role == 'admin':
+            return True
         result = self.required_permission in settings.ARCTIC_ROLES[role]
         # will try to call a method with the same name as the permission
         # to enable an object level permission check.

@@ -25,9 +25,12 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 
 ## Features
 
-* Authentication/Permission/Role system based on Django Auth
-* Generic class based views that match and extend the ones from Django
-* Default User Interface which can be customized or replaced.
+* Configurable menu
+* Default responsive UI
+* Role based authentication with permissions that can be object based.
+* Optional tabbed interface to visually link multiple Views.
+* ListViews support nested fields, sorting, filtering and linking.
+* Forms with default improved widgets for datetime and option fields.
 
 
 ## Installation
@@ -55,19 +58,38 @@ In `TEMPLATES` - `OPTIONS` - `context_processors` add:
 
 Add `'arctic'` to `INSTALLED_APPS`
 
+Setup the database:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 Setup the menu:
 
     ARCTIC_MENU = (
-        ('menu label', 'named url', 'optional icon class', (optional submenu)),
-        ('menu label2', 'named url2', 'optional icon class2', (optional submenu2)),
-        ...
+        ('Hello World', 'hello_world', 'fa-world')
     )
 
+Set the site name:
 
-Set the site name and logo:
+    ARCTIC_SITE_NAME = 'Arctic Hello World'
 
-    ARCTIC_SITE_NAME = 'Arctic Project'
-    ARCTIC_SITE_LOGO = '/path/to/logo.png'
+
+Create a helloworld app:
+
+    ./manage.py startapp hello_world
+
+
+In the terminal run the database migrations:
+
+    ./manage.py migrate
+
+Still in the terminal create a new admin user:
+
+    ./manage.py createsuperuser
 
 
 Within the Arctic project there's an `example` project with a more extensive usage of Arctic's features.

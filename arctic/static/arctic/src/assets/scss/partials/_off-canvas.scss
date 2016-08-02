@@ -45,41 +45,39 @@
                 &:hover {
                     background-color: rgba(0,0,0,0.15);
                 }
-            }
 
-            &.active {
-                padding: 0.3rem 0 0.4rem 8px;
-                display: block;
-                position: relative;
-                color: $green;
-                background-color: $white;
-
-                .right {
-                    margin-right: 0.3rem;
-                }
-
-                ul {
-                    margin-top: 0.3rem;
-                }
-
-
-                &.has-sub {
-                    //background-color: transparent;
-                    padding-bottom: 0;
-                }
-
-                &:before {
-                    position: absolute;
+                &.active {
+                    padding: 0.3rem 0 0.4rem 8px;
                     display: block;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 4px;
-                    content: "";
-                    background: $green;
+                    position: relative;
+                    color: $green;
+                    background-color: $white;
+
+                    .right {
+                        margin-right: 0.3rem;
+                    }
+
+                    ul {
+                        margin-top: 0.3rem;
+                    }
+
+
+                    &.has-sub {
+                        padding-bottom: 0;
+                    }
+
+                    &:before {
+                        position: absolute;
+                        display: block;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 4px;
+                        content: "";
+                        background: $green;
+                    }
                 }
             }
-
 
             i {
                 width: 1.2rem;
@@ -101,8 +99,19 @@
             }
 
             &.sub--expanded > ul,
-            &.sub--collapsed.active ul {
+            &.sub--collapsed ul.active {
                 max-height: 999px;
+
+                &:before {
+                    position: absolute;
+                    display: block;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 4px;
+                    content: "";
+                    background: $green;
+                }
             }
         }
 
@@ -115,17 +124,22 @@
 
             > li {
                 > a {
-                    padding: 0.3rem 0 0.4rem 2.2rem;
+                    padding: 0.3rem 0 0.4rem 2.8rem;
                     position: relative;
                     display: block;
                     color: $greyDark;
+
+                    &.active {
+                        position: relative;
+                        display: block;
+                        color: $green;
+
+                        &:hover {
+                            background: transparent;
+                        }
+                    }
                 }
 
-                &.active {
-                    padding: 0.3rem 0 0.4rem 2.2rem;
-                    position: relative;
-                    display: block;
-                }
                 &:hover {
                     > a {
                         background-color: rgba(0,0,0,0.15);

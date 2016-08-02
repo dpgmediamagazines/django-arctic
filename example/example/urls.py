@@ -15,7 +15,8 @@ from articles.views import (
 )
 from dashboard.views import DashboardView
 from arctic.generics import LoginView
-from arctic.contrib.users.urls import user_patterns
+from arctic.users.urls import user_patterns
+from arctic.views import handler400, handler403, handler404, handler500
 
 
 article_patterns = [
@@ -40,6 +41,7 @@ urlpatterns = [
     url(r'^articles/', include(article_patterns, namespace='articles')),
     url(r'^users/', include(user_patterns, namespace='users')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
