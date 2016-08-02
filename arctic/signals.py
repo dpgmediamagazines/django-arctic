@@ -10,6 +10,9 @@ def superuser_post_save(sender, instance, **kwargs):
     if instance.is_superuser:
         RoleAuthentication.sync()
         admin = Role.objects.get(name='admin')
-        UserRole(user=instance, role=admin).save()
+        try:
+            UserRole.objects.get(user=instance, role=admin)
+        except UserRole.DoesNotExist:
+            UserRole(user=instance, role=admin).save()
 
 post_save.connect(superuser_post_save, sender=User)
