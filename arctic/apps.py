@@ -1,4 +1,6 @@
 from django.apps import AppConfig
+from django.core.exceptions import ImproperlyConfigured
+
 
 class ArcticConfig(AppConfig):
     name = 'arctic'
@@ -10,5 +12,8 @@ class ArcticConfig(AppConfig):
         from .mixins import RoleAuthentication
         try:
             RoleAuthentication.sync()
+        except ImproperlyConfigured:
+            raise
         except:
             pass
+        import arctic.signals

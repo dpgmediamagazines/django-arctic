@@ -15,7 +15,8 @@ from articles.views import (
 )
 from dashboard.views import DashboardView
 from arctic.generics import LoginView
-from arctic.contrib.users.views import UserListView
+from arctic.users.urls import user_patterns
+from arctic.views import handler400, handler403, handler404, handler500
 
 
 article_patterns = [
@@ -34,16 +35,13 @@ article_patterns = [
     url(r'^tags/(?P<pk>\d+)/delete/$', TagDeleteView.as_view(), name='tag-delete'),
 ]
 
-user_patterns = [
- url(r'^$', UserListView.as_view(), name='list'),
-]
-
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='index'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^articles/', include(article_patterns, namespace='articles')),
     url(r'^users/', include(user_patterns, namespace='users')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

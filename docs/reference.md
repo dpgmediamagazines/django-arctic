@@ -25,6 +25,16 @@ It is a list with the format:
 Dictionary of roles and their permissions, it uses the format:
 `{'role1': ('permission1', 'permission2', ...), ...}`
 
+## `ARCTIC_TOPBAR_BACKGROUND_COLOR`
+
+String representing the background color of the topbar, for example '#cccccc',
+if not provided, a default color will be used.
+
+## `ARCTIC_HIGHLIGHT_COLOR`
+
+String representing the highlight color used in table headers, the side menu,
+and tag item backgrounds, if none given a default will be used.
+
 
 # Class Based Views
 

@@ -5,19 +5,20 @@ ARCTIC_SITE_NAME = 'Arctic Example'
 ARCTIC_MENU = (
     ('Dashboard', 'index', 'fa-dashboard'),
     ('Articles', 'articles:list', 'fa-file-text-o', (
-        ('List', 'articles:list', 'fa-list'),
-        ('Create', 'articles:create', 'fa-pencil'),
+        ('List', 'articles:list'),
+        ('Create', 'articles:create'),
     )),
     ('Categories', 'articles:category-list', 'fa-sitemap', (
-        ('List', 'articles:category-list', 'fa-list'),
-        ('Create', 'articles:category-create', 'fa-pencil'),
+        ('List', 'articles:category-list'),
+        ('Create', 'articles:category-create'),
     )),
     ('Tags', 'articles:tag-list', 'fa-tags', (
-        ('List', 'articles:tag-list', 'fa-paper'),
-        ('Create', 'articles:tag-create', 'fa-pencil'),
+        ('List', 'articles:tag-list'),
+        ('Create', 'articles:tag-create'),
     )),
     ('Users', 'users:list', 'fa-user', (
-        ('List', 'users:list', 'fa-paper'),
+        ('List', 'users:list'),
+        ('Create', 'users:create'),
     )),
 )
 
@@ -27,3 +28,9 @@ ARCTIC_ROLES = {
         'articles_create',
     ),
 }
+
+# ARCTIC_TOPBAR_BACKGROUND_COLOR = '#BF1D1D'
+# ARCTIC_HIGHLIGHT_COLOR = '#9ec3d5'
+
+# ARCTIC_TOPBAR_BACKGROUND_COLOR = '#212050'
+# ARCTIC_HIGHLIGHT_COLOR = '#76a2cb'

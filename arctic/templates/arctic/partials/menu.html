@@ -3,27 +3,40 @@
 <ul class="side-menu">
     {% for key, value in menu.items %}
         {% if value.submenu %}
-            <li class="has-sub sub--collapsed{% if value.active %} active{% endif %}">
-                <a href="{% url value.url %}">
-                    <i class="fa {{ value.icon }}"></i>
-                    <span>{% trans key %}</span>
-                </a>
-                <ul>
+            <li class="has-sub sub--collapsed">
+                    <a {% if value.active %}class="active" {% endif %} href="{% url value.url %}">
+                        <i class="fa {{ value.icon }}"></i>
+                        <span>{% trans key %}</span>
+                        {% if not value.active %}
+                            <i class="fa fa-angle-left right"></i>
+                        {% else %}
+                            <i class="fa fa-angle-down right"></i>
+                        {% endif %}
+                    </a>
+                <ul {% if value.active %}class="active" {% endif %}>
                     {% for sub_key, sub_value in value.submenu.items %}
-                        <li {% if sub_value.active %}class="active" {% endif %}>
-                            <a href="{% url sub_value.url %}">
-                                {% trans sub_key %}
-                            </a>
+                        <li>
+                            {# {% if not sub_value.active %} #}
+                                <a {% if sub_value.active %}class="active" {% endif %} href="{% url sub_value.url %}">
+                            {# {% endif %} #}
+                                    {% trans sub_key %}
+                            {# {% if not sub_value.active %} #}
+                                </a>
+                            {# {% endif %} #}
                         </li>
                     {% endfor %}
                 </ul>
             </li>
         {% elif value.url %}
-            <li{% if value.active %} class="active"{% endif %}>
-                <a href="{% url value.url %}">
-                    <i class="fa {{ value.icon }}"></i>
-                    <span>{% trans key %}</span>
-                </a>
+            <li>
+                {# {% if not value.active %} #}
+                    <a {% if value.active %} class="active"{% endif %} href="{% url value.url %}">
+                {# {% endif %} #}
+                        <i class="fa {{ value.icon }}"></i>
+                        <span>{% trans key %}</span>
+                {# {% if not value.active %} #}
+                    </a>
+                {# {% endif %} #}
             </li>
         {% endif %}
     {% endfor %}

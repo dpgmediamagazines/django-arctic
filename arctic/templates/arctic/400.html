@@ -1,0 +1,17 @@
+{% extends "arctic/base.html" %}
+
+
+{% block title %}Bad Request{% endblock %}
+
+
+{% block body_class %}
+    {{ block.super }}
+    page-400
+{% endblock %}
+
+
+{% block content %}
+<div class="row columns text-center">
+    <i class="fa fa-frown-o giant-icon"></i>
+</div>
+{% endblock %}

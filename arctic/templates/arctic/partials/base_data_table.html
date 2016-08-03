@@ -2,22 +2,41 @@
 
 {% load i18n staticfiles arctic_tags %}
 
-    {# filters #}
-    {% if has_filter %}
-        <form action="" method="GET" class="page-filters row">
-            {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-            <div class="columns shrink">
-                <button type="submit" class="button secondary">
-                    <i class="fa fa-search"></i>
-                </button>
+    <div class="row">
+        {% if has_filter %}
+            <form action="" method="GET" class="columns expand">
+                <div class="page-filters row">
+                    {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+                    <div class="columns shrink left">
+                        <button type="submit" class="button secondary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+        {% if tool_links %}
+            <div class="columns {% if has_filter %}shrink{% endif %}">
+                {% for link in tool_links %}
+                    {% if tool_links|length > 1 or not tool_links.0.icon %}
+                        <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa fa-wrench"></i></button>
+                        <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
+                            <ul>
+                                <li><a href="{% url link.url %}">{{ link.label }}</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a class="button secondary" title="{{ link.label }}" href="{% url link.url %}"><i class="fa {{ link.icon }}"></i></a>
+                    {% endif %}
+                {% endfor %}
             </div>
-        </form>
-    {% endif %}
+        {% endif %}
+    </div>
 
     <div class="row">
     {# data table #}
     {% if list_items %}
-        <div class="small-12 columns">
+        <div class="small-12 columns table-scroll">
             <table class="table">
                 <thead>
                     <tr>
@@ -39,7 +58,7 @@
                         {% endfor %}
 
                         {% if action_links %}
-                            <th>{% trans "Actions" %}</th>
+                            <th class="highlight-background">{% trans "Actions" %}</th>
                         {% endif %}
                     </tr>
                 </thead>

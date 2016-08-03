@@ -4,6 +4,7 @@ from collections import OrderedDict
 from django.views import generic as base
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
+from django.utils.http import quote
 from django.db.models.deletion import Collector, ProtectedError
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
@@ -56,6 +57,8 @@ class View(RoleAuthentication, base.View):
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_TITLE'] = self.get_site_title()
         context['SITE_LOGO'] = self.get_site_logo()
+        context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
+        context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         return context
 
     def get_urls(self):
@@ -99,7 +102,7 @@ class View(RoleAuthentication, base.View):
 
     def get_site_logo(self):
         return getattr(settings, 'ARCTIC_SITE_LOGO',
-                       'arctic/build/images/logo.png')
+                       'arctic/dist/assets/img/arctic_logo.svg')
 
     def get_site_name(self):
         return getattr(settings, 'ARCTIC_SITE_NAME',
@@ -108,6 +111,13 @@ class View(RoleAuthentication, base.View):
     def get_site_title(self):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
                        self.get_site_name())
+
+    def get_topbar_background_color(self):
+        return getattr(settings, 'ARCTIC_TOPBAR_BACKGROUND_COLOR', None)
+
+
+    def get_highlight_color(self):
+        return getattr(settings, 'ARCTIC_HIGHLIGHT_COLOR', None)
 
     def get_index_url(self):
         try:
@@ -255,6 +265,8 @@ class ListView(View, base.ListView):
                         #     verbose_name
                     except FieldDoesNotExist:
                         item['label'] = field_name
+                    except AttributeError:
+                        item['label'] = field_name
                 item['name'] = prefix + name
                 if name in self.get_field_links().keys():
                     item['link'] = self.get_field_links()[name]
@@ -313,8 +325,12 @@ class ListView(View, base.ListView):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                allowed_tool_links.append(link)
-
+                icon = None
+                if len(link) == 3: # if an icon class is given
+                    icon = link[2]
+                allowed_tool_links.append({'label': link[0],
+                                           'url': link[1],
+                                           'icon': icon})
             return allowed_tool_links
 
     def get_prefix(self):
@@ -353,8 +369,13 @@ class ListView(View, base.ListView):
         """
         Returns the keyword arguments for instanciating the filterset.
         """
+
+        data = None
+        if self.request.GET:
+            data = [item for item in self.request.GET if item]
+
         kwargs = {
-            'data': self.request.GET or None,
+            'data': data,
             'queryset': self.get_queryset(),
         }
         if self.prefix:
@@ -407,6 +428,10 @@ class UpdateView(SuccessMessageMixin, View, LinksMixin,
         return context
 
 
+class FormView(View, SuccessMessageMixin, base.FormView):
+    template_name = 'arctic/base_create_update.html'
+
+
 class DeleteView(SuccessMessageMixin, View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
 
@@ -443,7 +468,7 @@ class LoginView(TemplateView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
-        context['next'] = self.request.GET.get('next', '/')
+        context['next'] = quote(self.request.GET.get('next', '/'))
         context['messages'] = set(self.messages)
         return context
 
