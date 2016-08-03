@@ -15,13 +15,14 @@
     "tests"
   ],
   "dependencies": {
-    "foundation-sites": "~6.2.3",
-    "motion-ui": "~1.2.2",
-    "fontawesome": "~4.6.3",
+    "foundation-sites": "6.2.3",
+    "motion-ui": "1.2.2",
+    "fontawesome": "4.6.3",
     "jQuery-QueryBuilder": "2.3.3",
-    "selectize": "~0.12.1",
-    "foundation-datepicker": "~1.5.3",
-    "jquery.are-you-sure": "https://github.com/R4YM3/jquery.AreYouSure.git#ef545d843002fe78ee6d3f1b10e02e35a040ca45"
+    "selectize": "0.12.1",
+    "foundation-datepicker": "1.5.3",
+    "jquery": "3.1.0",
+    "jquery.are-you-sure": "1.9.0"
   },
   "private": true
 }
