@@ -64,17 +64,12 @@ PATHS:
     - "bower_components/foundation-sites/js/foundation.tooltip.js"
 
     # Arctic JS deps
+    - "bower_components/selectize/dist/js/standalone/selectize.js"
+    - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
 
     # Paths to your own project code are here
-    - "src/assets/components/selectize/selectize.js"
     - "src/assets/js/utils/helpers.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
-
-    #
-    # Doesn't work with concat?
-    # please verify! we want this in our app.js build
-    #
-    # - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
-    # - "src/assets/js/components/query-builder.js"
+    - "src/assets/js/components/query-builder.js"
