@@ -368,9 +368,10 @@ class ListView(View, base.ListView):
         Returns the keyword arguments for instanciating the filterset.
         """
 
-        data = None
-        if self.request.GET:
-            data = [item for item in self.request.GET if item]
+        data = self.request.GET.copy()
+        for key in self.request.GET:
+            if not data[key]:
+                data.pop(key)
 
         kwargs = {
             'data': data,
