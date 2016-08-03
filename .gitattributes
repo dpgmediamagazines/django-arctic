@@ -1,3 +1,3 @@
 *.css binary
-build/* binary
-arctic/static/arctic/build/* linguist-vendored
+dist/* binary
+arctic/static/arctic/dist/* linguist-vendored
