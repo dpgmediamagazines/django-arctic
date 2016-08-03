@@ -5,16 +5,7 @@
 @import "font-awesome";
 @import 'foundation';
 @import 'motion-ui';
-
-// <<<<<<< HEAD:arctic/static/arctic/src/scss/app.scss
-// @import 'pizza';
-// @import 'jQuery-QueryBuilder/dist/scss/default';
-
-// // if switched to libsass, remove .css extension to -really- include it
-// @import '../components/chosen/chosen.css';
-// =======
 @import 'foundation-datepicker.scss';
-// >>>>>>> develop:arctic/static/arctic/src/assets/scss/app.scss
 
 /*------------------------------------
     DEFAULT FOUNDATION INCLUDES
@@ -88,13 +79,7 @@
 @import "partials/_header-menu";
 @import "partials/_input-fields";
 @import "partials/_off-canvas";
-
-// <<<<<<< HEAD:arctic/static/arctic/src/scss/app.scss
-// @import "partials/_pizza.scss";
 @import "partials/_query-builder";
-// =======
-// >>>>>>> develop:arctic/static/arctic/src/assets/scss/app.scss
-
 @import "partials/_slider";
 @import "partials/_stepper-input";
 @import "partials/_switch";
