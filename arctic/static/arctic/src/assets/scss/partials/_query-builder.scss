@@ -163,7 +163,7 @@ body .query-builder {
     }
 
     .rules-group-container .rules-group-container {
-        background-color: darken( $greyLightest, 3% );
+        background-color: $greyLighter;
     }
 
     .rule-container {

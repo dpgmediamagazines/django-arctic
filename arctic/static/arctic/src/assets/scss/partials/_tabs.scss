@@ -1,7 +1,7 @@
 .tabs {
     margin-bottom: 2em;
     padding-left: 2em;
-    background: $greyLight;
+    background: $greyLighter;
     color: #B000B5;
 
     .tabs-title {
@@ -15,11 +15,11 @@
         }
 
         &:not(.is-active):hover a {
-            background-color: darken( $greyLight, 5% );
+            background-color: $greyLight;
         }
 
         &.is-active {
-            border-top: 2px solid $greyLight;
+            border-color: $greyLighter;
             background-color: $white;
             border-radius: $global-radius $global-radius 0 0;
 
