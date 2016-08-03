@@ -74,7 +74,7 @@ function sass() {
 function javascript() {
   return gulp.src(PATHS.javascript)
     // .pipe($.sourcemaps.init())
-    .pipe($.babel())
+    // .pipe($.babel()) // breaks selectize and query-builder...
     .pipe($.concat('app.js'))
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e); })
