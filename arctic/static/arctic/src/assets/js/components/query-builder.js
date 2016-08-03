@@ -6,11 +6,11 @@
     var element = $( '.query-builder' );
     var filters = element.data( 'filters' );
 
-    if ( element.length && filters.length ) {
+
+    if ( element.length && filters != undefined ) {
 
         // settings
         var settings = {};
-
         settings.icons = {
             add_group: 'fa fa-plus-square',
             add_rule: 'fa fa-plus-circle',
@@ -23,7 +23,7 @@
         settings.filters = filters;
 
         var conditions = element.data( 'conditions' );
-        if ( conditions != {} ) {
+        if ( conditions != "{}" ) {
             settings.rules = conditions;
         }
 
