@@ -59,6 +59,7 @@ class RoleAuthentication():
     support for role based permissions in any class - usually a View.
     """
     required_permission = None
+    ADMIN = 'admin'
 
     @classmethod
     def sync(cls):
@@ -76,16 +77,16 @@ class RoleAuthentication():
 
         saved_roles = set(Role.objects.values_list('name', flat=True))
         unsaved_roles = settings_roles - saved_roles
-        unused_roles = saved_roles - settings_roles - set(['admin'])
+        unused_roles = saved_roles - settings_roles - set([cls.ADMIN])
 
         # ensure that admin is not defined in settings
-        if 'admin' in settings_roles:
-            raise ImproperlyConfigured('"admin" role is reserved and cannot be '
-                                       'defined in settings')
+        if cls.ADMIN in settings_roles:
+            raise ImproperlyConfigured('"' + cls.ADMIN + '" role is reserved '
+                                       'and cannot be defined in settings')
 
         # ensure that admin exists in the database
-        if not 'admin' in saved_roles:
-            Role(name='admin', is_active=True).save()
+        if not cls.ADMIN in saved_roles:
+            Role(name=cls.ADMIN, is_active=True).save()
 
         # check if the role defined in settings already exists in the database
         # and if it does ensure it is enabled.
@@ -117,7 +118,7 @@ class RoleAuthentication():
         if not self.required_permission:
             return True
         role = UserRole.objects.get(user=user).role.name
-        if role == 'admin':
+        if role == self.ADMIN:
             return True
         result = self.required_permission in settings.ARCTIC_ROLES[role]
         # will try to call a method with the same name as the permission

@@ -24,7 +24,6 @@ textarea {
     font-size: $fontSizeDefault;
     border-radius: $global-radius;
     box-shadow: 0 0 0 0;
-    //overflow: hidden;
 
     &:focus {
         border-color: darken($greyLight, 25%);
@@ -70,7 +69,9 @@ input[type="range"] {
 
 // select
 select {
-    height: 2.5rem;
+    color: $greyDark;
+    border-radius: $global-radius;
+    font-size: inherit;
 }
 
 // error

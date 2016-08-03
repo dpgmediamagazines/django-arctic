@@ -53,12 +53,11 @@ function copyFonts() {
 // Compile Sass into CSS. In production, the CSS is compressed
 function sass() {
     return gulp.src('src/assets/scss/app.scss')
-    .pipe($.sourcemaps.init())
+    // .pipe($.sourcemaps.init())
     .pipe($.sass({
         includePaths: PATHS.sass,
         outputStyle: 'compressed'
     })
-
     .on('error', $.sass.logError))
         .pipe($.autoprefixer({
         browsers: COMPATIBILITY
@@ -66,21 +65,21 @@ function sass() {
 
     // Comment in the pipe below to run UnCSS in production
     //.pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
-    .pipe($.if(PRODUCTION, $.cssnano()))
-    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+    // .pipe($.if(PRODUCTION, $.cssnano()))
+    // .pipe($.sourcemaps.write())
     .pipe(gulp.dest(PATHS.dist + '/assets/css'))
 }
 
 // Combine JavaScript into one file. In production, the file is minified
 function javascript() {
   return gulp.src(PATHS.javascript)
-    .pipe($.sourcemaps.init())
+    // .pipe($.sourcemaps.init())
     .pipe($.babel())
     .pipe($.concat('app.js'))
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e); })
     ))
-    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+    // .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(PATHS.dist + '/assets/js'));
 }
 
