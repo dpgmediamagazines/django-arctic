@@ -28,6 +28,7 @@ PATHS:
     - "bower_components/motion-ui/src"
     - "bower_components/fontawesome/scss"
     - "bower_components/foundation-datepicker/css"
+    - "bower_components/"
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
     # Libraries requried by Foundation
