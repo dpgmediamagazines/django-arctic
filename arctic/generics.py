@@ -265,6 +265,8 @@ class ListView(View, base.ListView):
                         #     verbose_name
                     except FieldDoesNotExist:
                         item['label'] = field_name
+                    except AttributeError:
+                        item['label'] = field_name
                 item['name'] = prefix + name
                 if name in self.get_field_links().keys():
                     item['link'] = self.get_field_links()[name]
