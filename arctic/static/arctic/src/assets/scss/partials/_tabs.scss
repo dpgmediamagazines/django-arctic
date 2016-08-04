@@ -1,7 +1,8 @@
 .tabs {
-    border-bottom: 2px solid $greyLight;
     margin-bottom: 2em;
     padding-left: 2em;
+    background: $greyLighter;
+    color: #B000B5;
 
     .tabs-title {
         position: relative;
@@ -10,32 +11,20 @@
 
         a {
             color: $greyDark;
-            padding: $marginMedium $marginLarge;
+            padding: $marginLarge $marginLarge;
         }
 
-        &:hover {
-            color: $greyLight;
+        &:not(.is-active):hover a {
+            background-color: $greyLight;
         }
 
         &.is-active {
-            border-width: 2px 2px 0;
-            border-style: solid;
-            border-color: $greyLight;
+            border-color: $greyLighter;
+            background-color: $white;
             border-radius: $global-radius $global-radius 0 0;
 
             a {
                 color: $green;
-            }
-
-            &:after {
-                position: absolute;
-                display: block;
-                bottom: -2px;
-                left: 0;
-                height: 2px;
-                width: 100%;
-                content: "";
-                background: $white;
             }
         }
     }
