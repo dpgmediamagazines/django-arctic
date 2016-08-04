@@ -105,10 +105,10 @@ $hr-width:                      $global-width;
 /*------------------------------------
     OFF CANVAS
 ------------------------------------*/
-$global-radius:                 3px;
-$borderRadiusSmall:             3px;
+$borderRadiusSmall:             0;
 $borderRadiusMedium:            6px;
 $borderRadiusLarge:             9px;
+$global-radius:                 $borderRadiusSmall;
 
 /*------------------------------------
     OFF CANVAS
