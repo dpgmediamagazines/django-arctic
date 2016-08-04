@@ -1,12 +1,12 @@
 "use strict";
 
-( function () {
+$( document ).ready(function() {
 
     // required fields
     var element = $( '.query-builder' );
 
     var filters_var = element.data('filters-var');
-    var filters = window[filters_var];    // global so it can transfer a full json
+    var filters = window[filters_var]; // global so it can transfer a full json
 
     if ( element.size() && filters != '' ) {
 
@@ -46,4 +46,4 @@
             }
         } );
     }
-} )();
+});
