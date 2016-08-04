@@ -61,6 +61,50 @@ function inlineWidget(css_class, template, dict, list_separator) {
     });
 }
 
+function set_input_widgets() {
+    var s = $('.js-selectize');
+    if (s.size()) {
+        s.selectize({allowEmptyOption: true, highlight: false});
+    }
+
+    var s_tags = $('.js-selectize-tags');
+    if (s_tags.size()) {
+        s_tags.selectize({
+            delimiter: ',',
+            persist: false,
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
+    }
+
+    var datepicker = $('.js-datepicker');
+    if (datepicker.size()) {
+        datepicker.fdatepicker({
+        		format: 'yyyy-mm-dd'
+        	});
+    }
+
+    var timepicker = $('.js-timepicker');
+    if (timepicker.size()) {
+        timepicker.fdatepicker({
+        		format: 'hh:ii',
+                pickTime: true
+        	});
+    }
+
+    var datetimepicker = $('.js-datetimepicker');
+    if (datetimepicker.size()) {
+        datetimepicker.fdatepicker({
+        		format: 'yyyy-mm-dd hh:ii',
+                pickTime: true
+        	});
+    }
+}
+
 // jquery stuff goes here
 $(document).ready(function() {
 
@@ -94,11 +138,6 @@ $(document).ready(function() {
         incrementStepperInput(1);
     });
 
-    // var chosen = $('.chosen-select');
-    // if (chosen.size()) {
-    //     chosen.chosen({width: '100%', disable_search_threshold: 10});
-    // }
-
     var dirty_check = $('form.dirty-check');
     if (dirty_check.size()) {
         dirty_check.areYouSure();
@@ -120,45 +159,5 @@ $(document).ready(function() {
         });
     }
 
-    var s = $('.js-selectize');
-    if (s.size()) {
-        s.selectize({allowEmptyOption: true, highlight: false});
-    }
-
-    var s_tags = $('.js-selectize-tags');
-    if (s_tags.size()) {
-        s_tags.selectize({
-            delimiter: ',',
-            persist: false,
-            create: function(input) {
-                return {
-                    value: input,
-                    text: input
-                }
-            }
-        });
-    }
-
-    var datepicker = $('.js-datepicker');
-    if (datepicker.size()) {
-        datepicker.fdatepicker({
-        		format: 'mm-dd-yyyy'
-        	});
-    }
-
-    var timepicker = $('.js-timepicker');
-    if (timepicker.size()) {
-        timepicker.fdatepicker({
-        		format: 'hh:ii',
-                pickTime: true
-        	});
-    }
-
-    var datetimepicker = $('.js-datetimepicker');
-    if (datetimepicker.size()) {
-        datetimepicker.fdatepicker({
-        		format: 'mm-dd-yyyy hh:ii',
-                pickTime: true
-        	});
-    }
+    set_input_widgets();
 });

@@ -1,5 +1,10 @@
 include README.md
 include LICENSE
+include arctic/static/arctic/src/assets/js/components/query-builder.js
+include arctic/static/arctic/bower_components/jquery/dist/jquery.min.js
+include arctic/static/arctic/bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js
+include arctic/static/arctic/bower_components/selectize/dist/js/standalone/selectize.js
+
 recursive-include arctic/static/arctic/dist *.js *.css *.jpg *.png *.eot *.svg *.ttf *.woff *woff2
 recursive-include arctic/templates *.html
 recursive-exclude * __pycache__

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-__VERSION__ = '0.9.0'
+__VERSION__ = '0.9.1'
 
 try:
     README = open('README.md').read()
