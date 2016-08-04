@@ -4,10 +4,11 @@
 
     // required fields
     var element = $( '.query-builder' );
-    var filters = element.data( 'filters' );
 
+    var filters_var = element.data('filters-var');
+    var filters = window[filters_var];    // global so it can transfer a full json
 
-    if ( element.length && filters != undefined ) {
+    if ( element.size() && filters != '' ) {
 
         // settings
         var settings = {};
@@ -19,11 +20,13 @@
             error: 'fa fa-exclamation-triangle'
         }
         settings.allow_groups = 1;
-        settings.filters = {};
         settings.filters = filters;
 
-        var conditions = element.data( 'conditions' );
-        if ( conditions != "{}" ) {
+        var conditions_var = element.data('filters-var');
+        var conditions;
+
+        if (typeof conditions_var !== 'undefined') {
+            conditions = window[conditions_var];
             settings.rules = conditions;
         }
 
