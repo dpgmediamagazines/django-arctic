@@ -32,7 +32,7 @@ PATHS:
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
     # Libraries requried by Foundation
-    - "bower_components/jquery/dist/jquery.js"
+    # - "bower_components/jquery/dist/jquery.js"
     - "bower_components/what-input/what-input.js"
 
     # Custom addons
@@ -64,12 +64,12 @@ PATHS:
     - "bower_components/foundation-sites/js/foundation.tooltip.js"
 
     # Arctic JS deps
-    - "bower_components/selectize/dist/js/standalone/selectize.js"
-    - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
+    # - "bower_components/selectize/dist/js/standalone/selectize.js"
+    # - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
-    - "src/assets/js/components/query-builder.js"
+    # - "src/assets/js/components/query-builder.js"
