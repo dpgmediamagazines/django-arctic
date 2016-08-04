@@ -9,7 +9,7 @@ $( document ).ready(function() {
     var filters_var = element.data('filters-var');
     var filters = window[filters_var];
 
-    if ( element.size() && filters != '' ) {
+    if ( element.size() && filters !== undefined ) {
 
         // settings
         var settings = {};
