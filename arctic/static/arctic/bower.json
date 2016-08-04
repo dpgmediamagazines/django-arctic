@@ -21,7 +21,7 @@
     "jQuery-QueryBuilder": "2.3.3",
     "selectize": "0.12.1",
     "foundation-datepicker": "1.5.3",
-    "jquery": "3.1.0",
+    "jquery": "2.2.4",
     "jquery.are-you-sure": "1.9.0"
   },
   "private": true
