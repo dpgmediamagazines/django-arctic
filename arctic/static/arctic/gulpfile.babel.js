@@ -64,7 +64,7 @@ function sass() {
     }))
 
     // Comment in the pipe below to run UnCSS in production
-    .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
+    // .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
     .pipe($.if(PRODUCTION, $.cssnano()))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(PATHS.dist + '/assets/css'))
@@ -74,7 +74,7 @@ function sass() {
 function javascript() {
   return gulp.src(PATHS.javascript)
     .pipe($.sourcemaps.init())
-    // .pipe($.babel()) // breaks selectize and query-builder...
+    .pipe($.babel())
     .pipe($.concat('app.js'))
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e); })
