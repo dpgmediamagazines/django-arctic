@@ -22,7 +22,7 @@
             {% elif field|widget_type == 'toggleselectwidget' and not disable_chosen %}
                 {% render_field field class+='js-selectize' data-placeholder=field.label %}
             {% elif field|widget_type == 'selectmultiple' and not disable_chosen %}
-                {% render_field field class+='chosen-select' data-placeholder=field.label %}
+                {% render_field field class+='js-selectize' data-placeholder=field.label %}
             {% else %}
                 {% render_field field %}
             {% endif %}

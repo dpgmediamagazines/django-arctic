@@ -11,7 +11,7 @@
 .off-canvas {
     height: 100%;
     padding: 60px $marginLarge 30px;
-    background: lighten($greyLight, 5%);
+    background: $greyLighter;
 
     .position-left {
         width: $offcanvas-size;

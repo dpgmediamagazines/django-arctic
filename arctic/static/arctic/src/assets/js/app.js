@@ -106,17 +106,17 @@ $(document).ready(function() {
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
             if (tab) {
-                tab.text = '●' + tab.text;
+                tab.text = '● ' + tab.text;
             }
-            document.title = '●' + document.title;
+            document.title = '● ' + document.title;
         });
 
         $('form').on('clean.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
             if (tab) {
-                tab.text = tab.text.slice(1);
+                tab.text = tab.text.slice(2);
             }
-            document.title = document.title.slice(1);
+            document.title = document.title.slice(2);
         });
     }
 
