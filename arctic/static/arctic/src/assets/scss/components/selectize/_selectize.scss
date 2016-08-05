@@ -25,9 +25,10 @@
     align-content: center;
     min-height: 2.25rem;
     width: 100%;
-    padding: .4375rem;
+    padding: .21875rem .4375rem .21875rem .4375rem;
     border: 1px solid $medium-gray;
     border-radius: $global-radius;
+    line-height: 1rem;
 
     input {
         height: auto;
@@ -52,18 +53,17 @@
     }
 
     .item {
-        padding: 0 $marginSmall;
+        padding: 3px;
         color: $greyDark;
-        font-size: 12px;
+        font-size: 0.8rem;
         font-weight: normal;
-        line-height: 20px;
     }
 }
 
 .selectize-control.multi {
     .selectize-input {
         .item {
-            margin-right: 5px;
+            margin: .155rem .2rem .155rem 0;
             color: darken($greyDark, 25%);
             background: $green;
             opacity: 0.65;
@@ -106,7 +106,7 @@
 .selectize-dropdown {
     position: absolute;
     margin-top: -1px;
-    font-size: 12px;
+//    font-size: 0.8rem;
     font-weight: normal;
     background: $white;
     border: 1px solid $medium-gray;
