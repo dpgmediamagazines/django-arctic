@@ -36,7 +36,8 @@
     <div class="row">
     {# data table #}
     {% if list_items %}
-        <div class="small-12 columns table-scroll">
+        <div class="small-12 columns">
+            <div class="table-scroll">
             <table class="table">
                 <thead>
                     <tr>
@@ -113,6 +114,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div> {# table-scroll #}
         </div> {# small-12 columns #}
     </div> {# row #}
     {% block pagination %}
