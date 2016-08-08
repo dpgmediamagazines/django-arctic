@@ -1,13 +1,15 @@
 "use strict";
 
-( function () {
+$( document ).ready(function() {
 
     // required fields
     var element = $( '.query-builder' );
-    var filters = element.data( 'filters' );
 
+    // get filters var name and value
+    var filters_var = element.data('filters-var');
+    var filters = window[filters_var];
 
-    if ( element.length && filters != undefined ) {
+    if ( element.size() && filters !== undefined ) {
 
         // settings
         var settings = {};
@@ -19,11 +21,15 @@
             error: 'fa fa-exclamation-triangle'
         }
         settings.allow_groups = 1;
-        settings.filters = {};
         settings.filters = filters;
 
-        var conditions = element.data( 'conditions' );
-        if ( conditions != "{}" ) {
+        // get conditions var name and value
+        var conditions_var = element.data('filters-var');
+        var conditions;
+
+        // define conditions if there's an value
+        if (typeof conditions_var !== 'undefined') {
+            conditions = window[conditions_var];
             settings.rules = conditions;
         }
 
@@ -43,4 +49,4 @@
             }
         } );
     }
-} )();
+});
