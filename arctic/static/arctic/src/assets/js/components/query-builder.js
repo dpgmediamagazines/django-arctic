@@ -24,7 +24,7 @@ $( document ).ready(function() {
         settings.filters = filters;
 
         // get conditions var name and value
-        var conditions_var = element.data('filters-var');
+        var conditions_var = element.data('conditions-var');
         var conditions;
 
         // define conditions if there's an value
