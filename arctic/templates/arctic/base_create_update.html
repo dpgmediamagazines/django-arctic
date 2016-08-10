@@ -46,7 +46,7 @@
 
         {% block extra_forms %} {% endblock %}
 
-        {# form actions #}
+        {% block form_actions %}
         <div class="row align-center">
             <div class="small-6 medium-4 columns">
                 {% if links %}
@@ -66,6 +66,7 @@
                 <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
             </div>
         </div>
+        {% endblock form_actions %}
     </form>
 
     {% block extra_content %}{% endblock %}
