@@ -91,3 +91,16 @@ select {
     font-style: italic;
     opacity: 0.55;
 }
+
+
+fieldset {
+    border: 2px solid $greyLight;
+    border-radius: $global-radius;
+    padding: $marginLarge;
+}
+
+fieldset legend {
+    padding: 5px 10px ;
+    border-radius: 5px;
+    text-align: center;
+}

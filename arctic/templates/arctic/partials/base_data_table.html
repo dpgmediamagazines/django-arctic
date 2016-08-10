@@ -70,7 +70,7 @@
                                 {% if v|typename == 'ManyRelatedManager' or v|typename = 'RelatedManager' %}
                                     <td>
                                         {% for item in v.all %}
-                                            <span class="badge">{{ item }}</span>
+                                            <span class="badge highlight-background">{{ item }}</span>
                                         {% endfor %}
                                     </td>
                                 {% else %}
