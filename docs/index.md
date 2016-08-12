@@ -37,59 +37,111 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 
 Arctic is available on PIP:
 
-    pip install django-arctic #TODO
+    pip install django-arctic
 
 or directly from Github:
 
-    pip install git+ssh://git@github.com:sanoma/django-arctic.git
+    pip install git+ssh://git@github.com/sanoma/django-arctic.git
 
 
 ## Getting Started
 
-Create a new Django project:
+Setup a python virtualenv and install django-arctic.
 
-    django-admin startproject arctic_project
+In the terminal, create a new Django project:
 
-Change the settings.py:
+    django-admin startproject arctic_demo
 
-In `TEMPLATES` - `OPTIONS` - `context_processors` add:
+In `settings.py`:
 
-    'django.template.context_processors.request'
+* Add `'arctic'` to `INSTALLED_APPS`
 
-Add `'arctic'` to `INSTALLED_APPS`
+    Setup the database:
 
-Setup the database:
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
         }
-    }
 
-Setup the menu:
+* Set the site name:
 
-    ARCTIC_MENU = (
-        ('Hello World', 'hello_world', 'fa-world')
-    )
-
-Set the site name:
-
-    ARCTIC_SITE_NAME = 'Arctic Hello World'
+        ARCTIC_SITE_NAME = 'Arctic Hello World'
 
 
-Create a helloworld app:
+Back in the terminal:
 
-    ./manage.py startapp hello_world
+* Run the database migrations:
+
+        ./manage.py migrate
+
+* Create a new admin user:
+
+        ./manage.py createsuperuser
+
+* Create a helloworld app:
+
+        ./manage.py startapp hello_world
 
 
-In the terminal run the database migrations:
+Edit `hello_world/views.py` and add the following:
 
-    ./manage.py migrate
+        from arctic.generics import TemplateView
 
-Still in the terminal create a new admin user:
+        class HelloWorldView(TemplateView):
+            page_title = "Hello"
+            template_name = 'hello_world.html'
 
-    ./manage.py createsuperuser
+Create a `templates/hello_world.html` file with the content:
 
+        {% extends "arctic/base.html" %}
 
-Within the Arctic project there's an `example` project with a more extensive usage of Arctic's features.
+        {% block content %}
+            <h3>World!</h3>
+        {% endblock %}
+
+In `urls.py` add the following:
+        
+        from django.conf.urls import url
+        from arctic.generics import LoginView
+        from hello_world.views import HelloWorldView
+
+        urlpatterns = [
+            url(r'^login/$', LoginView.as_view(), name='login'),
+            url(r'^$', HelloWorldView.as_view(), name='hello_world'),
+        ]
+
+In `settings.py`:
+
+* Add `hello_world` to `INSTALLED_APPS`.
+
+* Setup the side menu:
+
+        ARCTIC_MENU = (
+            ('Hello World', 'hello_world', 'fa-world'),
+        )
+
+* Set `LOGIN_URL` and `LOGOUT_URL`:
+
+        LOGIN_URL = LOGOUT_URL = '/login/'
+
+Back in terminal, run the project:
+
+        ./manage.py runserver
+
+In this quick start, it is already noticeable that creating an Arctic project
+should be very familiar for someone who knows Django. Arctic is basically a 
+superset of Django and extends existing django components, such as 
+authentication, generic views and templates.
+
+Even though this project just displays a text on screen, a few other things are
+also present:
+
+* `./manage.py createsuperuser` created a user with the `admin` role
+* The HelloWorldView requires a login
+* A default responsive UI is provided with a login screen and a logged in 
+  screen with a top bar, content area and configurable side menu.
+
+Within the Arctic project there's an `example` project with a more extensive 
+usage of Arctic's features.
