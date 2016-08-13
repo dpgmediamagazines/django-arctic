@@ -2,6 +2,7 @@ from __future__ import unicode_literals, division
 from collections import OrderedDict
 
 from django.views import generic as base
+from django.shortcuts import resolve_url
 from django.utils.translation import ugettext as _
 from django.utils.text import capfirst
 from django.utils.http import quote
@@ -40,7 +41,8 @@ class View(RoleAuthentication, base.View):
         can be set to False to disable this.
         """
         if (not request.user.is_authenticated()) and self.requires_login:
-            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+            return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL), 
+                                            request.path))
         if not self.has_perm(request.user):
             raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
