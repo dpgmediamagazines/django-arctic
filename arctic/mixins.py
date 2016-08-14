@@ -105,15 +105,6 @@ class RoleAuthentication():
             unused_role.is_active = False
             unused_role.save()
 
-
-    def assign_role(self, role, user):
-        group = Group.objects.get(name=role)
-        user.groups.clear() # users only have one role
-        user.groups.add(group)
-
-    def revoke_role(self, role, user):
-        user.groups.clear()
-
     def has_perm(self, user):
         if not self.required_permission:
             return True

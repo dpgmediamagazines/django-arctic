@@ -18,12 +18,18 @@ Title of the site to be used in the title tag. If not set it will use
 
 Main menu that enables navigation between the different pages in Arctic.
 It is a list with the format:
-`(('menu label', 'named url', 'optional icon class', (optional submenu)), ...)`
+
+    (('menu label', 'named url', 'optional icon class', (optional submenu)), ...)
 
 ## `ARCTIC_ROLES`
 
 Dictionary of roles and their permissions, it uses the format:
-`{'role1': ('permission1', 'permission2', ...), ...}`
+
+    {'role1': ('permission1', 'permission2', ...), ...}
+
+The 'admin' role is reserved and cannot be defined in settings. It gives full 
+rights to all views and can also be created with the `createsuperuser` 
+command.
 
 ## `ARCTIC_TOPBAR_BACKGROUND_COLOR`
 
@@ -36,11 +42,12 @@ String representing the highlight color used in table headers, the side menu,
 and tag item backgrounds, if none given a default will be used.
 
 
-# Class Based Views
+# Generic Class Based Views
 
 Arctic provides a number of class based views that add integration with the
 user interface and extra functionality for common use cases.
-The class names match and work the same way as the ones that Django provides and should be used instead.
+The class names match and work the same way as the ones that Django provides 
+and should be used instead.
 
 ## View
 
@@ -174,12 +181,38 @@ can transform the field data into a graphic representation.
 list of links with the format `('name', 'url')`, not connected to the table data.
 
 
+## FormView
+
+`class arctic.generics.FormView`
+
+This view displays form data, it also includes a default template.
+
+**Extends**
+
+* `arctic.generics.View`
+* `arctic.mixins.SuccessMessageMixin`
+* `django.views.FormView`
+
+
+## DetailView
+
+`class arctic.generics.DetailView`
+
+This view displays data from a model using a default template.
+
+**Extends**
+
+* `arctic.generics.View`
+* `arctic.mixins.LinksMixin`
+* `django.views.DetailView`
+
+
 ## CreateView
 
 `class arctic.generics.CreateView`
 
-This view displays tabular data from a django model, it includes a default
-template and is able to do filtering, sorting, pagination and linking.
+This view displays a form that creates data for a django model, it includes a 
+default template.
 
 **Extends**
 
@@ -187,15 +220,72 @@ template and is able to do filtering, sorting, pagination and linking.
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.CreateView`
 
+
+## UpdateView
+
+`class arctic.generics.UpdateView`
+
+This view displays a form that updates data defined in a django model, it 
+includes a default template.
+
+**Extends**
+
+* `arctic.generics.View`
+* `arctic.mixins.SuccessMessageMixin`
+* `django.views.UpdateView`
+
+
+## DeleteView
+
+`class arctic.generics.DeleteView`
+
+This view deletes data defined from a django model.
+
+**Extends**
+
+* `arctic.generics.View`
+* `arctic.mixins.SuccessMessageMixin`
+* `django.views.DeleteView`
+
+
+# Mixins
+
+## RoleAuthentication
+
+`class arctic.mixins.RoleAuthentication`
+
+This class provides role based authentication to a View. It is also used as a 
+standalone class to query other views about permissions and to syncronize the 
+roles defined in settings with the database instances.
+
 **Properties**
 
-### `fields`
+### `required_permission`
 
-list of fields that should be displayed in the table, it is possible to
-customize the field name by using a `(name, verbose_name)` tuple in the list
-instead of a string.
+This property defines which persmission should be checked when trying to access 
+the view. When object based permission is needed, an extra method can be created
+in the View with a matching name as the required permission. This method should
+return a `True` if the permission is accepted or `False` if rejected.
 
 
-# Permissions
+**Methods**
+
+### `sync()`
+
+This class method synchronizes the roles defined in the settings with the ones
+in the database, this is needed to create relationships between Users and Roles.
+This method is called every time arctic is started up.
+
+### `has_perm()`
+
+Checks if a user has the rights to access the current view. This is done firstly
+by checking if the role the user has contains the defined `required_permission`
+and secondly if a method with a name matching `required_permission` exists it 
+will check if it returns `True` or `False`.
+
 
 # Apps
+
+## users
+
+TBD

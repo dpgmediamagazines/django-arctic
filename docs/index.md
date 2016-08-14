@@ -124,7 +124,7 @@ In `settings.py`:
 
 * Set `LOGIN_URL` and `LOGOUT_URL`:
 
-        LOGIN_URL = LOGOUT_URL = '/login/'
+        LOGIN_URL = LOGOUT_URL = 'login'
 
 Back in terminal, run the project:
 
