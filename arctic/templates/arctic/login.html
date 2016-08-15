@@ -15,7 +15,7 @@
 {% block body %}
 <div class="row align-center align-middle">
     <div class="medium-6 large-4 columns">
-        <form action=".?next={{ next }}" method="post">
+        <form action=".?next={{ next|urlencode }}" method="post">
             {% csrf_token %}
             {% if messages %}
                 {% for message in messages %}

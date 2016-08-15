@@ -471,7 +471,7 @@ class LoginView(TemplateView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
-        context['next'] = quote(self.request.GET.get('next', '/'))
+        context['next'] = self.request.GET.get('next', '/')
         context['messages'] = set(self.messages)
         return context
 
