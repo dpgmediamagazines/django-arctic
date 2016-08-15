@@ -1,4 +1,7 @@
 {
-	"presets": ["es2015"],
-  "compact": false
+    "presets": ["es2015"],
+    "compact": false,
+    "ignore": ["selectize.js", 
+               "query-builder.standalone.js", 
+               "jquery.are-you-sure.js"]
 }

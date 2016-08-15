@@ -173,20 +173,7 @@
             </div>
         {% endblock %}
         {% block scripts_bottom %}
-
-        {% comment %}
-            this needs to be moved within config.yml
-            if so gulp can concat and compress it (along with other js files).
-        {% endcomment %}
-
-        <script src="{% static "arctic/bower_components/jquery/dist/jquery.min.js" %}"></script>
-        <script src="{% static "arctic/bower_components/jquery.are-you-sure/jquery.are-you-sure.js" %}"></script>
         <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
-
-        <script src="{% static "arctic/bower_components/selectize/dist/js/standalone/selectize.js" %}"></script>
-        <script src="{% static "arctic/bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js" %}"></script>
-        <script src="{% static "arctic/src/assets/js/components/query-builder.js" %}"></script>
-
         {% endblock %}
     </body>
 </html>

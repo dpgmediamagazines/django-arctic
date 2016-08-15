@@ -1,5 +1,3 @@
 *.css binary
 arctic/static/arctic/dist/** binary
-arctic/static/arctic/bower_components/** binary
 arctic/static/arctic/dist/* linguist-vendored
-arctic/static/arctic/bower_components/* linguist-vendored
