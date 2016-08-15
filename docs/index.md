@@ -1,4 +1,4 @@
-![arctic screenshot](img/arctic_screenshot.jpg)
+![arctic screenshot](img/arctic_screenshot.png)
 
 # Overview
 

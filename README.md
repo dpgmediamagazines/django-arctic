@@ -1,4 +1,4 @@
-![arctic screenshot](docs/img/arctic_screenshot.jpg)
+![arctic screenshot](docs/img/arctic_screenshot.png)
 
 #Django Arctic
 
