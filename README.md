@@ -1,3 +1,5 @@
+![arctic screenshot](docs/img/arctic_screenshot.jpg)
+
 #Django Arctic
 
 Django Arctic is a framework that simplifies the creation of custom content management systems.
