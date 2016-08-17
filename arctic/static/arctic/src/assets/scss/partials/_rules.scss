@@ -1,88 +1,127 @@
+///
+/// TODO
+///
+/// VALUES BY VAR
+/// VALUES FROM FOUNDATION
+
 .rules {
+    border: 1px solid $rules-border-color;
+    border-radius: $global-radius;
     margin-bottom: 1rem;
-    padding-top: 1rem;
-    border-width: 1px;
-    border-style: solid;
-    border-color: $rules-border-color;
 
-    .rule {
-        padding-top: 5px;
-        border-top: 1px solid $rules-border-color;
+    header {
+        text-align: right;
+        padding: 15px 10px;
 
-        .type {
-            max-width: 100px;
+        h4 {
+            float: left;
         }
 
-        .type .label {
-          width: 100%;
-          text-align: center;
-          padding: 13px 0;
-          margin-top: 1.55rem;
+        .dropdown {
+            display: inline-block;
+            text-align: left;
         }
 
-        .delete,
-        .ignore_case,
-        .position {
-            max-width: 120px;
+        .button {
+            margin-bottom: 0;
         }
     }
 }
 
+.rulesset {
+    display: table;
 
-.rules {
-    .rule {
-        background: $rule-simple-background;
+    .row {
+        display: table-row;
+        margin: 0;
 
-        &:nth-child(even) {
-            background: $rule-simple-striped-background;
-        }
-
-        .label {
-            background: $rule-simple-label-bg;
-            border: 1px solid $rule-simple-label-border-color;
-            color: $rule-simple-label-text-color;
+        > * {
+            display: table-cell;
+            border-top: 1px solid $rules-border-color;
         }
     }
 
-    .feature-rule {
-        background: $rule-feature-background;
+    .fields {
+        padding-bottom: .875rem;
+    }
 
-        &:nth-child(even) {
-            background: $rule-feature-striped-background;
-        }
+    .fields .field {
+        display: inline-block;
+        margin-top: .875rem;
+        margin-right: $marginSmall * 1.25;
+    }
+}
 
-        .label {
-            background: $rule-feature-label-bg;
-            border: 1px solid $rule-feature-label-border-color;
-            color: $rule-feature-label-text-color;
+
+.rulesset .rule {
+
+    &:hover {
+        background-color: $greyLightest;
+    }
+
+
+    // drag and delete icon
+    .fa {
+        margin: .8rem 1rem;
+        padding: .75rem .75rem;
+        color: $greyMedium;
+    }
+
+    .fa-times:hover {
+        color: $red;
+        cursor: pointer;
+    }
+
+
+    // rule label
+    .label {
+        display: block;
+        margin-top: .875rem;
+        width: auto;
+        padding: .75rem .5rem;
+        border-radius: $global-radius;
+        background-color: $green;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+
+    // all fields
+    .field {
+
+        label {
+            display: none;
         }
     }
 
-    .replace-rule {
-        background: $rule-replace-background;
 
-        &:nth-child(even) {
-            background: $rule-replace-striped-background;
-        }
-
-        .label {
-            background: $rule-replace-label-bg;
-            border: 1px solid $rule-replace-label-border-color;
-            color: $rule-replace-label-text-color;
-        }
+    // field sizing
+    input,
+    select {
+        margin: 0;
     }
 
-    .skip-rule {
-        background: $rule-skip-background;
+    .field input:not('checkbox'):not('radio'),
+    .field select {
+        width: 100%;
+    }
 
-        &:nth-child(even) {
-            background: $rule-skip-striped-background;
-        }
+    .field:not(.delete) {
+        width: 160px;
+    }
 
-        .label {
-            background: $rule-skip-label-bg;
-            border: 1px solid $rule-skip-label-border-color;
-            color: $rule-skip-label-text-color;
-        }
+    .field.site,
+    .field.seperator {
+        width: 50px;
+    }
+
+
+    // specific fields
+    .field.position {
+        display: none;
+    }
+
+    .field.delete {
+        display: none;
     }
 }
