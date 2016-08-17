@@ -1,0 +1,88 @@
+.rules {
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $rules-border-color;
+
+    .rule {
+        padding-top: 5px;
+        border-top: 1px solid $rules-border-color;
+
+        .type {
+            max-width: 100px;
+        }
+
+        .type .label {
+          width: 100%;
+          text-align: center;
+          padding: 13px 0;
+          margin-top: 1.55rem;
+        }
+
+        .delete,
+        .ignore_case,
+        .position {
+            max-width: 120px;
+        }
+    }
+}
+
+
+.rules {
+    .rule {
+        background: $rule-simple-background;
+
+        &:nth-child(even) {
+            background: $rule-simple-striped-background;
+        }
+
+        .label {
+            background: $rule-simple-label-bg;
+            border: 1px solid $rule-simple-label-border-color;
+            color: $rule-simple-label-text-color;
+        }
+    }
+
+    .feature-rule {
+        background: $rule-feature-background;
+
+        &:nth-child(even) {
+            background: $rule-feature-striped-background;
+        }
+
+        .label {
+            background: $rule-feature-label-bg;
+            border: 1px solid $rule-feature-label-border-color;
+            color: $rule-feature-label-text-color;
+        }
+    }
+
+    .replace-rule {
+        background: $rule-replace-background;
+
+        &:nth-child(even) {
+            background: $rule-replace-striped-background;
+        }
+
+        .label {
+            background: $rule-replace-label-bg;
+            border: 1px solid $rule-replace-label-border-color;
+            color: $rule-replace-label-text-color;
+        }
+    }
+
+    .skip-rule {
+        background: $rule-skip-background;
+
+        &:nth-child(even) {
+            background: $rule-skip-striped-background;
+        }
+
+        .label {
+            background: $rule-skip-label-bg;
+            border: 1px solid $rule-skip-label-border-color;
+            color: $rule-skip-label-text-color;
+        }
+    }
+}
