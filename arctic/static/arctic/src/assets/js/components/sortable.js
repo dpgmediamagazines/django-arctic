@@ -3,14 +3,18 @@
     see https://github.com/RubaXa/Sortable
 
     Required html data attributes:
-    * data-to-sort - elements which need to be dragged)
-    * data-to-update - elements where positions need to be saved
+    * data-row - elements which need to be dragged)
+
+    Optional
+    * data-handle - handle for draggable item
+    * data-delete - to delete a row, delete -requires- placeholder
  */
 
 var sortable = {
     element: $( '[data-sortable]' ),
     row: "",
     placeholder: "",
+    handle: "",
     delete: "",
 
     init: function () {
@@ -20,8 +24,9 @@ var sortable = {
 
             // get required data
             self.rowClass = self.element.data( 'row' );
-            self.row = self.element.find( self.rowClass ); // add to vars?
-            self.placeholder = self.element.data( 'placeholder' ); // add to vars?
+            self.row = self.element.find( self.rowClass );
+            self.placeholder = self.element.data( 'placeholder' );
+            self.handle = self.element.data( 'handle' );
             self.delete = self.element.data( 'delete' );
             self.delete = self.row.find( self.delete );
 
@@ -31,8 +36,8 @@ var sortable = {
                 return
             }
 
-            // optional delete
-            if ( self.delete.size() ) {
+            // optional delete, which requires placeholder
+            if ( self.delete.size() && self.placeholder.size()) {
 
                 self.delete.on( 'click', function ( event ) {
                     self.remove( this, self );
@@ -57,6 +62,11 @@ var sortable = {
             onUpdate: function ( event ) {
                 self.recalc()
             }
+        }
+
+        // is there a handle?
+        if ( self.handle != undefined ) {
+            config.handle = self.handle;
         }
 
         // init sortable
