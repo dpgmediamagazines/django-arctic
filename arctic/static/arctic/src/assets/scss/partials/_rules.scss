@@ -1,8 +1,7 @@
-///
-/// TODO
-///
-/// VALUES BY VAR
-/// VALUES FROM FOUNDATION
+// TODO
+
+// VALUES BY VAR
+// VALUES FROM FOUNDATION
 
 .sortable-ghost {
     opacity: .5;
@@ -16,7 +15,7 @@
 
     header {
         text-align: right;
-        padding: 15px 10px;
+        padding: $marginLarge $marginMedium;
 
         h4 {
             float: left;
@@ -90,7 +89,7 @@
         padding: .75rem .5rem;
         border-radius: $global-radius;
         text-align: center;
-        margin-right: 10px;
+        margin-right: $marginMedium;
     }
 
 
@@ -115,12 +114,12 @@
     }
 
     .field:not(.delete) {
-        width: 160px;
+        width: $rules-field-large-width;
     }
 
     .field.site,
     .field.seperator {
-        width: 50px;
+        width: $rules-field-small-width;
     }
 
 
