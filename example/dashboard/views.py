@@ -1,14 +1,7 @@
 # -*-*- encoding: utf-8 -*-*-
-from __future__ import unicode_literals, absolute_import
-from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse_lazy, reverse
+from __future__ import (absolute_import, unicode_literals)
 
-# TODO: Move extra views into our own views. So we can override where needed
-from extra_views import InlineFormSet
-
-from arctic.generics import (
-    ListView, UpdateView, CreateView,
-    DeleteView, TemplateView)
+from arctic.generics import TemplateView
 
 
 class DashboardView(TemplateView):
@@ -18,4 +11,3 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         return context
-

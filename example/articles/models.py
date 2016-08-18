@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+
 class Article(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField()
@@ -17,14 +18,16 @@ class Article(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField("Name", max_length=255, null=False, blank=False, unique=True)
+    name = models.CharField('Name', max_length=255, null=False, blank=False,
+                            unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Tag(models.Model):
-    term = models.CharField("Term", max_length=255, null=False, blank=False, unique=True)
+    term = models.CharField('Term', max_length=255, null=False, blank=False,
+                            unique=True)
 
     def __str__(self):
         return self.term

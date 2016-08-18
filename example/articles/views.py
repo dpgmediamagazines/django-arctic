@@ -1,15 +1,13 @@
-# -*-*- encoding: utf-8 -*-*-
-from __future__ import unicode_literals, absolute_import
+from __future__ import (absolute_import, unicode_literals)
+
+from django.core.urlresolvers import (reverse, reverse_lazy)
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse_lazy, reverse
 
-from arctic.generics import (
-    ListView, UpdateView, CreateView,
-    DeleteView, TemplateView)
+from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
+                             UpdateView)
 
-from .models import Article, Category, Tag
 from .forms import ArticleForm
-from .inlines import ArticleInline, TagsInline
+from .models import (Article, Category, Tag)
 
 
 class DashboardView(TemplateView):
@@ -55,7 +53,7 @@ class ArticleUpdateView(UpdateView):
     ]
     # tabs = [
     #     ('Detail', 'articles:detail'),
-        # ('Tags', 'articles:detail-tags'),
+    #     ('Tags', 'articles:detail-tags'),
     # ]
 
     def get_urls(self):
@@ -69,7 +67,7 @@ class ArticleUpdateView(UpdateView):
 
 class ArticleCreateView(CreateView):
     page_title = _("Create Article")
-    #fields = ['title', 'description', 'tags', 'category', 'published']
+    # fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
     form_class = ArticleForm
 
@@ -98,7 +96,8 @@ class CategoryArticlesListView(ArticleListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.pk = kwargs.pop('pk')
-        return super(CategoryArticlesListView, self).dispatch(request, *args, **kwargs)
+        return super(CategoryArticlesListView, self).dispatch(request, *args,
+                                                              **kwargs)
 
     # disable some settings from the default article list
     tool_links = [
@@ -142,6 +141,7 @@ class CategoryCreateView(CreateView):
     page_title = _("Create Category")
     model = Category
     fields = ['name']
+
     def get_success_url(self):
         return reverse('articles:category-detail', args=(self.object.pk,))
 

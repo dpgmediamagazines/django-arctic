@@ -1,5 +1,3 @@
-from django.utils.translation import ugettext as _
-
 from arctic.generics import TemplateView
 
 
@@ -42,4 +40,3 @@ handler400 = BadRequestView.as_view()
 handler403 = ForbiddenView.as_view()
 handler404 = NotFoundView.as_view()
 handler500 = InternalErrorView.as_view()
-

@@ -1,5 +1,4 @@
-# -*-*- encoding: utf-8 -*-*-
-from __future__ import unicode_literals, absolute_import
+from __future__ import (absolute_import, unicode_literals)
 
 from django import forms
 
@@ -8,7 +7,8 @@ from .models import Article
 
 class ArticleForm(forms.ModelForm):
     class Meta:
-        fields = ['title', 'description', 'category', 'updated_at', 'tags', 'published']
+        fields = ['title', 'description', 'category', 'updated_at', 'tags',
+                  'published']
         model = Article
 
     def __init__(self, *args, **kwargs):

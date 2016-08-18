@@ -1,8 +1,9 @@
-from __future__ import unicode_literals, absolute_import
-from django import template
-from django.core.urlresolvers import reverse
+from __future__ import (absolute_import, unicode_literals)
 
 from collections import OrderedDict
+
+from django import template
+from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -173,7 +174,7 @@ def arctic_url(context, link, *args, **kwargs):
                 # try to get attribute of this object
                 try:
                     arg = getattr(context['v'], arg)
-                # if not found, fall back to pk of row, which is always first column
+                # if not found fallback to row pk, which is always first column
                 except:
                     arg = context['item'][0]
             mutated_url_args.append(arg)
@@ -184,7 +185,8 @@ def arctic_url(context, link, *args, **kwargs):
     # set arguments defined in get_urls if provided
     if link in context['urls']:
 
-        # for where the params directly given. e.g. ('article-detail', (self.object.pk,))
+        # for where the params directly given. e.g. ('article-detail',
+        # (self.object.pk,))
         url_args = context['urls'][link]
 
         # list given, which means it's mutable!
@@ -205,8 +207,8 @@ def typename(obj):
 
 
 @register.filter
-def index(List, i):
-    return List[int(i)]
+def index(lst, i):
+    return lst[int(i)]
 
 
 @register.filter

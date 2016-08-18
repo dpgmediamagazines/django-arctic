@@ -1,12 +1,11 @@
 from collections import OrderedDict
 
-import pytest
-import django.core.urlresolvers
 from django.conf import settings
+import django.core.urlresolvers
 from django.http import HttpRequest
 
-from .. import utils
 from . import test_settings
+from .. import utils
 
 settings.configure(test_settings, DEBUG=True)
 
@@ -16,12 +15,12 @@ class TestMenu:
         ('menu 1', 'url_1', 'icon 1'),
         ('menu 2', 'url_2', 'icon 2', (
             ('menu 2_1', 'url_2_1'),
-            ('menu 2_2', 'url_2_2'),)
-        ),
+            ('menu 2_2', 'url_2_2'),
+        )),
         ('menu 3', '/'),
         ('menu 4', 'url_4', (
-            ('menu 4_1', 'url_4_1', 'icon 4_1'),)
-        ),
+            ('menu 4_1', 'url_4_1', 'icon 4_1'),
+        )),
     )
 
     OUTPUT_MENU = OrderedDict([
@@ -38,10 +37,11 @@ class TestMenu:
                     'active_weight': 1, 'submenu': None}),
         ('menu 4', {'url': 'url_4', 'icon': None, 'active': False,
                     'active_weight': 5, 'submenu': OrderedDict([
-            ('menu 4_1', {'url': 'url_4_1', 'icon': 'icon 4_1', 'active': False,
-                          'active_weight': 7, 'submenu': None}),
+            ('menu 4_1', {'url': 'url_4_1', 'icon': 'icon 4_1',
+                          'active': False, 'active_weight': 7,
+                          'submenu': None}),
         ])}),
-    ])
+    ])  # noqa
 
     def test_menu(self, monkeypatch):
         """

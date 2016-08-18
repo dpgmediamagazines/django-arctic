@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+from .arctic import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -120,5 +122,3 @@ MEDIA_ROOT = location("media")
 MEDIA_URL = '/media/'
 
 LOGIN_URL = LOGOUT_URL = 'login'
-
-from .arctic import *

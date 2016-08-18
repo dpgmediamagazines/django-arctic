@@ -1,11 +1,11 @@
-# -*-*- encoding: utf-8 -*-*-
-# pylint: disable=E1101
-from __future__ import unicode_literals, absolute_import
+from __future__ import (absolute_import, unicode_literals)
+
 import operator
 from functools import reduce
 
 from django import forms
-from django.db.models import DateTimeField, Q
+from django.db.models import (DateTimeField, Q)
+
 import django_filters
 from django_filters.widgets import RangeWidget
 

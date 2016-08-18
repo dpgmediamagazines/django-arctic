@@ -1,23 +1,23 @@
-from __future__ import unicode_literals, division
+from __future__ import (division, unicode_literals)
+
 from collections import OrderedDict
 
-from django.views import generic as base
-from django.shortcuts import resolve_url
-from django.utils.translation import ugettext as _
-from django.utils.text import capfirst
-from django.utils.http import quote
-from django.db.models.deletion import Collector, ProtectedError
-from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings
-from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.core.exceptions import PermissionDenied, FieldDoesNotExist
+from django.contrib.auth import (authenticate, login, logout)
+from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.urlresolvers import (NoReverseMatch, reverse)
+from django.db.models.deletion import (Collector, ProtectedError)
+from django.shortcuts import (redirect, render, resolve_url)
+from django.utils.http import quote
+from django.utils.text import capfirst
+from django.utils.translation import ugettext as _
+from django.views import generic as base
 
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import SuccessMessageMixin, LinksMixin, RoleAuthentication
-from .utils import menu, find_attribute, find_field_meta
+from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
+from .utils import (find_attribute, find_field_meta, menu)
 
 
 class View(RoleAuthentication, base.View):
@@ -41,7 +41,7 @@ class View(RoleAuthentication, base.View):
         can be set to False to disable this.
         """
         if (not request.user.is_authenticated()) and self.requires_login:
-            return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL), 
+            return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
         if not self.has_perm(request.user):
             raise PermissionDenied
@@ -116,7 +116,6 @@ class View(RoleAuthentication, base.View):
 
     def get_topbar_background_color(self):
         return getattr(settings, 'ARCTIC_TOPBAR_BACKGROUND_COLOR', None)
-
 
     def get_highlight_color(self):
         return getattr(settings, 'ARCTIC_HIGHLIGHT_COLOR', None)
@@ -261,7 +260,10 @@ class ListView(View, base.ListView):
                 else:
                     name = field_name
                     try:
-                        item['label'] = find_field_meta(model, field_name).verbose_name
+                        item['label'] = find_field_meta(
+                            model,
+                            field_name
+                        ).verbose_name
 
                         # item['label'] = model._meta.get_field(field_name).\
                         #     verbose_name
@@ -295,11 +297,12 @@ class ListView(View, base.ListView):
                     else:
                         try:
                             # Get the choice display value
-                            parent_objs = '__'.join(field_name.split('__')[:-1])
+                            parent_objs = '__'.join(
+                                field_name.split('__')[:-1])
                             method_name = 'get_{}_display'.format(
-                                                     field_name.split('__')[-1])
-                            value = find_attribute(obj, parent_objs + '__' + \
-                                                  method_name)()
+                                field_name.split('__')[-1])
+                            value = find_attribute(obj, parent_objs + '__' +
+                                                   method_name)()
                         except AttributeError:
                             value = find_attribute(obj, field_name)
 
@@ -314,7 +317,7 @@ class ListView(View, base.ListView):
             allowed_action_links = []
             for link in self.action_links:
                 icon = None
-                if len(link) == 3: # if an icon class is given
+                if len(link) == 3:  # if an icon class is given
                     icon = link[2]
                 allowed_action_links.append({'label': link[0],
                                              'url': link[1],
@@ -328,7 +331,7 @@ class ListView(View, base.ListView):
             allowed_tool_links = []
             for link in self.tool_links:
                 icon = None
-                if len(link) == 3: # if an icon class is given
+                if len(link) == 3:  # if an icon class is given
                     icon = link[2]
                 allowed_tool_links.append({'label': link[0],
                                            'url': link[1],

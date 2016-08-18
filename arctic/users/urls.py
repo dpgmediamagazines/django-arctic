@@ -1,7 +1,6 @@
-from django.conf.urls import include, url
+from django.conf.urls import url
 
-from .views import UserListView, UserCreateView, UserUpdateView
-
+from .views import (UserCreateView, UserListView, UserUpdateView)
 
 user_patterns = [
     url(r'^$', UserListView.as_view(), name='list'),

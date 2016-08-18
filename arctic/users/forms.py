@@ -1,11 +1,13 @@
 from collections import OrderedDict
 
 from django import forms
-from django.contrib.auth import get_user_model, forms as user_forms
+from django.contrib.auth import forms as user_forms
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
-from betterforms.multiform import MultiModelForm
 from arctic.models import UserRole
+
+from betterforms.multiform import MultiModelForm
 
 User = get_user_model()
 
@@ -47,7 +49,7 @@ class UserChangeForm(forms.ModelForm):
         label=_("New Password"),
         widget=forms.PasswordInput,
         strip=False,
-        required = False,
+        required=False,
         help_text=_("Leave this field empty if you don't want to change your "
                     "password."),
     )
@@ -67,10 +69,8 @@ class UserChangeForm(forms.ModelForm):
         return user
 
 
-
 class UserChangeMultiForm(MultiModelForm):
     form_classes = OrderedDict([
         ('user', UserChangeForm),
         ('role', UserRoleForm),
     ])
-

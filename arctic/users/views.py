@@ -1,17 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render
-from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 
-from arctic.models import UserRole, Role
-from .forms import UserCreationMultiForm, UserChangeMultiForm
+from arctic.generics import (CreateView, ListView, UpdateView)
+from arctic.models import UserRole
 
-from arctic.generics import (
-    ListView, UpdateView, CreateView,
-    DeleteView, FormView)
+from .forms import (UserChangeMultiForm, UserCreationMultiForm)
 
 User = get_user_model()
+
 
 class UserListView(ListView):
     page_title = _('Users')
@@ -32,6 +29,7 @@ class UserListView(ListView):
         (_('Create Users'), 'users:create', 'fa-plus'),
     ]
 
+
 class UserCreateView(CreateView):
     page_title = _('Create User')
     model = UserRole
@@ -39,7 +37,9 @@ class UserCreateView(CreateView):
     form_class = UserCreationMultiForm
 
     def get_success_message(self, cleaned_data):
-        return _('User {} was successfully created').format(self.object['user'])
+        return _('User {} was successfully created').format(
+            self.object['user'])
+
 
 class UserUpdateView(UpdateView):
     page_title = _('Change User')
@@ -56,5 +56,5 @@ class UserUpdateView(UpdateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _('User {} was successfully updated').format(self.object['user'])
-
+        return _('User {} was successfully updated').format(
+            self.object['user'])

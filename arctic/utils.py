@@ -1,9 +1,8 @@
-# -*-*- encoding: utf-8 -*-*-
-# pylint: disable=E1101
-from __future__ import unicode_literals, absolute_import
-import importlib
+from __future__ import (absolute_import, unicode_literals)
 
+import importlib
 from collections import OrderedDict
+
 from django.conf import settings
 from django.core import urlresolvers
 
@@ -15,6 +14,7 @@ def is_active(path, path_to_check):
 # by getting the view class from the named url we can check which permissions
 # are available:
 # http://stackoverflow.com/questions/5749075
+
 
 def menu(menu_config=None, **kwargs):
     """

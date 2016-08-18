@@ -1,15 +1,15 @@
-# -*-*- encoding: utf-8 -*-*-
 """
 Basic mixins for generic class based views.
 """
 
-from __future__ import unicode_literals, absolute_import
+from __future__ import (absolute_import, unicode_literals)
 
-from django.contrib import messages
 from django.conf import settings
+from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
-from .models import Role, UserRole
+from .models import (Role, UserRole)
+
 
 class SuccessMessageMixin(object):
     """
@@ -85,7 +85,7 @@ class RoleAuthentication():
                                        'and cannot be defined in settings')
 
         # ensure that admin exists in the database
-        if not cls.ADMIN in saved_roles:
+        if cls.ADMIN not in saved_roles:
             Role(name=cls.ADMIN, is_active=True).save()
 
         # check if the role defined in settings already exists in the database

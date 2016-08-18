@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import (find_packages, setup)
 
 
 __VERSION__ = '0.9.2'
@@ -9,7 +9,7 @@ except:
     README = None
 
 try:
-    REQUIREMENTS = open('requirements.txt').read()
+    REQUIREMENTS = open('requirements/base.txt').read()
 except:
     REQUIREMENTS = None
 
@@ -42,5 +42,5 @@ setup(
     url='https://github.com/sanoma/django-arctic',
     author='Sanoma Netherlands',
     author_email='opensource@sanoma.com',
-    description="Django framework to create custom content management systems.",
+    description="Django framework to create custom content management systems",
 )
