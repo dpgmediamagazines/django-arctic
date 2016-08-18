@@ -288,7 +288,7 @@ class ListView(View, base.ListView):
                 items.append([obj.pk, str(obj)])
         else:
             for obj in objects:
-                item = [obj.pk]
+                item = [getattr(obj, 'pk', None)]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
                         value = find_attribute(obj, field_name[0])
