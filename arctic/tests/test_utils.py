@@ -1,13 +1,9 @@
 from collections import OrderedDict
 
-from django.conf import settings
 import django.core.urlresolvers
 from django.http import HttpRequest
 
-from . import test_settings
 from .. import utils
-
-settings.configure(test_settings, DEBUG=True)
 
 
 class TestMenu:

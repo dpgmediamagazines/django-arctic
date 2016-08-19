@@ -47,7 +47,7 @@ class FilterSet(django_filters.FilterSet):
             elif isinstance(self.filters[filter_name],
                             django_filters.ChoiceFilter):
                 choices = (('', self.filters[filter_name].label),) + \
-                          self.filters[filter_name].extra['choices']
+                    self.filters[filter_name].extra['choices']
                 self.filters[filter_name].extra.update(
                     {'choices': choices}
                 )
