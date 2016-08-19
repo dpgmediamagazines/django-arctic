@@ -17,7 +17,7 @@ import extra_views
 
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
-from .utils import (find_attribute, find_field_meta, menu)
+from .utils import (find_attribute, find_field_meta, get_attribute, menu)
 
 
 class View(RoleAuthentication, base.View):
@@ -290,7 +290,7 @@ class ListView(View, base.ListView):
                 items.append([obj.pk, str(obj)])
         else:
             for obj in objects:
-                item = [obj.pk]
+                item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
                         value = find_attribute(obj, field_name[0])
