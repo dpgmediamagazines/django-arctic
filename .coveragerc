@@ -10,4 +10,5 @@ omit =
     *wsgi.py,
     *static/*,
     manage.py,
-    setup.py
+    setup.py,
+    .tox
