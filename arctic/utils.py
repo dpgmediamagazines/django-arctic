@@ -102,9 +102,22 @@ def find_attribute(obj, value):
     """
     if '__' in value:
         value_list = value.split('__')
-        attr = getattr(obj, value_list[0])
+        attr = get_attribute(obj, value_list[0])
         return find_attribute(attr, '__'.join(value_list[1:]))
-    return getattr(obj, value)
+    return get_attribute(obj, value)
+
+
+def get_attribute(obj, value):
+    """
+    Normally the result of list_items for listviews are a set of model objects.
+    But when you want a GROUP_BY query (with 'values' method), than
+    the result will be a dict. This method will help you find an item for either
+    objects or dictionaries.
+    """
+    if type(obj) == dict:
+        return dict.get(obj, value)
+    else:
+        return getattr(obj, value)
 
 
 def find_field_meta(obj, value):
