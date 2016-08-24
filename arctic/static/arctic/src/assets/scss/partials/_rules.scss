@@ -1,0 +1,126 @@
+.sortable-ghost {
+    opacity: .5;
+}
+
+
+.rules {
+    border: 1px solid $rules-border-color;
+    border-radius: $global-radius;
+    margin-bottom: 1rem;
+
+    header {
+        text-align: right;
+        padding: $marginLarge $marginMedium;
+
+        h4 {
+            float: left;
+        }
+
+        .dropdown {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .button {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.rulesset {
+    display: table;
+    width: 100%;
+
+    .row {
+        display: table-row;
+        margin: 0;
+
+        > * {
+            display: table-cell;
+            border-top: 1px solid $rules-border-color;
+        }
+    }
+
+    .fields {
+        padding-bottom: .875rem;
+    }
+
+    .fields .field {
+        display: inline-block;
+        margin-top: .875rem;
+        margin-right: $marginSmall * 1.25;
+    }
+}
+
+
+.rulesset .rule {
+
+    &:hover {
+        background-color: $greyLightest;
+    }
+
+    &.removed {
+        display: none;
+    }
+
+    // drag and delete icon
+    .fa {
+        margin: .8rem 1rem;
+        padding: .75rem .75rem;
+        color: $greyMedium;
+    }
+
+    .fa-times:hover {
+        color: $red;
+        cursor: pointer;
+    }
+
+
+    // rule label
+    .label {
+        display: block;
+        margin-top: .875rem;
+        width: auto;
+        padding: .75rem .5rem;
+        border-radius: $global-radius;
+        text-align: center;
+        margin-right: $marginMedium;
+    }
+
+
+    // all fields
+    .field {
+
+        label {
+            display: none;
+        }
+    }
+
+
+    // field sizing
+    input,
+    select {
+        margin: 0;
+    }
+
+    .field input:not('checkbox'):not('radio'),
+    .field select {
+        width: 100%;
+    }
+
+    .field:not(.delete) {
+        width: $rules-field-large-width;
+    }
+
+    .field.site,
+    .field.seperator {
+        width: $rules-field-small-width;
+    }
+
+
+    // specific fields
+    .field.position,
+    .field.delete {
+        display: none;
+    }
+}
