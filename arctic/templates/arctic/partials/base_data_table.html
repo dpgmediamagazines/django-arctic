@@ -67,7 +67,7 @@
                     {% for item in list_items %}
                         <tr>
                             {% for v in item|slice:"1:" %}
-                                {% if v|typename == 'ManyRelatedManager' or v|typename = 'RelatedManager' %}
+                                {% if v|typename == 'ManyRelatedManager' or v|typename == 'RelatedManager' %}
                                     <td>
                                         {% for item in v.all %}
                                             <span class="badge highlight-background">{{ item }}</span>

@@ -22,7 +22,7 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 ## Compatibility
 
 * Python 2.7, 3.4, 3.5
-* Django 1.8, 1.9
+* Django 1.8, 1.9, 1.10
 
 
 ## Features

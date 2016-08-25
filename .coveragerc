@@ -11,4 +11,5 @@ omit =
     *static/*,
     manage.py,
     setup.py,
-    .tox
+    .tox/*,
+    site_packages/*
