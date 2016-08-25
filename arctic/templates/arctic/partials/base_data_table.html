@@ -90,7 +90,7 @@
                                             {{ v|default_if_none:""|safe|linebreaks }}
                                         </a>
                                     {% else %}
-                                        {% if v|typename == 'datetime' or v|typename = 'date' %}
+                                        {% if v|typename == 'datetime' or v|typename == 'date' %}
                                             {{ v|default_if_none:"" }}
                                         {% else %}
                                             {{ v|default_if_none:""|safe|linebreaks }}
