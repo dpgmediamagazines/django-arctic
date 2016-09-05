@@ -1,1 +1,54 @@
-{% include "arctic/partials/head.html" %}
+{% load i18n staticfiles arctic_tags %}
+
+{% comment %}
+    Django vars needed:
+    {{ dialog_id }} - close specific dialog (when not defined it closes all dialogs)
+    {{ close_dialog }} - removes dialog
+
+    manual close dialog:
+    <a data-close ></a> - closes dialog onclick
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        {% include "arctic/partials/head.html" %}
+        {% block head_extras %}{% endblock %}
+    </head>
+
+    <body class="dialog {% block body_class %}{% endblock %}" data-close="{{ dialog_id }}">
+        <header class="topbar-background">
+            {% block title %}
+            <h3>Titel</h3>
+            {% endblock %}
+
+            {% block close %}
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% endblock %}
+        </header>
+
+        {% block body %}
+            {% comment %}
+                place form here
+            {% endcomment %}
+
+            <fieldset>
+                <legend>It's a form!</legend>
+            </fieldset>
+
+            <button data-close type="button">Save</button>
+        {% endblock %}
+
+        {% if close_dialog %}
+        <script>
+            (function (){
+                var closeReveal = new Reveal();
+                closeReveal.close();
+            })();
+        </script>
+        {% endif %}
+    </body>
+</html>
