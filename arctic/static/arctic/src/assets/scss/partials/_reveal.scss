@@ -1,18 +1,8 @@
 .reveal.external {
     padding: 0;
-
-    header {
-        padding: .5rem 1rem;
-        color: $white;
-    }
-
-    h3 {
-        margin: 0;
-        font-size: 1.25rem;
-    }
+    border: 0;
 
     iframe {
         width: 100%;
-        height: 100%;
     }
 }

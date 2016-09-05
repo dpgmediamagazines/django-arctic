@@ -1,0 +1,23 @@
+.dialog {
+    padding: 0;
+
+    > header {
+        padding: .5rem 1rem;
+        margin-bottom: 1rem;
+        color: $white;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+
+    .close-button {
+        color: inherit;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+}
