@@ -1,13 +1,23 @@
 function Reveal( element ) {
     this.element = element
+
+    // all close buttons
     this.hide = $( '[data-close]' )
 
     // set these variables when there's an element
     if ( this.element && this.element.size() ) {
+        this.url = this.element.data( 'url' )
         this.id = this.element.data( 'open' )
         this.dialog = $( '#' + this.id )
-        this.url = this.element.data( 'url' )
         this.iframe = this.dialog.find('iframe')
+    }
+
+    // it's an iframe
+    if ( window.parent != window ) {
+        this.framed = true;
+        this.body = $( 'body' );
+        this.id = this.body.data( 'id' )
+        this.auto_close = this.body.data( 'auto-close' )
     }
 
     self = this
@@ -17,24 +27,22 @@ function Reveal( element ) {
 
 Reveal.prototype.init = function ( ) {
 
-    // if required vars are set then initiate
+    // listen to open dialog with an iframe
     if ( this.url && this.dialog && this.element.size() ) {
         this.element.on( 'click', this.open )
     }
 
-    // close dialog within iframe
-    if ( this.hide.size() && window.parent != window ) {
+    // if in iframe listen to close dialog
+    if ( this.framed == true ) {
 
-        // button
+        if ( this.auto_close ) {
+            this.close( this.id )
+        }
+
         this.hide.on( 'click' , function ( ) {
-
-            // get parent dialog id
-            self.id = $( this ).closest( '.iframe.base' ).data( 'close' );
-
-            // close dialog with id
-            self.close( self.id )
+            self.close( this.id )
         })
-    } // else {  default foundation behaviour }
+    }
 }
 
 
@@ -58,7 +66,8 @@ Reveal.prototype.close = function ( id ) {
     this.dialog.trigger('closeme.zf.reveal');
 
     // remove src on iframe
-    this.dialog.removeAttr( 'src' );
+    this.iframe = this.dialog.find('iframe')
+    this.iframe.removeAttr( 'src' );
 }
 
 
