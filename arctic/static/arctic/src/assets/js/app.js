@@ -33,7 +33,7 @@ function django2datepicker(django_format) {
         'i': 'ii',
         'a': 'aa',
         'A': 'AA',
-        'P': 'h:i a'
+        'P': 'hh:ii aa'
     }
 
     var datepicker_format = '';
@@ -128,8 +128,8 @@ function set_input_widgets() {
             onlyTimepicker: true,
             language: 'en',
             startDate: new Date($(this).attr("date")),
-        	dateFormat: django2datepicker(TIME_FORMAT),
-            pickTime: true
+        	timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
         });
     });
 
@@ -138,8 +138,9 @@ function set_input_widgets() {
             language: 'en',
             todayButton: true,
             startDate: new Date($(this).attr("date")),
-        	dateFormat: django2datepicker(DATETIME_FORMAT),
-            pickTime: true
+        	dateFormat: django2datepicker(DATE_FORMAT),
+            timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
         });
     });
 }
