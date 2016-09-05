@@ -9,7 +9,6 @@
          Make the field widget type available to templates so we can
          mark-up checkboxes differently to other widgets.
     {% endcomment %}
-
     {% block control_group %}
         <div class="row align-center {% if field.errors %}error{% endif %}">
             {% block controls %}
@@ -63,7 +62,7 @@
                                     {% endfor %}
 
                                 {# select #}
-                                {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' %}
+                                {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' or field|widget_type == 'lazyselect' %}
                                     {% render_field field class+='js-selectize' %}
                                 {% elif field|widget_type == 'selectmultiple' %}
                                     {% render_field field class+='js-selectize' multiple="" %}
@@ -72,7 +71,9 @@
                                 {% elif field|widget_type == 'timeinput' %}
                                     {% render_field field class+='js-timepicker' %}
                                 {% elif field|widget_type == 'dateinput' %}
-                                    {% render_field field class+='js-datepicker' %}
+                                    {% with epoch=field.value|date:"U" %} 
+                                    {% render_field field date=field.value class+='js-datepicker' %}
+                                    {% endwith %}
 
                                 {% else %}
                                     {% render_field field %}

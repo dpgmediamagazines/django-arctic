@@ -174,7 +174,12 @@
             </div>
         {% endblock %}
         {% block scripts_bottom %}
-        <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+            <script>
+                var DATE_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATE }}'
+                var DATETIME_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATETIME }}'
+                var TIME_FORMAT = '{{ DATETIME_FORMATS.TIME }}'
+            </script>
+            <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
         {% endblock %}
     </body>
 </html>
