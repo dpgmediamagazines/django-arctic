@@ -19,7 +19,7 @@
             this.id = this.element.data( 'open' )
             this.size = this.element.data( 'size' )
             this.dialog = $( '#' + this.id )
-            this.iframe = this.dialog.find('iframe')
+            this.iframe = this.dialog.find( 'iframe' )
         }
 
         // it's an iframe
@@ -27,8 +27,9 @@
             this.framed = true;
             this.body = $( 'body' )
             this.id = this.body.data( 'id' )
-            this.close_button = $( '[data-close]' )
+            this.hide = $( '[data-close]' )
             this.auto_close = this.body.data( 'auto-close' )
+            this.parent_reload = this.body.data( 'parent-reload' )
         }
 
         self = this
@@ -51,11 +52,15 @@
         // if in iframe listen to close dialog
         if ( this.framed ) {
 
+            if ( this.parent_reload ) {
+                window.parent.location.reload();
+            }
+
             if ( this.auto_close ) {
                 this.close( this.id )
             }
 
-            this.close_button.on( 'click' , function ( ) {
+            this.hide.on( 'click' , function ( ) {
                 self.close( this.id )
             })
         }
