@@ -45,10 +45,10 @@ table {
 
         a .fa {
             color: $textColorMedium;
-        }
 
-        a .fa:hover {
-            color: $textLinkBlue;
+            &:hover {
+                    color: $textLinkBlue;
+            }
         }
     }
 }
