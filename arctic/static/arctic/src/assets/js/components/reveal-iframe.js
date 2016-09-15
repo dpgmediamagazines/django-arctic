@@ -10,14 +10,10 @@
 
     'use strict';
 
-    function Reveal( element ) {
-
+    function RevealIframe( element ) {
         this.element = element
 
-        // close button
-        this.hide = $( '[data-close]' )
-
-        // set these variables when there's an element
+        // setup dialog with iframe listener
         if ( this.element && this.element.size() ) {
             this.url = this.element.data( 'url' )
             this.id = this.element.data( 'open' )
@@ -30,6 +26,7 @@
             this.framed = true;
             this.body = $( 'body' )
             this.id = this.body.data( 'id' )
+            this.close_button = $( '[data-close]' )
             this.auto_close = this.body.data( 'auto-close' )
         }
 
@@ -38,9 +35,9 @@
     }
 
 
-    Reveal.prototype.init = function ( ) {
+    RevealIframe.prototype.init = function ( ) {
 
-        // listen to open dialog with an iframe
+        // open dialog with an iframe
         if ( this.url && this.dialog && this.element.size() ) {
             this.element.on( 'click', this.open )
         }
@@ -52,14 +49,14 @@
                 this.close( this.id )
             }
 
-            this.hide.on( 'click' , function ( ) {
+            this.close_button.on( 'click' , function ( ) {
                 self.close( this.id )
             })
         }
     }
 
 
-    Reveal.prototype.open = function () {
+    RevealIframe.prototype.open = function () {
         // set url
 
         self.dialog.on( 'open.zf.reveal', function ( ) {
@@ -68,7 +65,7 @@
     }
 
 
-    Reveal.prototype.close = function ( id ) {
+    RevealIframe.prototype.close = function ( id ) {
 
         if ( id ) {
             // if there's a ID only close this dialog in parent window
@@ -87,6 +84,6 @@
     }
 
     // initiate
-    new Reveal( $( '[data-open][data-url]' ) )
+    new RevealIframe( $( '[data-open][data-url]' ) )
 
 })( jQuery );
