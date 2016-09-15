@@ -8,9 +8,10 @@ from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
+from django.utils import formats
 from django.utils.http import quote
 from django.utils.text import capfirst
-from django.utils.translation import ugettext as _
+from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
 import extra_views
@@ -22,7 +23,8 @@ from .utils import (find_attribute, find_field_meta, get_attribute, menu)
 
 class View(RoleAuthentication, base.View):
     """
-    This view needs to be used for all Arctic views, except the LoginView
+    This view needs to be used for all Arctic views, except the LoginView.
+
     It includes integration with the Arctic user interface elements, such as
     the menu, site logo, site title, page title and breadcrumbs.
     """
@@ -36,8 +38,9 @@ class View(RoleAuthentication, base.View):
 
     def dispatch(self, request, *args, **kwargs):
         """
-        In a CMS most views tipically require a login, so this is the default
-        setup, if a login is not required then the requires_login property
+        Most views in a CMS require a login, so this is the default setup.
+
+        If a login is not required then the requires_login property
         can be set to False to disable this.
         """
         if (not request.user.is_authenticated()) and self.requires_login:
@@ -61,12 +64,14 @@ class View(RoleAuthentication, base.View):
         context['SITE_LOGO'] = self.get_site_logo()
         context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
         context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
+        context['DATETIME_FORMATS'] = self.get_datetime_formats()
         return context
 
     def get_urls(self):
         """
-        Used for resolving urls when displaying nested objects.
-        (@see arctic_url). For example, generally you just have /foo/create as
+        Used for resolving urls when displaying nested objects, see arctic_url.
+
+        For example, generally you just have /foo/create as
         a url, but with nested, you may have: /foo/<id>/bar/create/ and <id>
         would be a parent id. These are then required to resolve urls.
 
@@ -82,17 +87,13 @@ class View(RoleAuthentication, base.View):
 
     def get_breadcrumbs(self):
         """
-        breadcrumb format:
-        (('name', 'url'), ...)
-        or None if breadcrumbs are not to be used.
+        Breadcrumb format: (('name', 'url'), ...) or None if not used.
         """
         return self.breadcrumbs
 
     def get_tabs(self):
         """
-        tabs format:
-        (('name', 'url'), ...)
-        or None if tabs are not to be used.
+        Tabs format: (('name', 'url'), ...) or None if tabs are not used.
         """
         return self.tabs
 
@@ -125,6 +126,19 @@ class View(RoleAuthentication, base.View):
             return reverse('index')
         except NoReverseMatch:
             return '/'
+
+    def get_datetime_formats(self):
+        dtformats = {}
+
+        dtformats['SHORT_DATE'] = formats.get_format("SHORT_DATE_FORMAT",
+                                                     lang=get_language())
+        dtformats['TIME'] = formats.get_format("TIME_FORMAT",
+                                               lang=get_language())
+        dtformats['SHORT_DATETIME'] = formats.get_format(
+            "SHORT_DATETIME_FORMAT",
+            lang=get_language())
+
+        return dtformats
 
 
 class TemplateView(View, base.TemplateView):
@@ -193,11 +207,11 @@ class ListView(View, base.ListView):
 
     def ordering_url(self, field):
         """
-        Creates a url link for sorting the given field, the direction of
-        sorting will be either ascending if the field is not yet sorted, or the
-        opposite of the current sorting if the field is sorted.
-        """
+        Creates a url link for sorting the given field.
 
+        The direction of sorting will be either ascending, if the field is not
+        yet sorted, or the opposite of the current sorting if sorted.
+        """
         path = self.request.path
         direction = ''
         query_params = self.request.GET.copy()
@@ -241,7 +255,6 @@ class ListView(View, base.ListView):
         field links, field css classes, order_url and order_direction,
         this simplifies the creation of a table in a template.
         """
-
         model = self.object_list.model
         result = []
         if not self.get_fields():
@@ -374,7 +387,6 @@ class ListView(View, base.ListView):
         """
         Returns the keyword arguments for instanciating the filterset.
         """
-
         data = self.request.GET.copy()
         for key in self.request.GET:
             if not data[key]:

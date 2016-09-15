@@ -20,10 +20,13 @@
     "fontawesome": "4.6.3",
     "jQuery-QueryBuilder": "2.3.3",
     "selectize": "0.12.1",
-    "foundation-datepicker": "1.5.3",
     "jquery": "2.2.4",
+    "jquery.are-you-sure": "1.9.0",
     "Sortable": "sortablejs#1.4.2",
-    "jquery.are-you-sure": "git://github.com/R4YM3/jquery.AreYouSure.git#^1.9.0"
+    "air-datepicker": "^2.2.0"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "jquery": "2.2.4"
+  }
 }

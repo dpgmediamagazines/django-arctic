@@ -16,6 +16,39 @@ function lowerCaseKeys(dict) {
     return new_dict;
 }
 
+// convert date format specification from the django/php syntax to the js 
+// datepicker spec
+function django2datepicker(django_format) {
+    var translation_dict = {
+        'y': 'yy',
+        'Y': 'yyyy',
+        'n': 'm',
+        'm': 'mm',
+        'j': 'd',
+        'd': 'dd',
+        'h': 'hh',
+        'H': 'hh',
+        'G': 'h',
+        'g': 'h',
+        'i': 'ii',
+        'a': 'aa',
+        'A': 'AA',
+        'P': 'hh:ii aa'
+    }
+
+    var datepicker_format = '';
+    for (var i = 0, len = django_format.length; i < len; i++) {
+        if (django_format[i] in translation_dict) {
+            datepicker_format += translation_dict[django_format[i]];
+        }
+        else {
+            datepicker_format += django_format[i];
+        }
+    }
+
+    return datepicker_format;
+}
+
 function inlineWidget(css_class, template, dict, list_separator) {
     $('.inline-widget.' + css_class).html(function(i, content) {
         var has_link = false;
@@ -81,28 +114,35 @@ function set_input_widgets() {
         });
     }
 
-    var datepicker = $('.js-datepicker');
-    if (datepicker.size()) {
-        datepicker.fdatepicker({
-        		format: 'yyyy-mm-dd'
-        	});
-    }
+    $('.js-datepicker').each(function(index) {
+        $(this).datepicker({
+            todayButton: true,
+            language: 'en',
+            startDate: new Date($(this).attr("date")),
+        	dateFormat: django2datepicker(DATE_FORMAT)
+        });
+    });
 
-    var timepicker = $('.js-timepicker');
-    if (timepicker.size()) {
-        timepicker.fdatepicker({
-        		format: 'hh:ii',
-                pickTime: true
-        	});
-    }
+    $('.js-timepicker').each(function(index) {
+        $(this).datepicker({
+            onlyTimepicker: true,
+            language: 'en',
+            startDate: new Date($(this).attr("date")),
+        	timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
+        });
+    });
 
-    var datetimepicker = $('.js-datetimepicker');
-    if (datetimepicker.size()) {
-        datetimepicker.fdatepicker({
-        		format: 'yyyy-mm-dd hh:ii',
-                pickTime: true
-        	});
-    }
+    $('.js-datetimepicker').each(function(index) {
+        $(this).datepicker({
+            language: 'en',
+            todayButton: true,
+            startDate: new Date($(this).attr("date")),
+        	dateFormat: django2datepicker(DATE_FORMAT),
+            timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
+        });
+    });
 }
 
 // jquery stuff goes here
