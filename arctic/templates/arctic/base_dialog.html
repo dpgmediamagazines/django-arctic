@@ -1,7 +1,7 @@
 {% load i18n staticfiles arctic_tags %}
 
 {% comment %}
-    Django vars needed:
+    Required:
     {{ dialog_id }} - close specific dialog (when not defined it closes all dialogs)
     {{ close_dialog }} - removes dialog
 
@@ -17,38 +17,25 @@
         {% block head_extras %}{% endblock %}
     </head>
 
-    <body class="dialog {% block body_class %}{% endblock %}" data-close="{{ dialog_id }}">
-        <header class="topbar-background">
-            {% block title %}
-            <h3>Titel</h3>
-            {% endblock %}
+    <body class="dialog {% block body_class %}{% endblock %}" data-close="{{ dialog_id }}"{% if auto_close %} data-auto-close="1"{% endif %}>
+        {% header %}
+            <header class="topbar-background">
+                <h3>
+                    {% block title %}Titel{% endblock %}
+                </h3>
 
-            {% block close %}
-            <button class="close-button" data-close aria-label="Close reveal" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {% endblock %}
-        </header>
-
-        {% block body %}
-            {% comment %}
-                place form here
-            {% endcomment %}
-
-            <fieldset>
-                <legend>It's a form!</legend>
-            </fieldset>
-
-            <button data-close type="button">Save</button>
+                {% block close %}
+                <button class="close-button" data-close aria-label="Close reveal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {% endblock %}
+            </header>
         {% endblock %}
 
-        {% if close_dialog %}
-        <script>
-            (function (){
-                var closeReveal = new Reveal();
-                closeReveal.close();
-            })();
-        </script>
-        {% endif %}
+        {% block body %}{% endblock %}
+
+        {% block scripts_bottom %}
+            <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+        {% endblock %}
     </body>
 </html>
