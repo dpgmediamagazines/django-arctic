@@ -16,7 +16,7 @@
         {% block head_extras %}{% endblock %}
     </head>
 
-    <body class="dialog {% block body_class %}{% endblock %}" {% if auto_close %} data-auto-close="1"{% endif %}>
+    <body class="dialog {% block body_class %}{% endblock %}" {% if auto_close %} data-auto-close="1"{% endif %}{% if refresh_parent %} data-refresh-parent="1"{% endif %}>
         {% header %}
             <header class="topbar-background">
                 <h3>
