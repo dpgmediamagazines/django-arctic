@@ -93,7 +93,18 @@
                                         {% if v|typename == 'datetime' or v|typename == 'date' %}
                                             {{ v|default_if_none:"" }}
                                         {% else %}
-                                            {{ v|default_if_none:""|safe|linebreaks }}
+
+                                            {% with modal_id='dialog-1' modal_url='http://localhost:8000/static/arctic/iframe.html' %}
+
+                                                {% comment %}
+                                                    {{ modal_id }} = unique dialog id
+                                                    {{ modal_url }} = iframe url
+                                                {% endcomment %}
+
+                                                <a data-open="{{ modal_id }}" data-url="{{ modal_url }}">Sesame open?!</a>
+                                                {# {{ v |default_if_none:"" | safe | linebreaks }} #}
+                                            {% endwith %}
+
                                         {% endif %}
                                     {% endif %}
                                         </td>
@@ -118,6 +129,18 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            {% with modal_size='small' modal_id='dialog-1' %}
+                {% comment %}
+                    {{ modal_size }} = tiny | small | large | full
+                    {{ modal_id }} = unique dialog id
+                {% endcomment %}
+
+                <section class="{{ modal_size }} reveal external" id="{{ modal_id }}" data-reveal>
+                    <iframe frameborder="0"></iframe>
+                </section>
+            {% endwith %}
+
             </div> {# table-scroll #}
         </div> {# small-12 columns #}
     </div> {# row #}
