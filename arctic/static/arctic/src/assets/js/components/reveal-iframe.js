@@ -17,6 +17,7 @@
         if ( this.element && this.element.size() ) {
             this.url = this.element.data( 'url' )
             this.id = this.element.data( 'open' )
+            this.size = this.element.data( 'size' )
             this.dialog = $( '#' + this.id )
             this.iframe = this.dialog.find('iframe')
         }
@@ -39,6 +40,11 @@
 
         // open dialog with an iframe
         if ( this.url && this.dialog && this.element.size() ) {
+
+            if ( this.size ) {
+                this.dialog.addClass( this.size )
+            }
+
             this.element.on( 'click', this.open )
         }
 
