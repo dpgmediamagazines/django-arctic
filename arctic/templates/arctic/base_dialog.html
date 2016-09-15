@@ -32,7 +32,9 @@
             </header>
         {% endblock %}
 
-        {% block body %}{% endblock %}
+        <div class="block-wrapper">
+            {% block body %}{% endblock %}
+        </div>
 
         {% block scripts_bottom %}
             <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
