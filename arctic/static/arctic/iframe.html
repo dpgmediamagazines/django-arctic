@@ -7,7 +7,12 @@
         </style>
     </head>
 
-    <body class="dialog" data-id="dialog-1">
+    <!--
+        data-id = target to close in parent, if none close all dialogs
+        data-auto-close = when value 1 close dialog(s) on init
+    -->
+
+    <body class="dialog" data-id="dialog-1" data-auto-close="0">
         <header class="topbar-background">
             <h3>Titel</h3>
 
@@ -16,11 +21,13 @@
             </button>
         </header>
 
-        <fieldset>
-            <legend>It's a form!</legend>
-        </fieldset>
+        <div class="block-wrapper">
+            <fieldset>
+                <legend>It's a form!</legend>
+            </fieldset>
 
-        <button data-close type="button">Save</button>
+            <button data-close type="button">Save</button>
+        </div>
 
         <script src="/static/arctic/dist/assets/js/app.js"></script>
 
