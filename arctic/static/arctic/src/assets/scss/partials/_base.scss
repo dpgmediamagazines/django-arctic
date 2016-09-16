@@ -21,6 +21,10 @@ body {
     padding: $marginLarge;
     background: $white;
 
+    .dialog & {
+        padding: $marginExtraLarge $marginLarge;
+    }
+
     h3 {
         margin-bottom: $marginExtraLarge;
         text-align: center;
