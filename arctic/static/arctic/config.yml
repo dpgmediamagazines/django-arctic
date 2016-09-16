@@ -71,6 +71,7 @@ PATHS:
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
+    - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/sortable.js"
     - "src/assets/js/!(app).js"

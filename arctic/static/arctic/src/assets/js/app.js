@@ -16,7 +16,7 @@ function lowerCaseKeys(dict) {
     return new_dict;
 }
 
-// convert date format specification from the django/php syntax to the js 
+// convert date format specification from the django/php syntax to the js
 // datepicker spec
 function django2datepicker(django_format) {
     var translation_dict = {
@@ -100,6 +100,7 @@ function set_input_widgets() {
         s.selectize({allowEmptyOption: true, highlight: false});
     }
 
+
     var s_tags = $('.js-selectize-tags');
     if (s_tags.size()) {
         s_tags.selectize({
@@ -113,6 +114,12 @@ function set_input_widgets() {
             }
         });
     }
+
+    s.on( 'initialize', initializethis );
+    s_tags.on( 'initialize', initializethis );
+
+    var initializethis = function() { alert('js-selectize is initialized') };
+
 
     $('.js-datepicker').each(function(index) {
         $(this).datepicker({
