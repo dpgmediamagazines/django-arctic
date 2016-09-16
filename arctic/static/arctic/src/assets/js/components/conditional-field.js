@@ -20,6 +20,8 @@
 
 
     ConditionalField.prototype.setup = function ( ) {
+        this.element.parent().addClass( 'is-conditional-field' )
+
         if ( this.value ) {
             this.state = 1
             this.checkbox = this.checkbox.attr( 'checked', 'checked' )
@@ -29,7 +31,6 @@
         this.checkbox.wrap( '<div class="input-group-label"></div>' )
 
         this.element.wrap( '<div class="input-group-field"></div>' )
-        this.element.parent().addClass( 'is-conditional-field' )
     }
 
 
