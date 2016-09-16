@@ -96,8 +96,14 @@ function inlineWidget(css_class, template, dict, list_separator) {
 
 function set_input_widgets() {
     var s = $('.js-selectize');
-    if (s.size()) {
-        s.selectize({allowEmptyOption: true, highlight: false});
+    if ( s.size() ) {
+        s.selectize(
+            {
+                allowEmptyOption: true,
+                highlight: false,
+                plugins: ['remove_button']
+            }
+        );
     }
 
 
@@ -106,6 +112,7 @@ function set_input_widgets() {
         s_tags.selectize({
             delimiter: ',',
             persist: false,
+            plugins: ['remove_button'],
             create: function(input) {
                 return {
                     value: input,
