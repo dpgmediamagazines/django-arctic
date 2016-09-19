@@ -98,8 +98,14 @@
         // close all reveal dialogs within parent window
         this.dialog.trigger('closeme.zf.reveal');
 
-        // remove src on iframe
         this.iframe = this.dialog.find('iframe')
+
+        // disable areYouSure in iframe before removing src
+        this.form = this.iframe.contents().find( '.dirty-check' );
+        this.form.removeClass( 'dirty' );
+        this.form.areYouSure( {'silent':true} );
+
+        // remove src on iframe
         this.iframe.removeAttr( 'src' );
     }
 
