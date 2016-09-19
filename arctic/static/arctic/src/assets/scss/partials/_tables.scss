@@ -13,28 +13,24 @@ table {
     tbody th {
         border-right: 1px solid rgba(0,0,0, 0.05);
         border-bottom: 1px solid rgba(0,0,0, 0.05);
-        position:relative;
 
         &:first-child {
             border-left: 1px solid rgba(0,0,0, 0.05);
         }
 
         a {
-            width: 100%;
             display: block;
+            width: 100%;
             color: $white;
-            padding-right: rem-calc(15);
+        }
 
-            i {
-                margin-right: rem-calc(10);
-                right: 0;
-                padding-top: 0.3em;
-                position: absolute;
-                font-style: normal;
+        a i {
+            float: right;
+            padding-top: 0.3em;
+            font-style: normal;
 
-                &.fa-sort {
-                    opacity: 0.5;
-                }
+            &.fa-sort {
+                opacity: 0.5;
             }
         }
     }
@@ -47,12 +43,11 @@ table {
             border-left: 1px solid darken($greyLight,5%);
         }
 
-        a {
-            .fa {
-                color: $textColorMedium;
-                &:hover {
+        a .fa {
+            color: $textColorMedium;
+
+            &:hover {
                     color: $textLinkBlue;
-                };
             }
         }
     }
