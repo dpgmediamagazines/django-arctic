@@ -29,7 +29,7 @@
             this.id = this.body.data( 'id' )
             this.hide = $( '[data-close]' )
             this.auto_close = this.body.data( 'auto-close' )
-            this.parent_reload = this.body.data( 'parent-reload' )
+            this.parent_reload = this.body.data( 'refresh-parent' )
         }
 
         self = this
@@ -53,6 +53,7 @@
         if ( this.framed ) {
 
             if ( this.parent_reload ) {
+                console.log( 'reload parent..');
                 window.parent.location.reload();
             }
 
