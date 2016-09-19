@@ -193,7 +193,7 @@ $(document).ready(function() {
     });
 
     var dirty_check = $('form.dirty-check');
-    if (dirty_check.size()) {
+    if (dirty_check.size() && !window.parent != window ) {
         dirty_check.areYouSure();
 
         $('form').on('dirty.areYouSure', function() {
