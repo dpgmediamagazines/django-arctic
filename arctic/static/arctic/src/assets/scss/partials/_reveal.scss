@@ -3,6 +3,8 @@
     border: 0;
 
     iframe {
+        display: block;
+        max-height: 80vh;
         width: 100%;
     }
 }

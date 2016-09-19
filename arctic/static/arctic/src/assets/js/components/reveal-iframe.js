@@ -68,10 +68,14 @@
 
 
     RevealIframe.prototype.open = function () {
-        // set url
+        // setup iframe
 
         self.dialog.on( 'open.zf.reveal', function ( ) {
             self.iframe.attr( 'src', self.url )
+
+            self.iframe.on( 'load' , function( ) {
+                this.style.height = this.contentDocument.body.scrollHeight +'px';
+            })
         })
     }
 
