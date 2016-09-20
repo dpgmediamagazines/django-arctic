@@ -57,6 +57,7 @@
         color: $white;
         font-size: 0.8rem;
         font-weight: normal;
+        border-radius: $borderRadiusSmall;
     }
 
     .remove {
@@ -70,13 +71,12 @@
         .item {
             margin: .155rem .2rem .155rem 0;
             color: $white;
-            background: $green;
-            border-radius: $borderRadiusSmall;
+            // background: $green;
             cursor: pointer;
             border: 1px solid transparent;
 
             &.active {
-                background: darken($green, 10%);
+                // background: darken($green, 10%);
                 border-color: rgba(0,0,0,0.3)
             }
         }
