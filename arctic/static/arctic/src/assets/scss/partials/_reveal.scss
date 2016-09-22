@@ -1,0 +1,10 @@
+.reveal.external {
+    padding: 0;
+    border: 0;
+
+    iframe {
+        display: block;
+        max-height: 80vh;
+        width: 100%;
+    }
+}
