@@ -162,18 +162,17 @@ function set_input_widgets() {
 // jquery stuff goes here
 $(document).ready(function() {
 
-    // Toggle menu hamburger to cross
-    $('#menu-button').click(function (e) {
-        $('#menu-button').toggleClass('is-active');
-        // e.preventDefault();
+    // Toggle menu burger to cross
+    var canvas = $( '.off-canvas' );
+    var hamburger = $('#menu-button');
+
+    canvas.on('opened.zf.offcanvas', function () {
+        $('#menu-button').addClass('is-active');
     });
 
-    // Toggle back menu button into hamburger when clicking overlay
-    $('.js-off-canvas-exit').click(function(e) {
+    canvas.on('closed.zf.offcanvas', function () {
         $('#menu-button').removeClass('is-active');
-        // e.preventDefault();
     });
-
 
     // Stepper input
     var $stepperInput = $('.stepper-input input');
