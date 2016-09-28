@@ -55,6 +55,11 @@ table {
                     color: $textLinkBlue;
             }
         }
+
+        &.sort-handle {
+            width: 40px;
+            text-align: center;
+        }
     }
 }
 
