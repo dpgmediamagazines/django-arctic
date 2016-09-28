@@ -11,6 +11,7 @@ table {
 
     thead th,
     tbody th {
+        vertical-align: middle;
         border-right: 1px solid rgba(0,0,0, 0.05);
         border-bottom: 1px solid rgba(0,0,0, 0.05);
 
@@ -20,14 +21,18 @@ table {
 
         a {
             display: block;
+            position: relative;
             width: 100%;
             color: $white;
+            padding-right: 1.5em;
         }
 
         a i {
-            float: right;
+            position: absolute;
+            right:0;
+            top: 50%;
+            margin-top: -.75em;
             padding-top: 0.3em;
-            font-style: normal;
 
             &.fa-sort {
                 opacity: 0.5;
