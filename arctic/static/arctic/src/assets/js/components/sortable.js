@@ -8,7 +8,7 @@
 
     Optional
     * data-sort-handle - to specify a specific dragging handle
-    * data-sort-placeholder - field to save position of row
+    * <row data-sort-placeholder /> - field to save position of row (needs to be defined on row!)
 
     * data-delete-handle - delete button
     * data-delete-placeholder - field to check as delete
@@ -89,7 +89,14 @@ var sortable = {
         items.each( function ( i, el ) {
             let element = $( el );
             let index = parseInt( items.index( element ) );
-            let placeholder = element.find( self.sortPlaceholder );
+
+            let placeholderSelector= element.data( 'sort-placeholder' );
+
+            // find placeholder within row if not exist check outside row
+            let placeholder = element.find( placeholderSelector );
+            if ( !( placeholder.size() )) {
+                placeholder = $( placeholderSelector );
+            }
 
             // is there something to save to?
             if ( placeholder.size() ) {
