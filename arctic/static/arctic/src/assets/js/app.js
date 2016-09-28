@@ -167,11 +167,11 @@ $(document).ready(function() {
     var hamburger = $('#menu-button');
 
     canvas.on('opened.zf.offcanvas', function () {
-        $('#menu-button').addClass('is-active');
+        hamburger.addClass('is-active');
     });
 
     canvas.on('closed.zf.offcanvas', function () {
-        $('#menu-button').removeClass('is-active');
+        hamburger.removeClass('is-active');
     });
 
     // Stepper input
