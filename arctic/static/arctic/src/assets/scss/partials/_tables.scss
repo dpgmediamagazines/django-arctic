@@ -2,7 +2,7 @@
 // when using a table with flexbox, border-collapse is set as separate and cell
 // borders are configured not to duplicate an existing border.
 
-table {
+.table {
     border-collapse: separate;
 
     thead tr:first-child th {
