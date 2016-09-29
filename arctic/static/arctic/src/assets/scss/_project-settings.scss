@@ -33,6 +33,10 @@ $red:                           #F05050;
 $redLight:                      lighten( $red, 35% );
 $white:                         #ffffff;
 
+
+$inactive-color: #ccc;
+$highlight-color: $orange;
+
 // body + nav background colors
 $pageBackground:                #ffffff;
 $navBackground:                 #ffffff;
