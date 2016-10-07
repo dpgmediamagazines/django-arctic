@@ -53,6 +53,120 @@ class LinksMixin(object):
             return allowed_links
 
 
+class LayoutMixin(object):
+    """
+    Adding customizable fields to view. Using the 12-grid system, you
+    can now give fields a css-attribute.
+
+    layout = ('field1', ('field2', 'field3'))
+    layout = ('field1|6', ('field2|max', 'field3|min'))
+    layout = {
+        'fieldset1': ('field1, field2'),
+        '-fieldset2|some description here': ('field3', ('field4', 'field5')),
+        '-fieldset3': ('field6, field7')
+    }
+
+    INPUT:
+    layout = {'0_my_fieldsettt': ('title|10', ('category', 'updated_at|4')),
+              '1_new_fieldset': ('published|4')}
+
+    OUTPUT
+    layout = {'0_my_fieldsettt': {1: [{'class': '10',
+                                     'field': <django.forms.boundfield.BoundField>,
+                                     'name': 'title'}],
+                                2: [{'class': None,
+                                     'field': <django.forms.boundfield.BoundField>,
+                                     'name': 'category'},
+                                    {'class': '4',
+                                     'field': <django.forms.boundfield.BoundField>,
+                                     'name': 'updated_at'}]},
+            '1_new_fieldset': {1: [{'class': '4',
+                                    'field': <django.forms.boundfield.BoundField>,
+                                    'name': 'published'}]}},
+    """
+    _fields = None
+
+    def get_layout(self):
+        try:
+            self.layout
+        except AttributeError:
+            return None
+
+        fieldsets = {}
+        self._fields = self.get_form().fields
+
+        if isinstance(self.layout, dict):
+            for key, row in self.layout.items():
+                try:
+                    key_to_int = int(key)
+                    key = "key_%d" % key_to_int     # return key which is easily matched in template
+                except ValueError:
+                    pass
+                except TypeError:
+                    pass
+
+                if isinstance(row, str):
+                    # If there is just one element in a fieldset, just return that one field
+                    _field = self._return_field(row)
+                    if not _field:
+                        continue
+                    fieldsets[key] = {1: [_field]}  # Items are indexed by one. Not that it matters
+                else:
+                    # use numbers to preserve order. This only works up to 10 fieldsets
+                    fieldsets[key] = self._process_rows(row)
+
+        if isinstance(self.layout, str):
+            fieldsets[0] = {0: [self._return_field(self.layout)]}
+        elif isinstance(self.layout, tuple):
+            fieldsets[0] = self._process_rows(self.layout)
+
+        return fieldsets
+
+    def _process_rows(self, rows):
+        allowed_rows = {}
+        for row in rows:
+            if isinstance(row, tuple):
+                _row = []
+                for field in row:
+                    _field = self._return_field(field)
+                    if _field:
+                        _row.append(_field)
+
+                if len(_row) == 0:
+                    pass
+                elif len(_row) == 1:
+                    _field = self._return_field(row[0])
+                    if _field:
+                        allowed_rows[len(allowed_rows) + 1] = [_field]
+                else:
+                    allowed_rows[len(allowed_rows) + 1] = _row
+
+            if isinstance(row, str):
+                _field = self._return_field(row)
+                if _field:
+                    allowed_rows[len(allowed_rows) + 1] = [_field]
+
+        return allowed_rows
+
+    def _return_field(self, field):
+        field_name, field_class = self._split_str(field)
+        if field_name in self._fields:
+            return {
+                'name': field_name,
+                'class': field_class,
+                'field': self.get_form()[field_name],
+            }
+        else:
+            return None
+
+    def _split_str(self, field):
+        items = field.split('|')
+        if len(items) == 2:
+            return items[0], items[1]
+        elif len(items) == 1:
+            return items[0], None
+
+
 class RoleAuthentication():
     """
     This class adds a role relation to the standard django auth user to add

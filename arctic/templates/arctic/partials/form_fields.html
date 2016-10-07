@@ -1,3 +1,33 @@
-{% for field in form %}
-    {% include 'arctic/partials/form_field.html' with field=field style=style %}
-{% endfor %}
+{% if layout %}
+    {% for legend, fieldset in layout.items %}
+        {% if 'key_' not in legend %}
+            <fieldset>
+
+                {% if legend|slice:"1:2" == '_'  %}
+                    <legend>{{ legend|slice:"2:" }}</legend>
+                {% else %}
+                    <legend>{{ legend }}</legend>
+                {% endif %}
+
+        {% endif %}
+
+        {% for index, row in fieldset.items %}
+            <div class="row {% if field.errors %}error{% endif %}">
+            {% for field in row %}
+                {% include 'arctic/partials/form_field.html' with field=field.field style=field.class %}
+            {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% if 'key_' not in legend %}
+            </fieldset>
+        {% endif %}
+
+    {% endfor %}
+{% else %}
+
+    {% for field in form %}
+        {% include 'arctic/partials/form_field.html' with field=field%}
+    {% endfor %}
+
+{% endif %}
