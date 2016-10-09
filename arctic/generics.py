@@ -306,7 +306,7 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        if hasattr(self, field_name):
+                        if hasattr(self, field_name[0]):
                             # Call method for virtual field and return row instance
                             value = getattr(self, field_name[0])(obj)
                         else:
