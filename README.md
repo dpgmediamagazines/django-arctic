@@ -1,5 +1,5 @@
 # Django Arctic
-[![PyPi version](https://img.shields.io/pypi/sanoma/django-arctic.svg)](https://pypi.python.org/pypi/django-arctic/)
+[![PyPi version](https://img.shields.io/pypi/v/django-arctic.svg)](https://pypi.python.org/pypi/django-arctic/)
 [![Travis CI](https://api.travis-ci.org/sanoma/django-arctic.svg)](https://travis-ci.org/django/channels)
 [![Read the Docs](https://readthedocs.org/projects/django-arctic/badge/?version=latest)](https://django-arctic.readthedocs.io/en/latest/)
 
