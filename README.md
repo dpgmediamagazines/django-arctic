@@ -1,12 +1,12 @@
 ![arctic screenshot](docs/img/arctic_screenshot.png)
 
-#Django Arctic
+# Django Arctic
 
 Django Arctic is a framework that simplifies the creation of custom content management systems.
 It also includes a collection of optional components for common use cases, and
 its core infrastructure is implementation agnostic.
 
-##Why
+## Why
 
 There are a lot of content management systems in the market that are a good fit for the implementation of many web sites. Most CMS systems make assumptions about the data model for posts, authentication and the administration interface.
 
@@ -19,8 +19,8 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 
 ## Compatibility
 
-* Python 2.7, 3.4, 3.5
-* Django 1.8, 1.9
+* Python 2.7, 3.3, 3.4, 3.5
+* Django 1.8, 1.9, 1.10
 
 ## Features
 
