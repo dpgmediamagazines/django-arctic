@@ -1,29 +1,12 @@
 sudo: false
 language: python
-python:
-  - 3.5
-  - 3.4
-  - 3.3
-  - 2.7
+python: 3.5
 matrix:
   fast_finish: true
-env:
-  - TOX_ENV=py27-django18
-  - TOX_ENV=py27-django19
-  - TOX_ENV=py27-django110
-  - TOX_ENV=py33-django18
-  - TOX_ENV=py33-django19
-  - TOX_ENV=py33-django110
-  - TOX_ENV=py34-django18
-  - TOX_ENV=py34-django19
-  - TOX_ENV=py34-django110
-  - TOX_ENV=py35-django18
-  - TOX_ENV=py35-django19
-  - TOX_ENV=py35-django110
 before_install:
   - pip install flake8
   - flake8
 install:
-  - pip install tox
+  - pip install tox-travis
 # command to run tests
-script: tox -e $TOX_ENV
+script: tox
