@@ -1,6 +1,10 @@
 sudo: false
 language: python
-python: 3.5
+python:
+  - 3.5
+  - 3.4
+  - 3.3
+  - 2.7
 matrix:
   fast_finish: true
 before_install:
@@ -8,5 +12,4 @@ before_install:
   - flake8
 install:
   - pip install tox-travis
-# command to run tests
 script: tox
