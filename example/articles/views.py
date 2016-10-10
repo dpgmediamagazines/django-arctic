@@ -39,6 +39,7 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
+    filter_fields = ['title', 'description', 'published']
     required_permission = "articles_view"
 
 

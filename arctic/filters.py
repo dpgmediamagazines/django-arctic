@@ -4,7 +4,7 @@ import operator
 from functools import reduce
 
 from django import forms
-from django.db.models import (DateTimeField, Q)
+from django.db.models import (DateTimeField, Q, BooleanField)
 
 import django_filters
 from django_filters.widgets import RangeWidget
@@ -23,6 +23,17 @@ class DateRangeInput(RangeWidget):
     """
     pass
 
+class BooleanFilterSelect(forms.NullBooleanSelect):
+    """ Yes/No select widget for boolean select field. """
+    def render(self, name, value, attrs=None):
+        for option_value, option_label in enumerate(self.choices):
+            if option_label[0] == '1':
+                self.choices[option_value] = (option_label[0], name)
+            else:
+                self.choices[option_value] = (option_label[0], name + ': ' + str(option_label[1]))
+
+        return super(BooleanFilterSelect, self).render(name, value, attrs)
+
 
 class FilterSet(django_filters.FilterSet):
     filter_overrides = {
@@ -30,6 +41,12 @@ class FilterSet(django_filters.FilterSet):
             'filter_class': django_filters.DateFromToRangeFilter,
             'extra': lambda f: {
                 'widget': DateRangeInput,
+            }
+        },
+        BooleanField: {
+            'filter_class': django_filters.BooleanFilter,
+            'extra': lambda f: {
+                'widget': BooleanFilterSelect,
             }
         }
     }
