@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 
+from arctic import get_user_role_model
 from arctic.generics import (CreateView, ListView, UpdateView)
-from arctic.models import UserRole
 
 from .forms import (UserChangeMultiForm, UserCreationMultiForm)
 
 User = get_user_model()
+UserRole = get_user_role_model()
 
 
 class UserListView(ListView):

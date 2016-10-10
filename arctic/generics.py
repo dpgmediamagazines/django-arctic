@@ -273,10 +273,16 @@ class ListView(View, base.ListView):
                 else:
                     name = field_name
                     try:
-                        item['label'] = find_field_meta(
+                        field_meta = find_field_meta(
                             model,
                             field_name
-                        ).verbose_name
+                        )
+                        if field_meta._verbose_name:  # noqa
+                            # explicitly set on the model, so don't change
+                            item['label'] = field_meta._verbose_name  # noqa
+                        else:
+                            # title-case the field name (issue #80)
+                            item['label'] = field_meta.verbose_name.title()
 
                         # item['label'] = model._meta.get_field(field_name).\
                         #     verbose_name

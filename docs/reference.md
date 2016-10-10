@@ -27,8 +27,8 @@ Dictionary of roles and their permissions, it uses the format:
 
     {'role1': ('permission1', 'permission2', ...), ...}
 
-The 'admin' role is reserved and cannot be defined in settings. It gives full 
-rights to all views and can also be created with the `createsuperuser` 
+The 'admin' role is reserved and cannot be defined in settings. It gives full
+rights to all views and can also be created with the `createsuperuser`
 command.
 
 ## `ARCTIC_TOPBAR_BACKGROUND_COLOR`
@@ -46,7 +46,7 @@ and tag item backgrounds, if none given a default will be used.
 
 Arctic provides a number of class based views that add integration with the
 user interface and extra functionality for common use cases.
-The class names match and work the same way as the ones that Django provides 
+The class names match and work the same way as the ones that Django provides
 and should be used instead.
 
 ## View
@@ -211,7 +211,7 @@ This view displays data from a model using a default template.
 
 `class arctic.generics.CreateView`
 
-This view displays a form that creates data for a django model, it includes a 
+This view displays a form that creates data for a django model, it includes a
 default template.
 
 **Extends**
@@ -225,7 +225,7 @@ default template.
 
 `class arctic.generics.UpdateView`
 
-This view displays a form that updates data defined in a django model, it 
+This view displays a form that updates data defined in a django model, it
 includes a default template.
 
 **Extends**
@@ -254,15 +254,15 @@ This view deletes data defined from a django model.
 
 `class arctic.mixins.RoleAuthentication`
 
-This class provides role based authentication to a View. It is also used as a 
-standalone class to query other views about permissions and to syncronize the 
+This class provides role based authentication to a View. It is also used as a
+standalone class to query other views about permissions and to synchronize the
 roles defined in settings with the database instances.
 
 **Properties**
 
 ### `required_permission`
 
-This property defines which persmission should be checked when trying to access 
+This property defines which permission should be checked when trying to access 
 the view. When object based permission is needed, an extra method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
@@ -280,7 +280,7 @@ This method is called every time arctic is started up.
 
 Checks if a user has the rights to access the current view. This is done firstly
 by checking if the role the user has contains the defined `required_permission`
-and secondly if a method with a name matching `required_permission` exists it 
+and secondly if a method with a name matching `required_permission` exists it
 will check if it returns `True` or `False`.
 
 
