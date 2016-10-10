@@ -8,7 +8,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
-from .models import (Role, UserRole)
+from arctic import get_user_role_model, get_role_model
+
+
+Role = get_role_model()
+UserRole = get_user_role_model()
 
 
 class SuccessMessageMixin(object):

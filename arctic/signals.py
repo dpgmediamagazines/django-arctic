@@ -1,11 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 
-from arctic.models import (Role, UserRole)
+from arctic import (get_role_model, get_user_role_model)
 
 from .mixins import RoleAuthentication
 
 User = get_user_model()
+Role = get_role_model()
+UserRole = get_user_role_model()
 
 
 def superuser_post_save(sender, instance, **kwargs):

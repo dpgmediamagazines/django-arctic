@@ -22,6 +22,9 @@ ARCTIC_MENU = (
     )),
 )
 
+ARCTIC_USER_ROLE_MODEL = 'arctic.UserRole'
+ARCTIC_ROLE_MODEL = 'arctic.Role'
+
 ARCTIC_ROLES = {
     'editor': (
         'articles_view',
