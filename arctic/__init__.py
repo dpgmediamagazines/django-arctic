@@ -13,10 +13,12 @@ def get_role_model():
     try:
         return django_apps.get_model(settings.ARCTIC_ROLE_MODEL)
     except ValueError:
-        raise ImproperlyConfigured("ARCTIC_ROLE_MODEL must be of the form 'app_label.model_name'")
+        raise ImproperlyConfigured("ARCTIC_ROLE_MODEL must be of the form "
+                                   "'app_label.model_name'")
     except LookupError:
         raise ImproperlyConfigured(
-            "ARCTIC_ROLE_MODEL refers to model '%s' that has not been installed" % settings.ARCTIC_ROLE_MODEL
+            "ARCTIC_ROLE_MODEL refers to model '%s' that has not been "
+            "installed" % settings.ARCTIC_ROLE_MODEL
         )
 
 
@@ -27,8 +29,10 @@ def get_user_role_model():
     try:
         return django_apps.get_model(settings.ARCTIC_USER_ROLE_MODEL)
     except ValueError:
-        raise ImproperlyConfigured("ARCTIC_USER_ROLE_MODEL must be of the form 'app_label.model_name'")
+        raise ImproperlyConfigured("ARCTIC_USER_ROLE_MODEL must be of the "
+                                   "form 'app_label.model_name'")
     except LookupError:
         raise ImproperlyConfigured(
-            "ARCTIC_USER_ROLE_MODEL refers to model '%s' that has not been installed" % settings.ARCTIC_USER_ROLE_MODEL
+            "ARCTIC_USER_ROLE_MODEL refers to model '%s' that has not been "
+            "installed" % settings.ARCTIC_USER_ROLE_MODEL
         )
