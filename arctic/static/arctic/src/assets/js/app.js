@@ -132,7 +132,7 @@ function set_input_widgets() {
         $(this).datepicker({
             todayButton: true,
             language: 'en',
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	dateFormat: django2datepicker(DATE_FORMAT)
         });
     });
@@ -141,7 +141,7 @@ function set_input_widgets() {
         $(this).datepicker({
             onlyTimepicker: true,
             language: 'en',
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
         });
@@ -151,7 +151,7 @@ function set_input_widgets() {
         $(this).datepicker({
             language: 'en',
             todayButton: true,
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
