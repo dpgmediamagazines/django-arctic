@@ -49,7 +49,7 @@
                                 {% else %}
                                     {{ field.label|safe }}
                                 {% endif %}
-                                <br>
+                                <br />
                                 {# multiple checkboxes #}
                                 {% if field|widget_type == 'checkboxselectmultiple' %}
                                     {% for checkbox in field %}

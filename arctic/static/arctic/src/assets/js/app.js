@@ -3,7 +3,7 @@ $(document).foundation();
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
-}
+};
 
 function lowerCaseKeys(dict) {
     var key, keys = Object.keys(dict);
@@ -34,7 +34,7 @@ function django2datepicker(django_format) {
         'a': 'aa',
         'A': 'AA',
         'P': 'hh:ii aa'
-    }
+    };
 
     var datepicker_format = '';
     for (var i = 0, len = django_format.length; i < len; i++) {
@@ -155,6 +155,23 @@ function set_input_widgets() {
         	dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
+        });
+    });
+    
+    $('.richtexteditor').each(function(){
+        var textarea = $(this).children('textarea'),
+            richtextdiv = $(this).children('div');
+
+        tinymce.init({
+            target: richtextdiv[0],
+            inline: true,
+            plugins: $(this).data('tinymce_plugins') || "advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table contextmenu paste",
+            toolbar: $(this).data('tinymce_toolbar') || "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            init_instance_callback: function (editor) {
+                editor.on('Blur Change KeyUp PastePostProcess', function (e) {
+                    textarea.val(richtextdiv.html());
+                });
+            }
         });
     });
 }

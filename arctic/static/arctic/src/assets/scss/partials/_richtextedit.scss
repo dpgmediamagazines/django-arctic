@@ -1,0 +1,11 @@
+// Display RTE div as textarea, hide actual textarea.
+.richtexteditor{
+  > div{
+    @extend [type='text'];
+    @extend textarea;
+  }
+  
+  textarea.hidden{
+    display: none;
+  }
+}
