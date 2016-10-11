@@ -46,8 +46,6 @@ class View(RoleAuthentication, base.View):
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
-        if not self.has_perm(request.user):
-            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -487,6 +485,7 @@ class LoginView(TemplateView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
+    permission_required = ()
     messages = []
 
     def get_context_data(self, **kwargs):

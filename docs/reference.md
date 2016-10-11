@@ -260,9 +260,9 @@ roles defined in settings with the database instances.
 
 **Properties**
 
-### `required_permission`
+### `permission_required`
 
-This property defines which permission should be checked when trying to access 
+This property defines which permissions should be checked when trying to access 
 the view. When object based permission is needed, an extra method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
