@@ -23,6 +23,7 @@ class DateRangeInput(RangeWidget):
     """
     pass
 
+
 class BooleanFilterSelect(forms.NullBooleanSelect):
     """ Yes/No select widget for boolean select field. """
     def render(self, name, value, attrs=None):
@@ -30,7 +31,8 @@ class BooleanFilterSelect(forms.NullBooleanSelect):
             if option_label[0] == '1':
                 self.choices[option_value] = (option_label[0], name)
             else:
-                self.choices[option_value] = (option_label[0], name + ': ' + str(option_label[1]))
+                label = name + ': ' + str(option_label[1])
+                self.choices[option_value] = (option_label[0], label)
 
         return super(BooleanFilterSelect, self).render(name, value, attrs)
 
