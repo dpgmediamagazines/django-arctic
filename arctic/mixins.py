@@ -125,13 +125,13 @@ class RoleAuthentication(PermissionRequiredMixin):
         if role == self.ADMIN:
             return True
 
-        # check all given permissions
+        # check if at least one permissions is valid
         for permission in perms:
-            if not self.check_permission(role, permission):
-                return False
+            if self.check_permission(role, permission):
+                return True
 
-        # we checked everything
-        return True
+        # permission denied
+        return False
 
     def check_permission(self, role, permission):
         """
