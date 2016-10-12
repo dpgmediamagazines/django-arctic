@@ -23,7 +23,6 @@
         this.rowClass = ""
         this.row = ""
         this.sortHandle = ""
-        this.sortPlaceholder = ""
         this.deleteHandle = ""
         this.deletePlaceholder = ""
 
@@ -90,18 +89,18 @@
         items.each( function ( i, el ) {
             let element = $( el );
             let index = parseInt( items.index( element ) );
-
-            let placeholderSelector= element.data( 'sort-placeholder' );
+            let placeholder = element.data('sort-placeholder')
 
             // find placeholder within row if not exist check outside row
-            let placeholder = element.find( placeholderSelector );
+            placeholder = element.find( placeholder );
+
             if ( !( placeholder.size() )) {
-                placeholder = $( placeholderSelector );
+                placeholder = $( self.sortPlaceholder );
             }
 
             // is there something to save to?
             if ( placeholder.size() ) {
-                placeholder.val(  index  );
+                placeholder.val( index );
             }
         });
     },
