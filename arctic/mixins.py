@@ -8,6 +8,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 
+from collections import OrderedDict
+
 from .models import (Role, UserRole)
 
 
@@ -56,115 +58,134 @@ class LinksMixin(object):
 class LayoutMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
-    can now give fields a css-attribute.
-
-    layout = ('field1', ('field2', 'field3'))
-    layout = ('field1|6', ('field2|max', 'field3|min'))
-    layout = {
-        'fieldset1': ('field1, field2'),
-        '-fieldset2|some description here': ('field3', ('field4', 'field5')),
-        '-fieldset3': ('field6, field7')
-    }
-
-    INPUT:
-    layout = {'0_my_fieldsettt': ('title|10', ('category', 'updated_at|4')),
-              '1_new_fieldset': ('published|4')}
-
-    OUTPUT
-    layout = {'0_my_fieldsettt': {1: [{'class': '10',
-                                     'field': <django.forms.boundfield.BoundField>,
-                                     'name': 'title'}],
-                                2: [{'class': None,
-                                     'field': <django.forms.boundfield.BoundField>,
-                                     'name': 'category'},
-                                    {'class': '4',
-                                     'field': <django.forms.boundfield.BoundField>,
-                                     'name': 'updated_at'}]},
-            '1_new_fieldset': {1: [{'class': '4',
-                                    'field': <django.forms.boundfield.BoundField>,
-                                    'name': 'published'}]}},
+    can now give fields a css-attribute. See reference for more information
     """
     _fields = None
+    allowed_columns = 12
 
     def get_layout(self):
-        try:
-            self.layout
-        except AttributeError:
-            return None
-
-        fieldsets = {}
         self._fields = self.get_form().fields
 
-        if isinstance(self.layout, dict):
-            for key, row in self.layout.items():
-                try:
-                    key_to_int = int(key)
-                    key = "key_%d" % key_to_int     # return key which is easily matched in template
-                except ValueError:
-                    pass
-                except TypeError:
-                    pass
-
-                if isinstance(row, str):
-                    # If there is just one element in a fieldset, just return that one field
-                    _field = self._return_field(row)
-                    if not _field:
-                        continue
-                    fieldsets[key] = {1: [_field]}  # Items are indexed by one. Not that it matters
-                else:
-                    # use numbers to preserve order. This only works up to 10 fieldsets
-                    fieldsets[key] = self._process_rows(row)
-
-        if isinstance(self.layout, str):
-            fieldsets[0] = {0: [self._return_field(self.layout)]}
-        elif isinstance(self.layout, tuple):
-            fieldsets[0] = self._process_rows(self.layout)
-
-        return fieldsets
-
-    def _process_rows(self, rows):
         allowed_rows = {}
-        for row in rows:
-            if isinstance(row, tuple):
-                _row = []
-                for field in row:
-                    _field = self._return_field(field)
-                    if _field:
-                        _row.append(_field)
-
-                if len(_row) == 0:
-                    pass
-                elif len(_row) == 1:
-                    _field = self._return_field(row[0])
-                    if _field:
-                        allowed_rows[len(allowed_rows) + 1] = [_field]
+        print('self.layout', self.layout)
+        if isinstance(self.layout, OrderedDict):
+            for fieldset, layout_tuple in self.layout.items():
+                if fieldset[-1] == '-':
+                    fieldset =+ '_collapse'
+                if isinstance(layout_tuple, str):
+                    allowed_rows[fieldset] = [self.return_field(layout_tuple)]
                 else:
-                    allowed_rows[len(allowed_rows) + 1] = _row
+                    row = self.process_rows(layout_tuple)
+                    allowed_rows[fieldset] = row
+        elif isinstance(self.layout, tuple):
+            row = self.process_rows(self.layout)
+            allowed_rows[0] = row
+        else:
+            raise ImproperlyConfigured('LayoutMixin expects a tuple or an '
+                                       'OrderedDict')
 
-            if isinstance(row, str):
-                _field = self._return_field(row)
-                if _field:
-                    allowed_rows[len(allowed_rows) + 1] = [_field]
-
+        print('allowed_rows', allowed_rows)
         return allowed_rows
 
-    def _return_field(self, field):
-        field_name, field_class = self._split_str(field)
-        if field_name in self._fields:
-            return {
-                'name': field_name,
-                'class': field_class,
-                'field': self.get_form()[field_name],
-            }
-        else:
-            return None
+    def process_rows(self, rows):
+        allowed_rows = []
+        for row in rows:
+            if isinstance(row, str):
+                allowed_rows.append(self.return_field(row))
+            elif isinstance(row, tuple):
+                rows = self.process_row(row)
+                allowed_rows.append(rows)
+        return allowed_rows
 
-    def _split_str(self, field):
+    def process_row(self, row):
+        rows_copy = {}
+        has_column = {}
+        has_no_column = {}
+        sum_existing_column = 0
+
+        rows_to_dict = {}
+        for index, field in enumerate(row):
+            rows_copy[index] = field
+
+            # Yeah, like this isn't incomprehensible yet. Let's add recursion
+            if isinstance(field, tuple):
+                rows_to_dict[index] = self.process_row(field)
+                continue
+
+            name, column = self.split_str(field)
+            if column:
+                has_column[index] = self.return_field(field)
+                sum_existing_column += int(column)
+            else:
+                has_no_column[index] = field
+
+        col_avg, col_last = self.calc_avg_and_last_val(has_no_column,
+                                                       sum_existing_column)
+
+        # Regenerate has_no_column by adding the amount of columns at the end
+        for index, col in has_no_column.items():
+            if index == len(has_no_column):
+                temp_name = col + '|' + str(col_last)
+                has_no_column[index] = self.return_field(temp_name)
+            else:
+                temp_name = col + '|' + str(col_avg)
+                has_no_column[index] = self.return_field(temp_name)
+
+        # Merge it all back together to a dict, to preserve the order
+        for index, field in rows_copy.items():
+            if index in has_column:
+                rows_to_dict[index] = has_column[index]
+            if index in has_no_column:
+                rows_to_dict[index] = has_no_column[index]
+
+        # Convert to list
+        rows_to_list = []
+        for index, field in rows_to_dict.items():
+            rows_to_list.append(field)
+
+        return rows_to_list
+
+    def calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
+        """
+        Calculate the average of all columns and return a rounded down number.
+        Store the remainder and add it to the last row. Could be implemented
+        better. If the enduser wants more control, he can also just add the
+        amount of columns. Will work fine with small number (<4) of items in a
+        row.
+
+        :param has_no_column:
+        :param sum_existing_columns:
+        :return: average, columns_for_last_element
+        """
+        sum_no_columns = len(has_no_column)
+        columns_left = self.allowed_columns - sum_existing_columns
+
+        if sum_no_columns == 0:
+            columns_avg = columns_left
+        else:
+            columns_avg = int(columns_left / sum_no_columns)
+
+        remainder = columns_left - (columns_avg * sum_no_columns)
+        columns_for_last_element = columns_avg + remainder
+        return columns_avg, columns_for_last_element
+
+    def split_str(self, field):
         items = field.split('|')
         if len(items) == 2:
             return items[0], items[1]
         elif len(items) == 1:
             return items[0], None
+
+    def return_field(self, field):
+        field_name, field_class = self.split_str(field)
+        if field_name in self._fields:
+            return {
+                'name': field_name,
+                'column': field_class,
+                'field': self.get_form()[field_name],
+            }
+        else:
+            return None
 
 
 class RoleAuthentication():

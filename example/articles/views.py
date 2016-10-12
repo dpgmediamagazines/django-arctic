@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
+from collections import OrderedDict
 
 from .forms import ArticleForm
 from .models import (Article, Category, Tag)
