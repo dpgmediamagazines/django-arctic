@@ -2,7 +2,7 @@ import pytest
 from django.test import Client
 
 
-class TestCMS:
+class TestCMS(object):
     """
     Tests that probe the CMS with the Django test client
     """
@@ -13,13 +13,18 @@ class TestCMS:
 
     def test_login_success(self, admin_user):
         """
-        Asserts that an admin user can log in an see a restricted page within the CMS
+        Asserts that an admin user can log in an see a restricted page
+        within the CMS
 
         :param admin_user: fixture provided by pytest-django
         :return: void
         """
 
-        self.client.post('/login/', {'username': 'admin', 'password': 'password'})
+        self.client.post('/login/',
+                         {
+                             'username': 'admin',
+                             'password': 'password'
+                         })
         response = self.client.get('/articles/')
 
         assert response.status_code == 200
