@@ -267,6 +267,14 @@ the view. When object based permission is needed, an extra method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
 
+It's either possible to define the permission as string (for one), or if
+you want to check on more permissions with tuple.
+
+The property is mandatory by concept (when `login_required` is `False`),
+so you cannot forget to define it when creating new Views.
+In case you are not ready to implement permissions atm, you can still set this
+property to either `""` or `()`. This is not advisable, but it will
+remove the configuration exception.
 
 **Methods**
 
@@ -276,13 +284,13 @@ This class method synchronizes the roles defined in the settings with the ones
 in the database, this is needed to create relationships between Users and Roles.
 This method is called every time arctic is started up.
 
-### `has_perm()`
+### `has_permission()`
 
 Checks if a user has the rights to access the current view. This is done firstly
-by checking if the role the user has contains the defined `required_permission`
-and secondly if a method with a name matching `required_permission` exists it
-will check if it returns `True` or `False`.
-
+by checking if the role the user has contains the defined `permission_required`
+and secondly if a method with a name matching `permission_required` exists it
+will check if it returns `True` or `False`. Note that on multiple
+permissions, only one permission is needed to validate a user's role.
 
 # Apps
 
