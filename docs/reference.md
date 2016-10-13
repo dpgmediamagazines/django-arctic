@@ -147,6 +147,22 @@ Accessing fields from related objects is possible by using a double underscore
 notation, for example if a model `book` has a foreign key to a model author
 with a field name, `author__name` will display the field.
 
+It's also possible to add virtual fields. See virtual fields for more info.
+
+### `virtual fields`
+
+Via the fields property, it's possible to add virtual fields. So you can
+extend the views with custom fields. A virtual field does need an
+accompanying method. That method receives a row_instance, so you can
+manipulate row data there.
+
+Example:
+class MyListView(arctic.ListView):
+    fields = (model_field1, model_field2, not_a_model_field)
+
+    def not_a_model_field(row_instance):
+        return '<b>' + row_instance.model_field3 + '</b>'
+
 ### `search_fields`
 
 list of fields that are to be searched.

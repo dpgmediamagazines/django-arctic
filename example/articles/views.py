@@ -22,7 +22,7 @@ class DashboardView(TemplateView):
 class ArticleListView(ListView):
     paginate_by = 2
     model = Article
-    fields = ['title', 'description', 'published', 'category']
+    fields = ['title', 'description', 'published', 'category', 'virtual_field']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
@@ -40,6 +40,9 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
     required_permission = "articles_view"
+
+    def virtual_field(self, row):
+        return 'Virtual Field: ' + row.title
 
 
 class ArticleUpdateView(UpdateView):
