@@ -204,7 +204,6 @@ class LayoutMixin(object):
 
     def _return_field(self, field):
         field_name, field_class = self._split_str(field)
-        print('self._fields', self._fields)
         if field_name in self._fields:
             return {
                 'name': field_name,
