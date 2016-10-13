@@ -12,5 +12,8 @@ before_install:
   - flake8
 install:
   - pip install tox-travis
+  - pip install coveralls
 script:
   - tox
+after_success:
+  - coveralls
