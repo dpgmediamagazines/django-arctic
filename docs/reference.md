@@ -170,23 +170,21 @@ OrderedDict([
     ('fieldset', ('title|10', ('category', 'updated_at|4'))),
     ('fieldset2', 'published')
 ])
-```
 
 OUTPUT:
 ```python
-'layout': {'fieldset': {1: [{'class': '10',
-                             'field': <django.forms.boundfield.BoundField>,
-                             'name': 'title'}],
-                        2: [{'class': None,
-                             'field': <django.forms.boundfield.BoundField>,
-                             'name': 'category'},
-                            {'class': '4',
-                             'field': <django.forms.boundfield.BoundField>,
-                             'name': 'updated_at'}]},
-           'fieldset2': {1: [{'class': None,
-                              'field': <django.forms.boundfield.BoundField>,
-                              'name': 'published'}]}}
-```
+'layout': {'fieldset': [{'class': '10',
+                         'field': <django.forms.boundfield.BoundField>,
+                         'name': 'title'},
+                        [{'class': None,
+                          'field': <django.forms.boundfield.BoundField>,
+                          'name': 'category'},
+                         {'class': '4',
+                          'field': <django.forms.boundfield.BoundField>,
+                          'name': 'updated_at'}]],
+           'fieldset2': [{'class': None,
+                          'field': <django.forms.boundfield.BoundField>,
+                          'name': 'published'}]}
 
 ### `default_ordering`
 
