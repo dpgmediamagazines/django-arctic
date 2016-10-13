@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)

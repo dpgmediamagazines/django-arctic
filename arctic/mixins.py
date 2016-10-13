@@ -119,7 +119,8 @@ class RoleAuthentication(PermissionRequiredMixin):
     def has_permission(self):
         """
         We override this method to customize the way permissions are checked.
-        Using our roles to check permissions, and skipping django's default permission check.
+        Using our roles to check permissions, and skipping django's
+        default permission check.
         """
         # attribute permission_required is mandatory, returns tuple
         perms = self.get_permission_required()
