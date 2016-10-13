@@ -40,12 +40,12 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
     filter_fields = ['title', 'description', 'published']
-    required_permission = "articles_view"
+    permission_required = "articles_view"
 
 
 class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
-    required_permission = "articles_change"
+    permission_required = "articles_change"
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm

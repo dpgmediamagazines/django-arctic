@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
@@ -46,8 +46,6 @@ class View(RoleAuthentication, base.View):
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
-        if not self.has_perm(request.user):
-            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
