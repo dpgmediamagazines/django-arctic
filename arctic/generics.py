@@ -485,7 +485,6 @@ class LoginView(TemplateView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
-    permission_required = ()
     messages = []
 
     def get_context_data(self, **kwargs):

@@ -109,6 +109,13 @@ class RoleAuthentication(PermissionRequiredMixin):
             unused_role.is_active = False
             unused_role.save()
 
+    def get_permission_required(self):
+        """
+        Only get permissions if user requires to login.
+        """
+        if self.requires_login:
+            return super(RoleAuthentication, self).get_permission_required()
+
     def has_permission(self):
         """
         We override this method to customize the way permissions are checked.
@@ -135,7 +142,7 @@ class RoleAuthentication(PermissionRequiredMixin):
 
     def check_permission(self, role, permission):
         """
-        check if role contains permission
+        Check if role contains permission
         """
         result = permission in settings.ARCTIC_ROLES[role]
         # will try to call a method with the same name as the permission
