@@ -306,10 +306,9 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        if hasattr(self, field_name[0]):
-                            # Call method for virtual field and return row instance
+                        try:
                             value = getattr(self, field_name[0])(obj)
-                        else:
+                        except AttributeError:
                             value = find_attribute(obj, field_name[0])
                     else:
                         try:
@@ -321,10 +320,9 @@ class ListView(View, base.ListView):
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
                         except AttributeError:
-                            if hasattr(self, field_name):
-                                # Call method for virtual field and return row instance
+                            try:
                                 value = getattr(self, field_name)(obj)
-                            else:
+                            except AttributeError:
                                 value = find_attribute(obj, field_name)
 
                     item.append(value)
