@@ -7,6 +7,7 @@ from __future__ import (absolute_import, unicode_literals)
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
+from django.forms import model_to_dict
 
 from collections import OrderedDict
 
@@ -60,39 +61,62 @@ class LayoutMixin(object):
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
     """
-    _fields = None
+    _fields = []
     allowed_columns = 12
 
     def get_layout(self):
-        self._fields = self.get_form().fields
+        try:
+            self.layout
+        except AttributeError:
+            return None
 
-        allowed_rows = {}
-        print('self.layout', self.layout)
+        self.get_fields()
+
+        allowed_rows = OrderedDict()
         if isinstance(self.layout, OrderedDict):
-            for fieldset, layout_tuple in self.layout.items():
-                if fieldset[-1] == '-':
-                    fieldset =+ '_collapse'
-                if isinstance(layout_tuple, str):
-                    allowed_rows[fieldset] = [self.return_field(layout_tuple)]
-                else:
-                    row = self.process_rows(layout_tuple)
-                    allowed_rows[fieldset] = row
-        elif isinstance(self.layout, tuple):
-            row = self.process_rows(self.layout)
-            allowed_rows[0] = row
-        else:
-            raise ImproperlyConfigured('LayoutMixin expects a tuple or an '
-                                       'OrderedDict')
+            for fieldset, layout_list in self.layout.items():
+                fieldset = self.return_fieldset(fieldset)
 
-        print('allowed_rows', allowed_rows)
+                if isinstance(layout_list, str):
+                    allowed_rows[fieldset] = [layout_list]
+                else:
+                    row = self.process_row_with_fieldset(layout_list)
+                    allowed_rows[fieldset] = row
+
+        elif isinstance(self.layout, list) or isinstance(self.layout, tuple):
+            row = self.process_row(self.layout)
+            allowed_rows[0] = row
+
+        else:
+            raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
+                                       'an OrderedDict')
+
         return allowed_rows
 
-    def process_rows(self, rows):
+    def get_fields(self):
+        mtd = model_to_dict(self.object)
+        for field, val in mtd.items():
+            self._fields.append(field)
+
+    def return_fieldset(self, fieldset):
+        if fieldset.count('|') > 1:
+            raise ImproperlyConfigured('The fieldset name does not support '
+                                       'more than one | sign. It\'s meant to '
+                                       'separate a fieldset from it\'s '
+                                       'description.')
+        if fieldset[1] == '-':
+            fieldset = str(fieldset[1:]) + '_collapse'
+        if '|' in fieldset:
+            splitted_text = fieldset.split('|')
+            fieldset = splitted_text[1]
+        return fieldset
+
+    def process_row_with_fieldset(self, rows):
         allowed_rows = []
         for row in rows:
             if isinstance(row, str):
                 allowed_rows.append(self.return_field(row))
-            elif isinstance(row, tuple):
+            elif isinstance(row, list) or isinstance(row, tuple):
                 rows = self.process_row(row)
                 allowed_rows.append(rows)
         return allowed_rows
@@ -108,7 +132,7 @@ class LayoutMixin(object):
             rows_copy[index] = field
 
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
-            if isinstance(field, tuple):
+            if isinstance(field, list):
                 rows_to_dict[index] = self.process_row(field)
                 continue
 

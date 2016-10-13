@@ -52,6 +52,17 @@ class ArticleUpdateView(UpdateView):
     links = [
         ('Back to list', 'articles:list'),
     ]
+    layout = OrderedDict([('-fieldset', [
+                              'title',
+                              'title',
+                              ['category', 'updated_at|4']
+                          ]),
+                          ('coole naam|some description here', [
+                              ['title|4', 'category'],
+                          ]),
+                          ('legenda', [
+                              'published'
+                          ])])
     # tabs = [
     #     ('Detail', 'articles:detail'),
     #     ('Tags', 'articles:detail-tags'),

@@ -16,9 +16,9 @@
         {% endif %}
         {% block controls %}
             {% if style %}
-                <div class="medium-{{style}} columns">
+                <div class="small-12 medium-{{style}} columns">
             {% else %}
-                <div class="small-12 medium-8 columns">
+                <div class="columns">
             {% endif %}
             <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
 

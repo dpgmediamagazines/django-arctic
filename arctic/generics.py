@@ -443,6 +443,7 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['links'] = self.get_links()
+        context['layout'] = self.get_layout()
         return context
 
 

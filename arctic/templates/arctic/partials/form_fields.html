@@ -1,33 +1,43 @@
-{% if layout %}
-    {% for legend, fieldset in layout.items %}
-        {% if 'key_' not in legend %}
-            <fieldset>
+{% load arctic_tags %}
 
-                {% if legend|slice:"1:2" == '_'  %}
-                    <legend>{{ legend|slice:"2:" }}</legend>
-                {% else %}
-                    <legend>{{ legend }}</legend>
+<div class="row align-center">
+    <div class="small-12 medium-8 columns">
+        {% if layout %}
+            {% for legend, fieldset in layout.items %}
+
+                {% if 'key_' not in legend %}
+                    {% if legend|slice:"0:1" == '-'  %}
+                        <fieldset class="collapse">
+                            <legend>{{ legend|slice:"1:" }}</legend>
+                    {% else %}
+                        <fieldset>
+                            <legend>{{ legend }}</legend>
+                    {% endif %}
                 {% endif %}
 
-        {% endif %}
+                {% for row in fieldset %}
+                    <div class="row {% if field.errors %}error{% endif %}">
+                        {% if row|typename == 'dict' %}
+                            {% include 'arctic/partials/form_field.html' with field=row.field style=row.column %}
+                        {% else %}
+                            {% for field in row %}
+                                {% include 'arctic/partials/form_field.html' with field=field.field style=field.column %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
 
-        {% for index, row in fieldset.items %}
-            <div class="row {% if field.errors %}error{% endif %}">
-            {% for field in row %}
-                {% include 'arctic/partials/form_field.html' with field=field.field style=field.class %}
+                {% if 'key_' not in legend %}
+                    </fieldset>
+                {% endif %}
             {% endfor %}
-            </div>
-        {% endfor %}
 
-        {% if 'key_' not in legend %}
-            </fieldset>
+        {% else %}
+
+            {% for field in form %}
+                {% include 'arctic/partials/form_field.html' with field=field%}
+            {% endfor %}
+
         {% endif %}
-
-    {% endfor %}
-{% else %}
-
-    {% for field in form %}
-        {% include 'arctic/partials/form_field.html' with field=field%}
-    {% endfor %}
-
-{% endif %}
+    </div>
+</div>
