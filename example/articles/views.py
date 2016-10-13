@@ -54,11 +54,10 @@ class ArticleUpdateView(UpdateView):
     ]
     layout = OrderedDict([('-fieldset', [
                               'title',
-                              'title',
                               ['category', 'updated_at|4']
                           ]),
                           ('coole naam|some description here', [
-                              ['title|4', 'category'],
+                              ['tags|4', 'description'],
                           ]),
                           ('legenda', [
                               'published'

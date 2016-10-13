@@ -62,7 +62,7 @@ class LayoutMixin(object):
     can now give fields a css-attribute. See reference for more information
     """
     _fields = []
-    allowed_columns = 12
+    ALLOWED_COLUMNS = 12        # There is a 12 grid system
 
     def get_layout(self):
         try:
@@ -70,21 +70,21 @@ class LayoutMixin(object):
         except AttributeError:
             return None
 
-        self.get_fields()
+        self._get_fields()
 
         allowed_rows = OrderedDict()
         if isinstance(self.layout, OrderedDict):
-            for fieldset, layout_list in self.layout.items():
-                fieldset = self.return_fieldset(fieldset)
+            for fieldset, rows in self.layout.items():
+                fieldset = self._return_fieldset(fieldset)
 
-                if isinstance(layout_list, str):
-                    allowed_rows[fieldset] = [layout_list]
+                if isinstance(rows, str):
+                    allowed_rows[fieldset] = [rows]
                 else:
-                    row = self.process_row_with_fieldset(layout_list)
+                    row = self._process_row_with_fieldset(rows)
                     allowed_rows[fieldset] = row
 
         elif isinstance(self.layout, list) or isinstance(self.layout, tuple):
-            row = self.process_row(self.layout)
+            row = self._process_row(self.layout)
             allowed_rows[0] = row
 
         else:
@@ -93,83 +93,84 @@ class LayoutMixin(object):
 
         return allowed_rows
 
-    def get_fields(self):
+    def _get_fields(self):
         mtd = model_to_dict(self.object)
-        for field, val in mtd.items():
-            self._fields.append(field)
+        self._fields = [field
+                       for field, val in mtd.items()]
 
-    def return_fieldset(self, fieldset):
+    def _return_fieldset(self, fieldset):
         if fieldset.count('|') > 1:
             raise ImproperlyConfigured('The fieldset name does not support '
                                        'more than one | sign. It\'s meant to '
                                        'separate a fieldset from it\'s '
                                        'description.')
         if fieldset[1] == '-':
-            fieldset = str(fieldset[1:]) + '_collapse'
+            fieldset = '{fieldset}_collapse'.format(fieldset=fieldset[1:])
         if '|' in fieldset:
             splitted_text = fieldset.split('|')
-            fieldset = splitted_text[1]
+            fieldset_description = splitted_text[1]
+            fieldset = fieldset_description
         return fieldset
 
-    def process_row_with_fieldset(self, rows):
+    def _process_row_with_fieldset(self, rows):
         allowed_rows = []
         for row in rows:
             if isinstance(row, str):
-                allowed_rows.append(self.return_field(row))
+                allowed_rows.append(self._return_field(row))
             elif isinstance(row, list) or isinstance(row, tuple):
-                rows = self.process_row(row)
+                rows = self._process_row(row)
                 allowed_rows.append(rows)
         return allowed_rows
 
-    def process_row(self, row):
-        rows_copy = {}
+    def _process_row(self, row):
+        row_as_dict = {}        # use this to preserve order of fields in row
         has_column = {}
         has_no_column = {}
         sum_existing_column = 0
 
         rows_to_dict = {}
         for index, field in enumerate(row):
-            rows_copy[index] = field
+            row_as_dict[index] = field
 
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
             if isinstance(field, list):
-                rows_to_dict[index] = self.process_row(field)
+                rows_to_dict[index] = self._process_row(field)
                 continue
 
-            name, column = self.split_str(field)
+            name, column = self._split_str(field)
             if column:
-                has_column[index] = self.return_field(field)
+                has_column[index] = self._return_field(field)
                 sum_existing_column += int(column)
             else:
                 has_no_column[index] = field
 
-        col_avg, col_last = self.calc_avg_and_last_val(has_no_column,
-                                                       sum_existing_column)
+        col_avg, col_last = self._calc_avg_and_last_val(has_no_column,
+                                                        sum_existing_column)
 
         # Regenerate has_no_column by adding the amount of columns at the end
         for index, col in has_no_column.items():
             if index == len(has_no_column):
-                temp_name = col + '|' + str(col_last)
-                has_no_column[index] = self.return_field(temp_name)
+                field_name = '{col}|{col_last}'.format(col=col,
+                                                      col_last=col_last)
+                has_no_column[index] = self._return_field(field_name)
             else:
-                temp_name = col + '|' + str(col_avg)
-                has_no_column[index] = self.return_field(temp_name)
+                field_name = '{col}|{col_avg}'.format(col=col,
+                                                     col_avg=col_avg)
+                has_no_column[index] = self._return_field(field_name)
 
         # Merge it all back together to a dict, to preserve the order
-        for index, field in rows_copy.items():
+        for index, field in row_as_dict.items():
             if index in has_column:
                 rows_to_dict[index] = has_column[index]
             if index in has_no_column:
                 rows_to_dict[index] = has_no_column[index]
 
-        # Convert to list
-        rows_to_list = []
-        for index, field in rows_to_dict.items():
-            rows_to_list.append(field)
+        rows_to_list = [field
+                        for index, field in rows_to_dict.items()]
 
         return rows_to_list
 
-    def calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
+    def _calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
         """
         Calculate the average of all columns and return a rounded down number.
         Store the remainder and add it to the last row. Could be implemented
@@ -182,7 +183,7 @@ class LayoutMixin(object):
         :return: average, columns_for_last_element
         """
         sum_no_columns = len(has_no_column)
-        columns_left = self.allowed_columns - sum_existing_columns
+        columns_left = self.ALLOWED_COLUMNS - sum_existing_columns
 
         if sum_no_columns == 0:
             columns_avg = columns_left
@@ -193,15 +194,17 @@ class LayoutMixin(object):
         columns_for_last_element = columns_avg + remainder
         return columns_avg, columns_for_last_element
 
-    def split_str(self, field):
-        items = field.split('|')
-        if len(items) == 2:
-            return items[0], items[1]
-        elif len(items) == 1:
-            return items[0], None
+    def _split_str(self, field):
+        """ Split title|7 into (title, 7) """
+        field_items = field.split('|')
+        if len(field_items) == 2:
+            return field_items[0], field_items[1]
+        elif len(field_items) == 1:
+            return field_items[0], None
 
-    def return_field(self, field):
-        field_name, field_class = self.split_str(field)
+    def _return_field(self, field):
+        field_name, field_class = self._split_str(field)
+        print('self._fields', self._fields)
         if field_name in self._fields:
             return {
                 'name': field_name,
