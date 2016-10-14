@@ -310,7 +310,10 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        value = find_attribute(obj, field_name[0])
+                        try:
+                            value = getattr(self, field_name[0])(obj)
+                        except AttributeError:
+                            value = find_attribute(obj, field_name[0])
                     else:
                         try:
                             # Get the choice display value
@@ -321,7 +324,10 @@ class ListView(View, base.ListView):
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
                         except AttributeError:
-                            value = find_attribute(obj, field_name)
+                            try:
+                                value = getattr(self, field_name)(obj)
+                            except AttributeError:
+                                value = find_attribute(obj, field_name)
 
                     item.append(value)
                 items.append(item)
