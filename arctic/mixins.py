@@ -63,27 +63,23 @@ class LayoutMixin(object):
     """
     _fields = []
     ALLOWED_COLUMNS = 12        # There is a 12 grid system
+    layout = None
 
     def get_layout(self):
-        try:
-            self.layout
-        except AttributeError:
-            return None
-
         self._get_fields()
 
         allowed_rows = OrderedDict()
-        if isinstance(self.layout, OrderedDict):
+        if type(self.layout) is OrderedDict:
             for fieldset, rows in self.layout.items():
                 fieldset = self._return_fieldset(fieldset)
 
-                if isinstance(rows, str):
+                if type(rows) is str:
                     allowed_rows[fieldset] = [rows]
                 else:
                     row = self._process_row_with_fieldset(rows)
                     allowed_rows[fieldset] = row
 
-        elif isinstance(self.layout, list) or isinstance(self.layout, tuple):
+        elif type(self.layout) in (list, tuple):
             row = self._process_row(self.layout)
             allowed_rows[0] = row
 
@@ -95,8 +91,7 @@ class LayoutMixin(object):
 
     def _get_fields(self):
         mtd = model_to_dict(self.object)
-        self._fields = [field
-                       for field, val in mtd.items()]
+        self._fields = [field for field, val in mtd.items()]
 
     def _return_fieldset(self, fieldset):
         if fieldset.count('|') > 1:
@@ -104,37 +99,37 @@ class LayoutMixin(object):
                                        'more than one | sign. It\'s meant to '
                                        'separate a fieldset from it\'s '
                                        'description.')
+        fieldset_dict = {}
         if fieldset[1] == '-':
-            fieldset = '{fieldset}_collapse'.format(fieldset=fieldset[1:])
+            fieldset_dict['collapsed'] = True
         if '|' in fieldset:
-            splitted_text = fieldset.split('|')
-            fieldset_description = splitted_text[1]
-            fieldset = fieldset_description
+            fieldset_dict['title'], fieldset_dict['description'] = \
+                fieldset.split('|')
         return fieldset
 
     def _process_row_with_fieldset(self, rows):
         allowed_rows = []
         for row in rows:
-            if isinstance(row, str):
+            if type(row) is str:
                 allowed_rows.append(self._return_field(row))
-            elif isinstance(row, list) or isinstance(row, tuple):
+            elif type(row) in (list, tuple):
                 rows = self._process_row(row)
                 allowed_rows.append(rows)
         return allowed_rows
 
     def _process_row(self, row):
-        row_as_dict = {}        # use this to preserve order of fields in row
+        new_row = {}        # use this to preserve order of fields in row
         has_column = {}
         has_no_column = {}
         sum_existing_column = 0
 
-        rows_to_dict = {}
+        inner_rows = []
         for index, field in enumerate(row):
-            row_as_dict[index] = field
+            new_row.append(field)
 
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
             if isinstance(field, list):
-                rows_to_dict[index] = self._process_row(field)
+                inner_rows.append(self._process_row(field))
                 continue
 
             name, column = self._split_str(field)
@@ -151,24 +146,21 @@ class LayoutMixin(object):
         for index, col in has_no_column.items():
             if index == len(has_no_column):
                 field_name = '{col}|{col_last}'.format(col=col,
-                                                      col_last=col_last)
+                                                       col_last=col_last)
                 has_no_column[index] = self._return_field(field_name)
             else:
                 field_name = '{col}|{col_avg}'.format(col=col,
-                                                     col_avg=col_avg)
+                                                      col_avg=col_avg)
                 has_no_column[index] = self._return_field(field_name)
 
         # Merge it all back together to a dict, to preserve the order
-        for index, field in row_as_dict.items():
+        for index, field in enumerate(new_row):
             if index in has_column:
-                rows_to_dict[index] = has_column[index]
+                inner_rows[index] = has_column[index]
             if index in has_no_column:
-                rows_to_dict[index] = has_no_column[index]
+                inner_rows[index] = has_no_column[index]
 
-        rows_to_list = [field
-                        for index, field in rows_to_dict.items()]
-
-        return rows_to_list
+        return inner_rows
 
     def _calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
         """
@@ -195,7 +187,7 @@ class LayoutMixin(object):
         return columns_avg, columns_for_last_element
 
     def _split_str(self, field):
-        """ Split title|7 into (title, 7) """
+        """Split title|7 into (title, 7)"""
         field_items = field.split('|')
         if len(field_items) == 2:
             return field_items[0], field_items[1]
@@ -230,7 +222,6 @@ class RoleAuthentication():
         role. Roles that are no longer specified in settings are set as
         inactive.
         """
-
         try:
             settings_roles = set(settings.ARCTIC_ROLES.keys())
         except AttributeError:
