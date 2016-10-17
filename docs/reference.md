@@ -157,34 +157,25 @@ list of fields that can be ordered by clicking on the field's header column.
 
 ### `layout`
 
-list of fields which will be displayed with support for how it's displayed.
-It's possible to give a list of fields, which means you shouldn't give a fields
-attribute, when using layout.
-When using it, you can use the 12-grid system. So when you give a field a 6
-property, it'll span half the size of the row. When it's 4 it'll take 25%
-of the width, etc. Besides that it's also possible to group rows in a fieldset.
+list of fields which will be displayed with support for the 12-grid system.
+When you don't enter a value, it'll default to 12. Thus spanning the whole width.
+However when you give a field a 6 property, like this: "title|6". It'll span half
+the size of the row. When it's 4 "title|4" it'll take 25% of the width, etc.
+Besides that it's also possible to group rows in a fieldset.
 
-INPUT:
-```python
-OrderedDict([
-    ('fieldset', ('title|10', ('category', 'updated_at|4'))),
-    ('fieldset2', 'published')
-])
+When you prepend the name of a fieldset with a "-", it'll make sure the fieldset
+is collapsible.
 
-OUTPUT:
+Example usage:
 ```python
-'layout': {'fieldset': [{'class': '10',
-                         'field': <django.forms.boundfield.BoundField>,
-                         'name': 'title'},
-                        [{'class': None,
-                          'field': <django.forms.boundfield.BoundField>,
-                          'name': 'category'},
-                         {'class': '4',
-                          'field': <django.forms.boundfield.BoundField>,
-                          'name': 'updated_at'}]],
-           'fieldset2': [{'class': None,
-                          'field': <django.forms.boundfield.BoundField>,
-                          'name': 'published'}]}
+    layout = OrderedDict([
+                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
+                            ('fieldset2', ['tags']),
+                        ])
+    layout = ['title', 'description', ['category', 'tags']]
+    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
+    layout = [['published', 'updated_at']]
+```
 
 ### `default_ordering`
 

@@ -3,19 +3,22 @@
 <div class="row align-center">
     <div class="small-12 medium-8 columns">
         {% if layout %}
-            {% for legend, fieldset in layout.items %}
+            {% for fieldset, rows in layout.items %}
 
-                {% if 'key_' not in legend %}
-                    {% if legend|slice:"0:1" == '-'  %}
+                {% if fieldset.0|typename != 'int' %}
+                    {% if fieldset.2 %}
                         <fieldset class="collapse">
-                            <legend>{{ legend|slice:"1:" }}</legend>
                     {% else %}
                         <fieldset>
-                            <legend>{{ legend }}</legend>
                     {% endif %}
+                        <legend>{{ fieldset.0 }}</legend>
                 {% endif %}
 
-                {% for row in fieldset %}
+                {% if fieldset.1 %}
+                    {{ fieldset.1 }}
+                {% endif %}
+
+                {% for row in rows %}
                     <div class="row {% if field.errors %}error{% endif %}">
                         {% if row|typename == 'dict' %}
                             {% include 'arctic/partials/form_field.html' with field=row.field style=row.column %}
@@ -27,7 +30,7 @@
                     </div>
                 {% endfor %}
 
-                {% if 'key_' not in legend %}
+                {% if fieldset.0 %}
                     </fieldset>
                 {% endif %}
             {% endfor %}

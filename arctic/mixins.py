@@ -60,10 +60,15 @@ class LayoutMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
+
+    Fieldset
+      \-->  Rows
+              \--> Fields
     """
+    ALLOWED_COLUMNS = 12        # There are 12 columns available
     _fields = []
-    ALLOWED_COLUMNS = 12        # There is a 12 grid system
     layout = None
+    recursion_level = 0
 
     def get_layout(self):
         self._get_fields()
@@ -76,12 +81,13 @@ class LayoutMixin(object):
                 if type(rows) is str:
                     allowed_rows[fieldset] = [rows]
                 else:
-                    row = self._process_row_with_fieldset(rows)
+                    row = self._process_first_level(rows)
                     allowed_rows[fieldset] = row
 
         elif type(self.layout) in (list, tuple):
-            row = self._process_row(self.layout)
-            allowed_rows[0] = row
+            row = self._process_first_level(self.layout)
+            fieldset = self._return_fieldset(0)
+            allowed_rows[fieldset] = row
 
         else:
             raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
@@ -93,21 +99,7 @@ class LayoutMixin(object):
         mtd = model_to_dict(self.object)
         self._fields = [field for field, val in mtd.items()]
 
-    def _return_fieldset(self, fieldset):
-        if fieldset.count('|') > 1:
-            raise ImproperlyConfigured('The fieldset name does not support '
-                                       'more than one | sign. It\'s meant to '
-                                       'separate a fieldset from it\'s '
-                                       'description.')
-        fieldset_dict = {}
-        if fieldset[1] == '-':
-            fieldset_dict['collapsed'] = True
-        if '|' in fieldset:
-            fieldset_dict['title'], fieldset_dict['description'] = \
-                fieldset.split('|')
-        return fieldset
-
-    def _process_row_with_fieldset(self, rows):
+    def _process_first_level(self, rows):
         allowed_rows = []
         for row in rows:
             if type(row) is str:
@@ -118,49 +110,92 @@ class LayoutMixin(object):
         return allowed_rows
 
     def _process_row(self, row):
-        new_row = {}        # use this to preserve order of fields in row
         has_column = {}
         has_no_column = {}
         sum_existing_column = 0
 
-        inner_rows = []
+        _row = {}
         for index, field in enumerate(row):
-            new_row.append(field)
-
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
-            if isinstance(field, list):
-                inner_rows.append(self._process_row(field))
-                continue
-
-            name, column = self._split_str(field)
-            if column:
-                has_column[index] = self._return_field(field)
-                sum_existing_column += int(column)
-            else:
-                has_no_column[index] = field
+            if type(field) in (list, OrderedDict):
+                _row[index] = self._process_row(field)
+            elif type(field) == str:
+                name, column = self._split_str(field)
+                if column:
+                    has_column[index] = self._return_field(field)
+                    sum_existing_column += int(column)
+                else:
+                    has_no_column[index] = field
 
         col_avg, col_last = self._calc_avg_and_last_val(has_no_column,
                                                         sum_existing_column)
-
-        # Regenerate has_no_column by adding the amount of columns at the end
-        for index, col in has_no_column.items():
-            if index == len(has_no_column):
-                field_name = '{col}|{col_last}'.format(col=col,
-                                                       col_last=col_last)
-                has_no_column[index] = self._return_field(field_name)
-            else:
-                field_name = '{col}|{col_avg}'.format(col=col,
-                                                      col_avg=col_avg)
-                has_no_column[index] = self._return_field(field_name)
+        has_no_column = self._set_has_no_columns(has_no_column,
+                                                 col_avg,
+                                                 col_last)
 
         # Merge it all back together to a dict, to preserve the order
-        for index, field in enumerate(new_row):
+        for index, field in enumerate(row):
             if index in has_column:
-                inner_rows[index] = has_column[index]
+                _row[index] = has_column[index]
             if index in has_no_column:
-                inner_rows[index] = has_no_column[index]
+                _row[index] = has_no_column[index]
 
-        return inner_rows
+        rows_to_list = [field
+                        for index, field in _row.items()]
+
+        return rows_to_list
+
+    def _set_has_no_columns(self, has_no_column, col_avg, col_last):
+        """
+        Regenerate has_no_column by adding the amount of columns at the end
+        """
+        for index, field in has_no_column.items():
+            if index == len(has_no_column):
+                field_name = '{field}|{col_last}'.format(field=field,
+                                                         col_last=col_last)
+                has_no_column[index] = self._return_field(field_name)
+            else:
+                field_name = '{field}|{col_avg}'.format(field=field,
+                                                        col_avg=col_avg)
+                has_no_column[index] = self._return_field(field_name)
+        return has_no_column
+
+    def _return_fieldset(self, fieldset):
+        """
+        This function has a fieldset as input and turns it into a tuple
+        (title, description, collapsible)
+
+        This function became a bit messy, since it needs to deal with two
+        cases.
+
+        1) No fieldset, which is represented as an integer
+        2) A fieldset
+
+        :param fieldset:
+        :return: (title, description, collapsible)
+        """
+        collapsible = False
+        description = None
+        try:
+            # Make sure strings with numbers work as well, do this
+            title = int(fieldset)
+        except ValueError:
+            if fieldset.count('|') > 1:
+                raise ImproperlyConfigured('The fieldset name does not '
+                                           'support more than one | sign. '
+                                           'It\'s meant to separate a '
+                                           'fieldset from it\'s '
+                                           'description.')
+
+            title = fieldset
+            if fieldset[0] == '-':
+                collapsible = True
+                title = fieldset[1:]
+            if '|' in fieldset:
+                title, description = fieldset.split('|')
+
+        # Fieldset => name, description, collapsible
+        return title, description, collapsible
 
     def _calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
         """
@@ -187,7 +222,9 @@ class LayoutMixin(object):
         return columns_avg, columns_for_last_element
 
     def _split_str(self, field):
-        """Split title|7 into (title, 7)"""
+        """
+        Split title|7 into (title, 7)
+        """
         field_items = field.split('|')
         if len(field_items) == 2:
             return field_items[0], field_items[1]
