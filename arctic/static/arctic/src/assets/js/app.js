@@ -162,6 +162,8 @@ function set_input_widgets() {
         var textarea = $(this).children('textarea'),
             richtextdiv = $(this).children('div');
 
+        richtextdiv.html(textarea.val());
+
         tinymce.init({
             target: richtextdiv[0],
             inline: true,
