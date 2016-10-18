@@ -61,33 +61,40 @@ class LayoutMixin(object):
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
 
-    Fieldset
-      \-->  Rows
-              \--> Fields
+    This is how layouts are built:
+        Fieldset
+          \-->  Rows
+                  \--> Fields
     """
-    ALLOWED_COLUMNS = 12        # There are 12 columns available
-    _fields = []
     layout = None
-    recursion_level = 0
+    _fields = []
+    ALLOWED_COLUMNS = 12        # There are 12 columns available
 
     def get_layout(self):
+        if not self.layout:
+            return None
+
         self._get_fields()
 
         allowed_rows = OrderedDict()
+        i = 0
         if type(self.layout) is OrderedDict:
             for fieldset, rows in self.layout.items():
                 fieldset = self._return_fieldset(fieldset)
-
                 if type(rows) is str:
-                    allowed_rows[fieldset] = [rows]
+                    allowed_rows.update({i: {'fieldset': fieldset,
+                                             'rows': rows}})
                 else:
                     row = self._process_first_level(rows)
-                    allowed_rows[fieldset] = row
+                    allowed_rows.update({i: {'fieldset': fieldset,
+                                             'rows': row}})
+                i += 1
 
         elif type(self.layout) in (list, tuple):
             row = self._process_first_level(self.layout)
             fieldset = self._return_fieldset(0)
-            allowed_rows[fieldset] = row
+            allowed_rows.update({i: {'fieldset': fieldset,
+                                     'rows': row}})
 
         else:
             raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
@@ -162,23 +169,18 @@ class LayoutMixin(object):
 
     def _return_fieldset(self, fieldset):
         """
-        This function has a fieldset as input and turns it into a tuple
-        (title, description, collapsible)
-
         This function became a bit messy, since it needs to deal with two
         cases.
 
         1) No fieldset, which is represented as an integer
         2) A fieldset
-
-        :param fieldset:
-        :return: (title, description, collapsible)
         """
         collapsible = False
         description = None
         try:
             # Make sure strings with numbers work as well, do this
-            title = int(fieldset)
+            int(fieldset)
+            title = None
         except ValueError:
             if fieldset.count('|') > 1:
                 raise ImproperlyConfigured('The fieldset name does not '
@@ -194,8 +196,9 @@ class LayoutMixin(object):
             if '|' in fieldset:
                 title, description = fieldset.split('|')
 
-        # Fieldset => name, description, collapsible
-        return title, description, collapsible
+        return {'title': title,
+                'description': description,
+                'collapsible': collapsible}
 
     def _calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
         """

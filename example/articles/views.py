@@ -48,14 +48,14 @@ class ArticleUpdateView(UpdateView):
     required_permission = "articles_change"
     model = Article
     success_url = reverse_lazy('articles:list')
-    # form_class = ArticleForm
-    fields = ('title', 'description', 'category', 'updated_at', 'tags')
+    form_class = ArticleForm
     links = [
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                            ('-fieldset', ['title|10', ['category', 'updated_at|4'], 'description', 'category']),
-                            ('fieldset2', ['tags']),
+                            ('-fieldset', ['title|10', ['category', 'tags|5']]),
+                            ('fieldset2|enter your description', ['description']),
+                            ('fieldset3', [['published|4', 'updated_at']]),
                         ])
     # layout = ['title|3', 'title', 'title', ['category', 'category']]
 

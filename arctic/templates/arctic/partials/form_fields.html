@@ -3,22 +3,22 @@
 <div class="row align-center">
     <div class="small-12 medium-8 columns">
         {% if layout %}
-            {% for fieldset, rows in layout.items %}
+            {% for index, layout_item in layout.items %}
 
-                {% if fieldset.0|typename != 'int' %}
-                    {% if fieldset.2 %}
+                {% if layout_item.fieldset.title %}
+                    {% if layout_item.fieldset.collapsible %}
                         <fieldset class="collapse">
                     {% else %}
                         <fieldset>
                     {% endif %}
-                        <legend>{{ fieldset.0 }}</legend>
+                        <legend>{{ layout_item.fieldset.title }}</legend>
                 {% endif %}
 
-                {% if fieldset.1 %}
-                    {{ fieldset.1 }}
+                {% if layout_item.fieldset.description %}
+                    {{ layout_item.fieldset.description }}
                 {% endif %}
 
-                {% for row in rows %}
+                {% for row in layout_item.rows %}
                     <div class="row {% if field.errors %}error{% endif %}">
                         {% if row|typename == 'dict' %}
                             {% include 'arctic/partials/form_field.html' with field=row.field style=row.column %}
@@ -30,7 +30,7 @@
                     </div>
                 {% endfor %}
 
-                {% if fieldset.0 %}
+                {% if layout_item.fieldset.title %}
                     </fieldset>
                 {% endif %}
             {% endfor %}
