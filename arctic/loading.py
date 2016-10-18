@@ -7,14 +7,14 @@ def get_role_model():
     """
     Returns the Role model that is active in this project.
     """
-    app, model = getattr(
+    app_model = getattr(
         settings,
         'ARCTIC_ROLE_MODEL',
         'arctic.Role'
-    ).split('.')
+    )
 
     try:
-        return django_apps.get_model(app, model)
+        return django_apps.get_model(app_model)
     except ValueError:
         raise ImproperlyConfigured("ARCTIC_ROLE_MODEL must be of the "
                                    "form 'app_label.model_name'")
@@ -29,14 +29,14 @@ def get_user_role_model():
     """
     Returns the UserRole model that is active in this project.
     """
-    app, model = getattr(
+    app_model = getattr(
         settings,
         'ARCTIC_USER_ROLE_MODEL',
         'arctic.UserRole'
-    ).split('.')
+    )
 
     try:
-        return django_apps.get_model(app, model)
+        return django_apps.get_model(app_model)
     except ValueError:
         raise ImproperlyConfigured("ARCTIC_USER_ROLE_MODEL must be of the "
                                    "form 'app_label.model_name'")
