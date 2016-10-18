@@ -83,17 +83,14 @@ def test_layout_example_3b(layout):
 
 
 def test_layout_example_4(layout):
-    layout.layout = OrderedDict([('-fieldset', [
+    layout.layout = OrderedDict([('-fieldset',
+                                  ['title',
                                    'title',
-                                   'title',
-                                   ['category', 'updated_at|4']
-                               ]),
-                               ('fieldset2|test description', [
-                                   ['title|7', 'category'],
-                               ]),
-                               ('fieldset3', [
-                                   'published'
-                               ])])
+                                   ['category', 'updated_at|4']]),
+                                ('fieldset2|test description',
+                                 [['title|7', 'category']]),
+                                ('fieldset3',
+                                 ['published'])])
     layout = layout.get_layout()
 
     assert layout[0]['fieldset']['title'] == 'fieldset'
