@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 
-from arctic import (get_role_model, get_user_role_model)
+from arctic.loading import (get_role_model, get_user_role_model)
 
 Role = get_role_model()
 UserRole = get_user_role_model()

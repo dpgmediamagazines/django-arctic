@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 from betterforms.multiform import MultiModelForm
 
-from arctic import get_user_role_model
+from arctic.loading import get_user_role_model
 
 User = get_user_model()
 UserRole = get_user_role_model()

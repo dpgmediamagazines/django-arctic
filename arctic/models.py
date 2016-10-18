@@ -1,12 +1,10 @@
 from django.conf import settings
 from django.db import models
 
-from arctic import get_role_model_setting
-
 
 class UserRole(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='urole')
-    role = models.ForeignKey(get_role_model_setting())
+    role = models.ForeignKey('arctic.Role')
 
     class Meta:
         swappable = 'ARCTIC_USER_ROLE_MODEL'
