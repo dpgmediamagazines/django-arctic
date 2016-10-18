@@ -58,9 +58,12 @@ class ArticleUpdateView(UpdateView):
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                            ('-fieldset', ['title|10', ['category', 'tags|5']]),
-                            ('fieldset2|enter your description', ['description']),
-                            ('fieldset3', [['published|4', 'updated_at']]),
+                            ('-fieldset',
+                             ['title|10', ['category', 'tags|5']]),
+                            ('fieldset2|enter your description',
+                             ['description']),
+                            ('fieldset3',
+                             [['published|4', 'updated_at']]),
                         ])
     # layout = ['title|3', 'title', 'title', ['category', 'category']]
 
