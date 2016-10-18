@@ -2,8 +2,8 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 
-from arctic import get_user_role_model
 from arctic.generics import (CreateView, ListView, UpdateView)
+from arctic.loading import get_user_role_model
 
 from .forms import (UserChangeMultiForm, UserCreationMultiForm)
 
@@ -29,6 +29,7 @@ class UserListView(ListView):
     tool_links = [
         (_('Create Users'), 'users:create', 'fa-plus'),
     ]
+    permission_required = ""
 
 
 class UserCreateView(CreateView):
@@ -36,6 +37,7 @@ class UserCreateView(CreateView):
     model = UserRole
     success_url = reverse_lazy('users:list')
     form_class = UserCreationMultiForm
+    permission_required = ""
 
     def get_success_message(self, cleaned_data):
         return _('User {} was successfully created').format(
@@ -47,6 +49,7 @@ class UserUpdateView(UpdateView):
     model = UserRole
     success_url = reverse_lazy('users:list')
     form_class = UserChangeMultiForm
+    permission_required = ""
 
     def get_form_kwargs(self):
         kwargs = super(UserUpdateView, self).get_form_kwargs()

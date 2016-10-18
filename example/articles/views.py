@@ -13,6 +13,7 @@ from .models import (Article, Category, Tag)
 class DashboardView(TemplateView):
     template_name = 'arctic/index.html'
     page_title = "Dashboard"
+    permission_required = ""
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
@@ -59,6 +60,7 @@ class ArticleUpdateView(UpdateView):
     #     ('Detail', 'articles:detail'),
     #     ('Tags', 'articles:detail-tags'),
     # ]
+    permission_required = ""
 
     def get_urls(self):
         return {
@@ -74,6 +76,7 @@ class ArticleCreateView(CreateView):
     # fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
     form_class = ArticleForm
+    permission_required = "articles_create"
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -82,6 +85,7 @@ class ArticleCreateView(CreateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('articles:list')
+    permission_required = ""
 
 
 class CategoryListView(ListView):
@@ -94,6 +98,7 @@ class CategoryListView(ListView):
     tool_links = [
         (_('Create Category'), 'articles:category-create'),
     ]
+    permission_required = ""
 
 
 class CategoryArticlesListView(ArticleListView):
@@ -113,6 +118,7 @@ class CategoryArticlesListView(ArticleListView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
+    permission_required = ""
 
     def get_urls(self):
         return {
@@ -133,6 +139,7 @@ class CategoryUpdateView(UpdateView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
+    permission_required = ""
 
     def get_urls(self):
         return {
@@ -145,6 +152,7 @@ class CategoryCreateView(CreateView):
     page_title = _("Create Category")
     model = Category
     fields = ['name']
+    permission_required = ""
 
     def get_success_url(self):
         return reverse('articles:category-detail', args=(self.object.pk,))
@@ -153,6 +161,7 @@ class CategoryCreateView(CreateView):
 class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('articles:category-list')
+    permission_required = ""
 
 
 class TagListView(ListView):
@@ -165,18 +174,21 @@ class TagListView(ListView):
     tool_links = [
         (_('Create Tag'), 'articles:tag-create'),
     ]
+    permission_required = ()
 
 
 class TagUpdateView(UpdateView):
     page_title = _("Edit Tag")
     model = Tag
     success_url = reverse_lazy('articles:tag-list')
+    permission_required = ""
 
 
 class TagCreateView(CreateView):
     page_title = _("Create Tag")
     model = Tag
     fields = ['term']
+    permission_required = ""
 
     def get_success_url(self):
         return reverse('articles:tag-detail', args=(self.object.pk,))
@@ -185,3 +197,4 @@ class TagCreateView(CreateView):
 class TagDeleteView(DeleteView):
     model = Tag
     success_url = reverse_lazy('articles:tag-list')
+    permission_required = ""

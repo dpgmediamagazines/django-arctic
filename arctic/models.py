@@ -4,7 +4,7 @@ from django.db import models
 
 class UserRole(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='urole')
-    role = models.ForeignKey(settings.ARCTIC_ROLE_MODEL)
+    role = models.ForeignKey('arctic.Role')
 
     class Meta:
         swappable = 'ARCTIC_USER_ROLE_MODEL'
