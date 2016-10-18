@@ -6,8 +6,8 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
+from django.utils import six
 
 from arctic.loading import (get_role_model, get_user_role_model)
 
@@ -57,12 +57,18 @@ class LinksMixin(object):
             return allowed_links
 
 
-class RoleAuthentication(PermissionRequiredMixin):
+class RoleAuthentication(object):
     """
     This class adds a role relation to the standard django auth user to add
     support for role based permissions in any class - usually a View.
     """
     ADMIN = 'admin'
+    permission_required = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.has_permission(request.user):
+            raise PermissionDenied()
+        return super(RoleAuthentication, self).dispatch(request, *args, **kwargs)
 
     @classmethod
     def sync(cls):
@@ -108,39 +114,53 @@ class RoleAuthentication(PermissionRequiredMixin):
             unused_role.is_active = False
             unused_role.save()
 
-    def get_permission_required(self):
+    @classmethod
+    def get_permission_required(cls):
         """
-        Only get permissions if user requires to login.
+        Get permission required property.
+        Must return an iterable.
         """
-        if self.requires_login:
-            return super(RoleAuthentication, self).get_permission_required()
+        if not cls.requires_login:
+            return None
 
-    def has_permission(self):
+        if cls.permission_required is None:
+            raise ImproperlyConfigured(
+                '{0} is missing the permission_required attribute. Define {0}.permission_required, or override '
+                '{0}.get_permission_required().'.format(cls.__name__)
+            )
+        if isinstance(cls.permission_required, six.string_types):
+            perms = (cls.permission_required, )
+        else:
+            perms = cls.permission_required
+        return perms
+
+    @classmethod
+    def has_permission(cls, user):
         """
         We override this method to customize the way permissions are checked.
-        Using our roles to check permissions, and skipping django's
-        default permission check.
+        Using our roles to check permissions.
         """
         # attribute permission_required is mandatory, returns tuple
-        perms = self.get_permission_required()
-        # if perms are defined as empty we skip checking
+        perms = cls.get_permission_required()
+        # if perms are defined and empty, we skip checking
         if not perms:
             return True
 
         # get role of user, skip admin role
-        role = UserRole.objects.get(user=self.request.user).role.name
-        if role == self.ADMIN:
+        role = UserRole.objects.get(user=user).role.name
+        if role == cls.ADMIN:
             return True
 
         # check if at least one permissions is valid
         for permission in perms:
-            if self.check_permission(role, permission):
+            if cls.check_permission(role, permission):
                 return True
 
         # permission denied
         return False
 
-    def check_permission(self, role, permission):
+    @classmethod
+    def check_permission(cls, role, permission):
         """
         Check if role contains permission
         """
@@ -149,7 +169,7 @@ class RoleAuthentication(PermissionRequiredMixin):
         # to enable an object level permission check.
         if result:
             try:
-                return getattr(self, permission)(role)
+                return getattr(cls, permission)(role)
             except AttributeError:
                 pass
         return result
