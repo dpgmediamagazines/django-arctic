@@ -171,6 +171,28 @@ list of fields that are to be searched.
 
 list of fields that can be ordered by clicking on the field's header column.
 
+### `layout`
+
+list of fields which will be displayed with support for the 12-grid system.
+When you don't enter a value, it'll default to 12. Thus spanning the whole width.
+However when you give a field a 6 property, like this: "title|6". It'll span half
+the size of the row. When it's 4 "title|4" it'll take 25% of the width, etc.
+Besides that it's also possible to group rows in a fieldset.
+
+When you prepend the name of a fieldset with a "-", it'll make sure the fieldset
+is collapsible.
+
+Example usage:
+```python
+    layout = OrderedDict([
+                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
+                            ('fieldset2', ['tags']),
+                        ])
+    layout = ['title', 'description', ['category', 'tags']]
+    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
+    layout = [['published', 'updated_at']]
+```
+
 ### `default_ordering`
 
 list with default ordering of the fields, descending order uses Django's

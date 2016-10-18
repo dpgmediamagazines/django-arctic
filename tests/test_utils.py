@@ -1,9 +1,8 @@
 from collections import OrderedDict
-
 import django.core.urlresolvers
 from django.http import HttpRequest
 
-from .. import utils
+from arctic import utils
 
 
 class TestMenu:
