@@ -6,12 +6,16 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.forms import model_to_dict
 
 from collections import OrderedDict
 
-from .models import (Role, UserRole)
+from arctic.loading import (get_role_model, get_user_role_model)
+
+Role = get_role_model()
+UserRole = get_user_role_model()
 
 
 class SuccessMessageMixin(object):
@@ -246,12 +250,11 @@ class LayoutMixin(object):
             return None
 
 
-class RoleAuthentication():
+class RoleAuthentication(PermissionRequiredMixin):
     """
     This class adds a role relation to the standard django auth user to add
     support for role based permissions in any class - usually a View.
     """
-    required_permission = None
     ADMIN = 'admin'
 
     @classmethod
@@ -297,18 +300,48 @@ class RoleAuthentication():
             unused_role.is_active = False
             unused_role.save()
 
-    def has_perm(self, user):
-        if not self.required_permission:
+    def get_permission_required(self):
+        """
+        Only get permissions if user requires to login.
+        """
+        if self.requires_login:
+            return super(RoleAuthentication, self).get_permission_required()
+
+    def has_permission(self):
+        """
+        We override this method to customize the way permissions are checked.
+        Using our roles to check permissions, and skipping django's
+        default permission check.
+        """
+        # attribute permission_required is mandatory, returns tuple
+        perms = self.get_permission_required()
+        # if perms are defined as empty we skip checking
+        if not perms:
             return True
-        role = UserRole.objects.get(user=user).role.name
+
+        # get role of user, skip admin role
+        role = UserRole.objects.get(user=self.request.user).role.name
         if role == self.ADMIN:
             return True
-        result = self.required_permission in settings.ARCTIC_ROLES[role]
+
+        # check if at least one permissions is valid
+        for permission in perms:
+            if self.check_permission(role, permission):
+                return True
+
+        # permission denied
+        return False
+
+    def check_permission(self, role, permission):
+        """
+        Check if role contains permission
+        """
+        result = permission in settings.ARCTIC_ROLES[role]
         # will try to call a method with the same name as the permission
         # to enable an object level permission check.
         if result:
             try:
-                return getattr(self, self.required_permission)(role)
+                return getattr(self, permission)(role)
             except AttributeError:
                 pass
         return result

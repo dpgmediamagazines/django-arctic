@@ -5,11 +5,12 @@ from django.contrib.auth import forms as user_forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
-from arctic.models import UserRole
-
 from betterforms.multiform import MultiModelForm
 
+from arctic.loading import get_user_role_model
+
 User = get_user_model()
+UserRole = get_user_role_model()
 
 
 class UserRoleForm(forms.ModelForm):

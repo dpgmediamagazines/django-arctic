@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
@@ -46,8 +46,6 @@ class View(RoleAuthentication, base.View):
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
-        if not self.has_perm(request.user):
-            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -273,10 +271,16 @@ class ListView(View, base.ListView):
                 else:
                     name = field_name
                     try:
-                        item['label'] = find_field_meta(
+                        field_meta = find_field_meta(
                             model,
                             field_name
-                        ).verbose_name
+                        )
+                        if field_meta._verbose_name:  # noqa
+                            # explicitly set on the model, so don't change
+                            item['label'] = field_meta._verbose_name  # noqa
+                        else:
+                            # title-case the field name (issue #80)
+                            item['label'] = field_meta.verbose_name.title()
 
                         # item['label'] = model._meta.get_field(field_name).\
                         #     verbose_name
@@ -306,7 +310,10 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        value = find_attribute(obj, field_name[0])
+                        try:
+                            value = getattr(self, field_name[0])(obj)
+                        except AttributeError:
+                            value = find_attribute(obj, field_name[0])
                     else:
                         try:
                             # Get the choice display value
@@ -317,7 +324,10 @@ class ListView(View, base.ListView):
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
                         except AttributeError:
-                            value = find_attribute(obj, field_name)
+                            try:
+                                value = getattr(self, field_name)(obj)
+                            except AttributeError:
+                                value = find_attribute(obj, field_name)
 
                     item.append(value)
                 items.append(item)
