@@ -541,12 +541,17 @@ class LoginView(TemplateView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
-    messages = []
+
+    def __init__(self, *args, **kwargs):
+        super(TemplateView, self).__init__(*args, **kwargs)
+        # thread-safe definition of messages.
+        self.messages = []
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
         context['next'] = self.request.GET.get('next', '/')
+        context['username'] = self.request.POST.get('username', '')
         context['messages'] = set(self.messages)
         return context
 
