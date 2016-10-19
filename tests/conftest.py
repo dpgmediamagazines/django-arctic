@@ -1,4 +1,5 @@
 import pytest
+from django.test.client import RequestFactory
 
 from example.articles.models import Article, Category
 from example.articles.forms import ArticleForm
@@ -7,7 +8,7 @@ from example.articles.forms import ArticleForm
 @pytest.fixture
 def category():
     category = Category()
-    category.name = 'name'
+    category.name = 'name1'
 
     return category
 
@@ -15,11 +16,11 @@ def category():
 @pytest.fixture
 def article():
     article = Article()
-    article.title = 'title'
-    article.description = 'description'
-    article.updated_at = 'updated_at'
+    article.title = 'title1'
+    article.description = 'description1'
+    article.updated_at = 'updated_at1'
     article.category = category()
-    article.published = 'published'
+    article.published = 'published1'
 
     return article
 
@@ -45,3 +46,8 @@ def get_form(form):
             return {field.name: field
                     for field in form}
     return _get_form
+
+
+def request(uri):
+    factory = RequestFactory()
+    return factory.get(uri)

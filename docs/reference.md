@@ -153,14 +153,14 @@ It's also possible to add virtual fields. See virtual fields for more info.
 
 Via the fields property, it's possible to add virtual fields. So you can
 extend the views with custom fields. A virtual field does need an
-accompanying method. That method receives a row_instance, so you can
-manipulate row data there.
+accompanying method prefixed with "get_field_". That method receives a
+row_instance, so you can manipulate row data there.
 
 Example:
 class MyListView(arctic.ListView):
     fields = (model_field1, model_field2, not_a_model_field)
 
-    def not_a_model_field(row_instance):
+    def get_field_not_a_model_field(row_instance):
         return '<b>' + row_instance.model_field3 + '</b>'
 
 ### `search_fields`
