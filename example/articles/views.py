@@ -33,6 +33,7 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
+        'category': 'articles:category-detail',
     }
     field_classes = {
         'published': 'inline-widget boolean-circle',
@@ -139,7 +140,7 @@ class CategoryUpdateView(UpdateView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
-    permission_required = ""
+    permission_required = "category"
 
     def get_urls(self):
         return {

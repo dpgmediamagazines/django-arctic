@@ -87,7 +87,20 @@ class View(RoleAuthentication, base.View):
         """
         Breadcrumb format: (('name', 'url'), ...) or None if not used.
         """
-        return self.breadcrumbs
+        if not self.breadcrumbs:
+            return None
+        else:
+            allowed_breadcrumbs = []
+            for breadcrumb in self.breadcrumbs:
+
+                # check permission based on named_url
+                if breadcrumb[1] is not None \
+                        and not view_from_url(
+                            breadcrumb[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_breadcrumbs.append(breadcrumb)
+            return allowed_breadcrumbs
 
     def get_tabs(self):
         """
@@ -253,7 +266,18 @@ class ListView(View, base.ListView):
         return self.fields
 
     def get_field_links(self):
-        return self.field_links
+        if not self.field_links:
+            return None
+        else:
+            allowed_field_links = {}
+            for field, url in self.field_links.items():
+
+                # check permission based on named_url
+                if not view_from_url(url).has_permission(self.request.user):
+                    continue
+
+                allowed_field_links[field] = url
+            return allowed_field_links
 
     def get_field_classes(self):
         return self.field_classes

@@ -4,6 +4,7 @@ Basic mixins for generic class based views.
 
 from __future__ import (absolute_import, unicode_literals)
 
+from arctic.utils import view_from_url
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
@@ -53,6 +54,11 @@ class LinksMixin(object):
         else:
             allowed_links = []
             for link in self.links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).has_permission(self.request.user):
+                    continue
+
                 allowed_links.append(link)
             return allowed_links
 
