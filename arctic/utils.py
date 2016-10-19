@@ -105,6 +105,7 @@ def view_from_url(named_url):
         for key, url_obj in namespace_reverse_dict.items():
             if url_obj == namespace_reverse_dict[view_name] and key != view_name:
                 view = key.view_class
+                break
 
     return view
 

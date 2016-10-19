@@ -93,7 +93,18 @@ class View(RoleAuthentication, base.View):
         """
         Tabs format: (('name', 'url'), ...) or None if tabs are not used.
         """
-        return self.tabs
+        if not self.tabs:
+            return None
+        else:
+            allowed_tabs = []
+            for tab in self.tabs:
+
+                # check permission based on named_url
+                if not view_from_url(tab[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_tabs.append(tab)
+            return allowed_tabs
 
     def get_page_title(self):
         return self.page_title
