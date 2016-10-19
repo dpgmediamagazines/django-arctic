@@ -120,8 +120,6 @@ class RoleAuthentication(object):
         Get permission required property.
         Must return an iterable.
         """
-        if not cls.requires_login:
-            return None
 
         if cls.permission_required is None:
             raise ImproperlyConfigured(
@@ -129,9 +127,10 @@ class RoleAuthentication(object):
                 '{0}.get_permission_required().'.format(cls.__name__)
             )
         if isinstance(cls.permission_required, six.string_types):
-            perms = (cls.permission_required, )
+            perms = (cls.permission_required,) if cls.permission_required != "" else ()
         else:
             perms = cls.permission_required
+
         return perms
 
     @classmethod
@@ -140,6 +139,14 @@ class RoleAuthentication(object):
         We override this method to customize the way permissions are checked.
         Using our roles to check permissions.
         """
+        # no login is needed, so its always fine
+        if not cls.requires_login:
+            return True
+
+        # if user is somehow not logged in
+        if not user.is_authenticated():
+            return False
+
         # attribute permission_required is mandatory, returns tuple
         perms = cls.get_permission_required()
         # if perms are defined and empty, we skip checking

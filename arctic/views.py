@@ -4,7 +4,7 @@ from arctic.generics import TemplateView
 class BadRequestView(TemplateView):
     page_title = 'Bad Request'
     template_name = 'arctic/400.html'
-    requires_login = False
+    permission_required = ""
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -14,7 +14,7 @@ class BadRequestView(TemplateView):
 class ForbiddenView(TemplateView):
     page_title = 'Access Forbidden'
     template_name = 'arctic/403.html'
-    requires_login = False
+    permission_required = ""
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -24,7 +24,7 @@ class ForbiddenView(TemplateView):
 class NotFoundView(TemplateView):
     page_title = 'Page not Found'
     template_name = 'arctic/404.html'
-    requires_login = False
+    permission_required = ""
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -34,7 +34,7 @@ class NotFoundView(TemplateView):
 class InternalErrorView(TemplateView):
     page_title = 'Internal Error'
     template_name = 'arctic/500.html'
-    requires_login = False
+    permission_required = ""
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
