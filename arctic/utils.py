@@ -101,9 +101,11 @@ def view_from_url(named_url):
 
         namespace, view_name = named_url.split(':')
         resolver = urlresolvers.get_resolver()
-        namespace_reverse_dict = resolver.namespace_dict[namespace][1].reverse_dict.dict()
+        namespace_reverse_dict = resolver.namespace_dict[
+            namespace][1].reverse_dict.dict()
         for key, url_obj in namespace_reverse_dict.items():
-            if url_obj == namespace_reverse_dict[view_name] and key != view_name:
+            if url_obj == namespace_reverse_dict[view_name] \
+                    and key != view_name:
                 view = key.view_class
                 break
 

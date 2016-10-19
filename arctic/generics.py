@@ -378,7 +378,8 @@ class ListView(View, base.ListView):
             for link in self.action_links:
 
                 # check permission based on named_url
-                if not view_from_url(link[1]).has_permission(self.request.user):
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
                     continue
 
                 icon = None
@@ -397,7 +398,8 @@ class ListView(View, base.ListView):
             for link in self.tool_links:
 
                 # check permission based on named_url
-                if not view_from_url(link[1]).has_permission(self.request.user):
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
                     continue
 
                 icon = None

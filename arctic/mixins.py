@@ -6,7 +6,7 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import (ImproperlyConfigured, PermissionDenied)
+from django.contrib.auth.mixins import PermissionDenied
 from django.core.exceptions import ImproperlyConfigured
 from django.forms import model_to_dict
 from django.utils import six
@@ -60,7 +60,8 @@ class LinksMixin(object):
             for link in self.links:
 
                 # check permission based on named_url
-                if not view_from_url(link[1]).has_permission(self.request.user):
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
                     continue
 
                 allowed_links.append(link)
@@ -268,7 +269,8 @@ class RoleAuthentication(object):
     def dispatch(self, request, *args, **kwargs):
         if not self.has_permission(request.user):
             raise PermissionDenied()
-        return super(RoleAuthentication, self).dispatch(request, *args, **kwargs)
+        return super(RoleAuthentication, self).dispatch(
+            request, *args, **kwargs)
 
     @classmethod
     def sync(cls):
@@ -323,11 +325,15 @@ class RoleAuthentication(object):
 
         if cls.permission_required is None:
             raise ImproperlyConfigured(
-                '{0} is missing the permission_required attribute. Define {0}.permission_required, or override '
+                '{0} is missing the permission_required attribute. '
+                'Define {0}.permission_required, or override '
                 '{0}.get_permission_required().'.format(cls.__name__)
             )
         if isinstance(cls.permission_required, six.string_types):
-            perms = (cls.permission_required,) if cls.permission_required != "" else ()
+            if cls.permission_required != "":
+                perms = (cls.permission_required,)
+            else:
+                perms = ()
         else:
             perms = cls.permission_required
 
