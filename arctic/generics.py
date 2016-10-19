@@ -17,8 +17,10 @@ from django.views import generic as base
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
-from .utils import (find_attribute, find_field_meta, get_attribute, menu, view_from_url)
+from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
+                     LayoutMixin)
+from .utils import (find_attribute, find_field_meta, get_attribute, menu,
+                    view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -473,7 +475,7 @@ class ListView(View, base.ListView):
         return context
 
 
-class CreateView(View, SuccessMessageMixin, base.CreateView):
+class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -483,7 +485,7 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
         return self.page_title
 
 
-class UpdateView(SuccessMessageMixin, View, LinksMixin,
+class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
                  extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
@@ -498,10 +500,11 @@ class UpdateView(SuccessMessageMixin, View, LinksMixin,
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['links'] = self.get_links()
+        context['layout'] = self.get_layout()
         return context
 
 
-class FormView(View, SuccessMessageMixin, base.FormView):
+class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 

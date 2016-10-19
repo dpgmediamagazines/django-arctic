@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
+from collections import OrderedDict
 
 from .forms import ArticleForm
 from .models import (Article, Category, Tag)
@@ -57,6 +58,15 @@ class ArticleUpdateView(UpdateView):
     links = [
         ('Back to list', 'articles:list'),
     ]
+    layout = OrderedDict([
+                        ('-fieldset',
+                         ['title|10', ['category', 'tags|5']]),
+                        ('fieldset2|enter your description',
+                         ['description']),
+                        ('fieldset3',
+                         [['published|4', 'updated_at']])])
+    # layout = ['title|3', 'title', 'title', ['category', 'category']]
+
     # tabs = [
     #     ('Detail', 'articles:detail'),
     #     ('Tags', 'articles:detail-tags'),
