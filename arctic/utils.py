@@ -30,6 +30,11 @@ def menu(menu_config=None, **kwargs):
     menu_dict = OrderedDict()
     for menu_entry in menu_config:
         if type(menu_entry) in (list, tuple):
+
+            # check permission based on named_url
+            if not view_from_url(menu_entry[1]).has_permission(user):
+                continue
+
             path = urlresolvers.reverse(menu_entry[1])
             # icons are optional
             icon = None
