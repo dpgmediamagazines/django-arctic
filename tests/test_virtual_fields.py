@@ -15,7 +15,6 @@ def virtual_fields_example_1():
     return TestListView()
 
 
-@pytest.mark.django_db
 def test_virtual_fields_example_1(article, virtual_fields_example_1):
     list_view = virtual_fields_example_1
 
@@ -40,7 +39,6 @@ def virtual_fields_example_2():
     return TestListView()
 
 
-@pytest.mark.django_db
 def test_virtual_fields_example_2(article, virtual_fields_example_2):
     list_view = virtual_fields_example_2
     res = list_view.get_list_items([article])
@@ -63,7 +61,6 @@ def virtual_fields_example_3():
     return TestListView()
 
 
-@pytest.mark.django_db
 def test_virtual_fields_example_3(article, virtual_fields_example_3):
     list_view = virtual_fields_example_3
 

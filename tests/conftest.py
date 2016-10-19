@@ -1,5 +1,4 @@
 import pytest
-from django.test.client import RequestFactory
 
 from example.articles.models import Article, Category
 from example.articles.forms import ArticleForm
