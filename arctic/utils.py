@@ -90,9 +90,21 @@ def view_from_url(named_url):
     """
     Finds and returns the view class from a named url
     """
-    view_func = urlresolvers.resolve(urlresolvers.reverse(named_url)).func
-    module = importlib.import_module(view_func.__module__)
-    view = getattr(module, view_func.__name__)
+    view = None
+    try:
+        path = urlresolvers.reverse(named_url)
+        view_func = urlresolvers.resolve(path).func
+        module = importlib.import_module(view_func.__module__)
+        view = getattr(module, view_func.__name__)
+
+    except urlresolvers.NoReverseMatch:
+
+        namespace, view_name = named_url.split(':')
+        resolver = urlresolvers.get_resolver()
+        namespace_reverse_dict = resolver.namespace_dict[namespace][1].reverse_dict.dict()
+        for key, url_obj in namespace_reverse_dict.items():
+            if url_obj == namespace_reverse_dict[view_name] and key != view_name:
+                view = key.view_class
 
     return view
 

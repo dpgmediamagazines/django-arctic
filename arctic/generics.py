@@ -18,7 +18,7 @@ import extra_views
 
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
-from .utils import (find_attribute, find_field_meta, get_attribute, menu)
+from .utils import (find_attribute, find_field_meta, get_attribute, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -339,6 +339,11 @@ class ListView(View, base.ListView):
         else:
             allowed_action_links = []
             for link in self.action_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
@@ -353,6 +358,11 @@ class ListView(View, base.ListView):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
