@@ -1,7 +1,7 @@
 import pytest
 
 from arctic.generics import ListView
-from .conftest import article, request
+from .conftest import article
 
 
 @pytest.fixture
@@ -16,12 +16,14 @@ def virtual_fields_example_1():
 
 
 @pytest.mark.django_db
-def test_virtual_fields_example_1(virtual_fields_example_1):
-    with pytest.raises(AttributeError):
-        self = virtual_fields_example_1
-        self.request = request('/articles/')
-        objects = self.get_object_list()
-        self.get_list_items([objects])
+def test_virtual_fields_example_1(article, virtual_fields_example_1):
+    list_view = virtual_fields_example_1
+
+    with pytest.raises(AttributeError) as excinfo:
+        list_view.get_list_items([article])
+
+    message = "'Article' object has no attribute 'content_type'"
+    assert str(excinfo.value) == message
 
 
 @pytest.fixture
@@ -39,11 +41,9 @@ def virtual_fields_example_2():
 
 
 @pytest.mark.django_db
-def test_virtual_fields_example_2(virtual_fields_example_2):
-    self = virtual_fields_example_2
-    self.request = request('/articles/')
-    objects = self.get_object_list()
-    res = self.get_list_items([objects])
+def test_virtual_fields_example_2(article, virtual_fields_example_2):
+    list_view = virtual_fields_example_2
+    res = list_view.get_list_items([article])
 
     assert res[0][0] is None
     assert res[0][1] == 'title1'
@@ -64,9 +64,11 @@ def virtual_fields_example_3():
 
 
 @pytest.mark.django_db
-def test_virtual_fields_example_3(virtual_fields_example_3):
-    with pytest.raises(AttributeError):
-        self = virtual_fields_example_3
-        self.request = request('/articles/')
-        objects = self.get_object_list()
-        self.get_list_items([objects])
+def test_virtual_fields_example_3(article, virtual_fields_example_3):
+    list_view = virtual_fields_example_3
+
+    with pytest.raises(AttributeError) as excinfo:
+        list_view.get_list_items([article])
+
+    message = "'Article' object has no attribute 'virtual_field'"
+    assert str(excinfo.value) == message

@@ -46,8 +46,3 @@ def get_form(form):
             return {field.name: field
                     for field in form}
     return _get_form
-
-
-def request(uri):
-    factory = RequestFactory()
-    return factory.get(uri)
