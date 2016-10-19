@@ -269,7 +269,7 @@ class ListView(View, base.ListView):
 
     def get_field_links(self):
         if not self.field_links:
-            return None
+            return {}
         else:
             allowed_field_links = {}
             for field, url in self.field_links.items():
@@ -372,7 +372,7 @@ class ListView(View, base.ListView):
 
     def get_action_links(self):
         if not self.action_links:
-            return None
+            return []
         else:
             allowed_action_links = []
             for link in self.action_links:
@@ -392,7 +392,7 @@ class ListView(View, base.ListView):
 
     def get_tool_links(self):
         if not self.tool_links:
-            return None
+            return []
         else:
             allowed_tool_links = []
             for link in self.tool_links:
