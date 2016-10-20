@@ -7,7 +7,7 @@ from example.articles.forms import ArticleForm
 @pytest.fixture
 def category():
     category = Category()
-    category.name = 'name'
+    category.name = 'name1'
 
     return category
 
@@ -15,11 +15,11 @@ def category():
 @pytest.fixture
 def article():
     article = Article()
-    article.title = 'title'
-    article.description = 'description'
-    article.updated_at = 'updated_at'
+    article.title = 'title1'
+    article.description = 'description1'
+    article.updated_at = 'updated_at1'
     article.category = category()
-    article.published = 'published'
+    article.published = 'published1'
 
     return article
 

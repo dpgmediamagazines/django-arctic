@@ -348,7 +348,9 @@ class ListView(View, base.ListView):
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
                         try:
-                            value = getattr(self, field_name[0])(obj)
+                            virtual_field_name = "get_field_{}".\
+                                format(field_name[0])
+                            value = getattr(self, virtual_field_name)(obj)
                         except AttributeError:
                             value = find_attribute(obj, field_name[0])
                     else:
@@ -362,7 +364,9 @@ class ListView(View, base.ListView):
                                                    method_name)()
                         except AttributeError:
                             try:
-                                value = getattr(self, field_name)(obj)
+                                virtual_field_name = "get_field_{}".\
+                                    format(field_name)
+                                value = getattr(self, virtual_field_name)(obj)
                             except AttributeError:
                                 value = find_attribute(obj, field_name)
 
