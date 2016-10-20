@@ -1,7 +1,7 @@
 import pytest
 
-from example.articles.models import Article, Category
-from example.articles.forms import ArticleForm
+from articles.models import Article, Category
+from articles.forms import ArticleForm
 
 
 @pytest.fixture
