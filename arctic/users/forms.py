@@ -49,7 +49,6 @@ class UserChangeForm(forms.ModelForm):
     new_password = forms.CharField(
         label=_("New Password"),
         widget=forms.PasswordInput,
-        strip=False,
         required=False,
         help_text=_("Leave this field empty if you don't want to change your "
                     "password."),
