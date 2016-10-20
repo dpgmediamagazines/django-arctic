@@ -32,7 +32,7 @@
             this.hide = $( '[data-close]' )
         }
 
-        self = this
+        var self = this
         this.init()
     }
 

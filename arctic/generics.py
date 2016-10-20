@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
@@ -17,7 +17,8 @@ from django.views import generic as base
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
+from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
+                     LayoutMixin)
 from .utils import (find_attribute, find_field_meta, get_attribute, menu)
 
 
@@ -46,8 +47,6 @@ class View(RoleAuthentication, base.View):
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
-        if not self.has_perm(request.user):
-            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -312,7 +311,10 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        value = find_attribute(obj, field_name[0])
+                        try:
+                            value = getattr(self, field_name[0])(obj)
+                        except AttributeError:
+                            value = find_attribute(obj, field_name[0])
                     else:
                         try:
                             # Get the choice display value
@@ -323,7 +325,10 @@ class ListView(View, base.ListView):
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
                         except AttributeError:
-                            value = find_attribute(obj, field_name)
+                            try:
+                                value = getattr(self, field_name)(obj)
+                            except AttributeError:
+                                value = find_attribute(obj, field_name)
 
                     item.append(value)
                 items.append(item)
@@ -424,7 +429,7 @@ class ListView(View, base.ListView):
         return context
 
 
-class CreateView(View, SuccessMessageMixin, base.CreateView):
+class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -434,7 +439,7 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
         return self.page_title
 
 
-class UpdateView(SuccessMessageMixin, View, LinksMixin,
+class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
                  extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
@@ -449,10 +454,11 @@ class UpdateView(SuccessMessageMixin, View, LinksMixin,
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['links'] = self.get_links()
+        context['layout'] = self.get_layout()
         return context
 
 
-class FormView(View, SuccessMessageMixin, base.FormView):
+class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 

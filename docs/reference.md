@@ -147,6 +147,22 @@ Accessing fields from related objects is possible by using a double underscore
 notation, for example if a model `book` has a foreign key to a model author
 with a field name, `author__name` will display the field.
 
+It's also possible to add virtual fields. See virtual fields for more info.
+
+### `virtual fields`
+
+Via the fields property, it's possible to add virtual fields. So you can
+extend the views with custom fields. A virtual field does need an
+accompanying method. That method receives a row_instance, so you can
+manipulate row data there.
+
+Example:
+class MyListView(arctic.ListView):
+    fields = (model_field1, model_field2, not_a_model_field)
+
+    def not_a_model_field(row_instance):
+        return '<b>' + row_instance.model_field3 + '</b>'
+
 ### `search_fields`
 
 list of fields that are to be searched.
@@ -154,6 +170,28 @@ list of fields that are to be searched.
 ### `ordering_fields`
 
 list of fields that can be ordered by clicking on the field's header column.
+
+### `layout`
+
+list of fields which will be displayed with support for the 12-grid system.
+When you don't enter a value, it'll default to 12. Thus spanning the whole width.
+However when you give a field a 6 property, like this: "title|6". It'll span half
+the size of the row. When it's 4 "title|4" it'll take 25% of the width, etc.
+Besides that it's also possible to group rows in a fieldset.
+
+When you prepend the name of a fieldset with a "-", it'll make sure the fieldset
+is collapsible.
+
+Example usage:
+```python
+    layout = OrderedDict([
+                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
+                            ('fieldset2', ['tags']),
+                        ])
+    layout = ['title', 'description', ['category', 'tags']]
+    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
+    layout = [['published', 'updated_at']]
+```
 
 ### `default_ordering`
 
@@ -260,13 +298,21 @@ roles defined in settings with the database instances.
 
 **Properties**
 
-### `required_permission`
+### `permission_required`
 
-This property defines which permission should be checked when trying to access 
+This property defines which permissions should be checked when trying to access 
 the view. When object based permission is needed, an extra method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
 
+It's either possible to define the permission as string (for one), or if
+you want to check on more permissions with tuple.
+
+The property is mandatory by concept (when `login_required` is `False`),
+so you cannot forget to define it when creating new Views.
+In case you are not ready to implement permissions atm, you can still set this
+property to either `""` or `()`. This is not advisable, but it will
+remove the configuration exception.
 
 **Methods**
 
@@ -276,13 +322,13 @@ This class method synchronizes the roles defined in the settings with the ones
 in the database, this is needed to create relationships between Users and Roles.
 This method is called every time arctic is started up.
 
-### `has_perm()`
+### `has_permission()`
 
 Checks if a user has the rights to access the current view. This is done firstly
-by checking if the role the user has contains the defined `required_permission`
-and secondly if a method with a name matching `required_permission` exists it
-will check if it returns `True` or `False`.
-
+by checking if the role the user has contains the defined `permission_required`
+and secondly if a method with a name matching `permission_required` exists it
+will check if it returns `True` or `False`. Note that on multiple
+permissions, only one permission is needed to validate a user's role.
 
 # Apps
 

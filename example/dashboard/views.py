@@ -7,6 +7,7 @@ from arctic.generics import TemplateView
 class DashboardView(TemplateView):
     template_name = 'arctic/index.html'
     page_title = "Dashboard"
+    permission_required = ""
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)

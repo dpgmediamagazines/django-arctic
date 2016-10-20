@@ -147,3 +147,17 @@ also present:
 
 Within the Arctic project there's an `example` project with a more extensive 
 usage of Arctic's features.
+
+The example project has Docker/Docker Compose support (see <https://docs.docker.com/compose/install/> 
+for installation.
+
+To build execute the example Docker image, run:
+ 
+        $ cd example/
+        $ docker-compose up
+        
+The Docker image will be built and example project should be running on <http://localhost:8000/>.
+A demo fixture is loaded automatically. Default login is:
+ 
+        User: admin
+        Password: admin

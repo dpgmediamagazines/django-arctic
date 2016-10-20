@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 
-from arctic import (get_role_model, get_user_role_model)
+from arctic.loading import (get_role_model, get_user_role_model)
 
 from .mixins import RoleAuthentication
 
