@@ -201,7 +201,7 @@ class ListView(View, base.ListView):
     """
     Custom listview. Adding filter, sorting and display logic.
     """
-    template_name = 'arctic/base_list.html'
+    template_name = 'arctic/article_list.html'
     fields = None  # Which fields should be shown in listing
     filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
