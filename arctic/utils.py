@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
 from collections import OrderedDict
+import importlib
 
 from django.conf import settings
 from django.core import urlresolvers
@@ -144,7 +145,8 @@ def view_from_url(named_url):  # noqa
     for key, url_obj in reverse_dict.items():
         if url_obj == reverse_dict[view] \
                 and key != view:
-            return key.view_class
+            module = importlib.import_module(key.__module__)
+            return getattr(module, key.__name__)
 
 
 def find_attribute(obj, value):
