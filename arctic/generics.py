@@ -19,7 +19,8 @@ import extra_views
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
-from .utils import (find_attribute, find_field_meta, get_attribute, menu)
+from .utils import (find_attribute, find_field_meta, get_attribute, menu,
+                    view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -88,13 +89,37 @@ class View(RoleAuthentication, base.View):
         """
         Breadcrumb format: (('name', 'url'), ...) or None if not used.
         """
-        return self.breadcrumbs
+        if not self.breadcrumbs:
+            return None
+        else:
+            allowed_breadcrumbs = []
+            for breadcrumb in self.breadcrumbs:
+
+                # check permission based on named_url
+                if breadcrumb[1] is not None \
+                        and not view_from_url(
+                            breadcrumb[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_breadcrumbs.append(breadcrumb)
+            return allowed_breadcrumbs
 
     def get_tabs(self):
         """
         Tabs format: (('name', 'url'), ...) or None if tabs are not used.
         """
-        return self.tabs
+        if not self.tabs:
+            return None
+        else:
+            allowed_tabs = []
+            for tab in self.tabs:
+
+                # check permission based on named_url
+                if not view_from_url(tab[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_tabs.append(tab)
+            return allowed_tabs
 
     def get_page_title(self):
         return self.page_title
@@ -243,7 +268,18 @@ class ListView(View, base.ListView):
         return self.fields
 
     def get_field_links(self):
-        return self.field_links
+        if not self.field_links:
+            return {}
+        else:
+            allowed_field_links = {}
+            for field, url in self.field_links.items():
+
+                # check permission based on named_url
+                if not view_from_url(url).has_permission(self.request.user):
+                    continue
+
+                allowed_field_links[field] = url
+            return allowed_field_links
 
     def get_field_classes(self):
         return self.field_classes
@@ -336,10 +372,16 @@ class ListView(View, base.ListView):
 
     def get_action_links(self):
         if not self.action_links:
-            return None
+            return []
         else:
             allowed_action_links = []
             for link in self.action_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
@@ -350,10 +392,16 @@ class ListView(View, base.ListView):
 
     def get_tool_links(self):
         if not self.tool_links:
-            return None
+            return []
         else:
             allowed_tool_links = []
             for link in self.tool_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
@@ -493,12 +541,17 @@ class LoginView(TemplateView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
-    messages = []
+
+    def __init__(self, *args, **kwargs):
+        super(TemplateView, self).__init__(*args, **kwargs)
+        # thread-safe definition of messages.
+        self.messages = []
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
         context['next'] = self.request.GET.get('next', '/')
+        context['username'] = self.request.POST.get('username', '')
         context['messages'] = set(self.messages)
         return context
 
