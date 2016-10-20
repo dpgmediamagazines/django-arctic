@@ -6,8 +6,7 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionDenied
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
 from django.forms import model_to_dict
 from django.utils import six
 
