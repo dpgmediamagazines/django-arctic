@@ -34,6 +34,7 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
+        'category': 'articles:category-detail',
     }
     field_classes = {
         'published': 'inline-widget boolean-circle',
@@ -95,7 +96,7 @@ class ArticleCreateView(CreateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('articles:list')
-    permission_required = ""
+    permission_required = "articles_delete"
 
 
 class CategoryListView(ListView):
@@ -128,7 +129,7 @@ class CategoryArticlesListView(ArticleListView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
-    permission_required = ""
+    permission_required = ("category_articles_tab",)
 
     def get_urls(self):
         return {
@@ -149,7 +150,7 @@ class CategoryUpdateView(UpdateView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
-    permission_required = ""
+    permission_required = "category"
 
     def get_urls(self):
         return {
