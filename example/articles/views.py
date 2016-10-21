@@ -45,7 +45,7 @@ class ArticleListView(ListView):
     filter_fields = ['title', 'description', 'published']
     permission_required = "articles_view"
 
-    def virtual_field(self, row):
+    def get_virtual_field_field(self, row):
         return 'Virtual Field: ' + row.title
 
 
