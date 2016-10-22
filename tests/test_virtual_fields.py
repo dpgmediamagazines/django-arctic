@@ -33,7 +33,7 @@ def virtual_fields_example_2():
         permission_required = "articles_view"
         queryset = article()
 
-        def get_field_virtual_field(self, row):
+        def get_virtual_field_field(self, row):
             return 'Virtual Field: ' + row.title
 
     return TestListView()
