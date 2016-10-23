@@ -36,7 +36,6 @@ def get_parameters(parser, token):
     """
     {% get_parameters except_field %}
     """
-
     args = token.split_contents()
     if len(args) < 2:
         raise template.TemplateSyntaxError(
@@ -99,7 +98,7 @@ def get_all_fields(obj):
 
 @register.simple_tag(takes_context=True)
 def query_string(context, **kwargs):
-    ''' Add param to the given query string '''
+    """Add param to the given query string"""
     params = context['request'].GET.copy()
 
     for key, value in list(kwargs.items()):
@@ -164,7 +163,6 @@ def arctic_url(context, link, *args, **kwargs):
     We could tie this to check_url_access() to check for permissions,
     including object-level.
     """
-
     def reverse_mutable_url_args(url_args):
         mutated_url_args = []
         for arg in url_args:
@@ -183,6 +181,9 @@ def arctic_url(context, link, *args, **kwargs):
     url_args = args
 
     # set arguments defined in get_urls if provided
+    if type(link) in (tuple, list):
+        context['urls'][link[0]] = link[1:]
+        link = link[0]
     if link in context['urls']:
 
         # for where the params directly given. e.g. ('article-detail',
