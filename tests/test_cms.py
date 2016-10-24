@@ -1,4 +1,5 @@
 import pytest
+from django.core.exceptions import PermissionDenied
 from django.test import Client
 
 
@@ -19,7 +20,6 @@ class TestCMS(object):
         :param admin_user: fixture provided by pytest-django
         :return: void
         """
-
         self.client.post('/login/',
                          {
                              'username': 'admin',
@@ -35,7 +35,8 @@ class TestCMS(object):
 
         :return:
         """
-
-        response = self.client.get('/articles/')
-
-        assert response.status_code != 200
+        try:
+            response = self.client.get('/articles/')
+            assert response.status_code != 200
+        except PermissionDenied:
+            assert True
