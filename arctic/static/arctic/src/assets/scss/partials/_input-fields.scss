@@ -1,6 +1,13 @@
 label {
+    color: inherit;
+    font-size: inherit;
+
     .error & {
         color: $red;
+    }
+
+    &.required {
+        font-weight: bold;
     }
 }
 
@@ -80,7 +87,6 @@ textarea,
 select {
     .error & {
         @extend .callout.alert;
-//        color: $red;
     }
 }
 
@@ -97,10 +103,22 @@ fieldset {
     border: 2px solid $greyLight;
     border-radius: $global-radius;
     padding: $marginLarge;
+    margin-bottom: 1rem;
 }
 
 fieldset legend {
-    padding: 5px 10px ;
+    padding: 5px 10px;
     border-radius: 5px;
     text-align: center;
+}
+
+fieldset p {
+    padding: 0 0 1rem 0;
+    margin: -1.2rem 0 0 0;
+    font-style: italic;
+    font-size: .7rem;
+
+    &:not(:first-child) {
+        margin: -1.2rem 0 0 0;
+    }  
 }

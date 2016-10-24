@@ -180,7 +180,7 @@ def arctic_url(context, link, *args, **kwargs):
 
     url_args = args
 
-    # set arguments defined in get_urls if provided
+    # set arguments defined in urls if provided
     if type(link) in (tuple, list):
         context['urls'][link[0]] = link[1:]
         link = link[0]

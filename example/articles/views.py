@@ -24,7 +24,7 @@ class DashboardView(TemplateView):
 class ArticleListView(ListView):
     paginate_by = 2
     model = Article
-    fields = ['title', 'description', 'published', 'category', 'virtual_field']
+    fields = ['title', 'description', 'published', 'category']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
@@ -42,11 +42,11 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
-    filter_fields = ['title', 'description', 'published']
+    filter_fields = ['published']
     permission_required = "articles_view"
 
-    def get_virtual_field_field(self, row):
-        return 'Virtual Field: ' + row.title
+    def get_category_field(self, row):
+        return '<b>' + row.category.name + '</b>'
 
 
 class ArticleUpdateView(UpdateView):
@@ -59,11 +59,11 @@ class ArticleUpdateView(UpdateView):
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                        ('-fieldset',
+                        ('-Basic Details',
                          ['title|10', ['category', 'tags|5']]),
-                        ('fieldset2|enter your description',
+                        ('Body|Extra Information for this fieldset',
                          ['description']),
-                        ('fieldset3',
+                        ('Extended Details',
                          [['published|4', 'updated_at']])])
     # layout = ['title|3', 'title', 'title', ['category', 'category']]
 

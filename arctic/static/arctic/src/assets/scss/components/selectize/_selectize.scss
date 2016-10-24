@@ -25,7 +25,8 @@
     align-content: center;
     min-height: 2.25rem;
     width: 100%;
-    padding: .21875rem .4375rem .21875rem .4375rem;
+//    padding: .21875rem .4375rem .21875rem .4375rem;
+    padding: 0 .21875rem 0 .21875rem;
     border: 1px solid $medium-gray;
     border-radius: $global-radius;
     line-height: 1rem;
@@ -54,11 +55,9 @@
 
     .item {
         padding: .25rem .5rem;
-        color: $white;
         font-size: 0.8rem;
         font-weight: normal;
         border-radius: $borderRadiusSmall;
-        background-color: $green;
     }
 
     .remove {
@@ -72,7 +71,7 @@
         .item {
             margin: .155rem .2rem .155rem 0;
             color: $white;
-            // background: $green;
+            background-color: $green;
             cursor: pointer;
             border: 1px solid transparent;
 

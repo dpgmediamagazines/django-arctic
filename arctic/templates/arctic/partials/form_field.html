@@ -51,12 +51,9 @@
                         </label>
 
                     {% else %}
-                        {% if field.field.required %}
-                            <b>{{ field.label|safe }}</b>
-                        {% else %}
+                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
                             {{ field.label|safe }}
-                        {% endif %}
-                        <br>
+                        </label>
                         {# multiple checkboxes #}
                         {% if field|widget_type == 'checkboxselectmultiple' %}
                             {% for checkbox in field %}

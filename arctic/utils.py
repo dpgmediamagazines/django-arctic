@@ -94,6 +94,8 @@ def view_from_url(named_url):  # noqa
     # code below is `stolen` from django's reverse method
     resolver = urlresolvers.get_resolver(urlresolvers.get_urlconf())
 
+    if type(named_url) in (list, tuple):
+        named_url = named_url[0]
     parts = named_url.split(':')
     parts.reverse()
     view = parts[0]

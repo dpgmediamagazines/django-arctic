@@ -310,9 +310,11 @@ you want to check on more permissions with tuple.
 
 The property is mandatory by concept (when `login_required` is `False`),
 so you cannot forget to define it when creating new Views.
-In case you are not ready to implement permissions atm, you can still set this
-property to either `""` or `()`. This is not advisable, but it will
-remove the configuration exception.
+
+Example:
+
+    permission_required = 'users_view'
+
 
 **Methods**
 
