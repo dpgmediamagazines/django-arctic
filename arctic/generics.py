@@ -45,8 +45,7 @@ class View(RoleAuthentication, base.View):
         If a login is not required then the requires_login property
         can be set to False to disable this.
         """
-        if (not request.user.is_authenticated()) and self.requires_login \
-           and request.user.is_active:
+        if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
         return super(View, self).dispatch(request, *args, **kwargs)
