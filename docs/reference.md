@@ -171,28 +171,6 @@ list of fields that are to be searched.
 
 list of fields that can be ordered by clicking on the field's header column.
 
-### `layout`
-
-list of fields which will be displayed with support for the 12-grid system.
-When you don't enter a value, it'll default to 12. Thus spanning the whole width.
-However when you give a field a 6 property, like this: "title|6". It'll span half
-the size of the row. When it's 4 "title|4" it'll take 25% of the width, etc.
-Besides that it's also possible to group rows in a fieldset.
-
-When you prepend the name of a fieldset with a "-", it'll make sure the fieldset
-is collapsible.
-
-Example usage:
-```python
-    layout = OrderedDict([
-                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
-                            ('fieldset2', ['tags']),
-                        ])
-    layout = ['title', 'description', ['category', 'tags']]
-    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
-    layout = [['published', 'updated_at']]
-```
-
 ### `default_ordering`
 
 list with default ordering of the fields, descending order uses Django's
@@ -228,6 +206,7 @@ This view displays form data, it also includes a default template.
 **Extends**
 
 * `arctic.generics.View`
+* `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.FormView`
 
@@ -255,6 +234,7 @@ default template.
 **Extends**
 
 * `arctic.generics.View`
+* `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.CreateView`
 
@@ -269,6 +249,7 @@ includes a default template.
 **Extends**
 
 * `arctic.generics.View`
+* `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.UpdateView`
 
@@ -331,6 +312,40 @@ by checking if the role the user has contains the defined `permission_required`
 and secondly if a method with a name matching `permission_required` exists it
 will check if it returns `True` or `False`. Note that on multiple
 permissions, only one permission is needed to validate a user's role.
+
+
+## LayoutMixin
+
+### `layout`
+
+List of fields to be displayed in a 12-column grid system.
+By default a field will expand to full width, 12 columns.
+It is possible to specify how many columns a field should use with the
+`'field|n'` syntax where `n` can be a number from 1 to 12.
+Fields can also be grouped into a single row by wrapping a list around them - 
+`('field1', 'field2', 'field3')` if no amount of columns is given then these
+fields will be evenly sized to fill up the entire row.
+
+Fieldsets are also supported giving `layout` a dictionary where each key 
+is the fieldset name and the values a field list. A fieldset can have an 
+optional description by using the `'fieldset|description'` syntax.
+When a fieldset name is prepended with a `'-'`, it will be displayed as 
+collapsed.
+
+Examples:
+```python
+    layout = OrderedDict([
+                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
+                            ('fieldset2', ['tags']),
+                        ])
+    
+    layout = ['title', 'description', ['category', 'tags']]
+    
+    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
+
+    layout = [['published', 'updated_at']]
+```
+
 
 # Apps
 
