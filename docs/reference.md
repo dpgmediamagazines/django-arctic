@@ -282,19 +282,19 @@ roles defined in settings with the database instances.
 ### `permission_required`
 
 This property defines which permissions should be checked when trying to access 
-the view. When object based permission is needed, an extra method can be created
+the view. When object based permission is needed, a method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
 
-It's either possible to define the permission as string (for one), or if
-you want to check on more permissions with tuple.
+It's either possible to define the permission as string, or as a list of 
+strings - when checking on multiple permissions.
 
 The property is mandatory by concept (when `login_required` is `False`),
-so you cannot forget to define it when creating new Views.
+so you have to define it when creating new Views.
 
-Example:
-
-    permission_required = 'users_view'
+The strings describing the permission can be anything, but it's advisable to 
+follow Django's conventions, by using `<view|add|change|delete>_<entity>`
+whenever it makes sense, for example `permission_required = 'view_users'`.
 
 
 **Methods**
