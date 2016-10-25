@@ -20,20 +20,16 @@ function lowerCaseKeys(dict) {
 // datepicker spec
 function django2datepicker(django_format) {
     var translation_dict = {
+        '%': '',
         'y': 'yy',
         'Y': 'yyyy',
-        'n': 'm',
         'm': 'mm',
-        'j': 'd',
         'd': 'dd',
-        'h': 'hh',
         'H': 'hh',
-        'G': 'h',
-        'g': 'h',
-        'i': 'ii',
-        'a': 'aa',
-        'A': 'AA',
-        'P': 'hh:ii aa'
+        'I': 'hh',
+        'M': 'ii',
+        'p': 'aa',
+        'S': ''
     }
 
     var datepicker_format = '';
@@ -44,6 +40,10 @@ function django2datepicker(django_format) {
         else {
             datepicker_format += django_format[i];
         }
+    }
+    
+    if (datepicker_format.slice(-1) == ':') {
+        datepicker_format = datepicker_format.slice(0, -1);
     }
 
     return datepicker_format;

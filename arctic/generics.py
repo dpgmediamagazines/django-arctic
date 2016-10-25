@@ -8,10 +8,9 @@ from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
-from django.utils import formats
 from django.utils.http import quote
 from django.utils.text import capfirst
-from django.utils.translation import (get_language, ugettext as _)
+from django.utils.translation import ugettext as _
 from django.views import generic as base
 
 import extra_views
@@ -154,13 +153,9 @@ class View(RoleAuthentication, base.View):
     def get_datetime_formats(self):
         dtformats = {}
 
-        dtformats['SHORT_DATE'] = formats.get_format("SHORT_DATE_FORMAT",
-                                                     lang=get_language())
-        dtformats['TIME'] = formats.get_format("TIME_FORMAT",
-                                               lang=get_language())
-        dtformats['SHORT_DATETIME'] = formats.get_format(
-            "SHORT_DATETIME_FORMAT",
-            lang=get_language())
+        dtformats['SHORT_DATE'] = settings.DATE_INPUT_FORMATS[0]
+        dtformats['TIME'] = settings.TIME_INPUT_FORMATS[0]
+        dtformats['SHORT_DATETIME'] = settings.DATETIME_INPUT_FORMATS[0]
 
         return dtformats
 

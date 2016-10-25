@@ -34,7 +34,7 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
-        'category': 'articles:category-detail',
+        'category': ('articles:category-detail', 'category.pk'),
     }
     field_classes = {
         'published': 'inline-widget boolean-circle',
@@ -42,11 +42,12 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
+
     filter_fields = ['published']
     permission_required = "articles_view"
 
-    def get_category_field(self, row):
-        return '<b>' + row.category.name + '</b>'
+    # def get_category_field(self, row):
+    #     return '<b>' + row.category.name + '</b>'
 
 
 class ArticleUpdateView(UpdateView):

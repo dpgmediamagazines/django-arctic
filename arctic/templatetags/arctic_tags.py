@@ -171,7 +171,7 @@ def arctic_url(context, link, *args, **kwargs):
             if 'item' in context and type(arg) == str:
                 # try to get attribute of this object
                 try:
-                    arg = getattr(context['v'], arg)
+                    arg = getattr(context['v'], arg.split('.')[-1])
                 # if not found fallback to row pk, which is always first column
                 except:
                     arg = context['item'][0]
@@ -182,7 +182,7 @@ def arctic_url(context, link, *args, **kwargs):
 
     # set arguments defined in urls if provided
     if type(link) in (tuple, list):
-        context['urls'][link[0]] = link[1:]
+        context['urls'][link[0]] = list(link[1:])
         link = link[0]
     if link in context['urls']:
 
