@@ -241,7 +241,7 @@ body .query-builder {
 
     // and / or
     .group-conditions > .btn {
-        background-color: $green;
+        background-color: $highlight-background;
 
         &:hover,
         &.active {
@@ -249,11 +249,11 @@ body .query-builder {
         }
 
         &:hover {
-            background-color: darken( $green, 5% );
+            background-color: darken($highlight-background, 5%);
         }
 
         &.active {
-            background-color: darken( $green, 10% );
+            background-color: darken($highlight-background, 10%);
         }
     }
 }

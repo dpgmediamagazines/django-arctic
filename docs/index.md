@@ -3,8 +3,8 @@
 # Overview
 
 Django Arctic is a framework that simplifies the creation of custom content management systems.
-It also includes a collection of optional components for common use cases, and
-its core infrastructure is implementation agnostic.
+It provides a default responsive user interface, extends several of the Django 
+Generic Views with extra features and adds role based authentication.
 
 
 ##Why

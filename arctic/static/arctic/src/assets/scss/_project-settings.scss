@@ -34,10 +34,12 @@ $redLight:                      lighten( $red, 35% );
 $white:                         #ffffff;
 
 // body + nav background colors
+$topbar-background:             #667788;
+$highlight-background:          #99BBCC;
 $pageBackground:                #ffffff;
 $navBackground:                 #ffffff;
 $navBackgroundItemActive:       #f4f8fb;
-$headerBackground:              #5a5d5f;
+$headerBackground:              $topbar-background;
 
 // text colors
 $textColorDark:                 #505458;
@@ -148,7 +150,7 @@ $button-radius:                    $global-radius;
     TABLES
 ------------------------------------*/
 $table-background:                  $white;
-$table-head-background:             $green;
+$table-head-background:             $highlight-background;
 $table-head-font-color:             $white;
 $table-striped-background:          $greyLightest;
 $table-row-hover:                   $blue;
@@ -175,7 +177,7 @@ $tab-content-padding:               $marginLarge 0;
 $accordion-background:              $greyLightest;
 $accordion-plusminus:               true;
 $accordion-item-color:              $greyDark;
-$accordion-item-background-hover:   $green;
+$accordion-item-background-hover:   $highlight-background;
 $accordion-item-padding:            $marginLarge;
 $accordion-content-background:      $white;
 $accordion-content-border:          1px solid $greyLight;
@@ -186,7 +188,7 @@ $accordion-content-padding:         $marginLarge;
     SWITCH
 ------------------------------------*/
 $switch-background:                 $greyLight;
-$switch-background-active:          $green;
+$switch-background-active:          $highlight-background;
 $switch-height:                     2rem;
 $switch-height-tiny:                1.5rem;
 $switch-height-small:               1.75rem;
@@ -198,10 +200,6 @@ $switch-paddle-offset:              0.25rem;
 $switch-paddle-radius:              $global-radius;
 $switch-paddle-transition:          all 0.25s ease-out;
 
-/*------------------------------------
-    TOPBAR
-------------------------------------*/
-$topbar-background:                 $headerBackground;
 
 /*------------------------------------
     PAGINATION

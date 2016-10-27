@@ -71,12 +71,11 @@
         .item {
             margin: .155rem .2rem .155rem 0;
             color: $white;
-            background-color: $green;
+            background-color: $highlight-background;
             cursor: pointer;
             border: 1px solid transparent;
 
             &.active {
-                // background: darken($green, 10%);
                 border-color: rgba(0,0,0,0.3)
             }
         }
@@ -88,7 +87,7 @@
     position: relative;
     padding: 5px 8px;
     border-bottom: 1px solid $red;
-    background: $green;
+    background: $highlight-background;
     border-radius: $borderRadiusSmall $borderRadiusSmall 0 0;
 }
 
@@ -127,7 +126,7 @@
         .highlight {
             padding: 0 2px;
             color: $white;
-            background: lighten($green, 20%);
+            background: lighten($highlight-background, 20%);
         }
     }
 
@@ -136,7 +135,6 @@
         padding: $marginSmall $marginMedium;
         color: $greyDark;
         font-weight: $fontWeightBold;
-        //background: lighten($green, 25%);
         cursor: default;
     }
 

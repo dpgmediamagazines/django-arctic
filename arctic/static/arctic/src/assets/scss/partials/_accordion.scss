@@ -10,7 +10,7 @@
 
     &:hover,
     &.is-active {
-        background: $green;
+        background: $highlight-background;
 
         > a {
             color: $white;        }
