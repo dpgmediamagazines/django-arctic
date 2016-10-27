@@ -36,7 +36,7 @@ class UserCreationMultiForm(MultiModelForm):
 
         if commit:
             user = objects['user']
-            user.set_password(user.password)
+            #user.set_password(user.password)
             user.save()
             user_role = objects['role']
             user_role.user = user
