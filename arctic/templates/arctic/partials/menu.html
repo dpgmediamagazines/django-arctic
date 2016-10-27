@@ -1,6 +1,6 @@
 {% load i18n staticfiles arctic_tags %}
 
-<ul class="side-menu">
+<ul class="side-menu" id="side-menu">
     {% for key, value in menu.items %}
         {% if value.submenu %}
             <li class="has-sub sub--collapsed">
@@ -15,28 +15,20 @@
                     </a>
                 <ul {% if value.active %}class="active" {% endif %}>
                     {% for sub_key, sub_value in value.submenu.items %}
-                        <li>
-                            {# {% if not sub_value.active %} #}
-                                <a {% if sub_value.active %}class="active" {% endif %} href="{% url sub_value.url %}">
-                            {# {% endif %} #}
-                                    {% trans sub_key %}
-                            {# {% if not sub_value.active %} #}
-                                </a>
-                            {# {% endif %} #}
+                        <li id="menu-{{ sub_value.url|slugify }}">
+                            <a {% if sub_value.active %}class="active" {% endif %} href="{% url sub_value.url %}">
+                                {% trans sub_key %}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
             </li>
         {% elif value.url %}
-            <li>
-                {# {% if not value.active %} #}
-                    <a {% if value.active %} class="active"{% endif %} href="{% url value.url %}">
-                {# {% endif %} #}
-                        <i class="fa {{ value.icon }}"></i>
-                        <span>{% trans key %}</span>
-                {# {% if not value.active %} #}
-                    </a>
-                {# {% endif %} #}
+            <li id="menu-{{ value.url|slugify }}">
+                <a {% if value.active %} class="active"{% endif %} href="{% url value.url %}">
+                    <i class="fa {{ value.icon }}"></i>
+                    <span>{% trans key %}</span>
+                </a>
             </li>
         {% endif %}
     {% endfor %}
