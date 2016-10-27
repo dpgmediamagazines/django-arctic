@@ -561,7 +561,7 @@ class LoginView(TemplateView):
     def post(self, request, *args, **kwargs):
         user = authenticate(username=request.POST['username'],
                             password=request.POST['password'])
-        if user:
+        if user and user.is_active:
             login(request, user)
             return redirect(request.GET.get('next', '/'))
 
