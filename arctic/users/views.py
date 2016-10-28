@@ -1,15 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render
-from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 
-from arctic.models import UserRole, Role
+from arctic.models import UserRole
 from .forms import UserCreationMultiForm, UserChangeMultiForm
 
 from arctic.generics import (
     ListView, UpdateView, CreateView,
-    DeleteView, FormView)
+)
 
 User = get_user_model()
 username_field = User.USERNAME_FIELD

@@ -9,6 +9,8 @@ from arctic.models import UserRole
 
 User = get_user_model()
 
+# it would be even nicer to raise an error here to explicitly ask user to set these properties but we need backwards
+# compatibility
 FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', (User.USERNAME_FIELD, 'email', 'is_active'))
 FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', (User.USERNAME_FIELD, 'email', 'is_active'))
 
