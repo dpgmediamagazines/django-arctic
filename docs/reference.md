@@ -196,6 +196,9 @@ can transform the field data into a graphic representation.
 
 list of links with the format `('name', 'url')`, not connected to the table data.
 
+### `tool_links_icon`
+
+default is fa-wrench. an icon displayed for the dropdown of multiple tool links or, if only one tool link set, it would be use as default icon.
 
 ## FormView
 
