@@ -12,25 +12,28 @@ from arctic.generics import (
     DeleteView, FormView)
 
 User = get_user_model()
+username_field = User.USERNAME_FIELD
+
 
 class UserListView(ListView):
     page_title = _('Users')
     paginate_by = 20
     model = UserRole
-    fields = [('user__username', 'Username'), 'role__name', 'user__is_active',
+    fields = [('user__{}'.format(username_field), 'Username'), 'role__name', 'user__is_active',
               'user__last_login']
-    ordering_fields = ['user__username', 'role__name', 'user__last_login']
-    search_fields = ['user__username']
+    ordering_fields = ['user__{}'.format(username_field), 'role__name', 'user__last_login']
+    search_fields = ['user__{}'.format(username_field)]
     filter_fields = ['user__is_active']
     # action_links = [
     #     ('delete', 'users:delete', 'fa-trash'),
     # ]
     field_links = {
-        'user__username': 'users:detail',
+        'user__{}'.format(username_field): 'users:detail',
     }
     tool_links = [
         (_('Create Users'), 'users:create', 'fa-plus'),
     ]
+
 
 class UserCreateView(CreateView):
     page_title = _('Create User')
@@ -40,6 +43,7 @@ class UserCreateView(CreateView):
 
     def get_success_message(self, cleaned_data):
         return _('User {} was successfully created').format(self.object['user'])
+
 
 class UserUpdateView(UpdateView):
     page_title = _('Change User')
@@ -57,4 +61,3 @@ class UserUpdateView(UpdateView):
 
     def get_success_message(self, cleaned_data):
         return _('User {} was successfully updated').format(self.object['user'])
-

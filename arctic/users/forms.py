@@ -9,6 +9,9 @@ from arctic.models import UserRole
 
 User = get_user_model()
 
+FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', (User.USERNAME_FIELD, 'email', 'is_active'))
+FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', (User.USERNAME_FIELD, 'email', 'is_active'))
+
 
 class UserRoleForm(forms.ModelForm):
     class Meta:
@@ -19,7 +22,7 @@ class UserRoleForm(forms.ModelForm):
 class UserCreationForm(user_forms.UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_active',)
+        fields = FIELDS_CREATE
 
 
 class UserCreationMultiForm(MultiModelForm):
@@ -54,7 +57,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_active',)
+        fields = FIELDS_UPDATE
 
     def save(self, commit=True):
         user = super(UserChangeForm, self).save(commit=False)
@@ -67,10 +70,8 @@ class UserChangeForm(forms.ModelForm):
         return user
 
 
-
 class UserChangeMultiForm(MultiModelForm):
     form_classes = OrderedDict([
         ('user', UserChangeForm),
         ('role', UserRoleForm),
     ])
-
