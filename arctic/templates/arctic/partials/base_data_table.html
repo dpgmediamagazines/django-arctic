@@ -18,7 +18,7 @@
         {% if tool_links %}
             <div class="columns {% if has_filter %}shrink{% endif %}">
                 {% if tool_links|length > 1 %}
-                    <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa fa-wrench"></i></button>
+                    <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
                         <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
                             <ul>
                                 {% for link in tool_links %}
@@ -27,7 +27,7 @@
                             </ul>
                         </div>
                 {% else %}
-                    <a class="button secondary" title="{{ link.0.label }}" href="{% url link.0.url %}"><i class="fa {% if link.0.icon %}{{ link.0.icon }}{% else %}fa-wrench{% endif %}"></i></a>
+                    <a class="button secondary" title="{{ link.0.label }}" href="{% url link.0.url %}"><i class="fa {% if link.0.icon %}{{ link.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
                 {% endif %}
             </div>
         {% endif %}
