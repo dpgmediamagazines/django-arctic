@@ -4,45 +4,7 @@
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>
-            {% block title %}
-                {{ SITE_TITLE }} – {{ page_title }}
-            {% endblock %}
-        </title>
-
-        <link href="{% static "arctic/dist/assets/css/app.css" %}" rel="stylesheet">
-
-        <style>
-            {% if TOPBAR_BACKGROUND_COLOR %}
-                .topbar-background { background-color: {{ TOPBAR_BACKGROUND_COLOR }}; }
-            {% endif %}
-            {% if HIGHLIGHT_COLOR %}
-                .highlight-background,
-                table tfoot, table thead,
-                .accordion-item.is-active, .accordion-item:hover,
-                .accordion-title:focus, .accordion-title:hover,
-                .off-canvas .side-menu>li.sub--collapsed ul.active:before,
-                .off-canvas .side-menu>li>a.active:before,
-                .selectize-control.multi .selectize-input .item {
-                    background-color: {{ HIGHLIGHT_COLOR }};
-                }
-
-                .highlight-color,
-                .tabs .tabs-title.is-active a,
-                .off-canvas .side-menu>li>a.active,
-                .off-canvas .side-menu ul>li>a.active
-                 {
-                    color: {{ HIGHLIGHT_COLOR }};
-                }
-            {% endif %}
-        </style>
-
+        {% include "arctic/partials/head.html" %}
         {% block head_extras %}{% endblock %}
     </head>
 
@@ -68,13 +30,13 @@
                         <li>
                             <a href="#" class="user">{{ request.user.username }}</a>
                             <ul class="menu">
-                                <li>
+                                <li id="menu-logout">
                                 	<a href="{% url 'login' %}">Logout</a>
                                 </li>
                             </ul>
                         </li>
                         {% else %}
-                        <li>
+                        <li id="menu-login">
                         	<a href="{% url 'login' %}">Login</a>
                         </li>
                         {% endif %}
@@ -172,8 +134,15 @@
                 </div>
             </div>
         {% endblock %}
+
         {% block scripts_bottom %}
-        <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+            <script>
+                var DATE_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATE }}'
+                var DATETIME_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATETIME }}'
+                var TIME_FORMAT = '{{ DATETIME_FORMATS.TIME }}'
+            </script>
+            <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
         {% endblock %}
+
     </body>
 </html>

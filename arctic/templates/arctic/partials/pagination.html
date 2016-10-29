@@ -7,24 +7,24 @@
             {% if page_obj.has_previous %}
                 <li>
                     <a href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous page">
-                        Previous <span class="show-for-sr">page</span>
+                        {% trans "Previous page" %}
                     </a>
                 </li>
             {% else %}
                 <li class="disabled">
-                    Previous <span class="show-for-sr">page</span>
+                    {% trans "Previous page" %}
                 </li>
             {% endif %}
 
             {% if page_obj.has_next %}
                 <li>
                     <a href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" aria-label="Next page">
-                        Next <span class="show-for-sr">page</span>
+                        {% trans "Next page" %}
                     </a>
                 </li>
             {% else %}
                 <li class="disabled">
-                    Next <span class="show-for-sr">page</span>
+                    {% trans "Next page" %}
                 </li>
             {% endif %}
 

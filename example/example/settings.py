@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+from .arctic import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -42,7 +44,6 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'widget_tweaks',
-    'sorl.thumbnail',
     'dashboard',
     'articles',
     'arctic',
@@ -99,9 +100,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'nl-nl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
@@ -120,5 +121,3 @@ MEDIA_ROOT = location("media")
 MEDIA_URL = '/media/'
 
 LOGIN_URL = LOGOUT_URL = 'login'
-
-from .arctic import *

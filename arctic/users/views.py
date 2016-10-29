@@ -2,14 +2,13 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 
-from arctic.models import UserRole
-from .forms import UserCreationMultiForm, UserChangeMultiForm
+from arctic.generics import (CreateView, ListView, UpdateView)
+from arctic.loading import get_user_role_model
 
-from arctic.generics import (
-    ListView, UpdateView, CreateView,
-)
+from .forms import (UserChangeMultiForm, UserCreationMultiForm)
 
 User = get_user_model()
+UserRole = get_user_role_model()
 username_field = User.USERNAME_FIELD
 
 
@@ -31,6 +30,7 @@ class UserListView(ListView):
     tool_links = [
         (_('Create Users'), 'users:create', 'fa-plus'),
     ]
+    permission_required = ""
 
 
 class UserCreateView(CreateView):
@@ -38,9 +38,11 @@ class UserCreateView(CreateView):
     model = UserRole
     success_url = reverse_lazy('users:list')
     form_class = UserCreationMultiForm
+    permission_required = ""
 
     def get_success_message(self, cleaned_data):
-        return _('User {} was successfully created').format(self.object['user'])
+        return _('User {} was successfully created').format(
+            self.object['user'])
 
 
 class UserUpdateView(UpdateView):
@@ -48,6 +50,7 @@ class UserUpdateView(UpdateView):
     model = UserRole
     success_url = reverse_lazy('users:list')
     form_class = UserChangeMultiForm
+    permission_required = ""
 
     def get_form_kwargs(self):
         kwargs = super(UserUpdateView, self).get_form_kwargs()
@@ -58,4 +61,5 @@ class UserUpdateView(UpdateView):
         return kwargs
 
     def get_success_message(self, cleaned_data):
-        return _('User {} was successfully updated').format(self.object['user'])
+        return _('User {} was successfully updated').format(
+            self.object['user'])

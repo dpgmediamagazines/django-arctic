@@ -34,10 +34,12 @@ $redLight:                      lighten( $red, 35% );
 $white:                         #ffffff;
 
 // body + nav background colors
+$topbar-background:             #667788;
+$highlight-background:          #99BBCC;
 $pageBackground:                #ffffff;
 $navBackground:                 #ffffff;
 $navBackgroundItemActive:       #f4f8fb;
-$headerBackground:              #5a5d5f;
+$headerBackground:              $topbar-background;
 
 // text colors
 $textColorDark:                 #505458;
@@ -148,7 +150,7 @@ $button-radius:                    $global-radius;
     TABLES
 ------------------------------------*/
 $table-background:                  $white;
-$table-head-background:             $green;
+$table-head-background:             $highlight-background;
 $table-head-font-color:             $white;
 $table-striped-background:          $greyLightest;
 $table-row-hover:                   $blue;
@@ -175,7 +177,7 @@ $tab-content-padding:               $marginLarge 0;
 $accordion-background:              $greyLightest;
 $accordion-plusminus:               true;
 $accordion-item-color:              $greyDark;
-$accordion-item-background-hover:   $green;
+$accordion-item-background-hover:   $highlight-background;
 $accordion-item-padding:            $marginLarge;
 $accordion-content-background:      $white;
 $accordion-content-border:          1px solid $greyLight;
@@ -186,7 +188,7 @@ $accordion-content-padding:         $marginLarge;
     SWITCH
 ------------------------------------*/
 $switch-background:                 $greyLight;
-$switch-background-active:          $green;
+$switch-background-active:          $highlight-background;
 $switch-height:                     2rem;
 $switch-height-tiny:                1.5rem;
 $switch-height-small:               1.75rem;
@@ -198,10 +200,6 @@ $switch-paddle-offset:              0.25rem;
 $switch-paddle-radius:              $global-radius;
 $switch-paddle-transition:          all 0.25s ease-out;
 
-/*------------------------------------
-    TOPBAR
-------------------------------------*/
-$topbar-background:                 $headerBackground;
 
 /*------------------------------------
     PAGINATION
@@ -248,27 +246,5 @@ $menu-icon-spacing:                 0.25rem;
 ------------------------------------*/
 
 $rules-border-color:                $greyLight;
-
-$rule-simple-background:            $white;
-$rule-simple-striped-background:    darken($white,1%);
-$rule-simple-label-bg:              $white;
-$rule-simple-label-border-color:    $greyLight;
-$rule-simple-label-text-color:      inherit;
-
-$rule-feature-background:           $greyLightest;
-$rule-feature-striped-background:   darken($greyLightest,2%);
-$rule-feature-label-bg:             $greyLight;
-$rule-feature-label-border-color:   $rule-feature-label-bg;
-$rule-feature-label-text-color:     inherit;
-
-$rule-replace-background:           $orangeLight;
-$rule-replace-striped-background:   darken($orangeLight, 2%);
-$rule-replace-label-bg:             $orange;
-$rule-replace-label-border-color:   $rule-replace-label-bg;
-$rule-replace-label-text-color:     inherit;
-
-$rule-skip-background:              $redLight;
-$rule-skip-striped-background:      darken($redLight, 2%);
-$rule-skip-label-bg:                $red;
-$rule-skip-label-border-color:      $rule-skip-label-bg;
-$rule-skip-label-text-color:        $white;
+$rules-field-large-width:           160px;
+$rules-field-small-width:           50px;

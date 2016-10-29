@@ -1,11 +1,11 @@
-# -*-*- encoding: utf-8 -*-*-
-# pylint: disable=E1101
-from __future__ import unicode_literals, absolute_import
-import importlib
+from __future__ import (absolute_import, unicode_literals)
 
 from collections import OrderedDict
+import importlib
+
 from django.conf import settings
 from django.core import urlresolvers
+from django.core.urlresolvers import NoReverseMatch
 
 
 def is_active(path, path_to_check):
@@ -15,6 +15,7 @@ def is_active(path, path_to_check):
 # by getting the view class from the named url we can check which permissions
 # are available:
 # http://stackoverflow.com/questions/5749075
+
 
 def menu(menu_config=None, **kwargs):
     """
@@ -30,6 +31,11 @@ def menu(menu_config=None, **kwargs):
     menu_dict = OrderedDict()
     for menu_entry in menu_config:
         if type(menu_entry) in (list, tuple):
+
+            # check permission based on named_url
+            if not view_from_url(menu_entry[1]).has_permission(user):
+                continue
+
             path = urlresolvers.reverse(menu_entry[1])
             # icons are optional
             icon = None
@@ -81,15 +87,68 @@ def menu_clean(menu_config):
     return menu_config
 
 
-def view_from_url(named_url):
+def view_from_url(named_url):  # noqa
     """
     Finds and returns the view class from a named url
     """
-    view_func = urlresolvers.resolve(urlresolvers.reverse(named_url)).func
-    module = importlib.import_module(view_func.__module__)
-    view = getattr(module, view_func.__name__)
+    # code below is `stolen` from django's reverse method
+    resolver = urlresolvers.get_resolver(urlresolvers.get_urlconf())
 
-    return view
+    if type(named_url) in (list, tuple):
+        named_url = named_url[0]
+    parts = named_url.split(':')
+    parts.reverse()
+    view = parts[0]
+    path = parts[1:]
+    current_path = None
+    resolved_path = []
+    ns_pattern = ''
+
+    while path:
+        ns = path.pop()
+        current_ns = current_path.pop() if current_path else None
+
+        # Lookup the name to see if it could be an app identifier
+        try:
+            app_list = resolver.app_dict[ns]
+            # Yes! Path part matches an app in the current Resolver
+            if current_ns and current_ns in app_list:
+                # If we are reversing for a particular app,
+                # use that namespace
+                ns = current_ns
+            elif ns not in app_list:
+                # The name isn't shared by one of the instances
+                # (i.e., the default) so just pick the first instance
+                # as the default.
+                ns = app_list[0]
+        except KeyError:
+            pass
+
+        if ns != current_ns:
+            current_path = None
+
+        try:
+            extra, resolver = resolver.namespace_dict[ns]
+            resolved_path.append(ns)
+            ns_pattern = ns_pattern + extra
+        except KeyError as key:
+            if resolved_path:
+                raise NoReverseMatch(
+                    "%s is not a registered namespace inside '%s'" %
+                    (key, ':'.join(resolved_path)))
+            else:
+                raise NoReverseMatch("%s is not a registered namespace" %
+                                     key)
+    if ns_pattern:
+        resolver = urlresolvers.get_ns_resolver(ns_pattern, resolver)
+
+    # custom code, get view from reverse_dict
+    reverse_dict = resolver.reverse_dict.dict()
+    for key, url_obj in reverse_dict.items():
+        if url_obj == reverse_dict[view] \
+                and key != view:
+            module = importlib.import_module(key.__module__)
+            return getattr(module, key.__name__)
 
 
 def find_attribute(obj, value):
@@ -102,9 +161,22 @@ def find_attribute(obj, value):
     """
     if '__' in value:
         value_list = value.split('__')
-        attr = getattr(obj, value_list[0])
+        attr = get_attribute(obj, value_list[0])
         return find_attribute(attr, '__'.join(value_list[1:]))
-    return getattr(obj, value)
+    return get_attribute(obj, value)
+
+
+def get_attribute(obj, value):
+    """
+    Normally the result of list_items for listviews are a set of model objects.
+    But when you want a GROUP_BY query (with 'values' method), than
+    the result will be a dict. This method will help you find an item for
+    either objects or dictionaries.
+    """
+    if type(obj) == dict:
+        return dict.get(obj, value)
+    else:
+        return getattr(obj, value)
 
 
 def find_field_meta(obj, value):

@@ -16,4 +16,4 @@ class ArcticConfig(AppConfig):
             raise
         except:
             pass
-        import arctic.signals
+        import arctic.signals  # noqa

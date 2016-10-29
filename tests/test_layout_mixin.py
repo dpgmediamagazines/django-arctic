@@ -1,0 +1,120 @@
+import pytest
+from collections import OrderedDict
+
+from arctic.mixins import LayoutMixin
+from .conftest import article, article_form, get_form
+
+
+@pytest.fixture
+def layout():
+    class Layout(LayoutMixin):
+        layout = None
+
+        def __init__(self):
+            self.object = article()
+            self.form = article_form()
+            self.get_form = get_form(self.form)
+
+    return Layout()
+
+
+def test_layout_example_1(layout):
+    layout.layout = ['title|8']
+    layout = layout.get_layout()
+
+    assert layout[0]['fieldset']['title'] is None
+    assert layout[0]['fieldset']['description'] is None
+    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['rows'][0]['name'] == 'title'
+    assert layout[0]['rows'][0]['column'] == '8'
+
+
+def test_layout_example_2(layout):
+    layout.layout = [['title|3', 'title', 'title']]
+    layout = layout.get_layout()
+
+    assert layout[0]['fieldset']['title'] is None
+    assert layout[0]['fieldset']['description'] is None
+    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['rows'][0][0]['name'] == 'title'
+    assert layout[0]['rows'][0][0]['column'] == '3'
+    assert layout[0]['rows'][0][1]['name'] == 'title'
+    assert layout[0]['rows'][0][1]['column'] == '4'
+    assert layout[0]['rows'][0][2]['name'] == 'title'
+    assert layout[0]['rows'][0][2]['column'] == '5'
+
+
+def test_layout_example_3a(layout):
+    layout.layout = [['title|3', 'title', 'title', 'category', 'category']]
+    layout = layout.get_layout()
+
+    assert layout[0]['fieldset']['title'] is None
+    assert layout[0]['fieldset']['description'] is None
+    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['rows'][0][0]['name'] == 'title'
+    assert layout[0]['rows'][0][0]['column'] == '3'
+    assert layout[0]['rows'][0][1]['name'] == 'title'
+    assert layout[0]['rows'][0][1]['column'] == '2'
+    assert layout[0]['rows'][0][2]['name'] == 'title'
+    assert layout[0]['rows'][0][2]['column'] == '2'
+    assert layout[0]['rows'][0][3]['name'] == 'category'
+    assert layout[0]['rows'][0][3]['column'] == '2'
+    assert layout[0]['rows'][0][4]['name'] == 'category'
+    assert layout[0]['rows'][0][4]['column'] == '3'
+
+
+def test_layout_example_3b(layout):
+    layout.layout = ['title|3', 'title', 'title', ['category', 'category']]
+    layout = layout.get_layout()
+
+    assert layout[0]['fieldset']['title'] is None
+    assert layout[0]['fieldset']['description'] is None
+    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['rows'][0]['name'] == 'title'
+    assert layout[0]['rows'][0]['column'] == '3'
+    assert layout[0]['rows'][1]['name'] == 'title'
+    assert layout[0]['rows'][1]['column'] is None
+    assert layout[0]['rows'][2]['name'] == 'title'
+    assert layout[0]['rows'][2]['column'] is None
+    assert layout[0]['rows'][3][0]['name'] == 'category'
+    assert layout[0]['rows'][3][0]['column'] == '6'
+    assert layout[0]['rows'][3][1]['name'] == 'category'
+    assert layout[0]['rows'][3][1]['column'] == '6'
+
+
+def test_layout_example_4(layout):
+    layout.layout = OrderedDict([('-fieldset',
+                                  ['title',
+                                   'title',
+                                   ['category', 'updated_at|4']]),
+                                ('fieldset2|test description',
+                                 [['title|7', 'category']]),
+                                ('fieldset3',
+                                 ['published'])])
+    layout = layout.get_layout()
+
+    assert layout[0]['fieldset']['title'] == 'fieldset'
+    assert layout[0]['fieldset']['description'] is None
+    assert layout[0]['fieldset']['collapsible'] is True
+    assert layout[0]['rows'][0]['name'] == 'title'
+    assert layout[0]['rows'][0]['column'] is None
+    assert layout[0]['rows'][1]['name'] == 'title'
+    assert layout[0]['rows'][1]['column'] is None
+    assert layout[0]['rows'][2][0]['name'] == 'category'
+    assert layout[0]['rows'][2][0]['column'] == '8'
+    assert layout[0]['rows'][2][1]['name'] == 'updated_at'
+    assert layout[0]['rows'][2][1]['column'] == '4'
+
+    assert layout[1]['fieldset']['title'] == 'fieldset2'
+    assert layout[1]['fieldset']['description'] == 'test description'
+    assert layout[1]['fieldset']['collapsible'] is False
+    assert layout[1]['rows'][0][0]['name'] == 'title'
+    assert layout[1]['rows'][0][0]['column'] == '7'
+    assert layout[1]['rows'][0][1]['name'] == 'category'
+    assert layout[1]['rows'][0][1]['column'] == '5'
+
+    assert layout[2]['fieldset']['title'] == 'fieldset3'
+    assert layout[2]['fieldset']['description'] is None
+    assert layout[2]['fieldset']['collapsible'] is False
+    assert layout[2]['rows'][0]['name'] == 'published'
+    assert layout[2]['rows'][0]['column'] is None

@@ -1,0 +1,42 @@
+{% load i18n staticfiles arctic_tags %}
+
+{% comment %}
+    Required:
+    {{ close_dialog }} - removes dialog
+
+    manual close dialog:
+    <a data-close ></a> - closes dialog onclick
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        {% include "arctic/partials/head.html" %}
+        {% block head_extras %}{% endblock %}
+    </head>
+
+    <body class="dialog {% block body_class %}{% endblock %}" {% if auto_close %} data-auto-close="1"{% endif %}{% if refresh_parent %} data-refresh-parent="1"{% endif %}>
+        {% block header %}
+            <header class="topbar-background">
+                <h3>
+                    {% block title %}{{ page_title }}{% endblock %}
+                </h3>
+
+                {% block close %}
+                <button class="close-button" data-close aria-label="Close reveal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {% endblock %}
+            </header>
+        {% endblock %}
+
+        <div class="block-wrapper">
+            {% block content %}{% endblock %}
+        </div>
+
+        {% block scripts_bottom %}
+            <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+        {% endblock %}
+    </body>
+</html>

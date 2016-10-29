@@ -1,18 +1,22 @@
 from collections import OrderedDict
 
 from django import forms
-from django.contrib.auth import get_user_model, forms as user_forms
+from django.contrib.auth import forms as user_forms
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
 from betterforms.multiform import MultiModelForm
-from arctic.models import UserRole
+
+from arctic.loading import get_user_role_model
 
 User = get_user_model()
+UserRole = get_user_role_model()
 
 # it would be even nicer to raise an error here to explicitly ask user to set these properties but we need backwards
 # compatibility
-FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', (User.USERNAME_FIELD, 'email', 'is_active'))
-FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', (User.USERNAME_FIELD, 'email', 'is_active'))
+DEFAULT_FIELDS = (User.USERNAME_FIELD, 'email', 'is_active')
+FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', DEFAULT_FIELDS)
+FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', DEFAULT_FIELDS)
 
 
 class UserRoleForm(forms.ModelForm):
@@ -38,7 +42,6 @@ class UserCreationMultiForm(MultiModelForm):
 
         if commit:
             user = objects['user']
-            user.set_password(user.password)
             user.save()
             user_role = objects['role']
             user_role.user = user
@@ -51,8 +54,7 @@ class UserChangeForm(forms.ModelForm):
     new_password = forms.CharField(
         label=_("New Password"),
         widget=forms.PasswordInput,
-        strip=False,
-        required = False,
+        required=False,
         help_text=_("Leave this field empty if you don't want to change your "
                     "password."),
     )

@@ -16,6 +16,39 @@ function lowerCaseKeys(dict) {
     return new_dict;
 }
 
+// convert date format specification from the django/php syntax to the js
+// datepicker spec
+function django2datepicker(django_format) {
+    var translation_dict = {
+        '%': '',
+        'y': 'yy',
+        'Y': 'yyyy',
+        'm': 'mm',
+        'd': 'dd',
+        'H': 'hh',
+        'I': 'hh',
+        'M': 'ii',
+        'p': 'aa',
+        'S': ''
+    }
+
+    var datepicker_format = '';
+    for (var i = 0, len = django_format.length; i < len; i++) {
+        if (django_format[i] in translation_dict) {
+            datepicker_format += translation_dict[django_format[i]];
+        }
+        else {
+            datepicker_format += django_format[i];
+        }
+    }
+    
+    if (datepicker_format.slice(-1) == ':') {
+        datepicker_format = datepicker_format.slice(0, -1);
+    }
+
+    return datepicker_format;
+}
+
 function inlineWidget(css_class, template, dict, list_separator) {
     $('.inline-widget.' + css_class).html(function(i, content) {
         var has_link = false;
@@ -63,15 +96,23 @@ function inlineWidget(css_class, template, dict, list_separator) {
 
 function set_input_widgets() {
     var s = $('.js-selectize');
-    if (s.size()) {
-        s.selectize({allowEmptyOption: true, highlight: false});
+    if ( s.size() ) {
+        s.selectize(
+            {
+                allowEmptyOption: true,
+                highlight: false,
+                plugins: ['remove_button']
+            }
+        );
     }
+
 
     var s_tags = $('.js-selectize-tags');
     if (s_tags.size()) {
         s_tags.selectize({
             delimiter: ',',
             persist: false,
+            plugins: ['remove_button'],
             create: function(input) {
                 return {
                     value: input,
@@ -81,45 +122,57 @@ function set_input_widgets() {
         });
     }
 
-    var datepicker = $('.js-datepicker');
-    if (datepicker.size()) {
-        datepicker.fdatepicker({
-        		format: 'yyyy-mm-dd'
-        	});
-    }
+    s.on( 'initialize', initializethis );
+    s_tags.on( 'initialize', initializethis );
 
-    var timepicker = $('.js-timepicker');
-    if (timepicker.size()) {
-        timepicker.fdatepicker({
-        		format: 'hh:ii',
-                pickTime: true
-        	});
-    }
+    var initializethis = function() { alert('js-selectize is initialized') };
 
-    var datetimepicker = $('.js-datetimepicker');
-    if (datetimepicker.size()) {
-        datetimepicker.fdatepicker({
-        		format: 'yyyy-mm-dd hh:ii',
-                pickTime: true
-        	});
-    }
+
+    $('.js-datepicker').each(function(index) {
+        $(this).datepicker({
+            todayButton: true,
+            language: 'en',
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+        	dateFormat: django2datepicker(DATE_FORMAT)
+        });
+    });
+
+    $('.js-timepicker').each(function(index) {
+        $(this).datepicker({
+            onlyTimepicker: true,
+            language: 'en',
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+        	timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
+        });
+    });
+
+    $('.js-datetimepicker').each(function(index) {
+        $(this).datepicker({
+            language: 'en',
+            todayButton: true,
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+        	dateFormat: django2datepicker(DATE_FORMAT),
+            timeFormat: django2datepicker(TIME_FORMAT),
+            timepicker: true
+        });
+    });
 }
 
 // jquery stuff goes here
 $(document).ready(function() {
 
-    // Toggle menu hamburger to cross
-    $('#menu-button').click(function (e) {
-        $('#menu-button').toggleClass('is-active');
-        // e.preventDefault();
+    // Toggle menu burger to cross
+    var canvas = $( '.off-canvas' );
+    var hamburger = $('#menu-button');
+
+    canvas.on('opened.zf.offcanvas', function () {
+        hamburger.addClass('is-active');
     });
 
-    // Toggle back menu button into hamburger when clicking overlay
-    $('.js-off-canvas-exit').click(function(e) {
-        $('#menu-button').removeClass('is-active');
-        // e.preventDefault();
+    canvas.on('closed.zf.offcanvas', function () {
+        hamburger.removeClass('is-active');
     });
-
 
     // Stepper input
     var $stepperInput = $('.stepper-input input');
@@ -139,7 +192,7 @@ $(document).ready(function() {
     });
 
     var dirty_check = $('form.dirty-check');
-    if (dirty_check.size()) {
+    if (dirty_check.size() && !window.parent != window ) {
         dirty_check.areYouSure();
 
         $('form').on('dirty.areYouSure', function() {

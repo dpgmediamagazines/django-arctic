@@ -27,8 +27,8 @@ PATHS:
     - "bower_components/foundation-sites/scss"
     - "bower_components/motion-ui/src"
     - "bower_components/fontawesome/scss"
-    - "bower_components/foundation-datepicker/css"
     - "bower_components/"
+    - "src/assets/scss/"
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
     # Libraries requried by Foundation
@@ -37,7 +37,8 @@ PATHS:
 
     # Custom addons
     - "bower_components/jquery.are-you-sure/jquery.are-you-sure.js"
-    - "bower_components/foundation-datepicker/js/foundation-datepicker.js"
+    - "bower_components/air-datepicker/dist/js/datepicker.js"
+    - "bower_components/air-datepicker/dist/js/i18n/datepicker.en.js"
     # Core Foundation files
     - "bower_components/foundation-sites/js/foundation.core.js"
     - "bower_components/foundation-sites/js/foundation.util.*.js"
@@ -64,12 +65,16 @@ PATHS:
     - "bower_components/foundation-sites/js/foundation.tooltip.js"
 
     # Arctic JS deps
-    - "bower_components/selectize/dist/js/standalone/selectize.js"
     - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
+    - "bower_components/selectize/dist/js/standalone/selectize.js"
+    - "bower_components/Sortable/Sortable.min.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
+    - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
+    - "src/assets/js/components/reveal-iframe.js"
+    - "src/assets/js/components/sortable.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
     - "src/assets/js/components/query-builder.js"

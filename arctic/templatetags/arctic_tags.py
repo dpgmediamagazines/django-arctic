@@ -1,8 +1,9 @@
-from __future__ import unicode_literals, absolute_import
-from django import template
-from django.core.urlresolvers import reverse
+from __future__ import (absolute_import, unicode_literals)
 
 from collections import OrderedDict
+
+from django import template
+from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -35,7 +36,6 @@ def get_parameters(parser, token):
     """
     {% get_parameters except_field %}
     """
-
     args = token.split_contents()
     if len(args) < 2:
         raise template.TemplateSyntaxError(
@@ -98,7 +98,7 @@ def get_all_fields(obj):
 
 @register.simple_tag(takes_context=True)
 def query_string(context, **kwargs):
-    ''' Add param to the given query string '''
+    """Add param to the given query string"""
     params = context['request'].GET.copy()
 
     for key, value in list(kwargs.items()):
@@ -163,7 +163,6 @@ def arctic_url(context, link, *args, **kwargs):
     We could tie this to check_url_access() to check for permissions,
     including object-level.
     """
-
     def reverse_mutable_url_args(url_args):
         mutated_url_args = []
         for arg in url_args:
@@ -172,8 +171,8 @@ def arctic_url(context, link, *args, **kwargs):
             if 'item' in context and type(arg) == str:
                 # try to get attribute of this object
                 try:
-                    arg = getattr(context['v'], arg)
-                # if not found, fall back to pk of row, which is always first column
+                    arg = getattr(context['v'], arg.split('.')[-1])
+                # if not found fallback to row pk, which is always first column
                 except:
                     arg = context['item'][0]
             mutated_url_args.append(arg)
@@ -181,10 +180,14 @@ def arctic_url(context, link, *args, **kwargs):
 
     url_args = args
 
-    # set arguments defined in get_urls if provided
+    # set arguments defined in urls if provided
+    if type(link) in (tuple, list):
+        context['urls'][link[0]] = list(link[1:])
+        link = link[0]
     if link in context['urls']:
 
-        # for where the params directly given. e.g. ('article-detail', (self.object.pk,))
+        # for where the params directly given. e.g. ('article-detail',
+        # (self.object.pk,))
         url_args = context['urls'][link]
 
         # list given, which means it's mutable!
@@ -205,8 +208,8 @@ def typename(obj):
 
 
 @register.filter
-def index(List, i):
-    return List[int(i)]
+def index(lst, i):
+    return lst[int(i)]
 
 
 @register.filter

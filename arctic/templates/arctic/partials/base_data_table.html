@@ -17,18 +17,18 @@
         {% endif %}
         {% if tool_links %}
             <div class="columns {% if has_filter %}shrink{% endif %}">
-                {% for link in tool_links %}
-                    {% if tool_links|length > 1 or not tool_links.0.icon %}
-                        <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa fa-wrench"></i></button>
+                {% if tool_links|length > 1 %}
+                    <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
                         <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
                             <ul>
-                                <li><a href="{% url link.url %}">{{ link.label }}</a></li>
+                                {% for link in tool_links %}
+                                    <li><a href="{% url link.url %}">{{ link.label }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
-                    {% else %}
-                        <a class="button secondary" title="{{ link.label }}" href="{% url link.url %}"><i class="fa {{ link.icon }}"></i></a>
-                    {% endif %}
-                {% endfor %}
+                {% else %}
+                    <a class="button secondary" title="{{ link.0.label }}" href="{% url link.0.url %}"><i class="fa {% if link.0.icon %}{{ link.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
+                {% endif %}
             </div>
         {% endif %}
     </div>
@@ -67,7 +67,7 @@
                     {% for item in list_items %}
                         <tr>
                             {% for v in item|slice:"1:" %}
-                                {% if v|typename == 'ManyRelatedManager' or v|typename = 'RelatedManager' %}
+                                {% if v|typename == 'ManyRelatedManager' or v|typename == 'RelatedManager' %}
                                     <td>
                                         {% for item in v.all %}
                                             <span class="badge highlight-background">{{ item }}</span>
@@ -90,7 +90,11 @@
                                             {{ v|default_if_none:""|safe|linebreaks }}
                                         </a>
                                     {% else %}
-                                        {{ v|default_if_none:""|safe|linebreaks }}
+                                        {% if v|typename == 'datetime' or v|typename == 'date' %}
+                                            {{ v|default_if_none:"" }}
+                                        {% else %}
+                                            {{ v |default_if_none:"" | safe | linebreaks }}
+                                        {% endif %}
                                     {% endif %}
                                         </td>
                                 {% endif %}
@@ -114,6 +118,12 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            {# modal iframe dialog #}
+            <section id="reveal-iframe" class="reveal external" data-reveal>
+                <iframe frameborder="0" allowfullscreen></iframe>
+            </section>
+
             </div> {# table-scroll #}
         </div> {# small-12 columns #}
     </div> {# row #}

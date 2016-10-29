@@ -9,103 +9,113 @@
          Make the field widget type available to templates so we can
          mark-up checkboxes differently to other widgets.
     {% endcomment %}
-
     {% block control_group %}
-        <div class="row align-center {% if field.errors %}error{% endif %}">
-            {% block controls %}
-                <div class="small-12 medium-8 columns">
-                    <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
 
-                        {% block widget %}
-                            <!-- {{ field|widget_type }} -->
-                            {# checkbox #}
-                            {% if field|widget_type == 'checkboxinput' %}
-                                <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+        {% if not layout %}
+            <div class="row align-center {% if field.errors %}error{% endif %}">
+        {% endif %}
+        {% block controls %}
+            {% if style %}
+                <div class="small-12 medium-{{style}} columns">
+            {% else %}
+                <div class="columns">
+            {% endif %}
+            <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
 
-                                    {% if field.field.required %}
-                                        {% render_field field|attr:'required' %}
-                                    {% else %}
-                                        {% render_field field %}
-                                    {% endif %}
+                {% block widget %}
+                    <!-- {{ field|widget_type }} -->
+                    {# checkbox #}
+                    {% if field|widget_type == 'checkboxinput' %}
+                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
 
-                                    {{ field.label|safe }}
-                                </label>
-
-                            {# radio #}
-                            {% elif field|widget_type == 'radioselect' %}
-                                <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-
-                                    {% if field.field.required %}
-                                        {% render_field field|attr:'required' %}
-                                    {% else %}
-                                        {% render_field field %}
-                                    {% endif %}
-
-                                    {{ field.label|safe }}
-                                </label>
-
+                            {% if field.field.required %}
+                                {% render_field field|attr:'required' %}
                             {% else %}
-                                {% if field.field.required %}
-                                    <b>{{ field.label|safe }}</b>
-                                {% else %}
-                                    {{ field.label|safe }}
-                                {% endif %}
-                                <br>
-                                {# multiple checkboxes #}
-                                {% if field|widget_type == 'checkboxselectmultiple' %}
-                                    {% for checkbox in field %}
-                                        <div class="checkbox">
-                                            <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
-                                                {{ checkbox.tag }}
-                                                {{ checkbox.choice_label|safe }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-
-                                {# select #}
-                                {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' %}
-                                    {% render_field field class+='js-selectize' %}
-                                {% elif field|widget_type == 'selectmultiple' %}
-                                    {% render_field field class+='js-selectize' multiple="" %}
-                                {% elif field|widget_type == 'datetimeinput' %}
-                                    {% render_field field class+='js-datetimepicker' %}
-                                {% elif field|widget_type == 'timeinput' %}
-                                    {% render_field field class+='js-timepicker' %}
-                                {% elif field|widget_type == 'dateinput' %}
-                                    {% render_field field class+='js-datepicker' %}
-
-                                {% else %}
-                                    {% render_field field %}
-                                {% endif %}
+                                {% render_field field %}
                             {% endif %}
 
-                        {% endblock %}
+                            {{ field.label|safe }}
+                        </label>
 
+                    {# radio #}
+                    {% elif field|widget_type == 'radioselect' %}
+                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
 
-                        {% block errors %}
-                            {% for error in field.errors %}
-                                <span class="form-error is-visible">
-                                    <i class="icon-exclamation-sign"></i>
-                                    {{ error }}
-                                </span>
-                            {% endfor %}
-                        {% endblock %}
+                            {% if field.field.required %}
+                                {% render_field field|attr:'required' %}
+                            {% else %}
+                                {% render_field field %}
+                            {% endif %}
 
+                            {{ field.label|safe }}
+                        </label>
 
-                        {% block help_text %}
-                            {% if field.help_text %}
-                                <div class='help-text'>
-                                    {# We allow HTML within form help fields #}
-                                    {{ field.help_text|safe }}
+                    {% else %}
+                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+                            {{ field.label|safe }}
+                        </label>
+                        {# multiple checkboxes #}
+                        {% if field|widget_type == 'checkboxselectmultiple' %}
+                            {% for checkbox in field %}
+                                <div class="checkbox">
+                                    <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
+                                        {{ checkbox.tag }}
+                                        {{ checkbox.choice_label|safe }}
+                                    </label>
                                 </div>
-                            {% endif %}
-                        {% endblock %}
+                            {% endfor %}
 
-                    </div>
+                        {# select #}
+                        {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' or field|widget_type == 'lazyselect' %}
+                            {% render_field field class+='js-selectize' %}
+                        {% elif field|widget_type == 'selectmultiple' %}
+                            {% render_field field class+='js-selectize' multiple="" %}
+                        {% elif field|widget_type == 'datetimeinput' %}
+                            {% with rfc_date=field.value|date:"m/d/Y h:i A" %}
+                            {% render_field field date=rfc_date class+='js-datetimepicker' %}
+                            {% endwith %}
+                        {% elif field|widget_type == 'timeinput' %}
+                            {% with rfc_date=field.value|date:"h:i A" %}
+                            {% render_field field date=rfc_date class+='js-timepicker' %}
+                            {% endwith %}
+                        {% elif field|widget_type == 'dateinput' %}
+                            {% with rfc_date=field.value|date:"m/d/Y" %}
+                            {% render_field field date=rfc_date class+='js-datepicker' %}
+                            {% endwith %}
+                        {% else %}
+                            {% render_field field %}
+                        {% endif %}
+                    {% endif %}
+
+                {% endblock %}
+
+
+                {% block errors %}
+                    {% for error in field.errors %}
+                        <span class="form-error is-visible">
+                            <i class="icon-exclamation-sign"></i>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                {% endblock %}
+
+
+                {% block help_text %}
+                    {% if field.help_text %}
+                        <div class='help-text'>
+                            {# We allow HTML within form help fields #}
+                            {{ field.help_text|safe }}
+                        </div>
+                    {% endif %}
+                {% endblock %}
+
                 </div>
-            {% endblock %}
+            </div>
+        {% endblock %}
 
-        </div>
+        {% if not layout %}
+                </div>
+        {% endif %}
     {% endblock %}
 
 {% endif %}

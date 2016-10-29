@@ -3,8 +3,8 @@
 # Overview
 
 Django Arctic is a framework that simplifies the creation of custom content management systems.
-It also includes a collection of optional components for common use cases, and
-its core infrastructure is implementation agnostic.
+It provides a default responsive user interface, extends several of the Django 
+Generic Views with extra features and adds role based authentication.
 
 
 ##Why
@@ -22,7 +22,7 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 ## Compatibility
 
 * Python 2.7, 3.4, 3.5
-* Django 1.8, 1.9
+* Django 1.8, 1.9, 1.10
 
 
 ## Features
@@ -147,3 +147,17 @@ also present:
 
 Within the Arctic project there's an `example` project with a more extensive 
 usage of Arctic's features.
+
+The example project has Docker/Docker Compose support (see <https://docs.docker.com/compose/install/> 
+for installation.
+
+To build execute the example Docker image, run:
+ 
+        $ cd example/
+        $ docker-compose up
+        
+The Docker image will be built and example project should be running on <http://localhost:8000/>.
+A demo fixture is loaded automatically. Default login is:
+ 
+        User: admin
+        Password: admin

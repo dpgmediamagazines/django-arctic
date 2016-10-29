@@ -1,0 +1,19 @@
+sudo: false
+language: python
+python: 3.5
+python:
+  - 3.5
+  - 3.4
+  - 2.7
+matrix:
+  fast_finish: true
+before_install:
+  - pip install flake8
+  - flake8
+install:
+  - pip install tox-travis
+  - pip install coveralls
+script:
+  - tox
+after_success:
+  - coveralls

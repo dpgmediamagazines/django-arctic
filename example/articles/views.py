@@ -1,20 +1,20 @@
-# -*-*- encoding: utf-8 -*-*-
-from __future__ import unicode_literals, absolute_import
+from __future__ import (absolute_import, unicode_literals)
+
+from django.core.urlresolvers import (reverse, reverse_lazy)
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse_lazy, reverse
 
-from arctic.generics import (
-    ListView, UpdateView, CreateView,
-    DeleteView, TemplateView)
+from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
+                             UpdateView)
+from collections import OrderedDict
 
-from .models import Article, Category, Tag
 from .forms import ArticleForm
-from .inlines import ArticleInline, TagsInline
+from .models import (Article, Category, Tag)
 
 
 class DashboardView(TemplateView):
     template_name = 'arctic/index.html'
     page_title = "Dashboard"
+    permission_required = ""
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
@@ -22,6 +22,7 @@ class DashboardView(TemplateView):
 
 
 class ArticleListView(ListView):
+    template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
     fields = ['title', 'description', 'published', 'category']
@@ -34,6 +35,7 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
+        'category': ('articles:category-detail', 'category.pk'),
     }
     field_classes = {
         'published': 'inline-widget boolean-circle',
@@ -41,22 +43,37 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
-    required_permission = "articles_view"
+
+    filter_fields = ['published']
+    permission_required = "articles_view"
+
+    # def get_category_field(self, row):
+    #     return '<b>' + row.category.name + '</b>'
 
 
 class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
-    required_permission = "articles_change"
+    permission_required = "articles_change"
     model = Article
     success_url = reverse_lazy('articles:list')
     form_class = ArticleForm
     links = [
         ('Back to list', 'articles:list'),
     ]
+    layout = OrderedDict([
+                        ('-Basic Details',
+                         ['title|10', ['category', 'tags|5']]),
+                        ('Body|Extra Information for this fieldset',
+                         ['description']),
+                        ('Extended Details',
+                         [['published|4', 'updated_at']])])
+    # layout = ['title|3', 'title', 'title', ['category', 'category']]
+
     # tabs = [
     #     ('Detail', 'articles:detail'),
-        # ('Tags', 'articles:detail-tags'),
+    #     ('Tags', 'articles:detail-tags'),
     # ]
+    permission_required = ""
 
     def get_urls(self):
         return {
@@ -69,9 +86,10 @@ class ArticleUpdateView(UpdateView):
 
 class ArticleCreateView(CreateView):
     page_title = _("Create Article")
-    #fields = ['title', 'description', 'tags', 'category', 'published']
+    # fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
     form_class = ArticleForm
+    permission_required = "articles_create"
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -80,6 +98,7 @@ class ArticleCreateView(CreateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     success_url = reverse_lazy('articles:list')
+    permission_required = "articles_delete"
 
 
 class CategoryListView(ListView):
@@ -92,13 +111,15 @@ class CategoryListView(ListView):
     tool_links = [
         (_('Create Category'), 'articles:category-create'),
     ]
+    permission_required = ""
 
 
 class CategoryArticlesListView(ArticleListView):
 
     def dispatch(self, request, *args, **kwargs):
         self.pk = kwargs.pop('pk')
-        return super(CategoryArticlesListView, self).dispatch(request, *args, **kwargs)
+        return super(CategoryArticlesListView, self).dispatch(request, *args,
+                                                              **kwargs)
 
     # disable some settings from the default article list
     tool_links = [
@@ -110,6 +131,7 @@ class CategoryArticlesListView(ArticleListView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
+    permission_required = ("category_articles_tab",)
 
     def get_urls(self):
         return {
@@ -130,6 +152,7 @@ class CategoryUpdateView(UpdateView):
         ('Detail', 'articles:category-detail'),
         ('Related Articles', 'articles:category-articles-list'),
     ]
+    permission_required = "category"
 
     def get_urls(self):
         return {
@@ -142,6 +165,8 @@ class CategoryCreateView(CreateView):
     page_title = _("Create Category")
     model = Category
     fields = ['name']
+    permission_required = ""
+
     def get_success_url(self):
         return reverse('articles:category-detail', args=(self.object.pk,))
 
@@ -149,6 +174,7 @@ class CategoryCreateView(CreateView):
 class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('articles:category-list')
+    permission_required = ""
 
 
 class TagListView(ListView):
@@ -161,18 +187,21 @@ class TagListView(ListView):
     tool_links = [
         (_('Create Tag'), 'articles:tag-create'),
     ]
+    permission_required = ()
 
 
 class TagUpdateView(UpdateView):
     page_title = _("Edit Tag")
     model = Tag
     success_url = reverse_lazy('articles:tag-list')
+    permission_required = ""
 
 
 class TagCreateView(CreateView):
     page_title = _("Create Tag")
     model = Tag
     fields = ['term']
+    permission_required = ""
 
     def get_success_url(self):
         return reverse('articles:tag-detail', args=(self.object.pk,))
@@ -181,3 +210,4 @@ class TagCreateView(CreateView):
 class TagDeleteView(DeleteView):
     model = Tag
     success_url = reverse_lazy('articles:tag-list')
+    permission_required = ""
