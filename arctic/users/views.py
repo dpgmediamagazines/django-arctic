@@ -16,9 +16,12 @@ class UserListView(ListView):
     page_title = _('Users')
     paginate_by = 20
     model = UserRole
-    fields = [('user__{}'.format(username_field), 'Username'), 'role__name', 'user__is_active',
-              'user__last_login']
-    ordering_fields = ['user__{}'.format(username_field), 'role__name', 'user__last_login']
+    fields = [('user__{}'.format(username_field), 'Username'),
+              'role__name', 'user__is_active', 'user__last_login']
+
+    ordering_fields = ['user__{}'.format(username_field),
+                       'role__name', 'user__last_login']
+
     search_fields = ['user__{}'.format(username_field)]
     filter_fields = ['user__is_active']
     # action_links = [
