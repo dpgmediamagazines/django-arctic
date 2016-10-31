@@ -3,14 +3,14 @@
 }
 
 .slider-handle {
-    background: $green;
+    background: $highlight-background;
     border-radius: 50%;
     
     &:hover {
-        background: darken($green, 10%);
+        background: darken($highlight-background, 10%);
     }
 }
 
 .slider-fill {
-    background: lighten($green, 25%);
+    background: lighten($highlight-background, 25%);
 }

@@ -1,10 +1,11 @@
 from __future__ import (absolute_import, unicode_literals)
 
-import importlib
 from collections import OrderedDict
+import importlib
 
 from django.conf import settings
 from django.core import urlresolvers
+from django.core.urlresolvers import NoReverseMatch
 
 
 def is_active(path, path_to_check):
@@ -30,6 +31,11 @@ def menu(menu_config=None, **kwargs):
     menu_dict = OrderedDict()
     for menu_entry in menu_config:
         if type(menu_entry) in (list, tuple):
+
+            # check permission based on named_url
+            if not view_from_url(menu_entry[1]).has_permission(user):
+                continue
+
             path = urlresolvers.reverse(menu_entry[1])
             # icons are optional
             icon = None
@@ -81,15 +87,68 @@ def menu_clean(menu_config):
     return menu_config
 
 
-def view_from_url(named_url):
+def view_from_url(named_url):  # noqa
     """
     Finds and returns the view class from a named url
     """
-    view_func = urlresolvers.resolve(urlresolvers.reverse(named_url)).func
-    module = importlib.import_module(view_func.__module__)
-    view = getattr(module, view_func.__name__)
+    # code below is `stolen` from django's reverse method
+    resolver = urlresolvers.get_resolver(urlresolvers.get_urlconf())
 
-    return view
+    if type(named_url) in (list, tuple):
+        named_url = named_url[0]
+    parts = named_url.split(':')
+    parts.reverse()
+    view = parts[0]
+    path = parts[1:]
+    current_path = None
+    resolved_path = []
+    ns_pattern = ''
+
+    while path:
+        ns = path.pop()
+        current_ns = current_path.pop() if current_path else None
+
+        # Lookup the name to see if it could be an app identifier
+        try:
+            app_list = resolver.app_dict[ns]
+            # Yes! Path part matches an app in the current Resolver
+            if current_ns and current_ns in app_list:
+                # If we are reversing for a particular app,
+                # use that namespace
+                ns = current_ns
+            elif ns not in app_list:
+                # The name isn't shared by one of the instances
+                # (i.e., the default) so just pick the first instance
+                # as the default.
+                ns = app_list[0]
+        except KeyError:
+            pass
+
+        if ns != current_ns:
+            current_path = None
+
+        try:
+            extra, resolver = resolver.namespace_dict[ns]
+            resolved_path.append(ns)
+            ns_pattern = ns_pattern + extra
+        except KeyError as key:
+            if resolved_path:
+                raise NoReverseMatch(
+                    "%s is not a registered namespace inside '%s'" %
+                    (key, ':'.join(resolved_path)))
+            else:
+                raise NoReverseMatch("%s is not a registered namespace" %
+                                     key)
+    if ns_pattern:
+        resolver = urlresolvers.get_ns_resolver(ns_pattern, resolver)
+
+    # custom code, get view from reverse_dict
+    reverse_dict = resolver.reverse_dict.dict()
+    for key, url_obj in reverse_dict.items():
+        if url_obj == reverse_dict[view] \
+                and key != view:
+            module = importlib.import_module(key.__module__)
+            return getattr(module, key.__name__)
 
 
 def find_attribute(obj, value):

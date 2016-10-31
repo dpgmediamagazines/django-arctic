@@ -1,3 +1,46 @@
-{% for field in form %}
-    {% include 'arctic/partials/form_field.html' with field=field style=style %}
-{% endfor %}
+{% load arctic_tags %}
+
+<div class="row align-center">
+    <div class="small-12 medium-8 columns">
+        {% if layout %}
+            {% for index, layout_item in layout.items %}
+
+                {% if layout_item.fieldset.title %}
+                    {% if layout_item.fieldset.collapsible %}
+                        <fieldset class="collapse">
+                    {% else %}
+                        <fieldset>
+                    {% endif %}
+                        <legend>{{ layout_item.fieldset.title }}</legend>
+                {% endif %}
+
+                {% if layout_item.fieldset.description %}
+                    <p>{{ layout_item.fieldset.description }}</p>
+                {% endif %}
+
+                {% for row in layout_item.rows %}
+                    <div class="row {% if field.errors %}error{% endif %}">
+                        {% if row|typename == 'dict' %}
+                            {% include 'arctic/partials/form_field.html' with field=row.field style=row.column %}
+                        {% else %}
+                            {% for field in row %}
+                                {% include 'arctic/partials/form_field.html' with field=field.field style=field.column %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% if layout_item.fieldset.title %}
+                    </fieldset>
+                {% endif %}
+            {% endfor %}
+
+        {% else %}
+
+            {% for field in form %}
+                {% include 'arctic/partials/form_field.html' with field=field%}
+            {% endfor %}
+
+        {% endif %}
+    </div>
+</div>

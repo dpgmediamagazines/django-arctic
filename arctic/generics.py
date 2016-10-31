@@ -4,11 +4,11 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, PermissionDenied)
+from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
-from django.utils import formats
+from django.utils.formats import get_format
 from django.utils.http import quote
 from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
@@ -17,8 +17,10 @@ from django.views import generic as base
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin)
-from .utils import (find_attribute, find_field_meta, get_attribute, menu)
+from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
+                     LayoutMixin)
+from .utils import (find_attribute, find_field_meta, get_attribute, menu,
+                    view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -46,8 +48,6 @@ class View(RoleAuthentication, base.View):
         if (not request.user.is_authenticated()) and self.requires_login:
             return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
                                             quote(request.get_full_path())))
-        if not self.has_perm(request.user):
-            raise PermissionDenied
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -89,13 +89,37 @@ class View(RoleAuthentication, base.View):
         """
         Breadcrumb format: (('name', 'url'), ...) or None if not used.
         """
-        return self.breadcrumbs
+        if not self.breadcrumbs:
+            return None
+        else:
+            allowed_breadcrumbs = []
+            for breadcrumb in self.breadcrumbs:
+
+                # check permission based on named_url
+                if breadcrumb[1] is not None \
+                        and not view_from_url(
+                            breadcrumb[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_breadcrumbs.append(breadcrumb)
+            return allowed_breadcrumbs
 
     def get_tabs(self):
         """
         Tabs format: (('name', 'url'), ...) or None if tabs are not used.
         """
-        return self.tabs
+        if not self.tabs:
+            return None
+        else:
+            allowed_tabs = []
+            for tab in self.tabs:
+
+                # check permission based on named_url
+                if not view_from_url(tab[1]).has_permission(self.request.user):
+                    continue
+
+                allowed_tabs.append(tab)
+            return allowed_tabs
 
     def get_page_title(self):
         return self.page_title
@@ -130,13 +154,12 @@ class View(RoleAuthentication, base.View):
     def get_datetime_formats(self):
         dtformats = {}
 
-        dtformats['SHORT_DATE'] = formats.get_format("SHORT_DATE_FORMAT",
-                                                     lang=get_language())
-        dtformats['TIME'] = formats.get_format("TIME_FORMAT",
-                                               lang=get_language())
-        dtformats['SHORT_DATETIME'] = formats.get_format(
-            "SHORT_DATETIME_FORMAT",
-            lang=get_language())
+        dtformats['SHORT_DATE'] = get_format('DATE_INPUT_FORMATS',
+                                             get_language())[0]
+        dtformats['TIME'] = get_format('TIME_INPUT_FORMATS',
+                                       get_language())[0]
+        dtformats['SHORT_DATETIME'] = get_format('DATETIME_INPUT_FORMATS',
+                                                 get_language())[0]
 
         return dtformats
 
@@ -186,6 +209,7 @@ class ListView(View, base.ListView):
     action_links = []  # "Action" links on item level. For example "Edit"
     field_links = {}
     field_classes = {}
+    tool_links_icon = 'fa-wrench'
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
 
@@ -244,7 +268,18 @@ class ListView(View, base.ListView):
         return self.fields
 
     def get_field_links(self):
-        return self.field_links
+        if not self.field_links:
+            return {}
+        else:
+            allowed_field_links = {}
+            for field, url in self.field_links.items():
+
+                # check permission based on named_url
+                if not view_from_url(url).has_permission(self.request.user):
+                    continue
+
+                allowed_field_links[field] = url
+            return allowed_field_links
 
     def get_field_classes(self):
         return self.field_classes
@@ -312,7 +347,12 @@ class ListView(View, base.ListView):
                 item = [get_attribute(obj, 'pk')]
                 for field_name in self.fields:
                     if isinstance(field_name, tuple):
-                        value = find_attribute(obj, field_name[0])
+                        try:
+                            virtual_field_name = "get_{}_field".\
+                                format(field_name[0])
+                            value = getattr(self, virtual_field_name)(obj)
+                        except AttributeError:
+                            value = find_attribute(obj, field_name[0])
                     else:
                         try:
                             # Get the choice display value
@@ -323,7 +363,12 @@ class ListView(View, base.ListView):
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
                         except AttributeError:
-                            value = find_attribute(obj, field_name)
+                            try:
+                                virtual_field_name = "get_{}_field".\
+                                    format(field_name)
+                                value = getattr(self, virtual_field_name)(obj)
+                            except AttributeError:
+                                value = find_attribute(obj, field_name)
 
                     item.append(value)
                 items.append(item)
@@ -331,10 +376,16 @@ class ListView(View, base.ListView):
 
     def get_action_links(self):
         if not self.action_links:
-            return None
+            return []
         else:
             allowed_action_links = []
             for link in self.action_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
@@ -345,10 +396,16 @@ class ListView(View, base.ListView):
 
     def get_tool_links(self):
         if not self.tool_links:
-            return None
+            return []
         else:
             allowed_tool_links = []
             for link in self.tool_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
                 icon = None
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
@@ -356,6 +413,9 @@ class ListView(View, base.ListView):
                                            'url': link[1],
                                            'icon': icon})
             return allowed_tool_links
+
+    def get_tool_links_icon(self):
+        return self.tool_links_icon
 
     def get_prefix(self):
         return self.prefix + '-' if self.prefix else ''
@@ -418,13 +478,14 @@ class ListView(View, base.ListView):
         context['list_items'] = self.get_list_items(context['object_list'])
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
+        context['tool_links_icon'] = self.get_tool_links_icon()
         if self.filter_fields or self.search_fields:
             context['has_filter'] = True
             context['filter'] = self.filterset
         return context
 
 
-class CreateView(View, SuccessMessageMixin, base.CreateView):
+class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -434,7 +495,7 @@ class CreateView(View, SuccessMessageMixin, base.CreateView):
         return self.page_title
 
 
-class UpdateView(SuccessMessageMixin, View, LinksMixin,
+class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
                  extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
@@ -449,10 +510,11 @@ class UpdateView(SuccessMessageMixin, View, LinksMixin,
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['links'] = self.get_links()
+        context['layout'] = self.get_layout()
         return context
 
 
-class FormView(View, SuccessMessageMixin, base.FormView):
+class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 
@@ -487,12 +549,17 @@ class LoginView(TemplateView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
-    messages = []
+
+    def __init__(self, *args, **kwargs):
+        super(TemplateView, self).__init__(*args, **kwargs)
+        # thread-safe definition of messages.
+        self.messages = []
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(LoginView, self).get_context_data(**kwargs)
         context['next'] = self.request.GET.get('next', '/')
+        context['username'] = self.request.POST.get('username', '')
         context['messages'] = set(self.messages)
         return context
 
@@ -503,7 +570,7 @@ class LoginView(TemplateView):
     def post(self, request, *args, **kwargs):
         user = authenticate(username=request.POST['username'],
                             password=request.POST['password'])
-        if user:
+        if user and user.is_active:
             login(request, user)
             return redirect(request.GET.get('next', '/'))
 
