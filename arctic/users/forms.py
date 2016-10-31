@@ -12,6 +12,12 @@ from arctic.loading import get_user_role_model
 User = get_user_model()
 UserRole = get_user_role_model()
 
+# it would be even nicer to raise an error here to explicitly
+# ask user to set these properties but we need backwards compatibility
+DEFAULT_FIELDS = (User.USERNAME_FIELD, 'email', 'is_active')
+FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', DEFAULT_FIELDS)
+FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', DEFAULT_FIELDS)
+
 
 class UserRoleForm(forms.ModelForm):
     class Meta:
@@ -22,7 +28,7 @@ class UserRoleForm(forms.ModelForm):
 class UserCreationForm(user_forms.UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_active',)
+        fields = FIELDS_CREATE
 
 
 class UserCreationMultiForm(MultiModelForm):
@@ -55,7 +61,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_active',)
+        fields = FIELDS_UPDATE
 
     def save(self, commit=True):
         user = super(UserChangeForm, self).save(commit=False)
