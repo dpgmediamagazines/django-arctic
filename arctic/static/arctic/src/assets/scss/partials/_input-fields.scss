@@ -131,7 +131,6 @@ fieldset p {
     padding-right: 1em;
 
     input {
-        // position: absolute;
         display: none;
         top: 10em;
         z-index:-10;
@@ -147,4 +146,5 @@ fieldset p {
         content: "\f06e";
         color: $black;
     }
+
 }
