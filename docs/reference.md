@@ -337,6 +337,8 @@ collapsed.
 
 Examples:
 ```python
+    from collections import OrderedDict
+
     layout = OrderedDict([
                             ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
                             ('fieldset2', ['tags']),
@@ -353,5 +355,48 @@ Examples:
 # Apps
 
 ## users
+Defines views and forms for easy user management. Lives under `arctic.users` directory.
+By default provides `Create` and `Update` forms with following fields:
+* username field(the field, defined as `USERNAME_FIELD` attribute)
+* email
+* is_active
 
-TBD
+You can override this behaviour with `FIELDS_CREATE` and `FIELDS_UPDATE` fields in your user model.
+
+Example of custom user model:
+```python
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    REQUIRED_FIELDS = ['password']
+    USERNAME_FIELD = 'email'
+
+    FIELDS_CREATE = ['email', 'is_active']
+    FIELDS_UPDATE = ['is_active']
+
+    # rest of the model code ...
+```
+
+ExYou can simply use built-in views:
+```python
+from arctic.users.views import (UserCreateView, UserListView, UserUpdateView)
+from django.conf.urls import url, include
+
+user_patterns = [
+    include([
+        url(r'^$', UserListView.as_view(), name='list'),
+        url(r'^create/$', UserCreateView.as_view(), name='create'),
+        url(r'^(?P<email>\w+)/$', UserUpdateView.as_view(), name='detail'),
+    ], namespace='users')
+]
+```
+Or inherit your classes to overwrite default behaviour and links. Please not that if you want to use
+built-in views you need to define their urls under `users` namespace.
+
