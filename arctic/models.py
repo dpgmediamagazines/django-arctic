@@ -4,7 +4,10 @@ from django.db import models
 
 class UserRole(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='urole')
-    role = models.ForeignKey('Role')
+    role = models.ForeignKey('arctic.Role')
+
+    class Meta:
+        swappable = 'ARCTIC_USER_ROLE_MODEL'
 
 
 class Role(models.Model):
@@ -13,3 +16,6 @@ class Role(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        swappable = 'ARCTIC_ROLE_MODEL'

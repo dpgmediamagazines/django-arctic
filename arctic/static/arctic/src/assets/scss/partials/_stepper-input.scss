@@ -13,8 +13,8 @@
 		padding: $marginSmall $marginLarge;
 		color: $white;
 		font-size: $fontSizeSmall;
-		background-color: $green;
-		border: 1px solid darken($green, 10);
+		background-color: $highlight-background;
+		border: 1px solid darken($highlight-background, 10);
 		border-radius: 4px;
 	}
 

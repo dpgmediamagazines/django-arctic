@@ -6,9 +6,17 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
+from django.forms import model_to_dict
+from django.utils import six
 
-from .models import (Role, UserRole)
+from collections import OrderedDict
+
+from arctic.loading import (get_role_model, get_user_role_model)
+from arctic.utils import view_from_url
+
+Role = get_role_model()
+UserRole = get_user_role_model()
 
 
 class SuccessMessageMixin(object):
@@ -49,17 +57,219 @@ class LinksMixin(object):
         else:
             allowed_links = []
             for link in self.links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
                 allowed_links.append(link)
             return allowed_links
 
 
-class RoleAuthentication():
+class LayoutMixin(object):
+    """
+    Adding customizable fields to view. Using the 12-grid system, you
+    can now give fields a css-attribute. See reference for more information
+
+    This is how layouts are built:
+        Fieldset
+          \-->  Rows
+                  \--> Fields
+    """
+    layout = None
+    _fields = []
+    ALLOWED_COLUMNS = 12        # There are 12 columns available
+
+    def get_layout(self):
+        if not self.layout:
+            return None
+
+        self._get_fields()
+
+        allowed_rows = OrderedDict()
+        i = 0
+        if type(self.layout) is OrderedDict:
+            for fieldset, rows in self.layout.items():
+                fieldset = self._return_fieldset(fieldset)
+                if type(rows) is str:
+                    allowed_rows.update({i: {'fieldset': fieldset,
+                                             'rows': rows}})
+                else:
+                    row = self._process_first_level(rows)
+                    allowed_rows.update({i: {'fieldset': fieldset,
+                                             'rows': row}})
+                i += 1
+
+        elif type(self.layout) in (list, tuple):
+            row = self._process_first_level(self.layout)
+            fieldset = self._return_fieldset(0)
+            allowed_rows.update({i: {'fieldset': fieldset,
+                                     'rows': row}})
+
+        else:
+            raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
+                                       'an OrderedDict')
+
+        return allowed_rows
+
+    def _get_fields(self):
+        mtd = model_to_dict(self.object)
+        self._fields = [field for field, val in mtd.items()]
+
+    def _process_first_level(self, rows):
+        allowed_rows = []
+        for row in rows:
+            if type(row) is str:
+                allowed_rows.append(self._return_field(row))
+            elif type(row) in (list, tuple):
+                rows = self._process_row(row)
+                allowed_rows.append(rows)
+        return allowed_rows
+
+    def _process_row(self, row):
+        has_column = {}
+        has_no_column = {}
+        sum_existing_column = 0
+
+        _row = {}
+        for index, field in enumerate(row):
+            # Yeah, like this isn't incomprehensible yet. Let's add recursion
+            if type(field) in (list, OrderedDict):
+                _row[index] = self._process_row(field)
+            elif type(field) == str:
+                name, column = self._split_str(field)
+                if column:
+                    has_column[index] = self._return_field(field)
+                    sum_existing_column += int(column)
+                else:
+                    has_no_column[index] = field
+
+        col_avg, col_last = self._calc_avg_and_last_val(has_no_column,
+                                                        sum_existing_column)
+        has_no_column = self._set_has_no_columns(has_no_column,
+                                                 col_avg,
+                                                 col_last)
+
+        # Merge it all back together to a dict, to preserve the order
+        for index, field in enumerate(row):
+            if index in has_column:
+                _row[index] = has_column[index]
+            if index in has_no_column:
+                _row[index] = has_no_column[index]
+
+        rows_to_list = [field
+                        for index, field in _row.items()]
+
+        return rows_to_list
+
+    def _set_has_no_columns(self, has_no_column, col_avg, col_last):
+        """
+        Regenerate has_no_column by adding the amount of columns at the end
+        """
+        for index, field in has_no_column.items():
+            if index == len(has_no_column):
+                field_name = '{field}|{col_last}'.format(field=field,
+                                                         col_last=col_last)
+                has_no_column[index] = self._return_field(field_name)
+            else:
+                field_name = '{field}|{col_avg}'.format(field=field,
+                                                        col_avg=col_avg)
+                has_no_column[index] = self._return_field(field_name)
+        return has_no_column
+
+    def _return_fieldset(self, fieldset):
+        """
+        This function became a bit messy, since it needs to deal with two
+        cases.
+
+        1) No fieldset, which is represented as an integer
+        2) A fieldset
+        """
+        collapsible = False
+        description = None
+        try:
+            # Make sure strings with numbers work as well, do this
+            int(fieldset)
+            title = None
+        except ValueError:
+            if fieldset.count('|') > 1:
+                raise ImproperlyConfigured('The fieldset name does not '
+                                           'support more than one | sign. '
+                                           'It\'s meant to separate a '
+                                           'fieldset from it\'s '
+                                           'description.')
+
+            title = fieldset
+            if fieldset[0] == '-':
+                collapsible = True
+                title = fieldset[1:]
+            if '|' in fieldset:
+                title, description = fieldset.split('|')
+
+        return {'title': title,
+                'description': description,
+                'collapsible': collapsible}
+
+    def _calc_avg_and_last_val(self, has_no_column, sum_existing_columns):
+        """
+        Calculate the average of all columns and return a rounded down number.
+        Store the remainder and add it to the last row. Could be implemented
+        better. If the enduser wants more control, he can also just add the
+        amount of columns. Will work fine with small number (<4) of items in a
+        row.
+
+        :param has_no_column:
+        :param sum_existing_columns:
+        :return: average, columns_for_last_element
+        """
+        sum_no_columns = len(has_no_column)
+        columns_left = self.ALLOWED_COLUMNS - sum_existing_columns
+
+        if sum_no_columns == 0:
+            columns_avg = columns_left
+        else:
+            columns_avg = int(columns_left / sum_no_columns)
+
+        remainder = columns_left - (columns_avg * sum_no_columns)
+        columns_for_last_element = columns_avg + remainder
+        return columns_avg, columns_for_last_element
+
+    def _split_str(self, field):
+        """
+        Split title|7 into (title, 7)
+        """
+        field_items = field.split('|')
+        if len(field_items) == 2:
+            return field_items[0], field_items[1]
+        elif len(field_items) == 1:
+            return field_items[0], None
+
+    def _return_field(self, field):
+        field_name, field_class = self._split_str(field)
+        if field_name in self._fields:
+            return {
+                'name': field_name,
+                'column': field_class,
+                'field': self.get_form()[field_name],
+            }
+        else:
+            return None
+
+
+class RoleAuthentication(object):
     """
     This class adds a role relation to the standard django auth user to add
     support for role based permissions in any class - usually a View.
     """
-    required_permission = None
     ADMIN = 'admin'
+    permission_required = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.has_permission(request.user):
+            raise PermissionDenied()
+        return super(RoleAuthentication, self).dispatch(
+            request, *args, **kwargs)
 
     @classmethod
     def sync(cls):
@@ -105,18 +315,73 @@ class RoleAuthentication():
             unused_role.is_active = False
             unused_role.save()
 
-    def has_perm(self, user):
-        if not self.required_permission:
+    @classmethod
+    def get_permission_required(cls):
+        """
+        Get permission required property.
+        Must return an iterable.
+        """
+
+        if cls.permission_required is None:
+            raise ImproperlyConfigured(
+                '{0} is missing the permission_required attribute. '
+                'Define {0}.permission_required, or override '
+                '{0}.get_permission_required().'.format(cls.__name__)
+            )
+        if isinstance(cls.permission_required, six.string_types):
+            if cls.permission_required != "":
+                perms = (cls.permission_required,)
+            else:
+                perms = ()
+        else:
+            perms = cls.permission_required
+
+        return perms
+
+    @classmethod
+    def has_permission(cls, user):
+        """
+        We override this method to customize the way permissions are checked.
+        Using our roles to check permissions.
+        """
+        # no login is needed, so its always fine
+        if not cls.requires_login:
             return True
+
+        # if user is somehow not logged in
+        if not user.is_authenticated():
+            return False
+
+        # attribute permission_required is mandatory, returns tuple
+        perms = cls.get_permission_required()
+        # if perms are defined and empty, we skip checking
+        if not perms:
+            return True
+
+        # get role of user, skip admin role
         role = UserRole.objects.get(user=user).role.name
-        if role == self.ADMIN:
+        if role == cls.ADMIN:
             return True
-        result = self.required_permission in settings.ARCTIC_ROLES[role]
+
+        # check if at least one permissions is valid
+        for permission in perms:
+            if cls.check_permission(role, permission):
+                return True
+
+        # permission denied
+        return False
+
+    @classmethod
+    def check_permission(cls, role, permission):
+        """
+        Check if role contains permission
+        """
+        result = permission in settings.ARCTIC_ROLES[role]
         # will try to call a method with the same name as the permission
         # to enable an object level permission check.
         if result:
             try:
-                return getattr(self, self.required_permission)(role)
+                return getattr(cls, permission)(role)
             except AttributeError:
                 pass
         return result

@@ -30,13 +30,13 @@
                         <li>
                             <a href="#" class="user">{{ request.user.username }}</a>
                             <ul class="menu">
-                                <li>
+                                <li id="menu-logout">
                                 	<a href="{% url 'login' %}">Logout</a>
                                 </li>
                             </ul>
                         </li>
                         {% else %}
-                        <li>
+                        <li id="menu-login">
                         	<a href="{% url 'login' %}">Login</a>
                         </li>
                         {% endif %}

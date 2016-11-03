@@ -20,20 +20,16 @@ function lowerCaseKeys(dict) {
 // datepicker spec
 function django2datepicker(django_format) {
     var translation_dict = {
+        '%': '',
         'y': 'yy',
         'Y': 'yyyy',
-        'n': 'm',
         'm': 'mm',
-        'j': 'd',
         'd': 'dd',
-        'h': 'hh',
         'H': 'hh',
-        'G': 'h',
-        'g': 'h',
-        'i': 'ii',
-        'a': 'aa',
-        'A': 'AA',
-        'P': 'hh:ii aa'
+        'I': 'hh',
+        'M': 'ii',
+        'p': 'aa',
+        'S': ''
     }
 
     var datepicker_format = '';
@@ -44,6 +40,10 @@ function django2datepicker(django_format) {
         else {
             datepicker_format += django_format[i];
         }
+    }
+    
+    if (datepicker_format.slice(-1) == ':') {
+        datepicker_format = datepicker_format.slice(0, -1);
     }
 
     return datepicker_format;
@@ -132,7 +132,7 @@ function set_input_widgets() {
         $(this).datepicker({
             todayButton: true,
             language: 'en',
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	dateFormat: django2datepicker(DATE_FORMAT)
         });
     });
@@ -141,7 +141,7 @@ function set_input_widgets() {
         $(this).datepicker({
             onlyTimepicker: true,
             language: 'en',
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
         });
@@ -151,7 +151,7 @@ function set_input_widgets() {
         $(this).datepicker({
             language: 'en',
             todayButton: true,
-            startDate: new Date($(this).attr("date")),
+            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
         	dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
@@ -162,18 +162,17 @@ function set_input_widgets() {
 // jquery stuff goes here
 $(document).ready(function() {
 
-    // Toggle menu hamburger to cross
-    $('#menu-button').click(function (e) {
-        $('#menu-button').toggleClass('is-active');
-        // e.preventDefault();
+    // Toggle menu burger to cross
+    var canvas = $( '.off-canvas' );
+    var hamburger = $('#menu-button');
+
+    canvas.on('opened.zf.offcanvas', function () {
+        hamburger.addClass('is-active');
     });
 
-    // Toggle back menu button into hamburger when clicking overlay
-    $('.js-off-canvas-exit').click(function(e) {
-        $('#menu-button').removeClass('is-active');
-        // e.preventDefault();
+    canvas.on('closed.zf.offcanvas', function () {
+        hamburger.removeClass('is-active');
     });
-
 
     // Stepper input
     var $stepperInput = $('.stepper-input input');

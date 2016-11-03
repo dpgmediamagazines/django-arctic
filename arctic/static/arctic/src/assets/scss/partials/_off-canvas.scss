@@ -50,7 +50,7 @@
                     padding: 0.3rem 0 0.4rem 8px;
                     display: block;
                     position: relative;
-                    color: $green;
+                    color: $highlight-background;
                     background-color: $white;
 
                     .right {
@@ -74,7 +74,7 @@
                         height: 100%;
                         width: 4px;
                         content: "";
-                        background: $green;
+                        background: $highlight-background;
                     }
                 }
             }
@@ -110,7 +110,7 @@
                     height: 100%;
                     width: 4px;
                     content: "";
-                    background: $green;
+                    background: $highlight-background;
                 }
             }
         }
@@ -132,7 +132,7 @@
                     &.active {
                         position: relative;
                         display: block;
-                        color: $green;
+                        color: $highlight-background;
 
                         &:hover {
                             background: transparent;
