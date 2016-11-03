@@ -1,19 +1,6 @@
-import pytest
-
 from django.contrib.auth import get_user_model
-from django.test import Client
 
 User = get_user_model()
-
-
-@pytest.fixture
-def admin_client(admin_user):
-    """
-    Get Django client with logged in admin user
-    """
-    _client = Client()
-    _client.login(username='admin', password='password')
-    return _client
 
 
 def get_form(form):
