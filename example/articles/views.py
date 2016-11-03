@@ -73,7 +73,6 @@ class ArticleUpdateView(UpdateView):
     #     ('Detail', 'articles:detail'),
     #     ('Tags', 'articles:detail-tags'),
     # ]
-    permission_required = ""
 
     def get_urls(self):
         return {

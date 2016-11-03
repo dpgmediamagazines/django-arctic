@@ -1,7 +1,20 @@
 import pytest
 
+from django.contrib.auth import get_user_model
+from django.test import Client
+
 from articles.models import Article, Category
 from articles.forms import ArticleForm
+
+
+User = get_user_model()
+
+
+@pytest.fixture
+def admin_client(admin_user):
+    _client = Client()
+    _client.force_login(User.objects.get(username='admin'))
+    return _client
 
 
 @pytest.fixture
@@ -45,3 +58,4 @@ def get_form(form):
             return {field.name: field
                     for field in form}
     return _get_form
+
