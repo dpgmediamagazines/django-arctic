@@ -47,8 +47,8 @@ class ArticleListView(ListView):
     filter_fields = ['published']
     permission_required = "articles_view"
 
-    # def get_category_field(self, row):
-    #     return '<b>' + row.category.name + '</b>'
+    def get_category_field(self, row):
+        return row.category.name
 
 
 class ArticleUpdateView(UpdateView):
