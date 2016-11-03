@@ -33,7 +33,7 @@ class TestListView(object):
         """
         Paginated List view
         """
-        articles = [ArticleFactory() for i in range(10)]
+        [ArticleFactory() for i in range(10)]
 
         response = self._request(admin_client)
         self._assert_list_items_len(response, 2)
