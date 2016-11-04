@@ -1,7 +1,9 @@
 import datetime
 
-from factory import DjangoModelFactory, Sequence, SubFactory, fuzzy
+from django.contrib.auth import get_user_model
+from factory import DjangoModelFactory, Sequence, SubFactory, fuzzy, PostGenerationMethodCall, post_generation
 
+from arctic.models import Role, UserRole
 from articles.models import Article, Category
 
 
@@ -19,3 +21,18 @@ class ArticleFactory(DjangoModelFactory):
 
     class Meta:
         model = Article
+
+
+class UserFactory(DjangoModelFactory):
+    email = Sequence(lambda n: 'user{}@test.com'.format(n))
+    username = Sequence(lambda n: 'user{}'.format(n))
+    password = PostGenerationMethodCall('set_password', 'password')
+    is_active = True
+
+    @post_generation
+    def set_urole(self, create, *args, **kwargs):
+        if create:
+            UserRole.objects.create(user=self, role=Role.objects.get(name='editor'))
+
+    class Meta:
+        model = get_user_model()
