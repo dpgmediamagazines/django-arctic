@@ -1,7 +1,8 @@
 import datetime
 
 from django.contrib.auth import get_user_model
-from factory import DjangoModelFactory, Sequence, SubFactory, fuzzy, PostGenerationMethodCall, post_generation
+from factory import DjangoModelFactory, Sequence, \
+    SubFactory, fuzzy, PostGenerationMethodCall, post_generation
 
 from arctic.models import Role, UserRole
 from articles.models import Article, Category
@@ -32,7 +33,8 @@ class UserFactory(DjangoModelFactory):
     @post_generation
     def set_urole(self, create, *args, **kwargs):
         if create:
-            UserRole.objects.create(user=self, role=Role.objects.get(name='editor'))
+            UserRole.objects.create(
+                user=self, role=Role.objects.get(name='editor'))
 
     class Meta:
         model = get_user_model()

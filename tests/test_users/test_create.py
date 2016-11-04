@@ -21,12 +21,17 @@ class TestUserCreate(object):
         email = 'u1@test.test'
 
         response = admin_client.post(
-            self.url, {'user-username': username, 'user-email': email, 'user-password1': 'qqqqqq22222',
-                       'user-password2': 'qqqqqq22222', 'user-is_active': True, 'role-role': Role.objects.all()[0].pk}
+            self.url, {'user-username': username,
+                       'user-email': email,
+                       'user-password1': 'qqqqqq22222',
+                       'user-password2': 'qqqqqq22222',
+                       'user-is_active': True,
+                       'role-role': Role.objects.all()[0].pk}
         )
         assert response.status_code == 302
         assert django_user_model.objects.count() == 2
-        user = django_user_model.objects.filter(username=username, email=email).first()
+        user = django_user_model.objects.filter(
+            username=username, email=email).first()
         assert user is not None
 
     def test_user_exist_submit(self, django_user_model, admin_client):
@@ -36,8 +41,12 @@ class TestUserCreate(object):
         assert django_user_model.objects.count() == 2
 
         response = admin_client.post(
-            self.url, {'user-username': username, 'user-email': email, 'user-password1': 'qqqqqq22222',
-                       'user-password2': 'qqqqqq22222', 'user-is_active': True, 'role-role': Role.objects.all()[0].pk}
+            self.url, {'user-username': username,
+                       'user-email': email,
+                       'user-password1': 'qqqqqq22222',
+                       'user-password2': 'qqqqqq22222',
+                       'user-is_active': True,
+                       'role-role': Role.objects.all()[0].pk}
         )
         assert response.status_code == 200
         assert django_user_model.objects.count() == 2

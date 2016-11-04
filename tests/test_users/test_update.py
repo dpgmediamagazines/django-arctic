@@ -1,6 +1,6 @@
 import pytest
 
-from arctic.models import UserRole, Role
+from arctic.models import Role
 from django.core.urlresolvers import reverse
 
 from tests.factories import UserFactory
@@ -12,7 +12,7 @@ class TestUserUpdate(object):
     def get_url(self, pk):
         return reverse('users:detail', kwargs={'pk': pk})
 
-    def test_update_page(self, django_user_model, admin_client):
+    def test_update_page(self, admin_client):
         user = UserFactory()
 
         response = admin_client.get(self.get_url(user.pk))
@@ -26,7 +26,9 @@ class TestUserUpdate(object):
 
         response = admin_client.post(
             self.get_url(user.pk),
-            {'user-email': email, 'role-role': Role.objects.get(name='editor').pk, 'user-username': username, }
+            {'user-email': email,
+             'role-role': Role.objects.get(name='editor').pk,
+             'user-username': username, }
         )
 
         assert response.status_code == 302
