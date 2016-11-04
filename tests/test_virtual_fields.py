@@ -1,71 +1,47 @@
 import pytest
 
-from arctic.generics import ListView
-from .conftest import article
+from django.core.urlresolvers import reverse
+
+from articles.views import ArticleListView
+from tests.factories import ArticleFactory
 
 
-@pytest.fixture
-def virtual_fields_example_1():
-    class TestListView(ListView):
-        paginate_by = 2
-        fields = ['title', 'description', 'published', 'content_type']
-        permission_required = "articles_view"
-        queryset = article()
+@pytest.mark.django_db
+class TestVirtualFields(object):
+    def _request(self, admin_client):
+        response = admin_client.get(reverse('articles:list'))
+        assert response.status_code == 200
+        return response
 
-    return TestListView()
+    def _assert_list_items_len(self, response, length):
+        assert 'list_items' in response.context_data
+        assert len(response.context_data['list_items']) == length
 
+    def test_virtual_field(self, admin_client):
+        """
+        Virtual field displayed in ListView
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'category']
+        response = self._request(admin_client)
+        self._assert_list_items_len(response, 1)
 
-def test_virtual_fields_example_1(article, virtual_fields_example_1):
-    list_view = virtual_fields_example_1
+        item = response.context_data['list_items'][0]
+        assert item[1] == article.title
+        assert item[2] == article.description
+        assert item[3] == article.published
+        assert item[4] == article.category.name
 
-    with pytest.raises(AttributeError) as excinfo:
-        list_view.get_list_items([article])
+    def test_missing_virtual_field(self, admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'virtual_field']
+        with pytest.raises(AttributeError) as excinfo:
+            view.get_list_items([article])
 
-    message = "'Article' object has no attribute 'content_type'"
-    assert str(excinfo.value) == message
-
-
-@pytest.fixture
-def virtual_fields_example_2():
-    class TestListView(ListView):
-        paginate_by = 2
-        fields = ['title', 'description', 'published', 'virtual_field']
-        permission_required = "articles_view"
-        queryset = article()
-
-        def get_virtual_field_field(self, row):
-            return 'Virtual Field: ' + row.title
-
-    return TestListView()
-
-
-def test_virtual_fields_example_2(article, virtual_fields_example_2):
-    list_view = virtual_fields_example_2
-    res = list_view.get_list_items([article])
-
-    assert res[0][0] is None
-    assert res[0][1] == 'title1'
-    assert res[0][2] == 'description1'
-    assert res[0][3] == 'published1'
-    assert res[0][4] == 'Virtual Field: title1'
-
-
-@pytest.fixture
-def virtual_fields_example_3():
-    class TestListView(ListView):
-        paginate_by = 2
-        fields = ['title', 'description', 'published', 'virtual_field']
-        permission_required = "articles_view"
-        queryset = article()
-
-    return TestListView()
-
-
-def test_virtual_fields_example_3(article, virtual_fields_example_3):
-    list_view = virtual_fields_example_3
-
-    with pytest.raises(AttributeError) as excinfo:
-        list_view.get_list_items([article])
-
-    message = "'Article' object has no attribute 'virtual_field'"
-    assert str(excinfo.value) == message
+        message = "'Article' object has no attribute 'virtual_field'"
+        assert str(excinfo.value) == message

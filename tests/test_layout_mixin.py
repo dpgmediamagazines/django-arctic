@@ -2,7 +2,10 @@ import pytest
 from collections import OrderedDict
 
 from arctic.mixins import LayoutMixin
-from .conftest import article, article_form, get_form
+from articles.forms import ArticleForm
+
+from tests.conftest import get_form
+from tests.factories import ArticleFactory
 
 
 @pytest.fixture
@@ -11,11 +14,13 @@ def layout():
         layout = None
 
         def __init__(self):
-            self.object = article()
-            self.form = article_form()
+            self.object = ArticleFactory()
+            self.form = ArticleForm(instance=self.object)
             self.get_form = get_form(self.form)
 
     return Layout()
+
+pytestmark = pytest.mark.django_db
 
 
 def test_layout_example_1(layout):
