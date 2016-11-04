@@ -1,13 +1,16 @@
 import pytest
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 
 from tests.factories import UserFactory
 
 
 @pytest.mark.django_db
 class TestUserList(object):
-    url = reverse_lazy('users:list')
+
+    @property
+    def url(self):
+        return reverse('users:list')
 
     def test_user_list(self, admin_client):
         [UserFactory() for i in range(10)]

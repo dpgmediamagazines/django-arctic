@@ -27,7 +27,7 @@ class TestUserUpdate(object):
         response = admin_client.post(
             self.get_url(user.pk),
             {'user-email': email,
-             'role-role': Role.objects.get(name='editor').pk,
+             'role-role': str(Role.objects.get(name='editor').pk),
              'user-username': username, }
         )
 

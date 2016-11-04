@@ -1,14 +1,16 @@
 import pytest
 
 from arctic.models import Role
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 
 from tests.factories import UserFactory
 
 
 @pytest.mark.django_db
 class TestUserCreate(object):
-    url = reverse_lazy('users:create')
+    @property
+    def url(self):
+        return reverse('users:create')
 
     def test_create_page(self, admin_client):
         response = admin_client.get(self.url)
