@@ -14,17 +14,23 @@
     * data-delete-placeholder - field to check as delete
  */
 
-var sortable = {
-    element: $( '[data-sortable]' ),
-    rowClass: "",
-    row: "",
-    sortHandle: "",
-    sortPlaceholder: "",
-    deleteHandle: "",
-    deletePlaceholder: "",
+( function ( $, Sort ) {
 
-    init: function () {
-        var self = this;
+    'use strict'
+
+    function Sortable( element ) {
+        this.element = $( '[data-sortable]' )
+        this.rowClass = ""
+        this.row = ""
+        this.sortHandle = ""
+        this.deleteHandle = ""
+        this.deletePlaceholder = ""
+
+        self = this
+        self.init()
+    }
+
+    Sortable.prototype.init = function ( ) {
 
         // is there a sortable element?
         if ( self.element.size() ) {
@@ -48,13 +54,11 @@ var sortable = {
 
             // create a sortable list
             self.sorting();
-        };
-    },
+        }
+    }
 
 
-    sorting: function () {
-        var self = this
-
+    Sortable.prototype.sorting = function ( ) {
         // convert jquery element in javascript element
         let htmlElement = self.element.get(0);
 
@@ -74,32 +78,35 @@ var sortable = {
         }
 
         // init sortable
-        var sortable = Sortable.create( htmlElement, config );
+        var sortable = Sort.create( htmlElement, config );
     },
 
 
-    recalc: function () {
-        var self = this;
+    Sortable.prototype.recalc = function () {
         var items = $( self.rowClass );
-
-        // where to same positions?
-        self.sortPlaceholder = self.element.data( 'sort-placeholder' );
 
         // update positions
         items.each( function ( i, el ) {
             let element = $( el );
             let index = parseInt( items.index( element ) );
-            let placeholder = element.find( self.sortPlaceholder );
+            let placeholder = element.data('sort-placeholder')
+
+            // find placeholder within row if not exist check outside row
+            placeholder = element.find( placeholder );
+
+            if ( !( placeholder.size() )) {
+                placeholder = $( self.sortPlaceholder );
+            }
 
             // is there something to save to?
             if ( placeholder.size() ) {
-                placeholder.val(  index  );
+                placeholder.val( index );
             }
         });
     },
 
 
-    remove: function ( el, self ) {
+    Sortable.prototype.remove = function ( el, self ) {
         let element = $( el );
         let rule = element.closest( self.rowClass );
         let ruleWrapper = rule.parent();
@@ -118,6 +125,9 @@ var sortable = {
         // recalc positions
         self.recalc();
     }
-}
 
-sortable.init()
+
+    // initiate
+    new Sortable()
+
+})( jQuery, Sortable );
