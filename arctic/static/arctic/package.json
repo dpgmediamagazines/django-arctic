@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "django-arctic frontend",
+  "name": "django-arctic-frontend",
   "homepage": "https://github.com/sanoma/django-arctic",
   "description": "Frontend build dependecies build upon foundation-zurb-template",
   "license": "See /LICENSE",
