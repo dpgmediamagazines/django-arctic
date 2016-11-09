@@ -15,7 +15,7 @@
                 {% render_field field placeholder="Search.." %}
             {% elif field|widget_type == 'daterangeinput' %}
                 <div class="field__date">
-                    {% render_field field class+='date-picker' placeholder="Date.." %}
+                    {% render_field field class+='js-datepicker' placeholder="Date.." %}
                 </div>
             {% elif field|widget_type == 'select' and not disable_chosen %}
                 {% render_field field class+='js-selectize' data-placeholder=field.label %}

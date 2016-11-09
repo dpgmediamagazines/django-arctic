@@ -14,6 +14,7 @@ Here are a few guidelines to get you started:
 - If your change is noteworthy, add an entry to the CHANGELOG.
   Use present tense, semantic newlines, and add a link to your pull request.
 - No contribution is too small; please submit as many fixes for typos and grammar bloopers as you can!
+- Add yourself to AUTHORS if you have contributed and your name is not there yet.
 - Don’t break backward compatibility.
 - **Always** add tests and docs for your code.
   This is a hard rule; patches with missing tests or documentation won’t be merged.
