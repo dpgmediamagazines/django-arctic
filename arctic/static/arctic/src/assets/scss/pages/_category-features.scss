@@ -1,0 +1,76 @@
+.category-features {
+
+    // hide order field
+    [name^="group_"] {
+        display:none;
+    }
+
+    // header
+    header {
+        padding: $marginLarge 0;
+        overflow: hidden;
+    }
+
+    header h4 {
+        line-height: 1rem;
+    }
+
+    header span {
+        float: right;
+        font-size: $fontSizeDefault;
+    }
+
+
+    // body and layout
+    tbody {
+        border-width: 1px 0 3px 1px;
+        border-style: solid solid double;
+    }
+
+    tbody:first-child {
+        border-top-color: $white $greyLight $greyLight;
+    }
+
+    td {
+        padding: .5rem 1rem;
+        border-right: 1px solid $greyLight;
+        vertical-align: middle;
+    }
+
+    td.sort-handle,
+    td.actions {
+        width:1%;
+        white-space: nowrap;
+    }
+
+
+    // row label
+    .sort-handle {
+        font-weight: bold;
+        color: $textColorDark;
+    }
+
+
+    // alignment of sort handle
+    .fa-bars {
+          padding: .75rem .75rem .75rem 0;
+          color: $textColorDark;
+    }
+
+
+    // states
+    .is-inactive {
+        color: lighten( $greyMedium, 20% );
+    }
+
+    td.actions a {
+        color: inherit;
+    }
+
+    td.actions .is-active {
+        color: $highlight-color;
+    }
+
+    // normal = default color (black)
+    // active = $hightlight-color (filter can be active)
+}

@@ -120,5 +120,30 @@ fieldset p {
 
     &:not(:first-child) {
         margin: -1.2rem 0 0 0;
-    }  
+    }
+}
+
+.visiblity-checkbox {
+    position: relative;
+    overflow: hidden;
+    display: inline;
+    padding-right: 1em;
+
+    input {
+        // position: absolute;
+        display: none;
+        top: 10em;
+        z-index:-10;
+    }
+
+    input + span:before {
+        content: "\f070";
+        font-family: $fontFamilyIcon;
+        color: lighten($greyMedium,15%);
+    }
+
+    input:checked + span:before {
+        content: "\f06e";
+        color: $black;
+    }
 }

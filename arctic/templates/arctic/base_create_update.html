@@ -31,14 +31,6 @@
 
                 {% for form in formset %}
                     {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
-
-                    {% if not forloop.last %}
-                        <div class="row">
-                            <div class="column">
-                                <hr />
-                            </div>
-                        </div>
-                    {% endif %}
                 {% endfor %}
             {% endfor %}
         {% endif %}
