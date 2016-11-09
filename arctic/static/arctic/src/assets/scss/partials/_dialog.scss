@@ -1,7 +1,15 @@
 .dialog {
     padding: 0;
 
+    $header-height: 44px;
+
     > header {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1;
+        height: $header-height;
         padding: .5rem 1rem;
         color: $white;
     }
@@ -9,6 +17,13 @@
     h3 {
         margin: 0;
         font-size: 1.25rem;
+    }
+
+    // don't use scroll of iframe, cause header needs to be sticky..
+    .block-wrapper {
+        padding-top: $header-height + $marginMedium;
+        height: 100vh;
+        overflow: scroll;
     }
 
     .close-button {
