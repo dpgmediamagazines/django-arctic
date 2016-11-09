@@ -114,8 +114,7 @@ class LayoutMixin(object):
         return allowed_rows
 
     def _get_fields(self):
-        mtd = model_to_dict(self.object)
-        self._fields = [field for field, val in mtd.items()]
+        self._fields = [field for field in self.get_form().fields]
 
     def _process_first_level(self, rows):
         allowed_rows = []
