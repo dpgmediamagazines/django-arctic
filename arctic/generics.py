@@ -19,8 +19,8 @@ import extra_views
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
-from .utils import (find_attribute, find_field_meta, get_attribute, menu,
-                    view_from_url)
+from .utils import (find_attribute, get_field_class, find_field_meta,
+                    get_attribute, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -212,6 +212,7 @@ class ListView(View, base.ListView):
     tool_links_icon = 'fa-wrench'
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
+    max_embeded_list_items = 10  # when displaying a list in a column
 
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
@@ -343,17 +344,21 @@ class ListView(View, base.ListView):
             for obj in objects:
                 items.append([obj.pk, str(obj)])
         else:
+            # remove all tuples in the field list, no need for the verbose
+            # field name here
+            fields = []
+            for field in self.fields:
+                fields.append(field[0] if type(field) in (list, tuple)
+                              else field)
             for obj in objects:
-                item = [get_attribute(obj, 'pk')]
+                # get the row's foreign key
+                row_id = get_attribute(obj, 'pk')
+                row = OrderedDict()
                 for field_name in self.fields:
-                    if isinstance(field_name, tuple):
-                        try:
-                            virtual_field_name = "get_{}_field".\
-                                format(field_name[0])
-                            value = getattr(self, virtual_field_name)(obj)
-                        except AttributeError:
-                            value = find_attribute(obj, field_name[0])
-                    else:
+                    try:  # first try to find a virtual field
+                        virtual_field_name = "get_{}_field".format(field_name)
+                        value = getattr(self, virtual_field_name)(obj)
+                    except AttributeError:  # then try get_{field}_display
                         try:
                             # Get the choice display value
                             parent_objs = '__'.join(
@@ -362,16 +367,29 @@ class ListView(View, base.ListView):
                                 field_name.split('__')[-1])
                             value = find_attribute(obj, parent_objs + '__' +
                                                    method_name)()
-                        except AttributeError:
-                            try:
-                                virtual_field_name = "get_{}_field".\
-                                    format(field_name)
-                                value = getattr(self, virtual_field_name)(obj)
-                            except AttributeError:
+                        except AttributeError:  # finally get field's value
                                 value = find_attribute(obj, field_name)
 
-                    item.append(value)
-                items.append(item)
+                    base_field_name = field_name.split('__')[0]
+                    field_class = get_field_class(objects, base_field_name)
+                    field = {'value': value}
+                    if field_class == 'ForeignKey':
+                        if field_name in self.urls:
+                            field_id = getattr(obj, base_field_name).pk
+                            
+                    elif field_class == 'ManyToManyField':
+                        #  ManyToManyField will be display as an embedded list
+                        #  capped to max_embeded_list_items, an ellipsis is
+                        #  added if there are more items than the max.
+                        m2mfield = getattr(obj, base_field_name)
+                        embeded_list = (str(l) for l in
+                                        m2mfield.all()
+                                        [:self.max_embeded_list_items + 1])
+                        if len(embeded_list) > self.max_embeded_list_items:
+                            embeded_list = embeded_list[:-1] + ['...']
+                        field['value'] = embeded_list
+                    row[field_name] = field
+                items.append(row)
         return items
 
     def get_action_links(self):

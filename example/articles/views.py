@@ -25,24 +25,24 @@ class ArticleListView(ListView):
     template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
-    fields = ['title', 'description', 'published', 'category']
+    fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
-    action_links = [
-        ('delete', 'articles:delete', 'fa-trash'),
-    ]
-    field_links = {
-        'title': 'articles:detail',
-        'published': 'articles:detail',
-        'category': ('articles:category-detail', 'category.pk'),
-    }
+    # action_links = [
+    #     ('delete', 'articles:delete', 'fa-trash'),
+    # ]
+    # field_links = {
+    #     'title': 'articles:detail',
+    #     'published': 'articles:detail',
+    #     'category': ('articles:category-detail', 'category.pk'),
+    # }
     field_classes = {
         'published': 'inline-widget boolean-circle',
     }
-    tool_links = [
-        (_('Create Article'), 'articles:create', 'fa-plus'),
-    ]
+    # tool_links = [
+    #     (_('Create Article'), 'articles:create', 'fa-plus'),
+    # ]
 
     filter_fields = ['published']
     permission_required = "articles_view"
