@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 @pytest.mark.django_db
 class TestCreateView(object):
     """
-    Test CreateView using ArticleCreateView, CategoryCreateView 
+    Test CreateView using ArticleCreateView, CategoryCreateView
     and TagCreateView from example application
     """
     @property
