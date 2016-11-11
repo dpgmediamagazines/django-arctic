@@ -1,6 +1,8 @@
 import pytest
 
 from django.core.urlresolvers import reverse
+from articles.models import Article, Category, Tag
+from tests.factories import ArticleFactory, CategoryFactory, TagFactory
 
 
 @pytest.mark.django_db
@@ -34,21 +36,35 @@ class TestCreateView(object):
         assert response.status_code == 200
 
     def test_article_submit(self, admin_client):
+        cat_test = CategoryFactory()
+        tag_test = TagFactory()
+        cat_id = Category.objects.all()[0].pk
+        tag_id = Tag.objects.all()[0].pk
         response = admin_client.post(
             self.article_url, {'title': 'Title_text',
                                'decsription': 'Description_text',
-                               'published': True}
+                               'published': True,
+                               'category': cat_id,
+                               'tags': tag_id,
+                               'updated_at': '11-11-2016 10:53'}
         )
-        assert response.status_code == 200
+        article_init = ArticleFactory()
+        articles_obj = Article.objects.count()
+        assert response.status_code == 302
+        assert articles_obj == 2
 
     def test_category_submit(self, admin_client):
         response = admin_client.post(
             self.category_url, {'name': 'test_category'}
         )
+        category_obj = Category.objects.count()
         assert response.status_code == 302
+        assert category_obj == 1
 
     def test_tag_submit(self, admin_client):
         response = admin_client.post(
             self.tag_url, {'term': 'test_tag'}
         )
+        tag_obj = Tag.objects.count()
         assert response.status_code == 302
+        assert tag_obj == 1
