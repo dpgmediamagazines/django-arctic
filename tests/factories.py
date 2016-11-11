@@ -13,6 +13,13 @@ class CategoryFactory(DjangoModelFactory):
 
     class Meta:
         model = Category
+        
+        
+class TagFactory(DjangoModelFactory):
+    term = Sequence(lambda n: 'Tag {}'.format(n))
+
+    class Meta:
+        model = Tag
 
 
 class ArticleFactory(DjangoModelFactory):
