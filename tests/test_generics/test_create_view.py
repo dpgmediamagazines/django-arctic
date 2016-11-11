@@ -36,8 +36,8 @@ class TestCreateView(object):
         assert response.status_code == 200
 
     def test_article_submit(self, admin_client):
-        cat_test = CategoryFactory()
-        tag_test = TagFactory()
+        CategoryFactory()
+        TagFactory()
         cat_id = Category.objects.all()[0].pk
         tag_id = Tag.objects.all()[0].pk
         response = admin_client.post(
@@ -48,10 +48,9 @@ class TestCreateView(object):
                                'tags': tag_id,
                                'updated_at': '11-11-2016 10:53'}
         )
-        article_init = ArticleFactory()
         articles_obj = Article.objects.count()
         assert response.status_code == 302
-        assert articles_obj == 2
+        assert articles_obj == 1
 
     def test_category_submit(self, admin_client):
         response = admin_client.post(
