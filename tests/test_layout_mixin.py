@@ -20,6 +20,7 @@ def layout():
 
     return Layout()
 
+
 pytestmark = pytest.mark.django_db
 
 
