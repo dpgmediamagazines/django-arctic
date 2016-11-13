@@ -7,12 +7,14 @@ from __future__ import (absolute_import, unicode_literals)
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
+from django.core.urlresolvers import reverse
 from django.utils import six
 
 from collections import OrderedDict
 
 from arctic.loading import (get_role_model, get_user_role_model)
 from arctic.utils import view_from_url
+from arctic.widgets import SelectAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
@@ -73,8 +75,8 @@ class LayoutMixin(object):
 
     This is how layouts are built:
         Fieldset
-          \-->  Rows
-                  \--> Fields
+          |-->  Rows
+                  |--> Fields
     """
     layout = None
     _fields = []
@@ -254,6 +256,32 @@ class LayoutMixin(object):
         else:
             return None
 
+    def get_form(self, form_class=None):
+        form = super(LayoutMixin, self).get_form(form_class=None)
+        try:
+            for field in form.fields:
+                if form.fields[field].__class__.__name__ == 'ModelChoiceField':
+                    for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
+                        field_cls = values[0].lower()
+                        if field_cls == str(form.fields[field].queryset.
+                                            model._meta):
+                            url = reverse('autocomplete', args=[key, ''])
+                            choices = ()
+                            if form.instance.pk:
+                                field_id = getattr(form.instance, field +
+                                                   '_id')
+                                field_value = getattr(form.instance, field)
+                                choices = ((field_id, field_value),)
+                            field_id = 1
+                            field_value = 'a'
+                            form.fields[field].widget = SelectAutoComplete(
+                                attrs={'url': url,
+                                       'class': 'js-selectize-autocomplete'},
+                                choices=choices)
+        except AttributeError:
+            pass
+        return form
+
 
 class RoleAuthentication(object):
     """
@@ -277,7 +305,6 @@ class RoleAuthentication(object):
         role. Roles that are no longer specified in settings are set as
         inactive.
         """
-
         try:
             settings_roles = set(settings.ARCTIC_ROLES.keys())
         except AttributeError:
@@ -319,7 +346,6 @@ class RoleAuthentication(object):
         Get permission required property.
         Must return an iterable.
         """
-
         if cls.permission_required is None:
             raise ImproperlyConfigured(
                 '{0} is missing the permission_required attribute. '

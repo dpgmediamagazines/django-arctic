@@ -122,6 +122,29 @@ function set_input_widgets() {
         });
     }
 
+    $('.js-selectize-autocomplete').each(function(index) {
+        var url = $(this).attr('url');
+        $(this).selectize({
+            valueField: 'value',
+            labelField: 'label',
+            searchField: 'label',
+            create: false,
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: url + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function() {
+                        callback();
+                    },
+                    success: function(res) {
+                        callback(res.options);
+                    }
+                });
+            }
+        });
+    });
+
     s.on( 'initialize', initializethis );
     s_tags.on( 'initialize', initializethis );
 
