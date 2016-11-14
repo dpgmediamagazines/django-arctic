@@ -494,6 +494,11 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
             return _("Create %s") % self.model._meta.verbose_name
         return self.page_title
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateView, self).get_context_data(**kwargs)
+        context['layout'] = self.get_layout()
+        return context
+
 
 class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
                  extra_views.UpdateWithInlinesView):
