@@ -262,7 +262,7 @@ class LayoutMixin(object):
             for field in form.fields:
                 if form.fields[field].__class__.__name__ == 'ModelChoiceField':
                     for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
-                        field_cls = values[0].lower()
+                        field_cls = '.'.join(values[0].lower().split('.')[-2:])
                         if field_cls == str(form.fields[field].queryset.
                                             model._meta):
                             url = reverse('autocomplete', args=[key, ''])
