@@ -145,12 +145,6 @@ function set_input_widgets() {
         });
     });
 
-    s.on( 'initialize', initializethis );
-    s_tags.on( 'initialize', initializethis );
-
-    var initializethis = function() { alert('js-selectize is initialized') };
-
-
     $('.js-datepicker').each(function(index) {
         $(this).datepicker({
             todayButton: true,
@@ -220,7 +214,7 @@ $(document).ready(function() {
 
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
-            if (tab) {
+            if (tab && (tab.text[0] != '●')) {
                 tab.text = '● ' + tab.text;
             }
             document.title = '● ' + document.title;
