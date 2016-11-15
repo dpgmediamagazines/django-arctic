@@ -201,7 +201,7 @@ class LayoutMixin(object):
                                            'description.')
 
             title = fieldset
-            if fieldset[0] == '-':
+            if fieldset and fieldset[0] == '-':
                 collapsible = True
                 title = fieldset[1:]
             if '|' in fieldset:

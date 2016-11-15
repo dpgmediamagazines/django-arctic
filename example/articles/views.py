@@ -61,7 +61,7 @@ class ArticleUpdateView(UpdateView):
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                        ('-Basic Details',
+                        ('',
                          ['title|10', ['category', 'tags|5']]),
                         ('Body|Extra Information for this fieldset',
                          ['description']),
