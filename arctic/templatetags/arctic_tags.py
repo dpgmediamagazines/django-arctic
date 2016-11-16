@@ -222,3 +222,8 @@ def keys(obj):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+
+@register.filter()
+def get_attr(obj, item, default=None):
+    return getattr(obj, item, default)
