@@ -26,18 +26,18 @@
                 {% block topbar_menu %}
                 <div class="columns shrink">
                     <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
-                        {% if request.user.username %}
+                        {% if not request.user.is_anonymous %}
                         <li>
-                            <a href="#" class="user">{{ request.user.username }}</a>
+                            <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
                             <ul class="menu">
                                 <li id="menu-logout">
-                                	<a href="{% url 'login' %}">Logout</a>
+                                	<a href="{{ LOGOUT_URL }}">Logout</a>
                                 </li>
                             </ul>
                         </li>
                         {% else %}
                         <li id="menu-login">
-                        	<a href="{% url 'login' %}">Login</a>
+                        	<a href="{{ LOGIN_URL }}">Login</a>
                         </li>
                         {% endif %}
                     </ul>
