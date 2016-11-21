@@ -68,6 +68,7 @@ PATHS:
     - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
     - "bower_components/selectize/dist/js/standalone/selectize.js"
     - "bower_components/Sortable/Sortable.min.js"
+    - "bower_components/jstree/dist/jstree.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
