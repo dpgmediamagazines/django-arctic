@@ -345,7 +345,7 @@ class ListView(View, base.ListView):
 
         return result
 
-    def get_list_items(self, objects):
+    def get_list_items(self, objects):  # noqa
         items = []
         if not self.fields:
             for obj in objects:
@@ -368,8 +368,15 @@ class ListView(View, base.ListView):
                                 field_name.split('__')[:-1])
                             method_name = 'get_{}_display'.format(
                                 field_name.split('__')[-1])
-                            value = find_attribute(obj, parent_objs + '__' +
-                                                   method_name)()
+
+                            lookup = ''
+
+                            if '' != parent_objs:
+                                lookup += parent_objs + '__'
+
+                            lookup += method_name
+
+                            value = find_attribute(obj, lookup)()
                         except AttributeError:
                             try:
                                 virtual_field_name = "get_{}_field".\
