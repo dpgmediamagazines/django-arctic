@@ -15,7 +15,10 @@
         this.data = this.element.data( 'tree' );
         this.tree = this.element.find( '[data-tree-container]' );
         this.search = this.element.find( '[data-tree-search]' );
-        this.symbolicDialog = this.element.find( "#symbolic" );
+
+        // this.symbolicDialog = this.element.find( '[data-symbolic]' );
+        this.symbolicDialog = $( '[data-symbolic]' );
+
         this.plugins = [];
 
         this.options = {};
@@ -80,7 +83,9 @@
 
         // callbacks
         self.dnd_callback = {
-            drop_check: function ( data ) { console.log( data, 'checked') }
+            drop_check: function ( data ) {
+                console.log( data, 'checked')
+            }
         }
     }
 
@@ -172,9 +177,10 @@
 
     // create symbolic
     tree.prototype.createSymbolic = function () {
+        var self = this;
+
         // open dialog
-        console.log('create symbolic');
-        self.symbolicDialog.trigger( "open.zf.reveal" );
+        self.symbolicDialog.foundation( "open" );
     }
 
 
