@@ -1,6 +1,7 @@
 /*
     TODO:
     - symbolic icon
+    - disable dragging on root
     - massload
     - dialog with symbolic links
         - this.data and filter symbolic links
@@ -42,6 +43,7 @@
         }
 
         self.tree.on( 'changed.jstree' , function (e, data) {
+            // ( ajax-en <- json ) -> iniate new data
             console.log(data.node.id);
         });
     }
@@ -115,23 +117,26 @@
                         }
                     };
                 }
+            },
+            "dnd": {
+                drop_check: function ( data ) { console.log( data, 'checked') }
             }
         });
     }
 
     // search in tree
     tree.prototype.searchTree = function ( event ) {
+        event.preventDefault();
+
         var self = this;
         var searchValue = self.search.find( 'input[type=text]' ).val();
 
-        event.preventDefault();
         $( '[data-tree-container]' ).jstree( true ).search( searchValue );
     }
 
     tree.prototype.createSymbolic = function () {
-        console.log('create symbolic');
-
         // open dialog
+        console.log('create symbolic');
         self.symbolicDialog.trigger( "open.zf.reveal" );
     }
 
