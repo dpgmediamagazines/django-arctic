@@ -31,7 +31,10 @@
     tree.prototype.init = function ( ) {
         var self = this;
 
+        // jstree config
         self.config();
+
+        // creates jstree
         self.build();
 
         // iniate search if plugin is enabled
@@ -41,10 +44,12 @@
             });
         }
 
-        self.tree.on( 'changed.jstree' , function (e, data) {
-            // ( ajax-en <- json ) -> iniate new data
-            console.log(data.node.id);
-        });
+        // interaction with tree
+        self.tree.on("changed.jstree", function ( event, data ) {
+            console.log( data )
+            console.log( data.changed.selected );
+            console.log( data.changed.deselected );
+        })
     }
 
 
@@ -64,6 +69,7 @@
             self.plugins.push( 'search' );
         }
     }
+
 
     // drag and drop
     tree.prototype.setDnd = function ( ) {
@@ -125,7 +131,7 @@
     }
 
 
-    // buils tree
+    // builds tree
     tree.prototype.build = function ( ) {
         var self = this;
 
@@ -134,8 +140,7 @@
                 "check_callback" : true,
                 'data' : {
                     "url" : self.data,
-                    "data" : function (node) {
-
+                    "data" : function ( node ) {
                         console.log( node );
 
                         if ( node.id == '#' ) {
@@ -150,7 +155,7 @@
             "types" : self.types,
             "contextmenu": self.contextmenu,
             "dnd": self.dnd
-        });
+        })
     }
 
 
@@ -174,6 +179,9 @@
 
 
     // initiate
-    new tree();
+    $( function () {
+        new tree();
+    });
+
 
 })( jQuery );
