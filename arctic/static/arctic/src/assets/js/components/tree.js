@@ -131,9 +131,12 @@
 
         self.tree.jstree({
              'core' : {
+                "check_callback" : true,
                 'data' : {
                     "url" : self.data,
                     "data" : function (node) {
+
+                        console.log( node );
 
                         if ( node.id == '#' ) {
                             return { "level" : 0 };
