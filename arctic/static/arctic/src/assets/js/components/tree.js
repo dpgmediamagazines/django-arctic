@@ -149,7 +149,15 @@
 
         self.tree.jstree({
              'core' : {
-                'check_callback' : true,
+                'check_callback' : function (operation, node, node_parent, node_position, more) {
+
+                    // only drag within the same level..
+                    if ( more && more.dnd && ( operation === 'move_node' ) && ( node.parent !== node_parent.id ) ) {
+                        return false;
+                    }
+
+                    return true;
+                },
                 'data' : {
                     "url" : self.url.data,
                     "data" : function ( node ) {
