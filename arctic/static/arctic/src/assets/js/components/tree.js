@@ -119,25 +119,27 @@
         // activate plugin
         self.plugins.push( 'contextmenu' );
 
+        var links = {
+            "Create": {
+                "label": "Create new",
+                "action": function ( obj ) {
+                    if ( self.options.url.create ) {
+                        window.location = self.options.url.create;
+                    }
+                }
+            },
+            "Symbolic": {
+                "label": "Create symbolic",
+                "action": function ( obj ) {
+                    self.createSymbolic();
+                }
+            }
+        }
+
         // handlers
         self.contextmenu = {
             "items": function ($node) {
-                return {
-                    "Create": {
-                        "label": "Create new",
-                        "action": function ( obj ) {
-                            if ( self.options.url.create ) {
-                                window.location = self.options.url.create;
-                            }
-                        }
-                    },
-                    "Symbolic": {
-                        "label": "Create symbolic",
-                        "action": function ( obj ) {
-                            self.createSymbolic();
-                        }
-                    }
-                }
+                return links
             }
         }
     }
@@ -204,7 +206,7 @@
     }
 
 
-    // search in tree
+    // search within tree
     tree.prototype.searchInTree = function ( event ) {
         event.preventDefault();
 
