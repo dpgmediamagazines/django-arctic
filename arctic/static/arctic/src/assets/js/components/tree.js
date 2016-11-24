@@ -38,7 +38,7 @@
         // iniate search if plugin is enabled
         if ( $.inArray('search', self.plugins ) ) {
             this.search.submit( function( event ) {
-                self.searchTree( event );
+                self.searchInTree( event );
             });
         }
 
@@ -47,6 +47,7 @@
             console.log(data.node.id);
         });
     }
+
 
     // build tree config, return it and place it within self.plugins
     tree.prototype.config = function ( ) {
@@ -154,7 +155,7 @@
 
 
     // search in tree
-    tree.prototype.searchTree = function ( event ) {
+    tree.prototype.searchInTree = function ( event ) {
         event.preventDefault();
 
         var self = this;
