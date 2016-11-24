@@ -12,7 +12,9 @@
 
     function tree( element ) {
         this.element = $( '[data-tree]' );
-        this.data = this.element.data( 'tree' );
+        this.url = {};
+        this.url.data = this.element.data( 'tree' );
+        this.url.post = '/';
         this.tree = this.element.find( '[data-tree-container]' );
         this.search = this.element.find( '[data-tree-search]' );
 
@@ -47,12 +49,17 @@
             });
         }
 
+        // handle dragged item
+        self.tree.on("move_node.jstree", function ( event, data ) {
+            self.isDragged( event, data )
+        } );
+
         // interaction with tree
-        self.tree.on("changed.jstree", function ( event, data ) {
-            console.log( data )
-            console.log( data.changed.selected );
-            console.log( data.changed.deselected );
-        })
+        // self.tree.on("changed.jstree", function ( event, data ) {
+        //     console.log( data )
+        //     console.log( data.changed.selected );
+        //     console.log( data.changed.deselected );
+        // })
     }
 
 
@@ -142,9 +149,9 @@
 
         self.tree.jstree({
              'core' : {
-                "check_callback" : true,
+                'check_callback' : true,
                 'data' : {
-                    "url" : self.data,
+                    "url" : self.url.data,
                     "data" : function ( node ) {
                         console.log( node );
 
@@ -161,6 +168,31 @@
             "contextmenu": self.contextmenu,
             "dnd": self.dnd
         })
+    }
+
+
+    // posts new location of dragged node
+    tree.prototype.isDragged = function ( event, data ) {
+        var self = this;
+
+        // console.log( event );
+        console.log( data );
+        console.log( data.node );
+
+        var post = $.ajax({
+            type: "POST",
+            url: self.url.post,
+            data: {},
+            dataType: 'json'
+        });
+
+        post.success( function() {
+            console.log( 'successfull');
+        });
+
+        post.fail( function() {
+            console.log( 'failed');
+        });
     }
 
 
