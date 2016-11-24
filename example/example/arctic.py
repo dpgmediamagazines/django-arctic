@@ -31,6 +31,10 @@ ARCTIC_ROLES = {
     ),
 }
 
+ARCTIC_AUTOCOMPLETE = {
+    'categories': ('articles.Category', 'name')
+}
+
 # ARCTIC_TOPBAR_BACKGROUND_COLOR = '#BF1D1D'
 # ARCTIC_HIGHLIGHT_COLOR = '#9ec3d5'
 

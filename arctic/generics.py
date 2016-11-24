@@ -65,6 +65,8 @@ class View(RoleAuthentication, base.View):
         context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
         context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         context['DATETIME_FORMATS'] = self.get_datetime_formats()
+        context['LOGIN_URL'] = self.get_login_url()
+        context['LOGOUT_URL'] = self.get_logout_url()
         return context
 
     def get_urls(self):
@@ -147,7 +149,7 @@ class View(RoleAuthentication, base.View):
 
     def get_index_url(self):
         try:
-            return reverse('index')
+            return reverse(getattr(settings, 'ARCTIC_INDEX_URL', 'index'))
         except NoReverseMatch:
             return '/'
 
@@ -162,6 +164,12 @@ class View(RoleAuthentication, base.View):
                                                  get_language())[0]
 
         return dtformats
+
+    def get_login_url(self):
+        return reverse(getattr(settings, 'LOGIN_URL', 'login'))
+
+    def get_logout_url(self):
+        return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
 
 
 class TemplateView(View, base.TemplateView):
@@ -511,6 +519,11 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
         if not self.page_title:
             return _("Create %s") % self.model._meta.verbose_name
         return self.page_title
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateView, self).get_context_data(**kwargs)
+        context['layout'] = self.get_layout()
+        return context
 
 
 class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,

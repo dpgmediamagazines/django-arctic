@@ -61,7 +61,7 @@ class ArticleUpdateView(UpdateView):
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                        ('-Basic Details',
+                        ('',
                          ['title|10', ['category', 'tags|5']]),
                         ('Body|Extra Information for this fieldset',
                          ['description']),
@@ -89,6 +89,13 @@ class ArticleCreateView(CreateView):
     model = Article
     form_class = ArticleForm
     permission_required = "articles_create"
+    layout = OrderedDict([
+                        ('-Basic Details',
+                         ['title|10', ['category', 'tags|5']]),
+                        ('Body|Extra Information for this fieldset',
+                         ['description']),
+                        ('Extended Details',
+                         [['published|4', 'updated_at']])])
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))

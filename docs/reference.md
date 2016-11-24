@@ -41,6 +41,14 @@ if not provided, a default color will be used.
 String representing the highlight color used in table headers, the side menu,
 and tag item backgrounds, if none given a default will be used.
 
+## `ARCTIC_INDEX_URL`
+Name of the site index url. Default is "index". If no match found request redirect
+to "/" happens.
+
+## `LOGIN_URL` and `LOGOUT_URL`
+Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
+login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
+and 'logout'.
 
 # Generic Class Based Views
 
