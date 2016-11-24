@@ -132,7 +132,7 @@
         self.tree.jstree({
              'core' : {
                 'data' : {
-                    "url" : "/categories/navigation-ajax?",
+                    "url" : self.data,
                     "data" : function (node) {
 
                         if ( node.id == '#' ) {
