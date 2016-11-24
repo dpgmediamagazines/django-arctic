@@ -52,33 +52,82 @@
     tree.prototype.config = function ( ) {
         var self = this;
 
-        // activate drag and drop
-        self.plugins.push( 'dnd' );
+        self.setDnd()
+        self.setTypes()
+        self.setContextmenu()
 
+        // active changed
         self.plugins.push( 'changed' );
 
-        // activate context menu
-        self.plugins.push( 'contextmenu' );
-
-        // activate search when <data-tree-search> is set
+        // activate search when <data-tree-search /> is set
         if ( self.search.length ) {
             self.plugins.push( 'search' );
         }
 
         /*
             TODO
-
             activate massload for large numbers of items
             self.plugins.push( 'massload' );
         */
+    }
 
-        // activate types and add icons
+    // drag and drop
+    tree.prototype.setDnd = function ( ) {
+        var self = this;
+
+        // activate plugin
+        self.plugins.push( 'dnd' );
+
+        // callbacks
+        self.dnd_callback = {
+            drop_check: function ( data ) { console.log( data, 'checked') }
+        }
+    }
+
+
+    // types and add icons
+    tree.prototype.setTypes = function ( ) {
+        var self = this;
+
+        // activate plugin
         self.plugins.push( 'types' );
 
+        // set types
         self.types = {};
         self.types.symbolic = {
             "icon": "symbolic"
         };
+    }
+
+
+    // context menu
+    tree.prototype.setContextmenu = function ( ) {
+        var self = this;
+
+        // activate plugin
+        self.plugins.push( 'contextmenu' );
+
+        // handlers
+        self.contextmenu = {
+            "items": function ($node) {
+                return {
+                    "Create": {
+                        "label": "Create new",
+                        "action": function ( obj ) {
+                            if ( self.options.url.create ) {
+                                window.location = self.options.url.create;
+                            }
+                        }
+                    },
+                    "Symbolic": {
+                        "label": "Create symbolic",
+                        "action": function ( obj ) {
+                            self.createSymbolic();
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -98,31 +147,11 @@
             },
             "plugins": self.plugins,
             "types" : self.types,
-            "contextmenu": {
-                "items": function ($node) {
-                    return {
-                        "Create": {
-                            "label": "Create new",
-                            "action": function ( obj ) {
-                                if ( self.options.url.create ) {
-                                    window.location = self.options.url.create;
-                                }
-                            }
-                        },
-                        "Symbolic": {
-                            "label": "Create symbolic",
-                            "action": function ( obj ) {
-                                self.createSymbolic();
-                            }
-                        }
-                    };
-                }
-            },
-            "dnd": {
-                drop_check: function ( data ) { console.log( data, 'checked') }
-            }
+            "contextmenu": self.contextmenu,
+            "dnd": self.dnd
         });
     }
+
 
     // search in tree
     tree.prototype.searchTree = function ( event ) {
@@ -134,11 +163,14 @@
         $( '[data-tree-container]' ).jstree( true ).search( searchValue );
     }
 
+
+    // create symbolic
     tree.prototype.createSymbolic = function () {
         // open dialog
         console.log('create symbolic');
         self.symbolicDialog.trigger( "open.zf.reveal" );
     }
+
 
     // initiate
     new tree();
