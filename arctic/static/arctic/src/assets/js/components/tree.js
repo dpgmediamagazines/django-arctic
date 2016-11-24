@@ -142,7 +142,8 @@
                 "data" : {
                     "url" : self.data,
                     "data" : function (node) {
-                        return { "id" : node.id };
+                        // return { "id" : node.id };
+                        console.log( node.id );
                     }
                 }
             },
