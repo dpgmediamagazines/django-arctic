@@ -5,14 +5,13 @@
     "li_attr": {
         "type": "category"
     },
-    "name": "Default",
+    "text": "Default",
     "id": 1
 }, {
     "state": {
         "disabled": false
     },
-    "children": true,
-    "name": "High",
+    "text": "High",
     "li_attr": {
         "type": "category"
     },
