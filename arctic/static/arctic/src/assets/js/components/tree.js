@@ -2,7 +2,6 @@
     TODO:
     - symbolic icon
     - disable dragging on root
-    - massload
     - dialog with symbolic links
         - this.data and filter symbolic links
  */
@@ -53,9 +52,9 @@
     tree.prototype.config = function ( ) {
         var self = this;
 
-        self.setDnd()
-        self.setTypes()
-        self.setContextmenu()
+        self.setDnd();
+        self.setTypes();
+        self.setContextmenu();
 
         // active changed
         self.plugins.push( 'changed' );
@@ -64,12 +63,6 @@
         if ( self.search.length ) {
             self.plugins.push( 'search' );
         }
-
-        /*
-            TODO
-            activate massload for large numbers of items
-            self.plugins.push( 'massload' );
-        */
     }
 
     // drag and drop
@@ -137,13 +130,16 @@
         var self = this;
 
         self.tree.jstree({
-            "core" : {
-                "check_callback": true,
-                "data" : {
-                    "url" : self.data,
+             'core' : {
+                'data' : {
+                    "url" : "/categories/navigation-ajax?",
                     "data" : function (node) {
-                        // return { "id" : node.id };
-                        console.log( node.id );
+
+                        if ( node.id == '#' ) {
+                            return { "level" : 0 };
+                        } else {
+                            return { "id" : node.id };
+                        }
                     }
                 }
             },
