@@ -26,6 +26,9 @@
         {% block inlines %}
         {% if inlines %}
             {% for formset in inlines %}
+                {% if forloop.first %}
+                    <h3>{{ formset.0.instance._meta.verbose_name_plural }}</h3>
+                {% endif %}
                 {{ formset.management_form }}
                 {{ formset.non_form_errors }}
 
