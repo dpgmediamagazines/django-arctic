@@ -282,13 +282,23 @@ class ListView(View, base.ListView):
         else:
             allowed_field_links = {}
             for field, url in self.field_links.items():
-
                 # check permission based on named_url
                 if not view_from_url(url).has_permission(self.request.user):
                     continue
-
                 allowed_field_links[field] = url
             return allowed_field_links
+
+    def _reverse_field_link(self, url, obj):
+        if type(url) in (list, tuple):
+            named_url = url[0]
+            args = []
+            for arg in url[1:]:
+                args.append(find_attribute(obj, arg))
+        else:
+            named_url = url
+            args = [get_attribute(obj, 'pk')]
+
+        return reverse(named_url, args=args)
 
     def get_field_classes(self):
         return self.field_classes
@@ -335,10 +345,6 @@ class ListView(View, base.ListView):
                     except AttributeError:
                         item['label'] = field_name
                 item['name'] = prefix + name
-                if name in self.get_field_links().keys():
-                    item['link'] = self.get_field_links()[name]
-                if name in self.get_field_classes().keys():
-                    item['class'] = self.get_field_classes()[name]
                 if name in self.ordering_fields:
                     item['order_url'], item['order_direction'] = \
                         self.ordering_url(name)
@@ -355,14 +361,17 @@ class ListView(View, base.ListView):
             # remove all tuples in the field list, no need for the verbose
             # field name here
             fields = []
+            field_links = self.get_field_links()
+            field_classes = self.get_field_classes()
             for field in self.fields:
                 fields.append(field[0] if type(field) in (list, tuple)
                               else field)
             for obj in objects:
                 # get the row's foreign key
-                row_id = get_attribute(obj, 'pk')
-                row = OrderedDict()
-                for field_name in self.fields:
+                row_id = getattr(obj, 'pk')
+                row = [row_id]
+                for field_name in fields:
+                    field = {'field': field_name}
                     try:  # first try to find a virtual field
                         virtual_field_name = "get_{}_field".format(field_name)
                         value = getattr(self, virtual_field_name)(obj)
@@ -380,23 +389,24 @@ class ListView(View, base.ListView):
 
                     base_field_name = field_name.split('__')[0]
                     field_class = get_field_class(objects, base_field_name)
-                    field = {'value': value}
-                    if field_class == 'ForeignKey':
-                        if field_name in self.urls:
-                            field_id = getattr(obj, base_field_name).pk
-                            
-                    elif field_class == 'ManyToManyField':
+                    field['value'] = value
+                    if field_class == 'ManyToManyField':
                         #  ManyToManyField will be display as an embedded list
                         #  capped to max_embeded_list_items, an ellipsis is
                         #  added if there are more items than the max.
                         m2mfield = getattr(obj, base_field_name)
-                        embeded_list = (str(l) for l in
-                                        m2mfield.all()
-                                        [:self.max_embeded_list_items + 1])
+                        embeded_list = list(str(l) for l in
+                                            m2mfield.all()
+                                            [:self.max_embeded_list_items + 1])
                         if len(embeded_list) > self.max_embeded_list_items:
                             embeded_list = embeded_list[:-1] + ['...']
                         field['value'] = embeded_list
-                    row[field_name] = field
+                    if field_name in field_links.keys():
+                        field['url'] = self._reverse_field_link(
+                            field_links[field_name], obj)
+                    if field_name in field_classes:
+                        field['class'] = field_classes[field_name]
+                    row.append(field)
                 items.append(row)
         return items
 

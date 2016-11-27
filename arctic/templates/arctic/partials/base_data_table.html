@@ -66,56 +66,38 @@
                 <tbody>
                     {% for row in list_items %}
                         <tr>
-                            {% for field, value in row %}
-                                {% if field|slice:":1" != '_' %}
-                                    <td {% if list_header|get_item:field %}>
-                                    {% if value|typename == 'tuple' %}
-                                        
-                                            {% for item in v.all %}
-                                                <span class="badge highlight-background">{{ item }}</span>
-                                            {% endfor %}
-                                        </td>
+                            {% for column in row|slice:"1:" %}
+                                <td {% if column.class %}class="{{ column.class }}"{%endif%}>
+                                    {% if column.url %}
+                                        <a href="{{ column.url }}">
+                                    {% endif %}
+                                    {% if column.value|typename != 'list' %}
+                                        {{ column.value|default_if_none:"" }}
                                     {% else %}
-                                        {% if list_header|index:forloop.counter0|get_item:'class' %}
-                                            <td class="{{ list_header|index:forloop.counter0|get_item:'class' }}">
-                                        {% else %}
-                                            <td>
-                                        {% endif %}
-
-                                        {% if list_header|index:forloop.counter0|get_item:'link' %}
-                                            {% if v.pk %}
-                                                <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' v.pk %}">
+                                        {% for item in column.value %}
+                                            <span class="badge highlight-background">{{ item }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if column.url %}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        
+                            {% if action_links %}
+                                <td class="actions">
+                                    {% for link in action_links %}
+                                        <a href="{% url link.url row.0 %}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                            {% if link.icon %}
+                                                <i class="fa {{ link.icon }} fa-lg"></i>
                                             {% else %}
-                                                <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
-                                             {% endif %}
-                                                {{ v|default_if_none:""|safe|linebreaks }}
-                                            </a>
-                                        {% else %}
-                                            {% if v|typename == 'datetime' or v|typename == 'date' %}
-                                                {{ v|default_if_none:"" }}
-                                            {% else %}
-                                                {{ v |default_if_none:"" | safe | linebreaks }}
+                                                {{ link.label|capfirst }}
                                             {% endif %}
-                                        {% endif %}
-                                            </td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-
-                    {% if action_links %}
-                        <td class="actions">
-                            {% for link in action_links %}
-                                <a href="{% arctic_url link.url item.0 %}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
-                                    {% if link.icon %}
-                                        <i class="fa {{ link.icon }} fa-lg"></i>
-                                    {% else %}
-                                        {{ link.label|capfirst }}
-                                    {% endif %}
-                                </a>
-                                &nbsp;
-                            {% endfor %}
-                            </td>
-                        {% endif %}
+                                        </a>
+                                        &nbsp;
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

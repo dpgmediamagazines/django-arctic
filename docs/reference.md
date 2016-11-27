@@ -194,6 +194,10 @@ as delete.
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
 content of the specified field that can apply a certain action, like edit.
+By default the field link will use the current row id to create a link together 
+with the `base_url`, if needed, the `base_url` can be given as a list or tuple where the first parameter is the named url followed by one or more field names, 
+these field names can use the double underscore notation to access related 
+objects, for example: `('category:list', 'category__slug')` 
 
 ### `field_classes`
 

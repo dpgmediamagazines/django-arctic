@@ -29,20 +29,20 @@ class ArticleListView(ListView):
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
-    # action_links = [
-    #     ('delete', 'articles:delete', 'fa-trash'),
-    # ]
-    # field_links = {
-    #     'title': 'articles:detail',
-    #     'published': 'articles:detail',
-    #     'category': ('articles:category-detail', 'category.pk'),
-    # }
-    field_classes = {
-        'published': 'inline-widget boolean-circle',
+    action_links = [
+        ('delete', 'articles:delete', 'fa-trash'),
+    ]
+    field_links = {
+        'title': 'articles:detail',
+        'published': 'articles:detail',
+        'category': ('articles:category-detail', 'category_id'),
     }
-    # tool_links = [
-    #     (_('Create Article'), 'articles:create', 'fa-plus'),
-    # ]
+    field_classes = {
+        'published': 'inline-widgetboolean-circle',
+    }
+    tool_links = [
+        (_('Create Article'), 'articles:create', 'fa-plus'),
+    ]
 
     filter_fields = ['published']
     permission_required = "articles_view"
