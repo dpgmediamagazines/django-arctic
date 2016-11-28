@@ -37,7 +37,6 @@ class TestVirtualFields(object):
         """
         Error happens on wrong virtual field name
         """
-        article = ArticleFactory()
         view = ArticleListView()
         view.fields = ['title', 'description', 'published', 'virtual_field']
         response = self._request(admin_client)
