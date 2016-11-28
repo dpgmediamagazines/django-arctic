@@ -1,18 +1,32 @@
 # Settings Variables
 
-## `ARCTIC_SITE_LOGO`
+## `ARCTIC_AUTOCOMPLETE`
 
-The url of the logo to be displayed on every page, it will also be the link to
-the homepage.
+Dictionary of models that when used as a foreign key should be lazy loaded.
+The dictionary has as key a slug, which will be used in the callback url,
+and a list with the model path and the search field. For example:
 
-## `ARCTIC_SITE_NAME`
+    ARCTIC_AUTOCOMPLETE = {
+        'authors': ('books.Author', 'title'),
+    }
 
-Name of the site.
+The callback url also needs to be setup in `urls.py`:
 
-## `ARCTIC_SITE_TITLE`
+    from arctic.urls import autocomplete_url
+    ...
+    urlpatterns = [
+        ...
+        autocomplete_url,
+    ]
 
-Title of the site to be used in the title tag. If not set it will use
-`ARCTIC_SITE_NAME`
+## `ARCTIC_HIGHLIGHT_COLOR`
+
+String representing the highlight color used in table headers, the side menu,
+and tag item backgrounds, if none given a default will be used.
+
+## `ARCTIC_INDEX_URL`
+Name of the site index url. Default is "index". If no match found request redirect
+to "/" happens.
 
 ## `ARCTIC_MENU`
 
@@ -31,19 +45,24 @@ The 'admin' role is reserved and cannot be defined in settings. It gives full
 rights to all views and can also be created with the `createsuperuser`
 command.
 
+## `ARCTIC_SITE_LOGO`
+
+The url of the logo to be displayed on every page, it will also be the link to
+the homepage.
+
+## `ARCTIC_SITE_NAME`
+
+Name of the site.
+
+## `ARCTIC_SITE_TITLE`
+
+Title of the site to be used in the title tag. If not set it will use
+`ARCTIC_SITE_NAME`
+
 ## `ARCTIC_TOPBAR_BACKGROUND_COLOR`
 
 String representing the background color of the topbar, for example '#cccccc',
 if not provided, a default color will be used.
-
-## `ARCTIC_HIGHLIGHT_COLOR`
-
-String representing the highlight color used in table headers, the side menu,
-and tag item backgrounds, if none given a default will be used.
-
-## `ARCTIC_INDEX_URL`
-Name of the site index url. Default is "index". If no match found request redirect
-to "/" happens.
 
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
@@ -194,6 +213,10 @@ as delete.
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
 content of the specified field that can apply a certain action, like edit.
+By default the field link will use the current row id to create a link together 
+with the `base_url`, if needed, the `base_url` can be given as a list or tuple where the first parameter is the named url followed by one or more field names, 
+these field names can use the double underscore notation to access related 
+objects, for example: `('category:list', 'category__slug')` 
 
 ### `field_classes`
 
