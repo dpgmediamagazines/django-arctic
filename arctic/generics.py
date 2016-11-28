@@ -380,10 +380,10 @@ class ListView(View, base.ListView):
                             # Get the choice display value
                             parent_objs = '__'.join(
                                 field_name.split('__')[:-1])
-                            method_name = 'get_{}_display'.format(
-                                field_name.split('__')[-1])
-                            value = find_attribute(obj, parent_objs + '__' +
-                                                   method_name)()
+                            method_name = '{}__get_{}_display'.format(
+                                parent_objs,
+                                field_name.split('__')[-1]).strip('__')
+                            value = find_attribute(obj, method_name)()
                         except AttributeError:  # finally get field's value
                                 value = find_attribute(obj, field_name)
 
