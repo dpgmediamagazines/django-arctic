@@ -9,7 +9,7 @@ from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
-from django.utils.http import quote
+from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
@@ -585,7 +585,12 @@ class LoginView(TemplateView):
                             password=request.POST['password'])
         if user and user.is_active:
             login(request, user)
-            return redirect(request.GET.get('next', '/'))
+
+            next_url = request.GET.get('next')
+            if is_safe_url(next_url, request.get_host()):
+                return redirect(next_url)
+
+            return redirect('/')
 
         self.messages.append('Invalid username/password combination')
 
