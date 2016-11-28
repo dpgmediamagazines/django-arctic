@@ -33,15 +33,21 @@ class TestVirtualFields(object):
         assert item[3]['value'] == article.published
         assert item[4]['value'] == article.category.name
 
-    # def test_missing_virtual_field(self, admin_client):
-    #     """
-    #     Error happens on wrong virtual field name
-    #     """
-    #     article = ArticleFactory()
-    #     view = ArticleListView()
-    #     view.fields = ['title', 'description', 'published', 'virtual_field']
-    #     with pytest.raises(AttributeError) as excinfo:
-    #         view.get_list_items([article])
+    def test_missing_virtual_field(self, admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'virtual_field']
+        response = self._request(admin_client)
 
-    #     message = "'Article' object has no attribute 'virtual_field'"
-    #     assert str(excinfo.value) == message
+        search_virtual_field = False
+        for field in response.context_data['list_items'][0]:
+            if type(field) == int:
+                continue
+
+            if 'virtual_field' in field['field']:
+                search_virtual_field = True
+
+        assert search_virtual_field is False
