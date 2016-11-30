@@ -4,10 +4,6 @@
     - offline categories (set as li_attr)
     - visiblity BE or NE only  (set as li_attr)
 
-    - handle dragging
-
-    - disable dragging on root
-
     - dialog with symbolic links
         = ajax ? iframe
             => refresh page na submit ( zelfde tree state (open folders)? )
@@ -165,9 +161,19 @@
              'core' : {
                 'check_callback' : function (operation, node, node_parent, node_position, more) {
 
-                    // only drag within the same level..
-                    if ( more && more.dnd && ( operation === 'move_node' ) && ( node.parent !== node_parent.id ) ) {
-                        return false;
+                    // it's a drag event
+                    if ( more && more.dnd && ( operation === 'move_node' )) {
+
+                        // disable dragging on root level
+                        if ( node.parent === '#' ) {
+                            return false;
+                        }
+
+                        // limit dragging to same parent level
+                        if ( node.parent !== node_parent.id ) {
+                            return false;
+                        }
+
                     }
 
                     return true;
