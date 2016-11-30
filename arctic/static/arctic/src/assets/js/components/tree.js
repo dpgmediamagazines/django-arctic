@@ -1,13 +1,7 @@
 /*
     TODO:
 
-    - dialog with symbolic links
-        = ajax ? iframe
-            => refresh page na submit ( zelfde tree state (open folders)? )
-
-    - dialog with create new
-        = ajax ? iframe
-            => refresh page na submit ( zelfde tree state (open folders)? )
+    dialog => refresh page na submit ( zelfde tree state (open folders)? )
 
     - http://localhost:8000/categories/create-symbolic/
         - target with search filter
@@ -30,14 +24,7 @@
         this.tree = this.element.find( '[data-tree-container]' );
         this.search = this.element.find( '[data-tree-search]' );
 
-        // this.symbolicDialog = this.element.find( '[data-symbolic]' );
-        this.symbolicDialog = $( '[data-symbolic]' );
-
         this.plugins = [];
-
-        this.options = {};
-        this.options.url = {};
-        this.options.url.create = this.element.data( 'create' );
 
         var self = this;
         self.init();
@@ -132,27 +119,30 @@
         // activate plugin
         self.plugins.push( 'contextmenu' );
 
-        var links = {
-            "Create": {
-                "label": "Create new",
-                "action": function ( obj ) {
-                    if ( self.options.url.create ) {
-                        window.location = self.options.url.create;
+        var links = function ( node ) {
+
+            var items = {
+                "Create": {
+                    "label": "Create new",
+                    "action": function ( obj ) {
+                        self.createCategory( node );
+                    }
+                },
+                "Symbolic": {
+                    "label": "Create symbolic",
+                    "action": function ( obj ) {
+                        self.createSymbolic( node );
                     }
                 }
-            },
-            "Symbolic": {
-                "label": "Create symbolic",
-                "action": function ( obj ) {
-                    self.createSymbolic();
-                }
             }
+
+            return items;
         }
 
         // handlers
         self.contextmenu = {
-            "items": function ($node) {
-                return links
+            "items": function ( node ) {
+                return links( node )
             }
         }
     }
@@ -245,12 +235,34 @@
     }
 
 
-    // create symbolic
-    tree.prototype.createSymbolic = function () {
+    // open dialog with create category
+    tree.prototype.createCategory = function ( node ) {
         var self = this;
 
-        // open dialog
-        self.symbolicDialog.foundation( "open" );
+        var url = self.element.data( 'create-category' );
+        var dialog = $( '[data-reveal]' );
+
+        if ( dialog && url && node.id ) {
+            url = url + "&pk_category=" + node.id;
+
+            // open dialog
+            arctic.utils.revealIframe.open( dialog, url );
+        }
+    }
+
+    // open dialog with create symbolic
+    tree.prototype.createSymbolic = function ( node ) {
+        var self = this;
+
+        var url = self.element.data( 'create-symbolic' );
+        var dialog = $( '[data-reveal]' );
+
+        if ( dialog && url && node.id ) {
+            url = url + "&pk_category=" + node.id;
+
+            // open dialog
+            arctic.utils.revealIframe.open( dialog, url );
+        }
     }
 
 
