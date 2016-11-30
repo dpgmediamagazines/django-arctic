@@ -28,3 +28,15 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+window.arctic.utils.growl = function( type, title, text ) {
+    var growl = '<div class="growl ' + type + '"> \
+        <h6>' + title + '</h6> \
+        <p>' + text + '</p> \
+    </div>';
+
+    var growl = $( growl );
+    $( 'body' ).append( growl );
+
+    return growl;
+}
