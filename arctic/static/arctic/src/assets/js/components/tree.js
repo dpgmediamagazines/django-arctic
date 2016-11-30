@@ -1,7 +1,5 @@
 /*
     TODO:
-    - symbolic icon
-    - visiblity BE, NE, or hidden  (set as li_attr)
 
     - dialog with symbolic links
         = ajax ? iframe
@@ -10,6 +8,14 @@
     - dialog with create new
         = ajax ? iframe
             => refresh page na submit ( zelfde tree state (open folders)? )
+
+    - http://localhost:8000/categories/create-symbolic/
+        - target with search filter
+
+    - keep state on refresh
+
+    - sub menu in contextmenu
+
  */
 
 ( function ( $ ) {
