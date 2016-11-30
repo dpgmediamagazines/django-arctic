@@ -1,8 +1,7 @@
 /*
     TODO:
     - symbolic icon
-    - offline categories (set as li_attr)
-    - visiblity BE or NE only  (set as li_attr)
+    - visiblity BE, NE, or hidden  (set as li_attr)
 
     - dialog with symbolic links
         = ajax ? iframe
@@ -204,11 +203,12 @@
         var self = this;
 
         // TODO POSITION CHECK!
+        // show a loader..
 
         var postdata = {}
         postdata.parent = data.parent;
         postdata.move = data.node.id;
-        postdata.position = ( data.position + 1 );
+        postdata.position = ( data.position );
 
         var post = $.ajax({
             type: "POST",
@@ -218,7 +218,7 @@
         });
 
         post.success( function() {
-
+            // remove loader...
         });
 
         post.fail( function() {
