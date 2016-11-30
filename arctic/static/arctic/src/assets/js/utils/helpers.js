@@ -1,5 +1,10 @@
 //TODO: nest these helpers within one object, like arctic..
 
+// global var whichs all public data, helpers etc..
+window.arctic = {};
+window.arctic.utils = {};
+
+
 function slugify( Text ) {
     return Text
         .toLowerCase()
