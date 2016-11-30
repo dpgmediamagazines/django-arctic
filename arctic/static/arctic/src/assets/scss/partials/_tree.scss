@@ -12,7 +12,6 @@
 
 }
 
-
 .jstree {
     $sites: NL, BE;
     $types: symboliccategory;
@@ -66,4 +65,9 @@
     [type='symboliccategory'] .jstree-anchor .jstree-icon {
         background-position: -67px -67px;
     }
+}
+
+// submenu above site label
+.vakata-context {
+    z-index: 1;
 }
