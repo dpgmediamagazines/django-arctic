@@ -53,13 +53,6 @@
         self.tree.on("move_node.jstree", function ( event, data ) {
             self.isDragged( event, data )
         } );
-
-        // interaction with tree
-        // self.tree.on("changed.jstree", function ( event, data ) {
-        //     console.log( data )
-        //     console.log( data.changed.selected );
-        //     console.log( data.changed.deselected );
-        // })
     }
 
 
@@ -242,8 +235,8 @@
         var url = self.element.data( 'create-category' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.id ) {
-            url = url + "&pk_category=" + node.id;
+        if ( dialog && url && node.parent ) {
+            url = url + "&parent_id=" + node.parent;
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
