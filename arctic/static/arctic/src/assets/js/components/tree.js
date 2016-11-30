@@ -239,8 +239,8 @@
         var url = self.element.data( 'create-category' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.parent ) {
-            url = url + "&parent_id=" + node.parent;
+        if ( dialog && url && node.id ) {
+            url = url + "&parent_id=" + node.id;
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
