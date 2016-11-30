@@ -158,7 +158,7 @@
         self.contextmenu = {
             "items": function ( node ) {
 
-                // no contextmenu on symbolic links..
+                // symbolic has own menu
                 if ( node.li_attr.type == 'symboliccategory' ) {
                     return symbolicLinks( node )
                 } else {
