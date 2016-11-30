@@ -135,7 +135,11 @@
         // handlers
         self.contextmenu = {
             "items": function ( node ) {
-                return links( node )
+
+                // no contextmenu on symbolic links..
+                if ( node.li_attr.type !== 'symboliccategory' ) {
+                    return links( node )
+                }
             }
         }
     }
