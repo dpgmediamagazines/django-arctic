@@ -7,8 +7,10 @@
 @import 'motion-ui';
 @import 'jQuery-QueryBuilder/dist/scss/default';
 
-// Datepicker
+// jstree
+@import 'components/jstree/themes/default/style';
 
+// Datepicker
 @import 'components/air-datepicker/cell';
 @import 'components/air-datepicker/datepicker';
 @import 'components/air-datepicker/timepicker';
@@ -99,6 +101,7 @@
 @import "partials/_table-filters";
 @import "partials/_tabs";
 @import "partials/_tags";
+@import "partials/_tree";
 @import "partials/_typography";
 @import "partials/_widgets";
 

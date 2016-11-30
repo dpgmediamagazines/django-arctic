@@ -41,7 +41,7 @@ function django2datepicker(django_format) {
             datepicker_format += django_format[i];
         }
     }
-    
+
     if (datepicker_format.slice(-1) == ':') {
         datepicker_format = datepicker_format.slice(0, -1);
     }

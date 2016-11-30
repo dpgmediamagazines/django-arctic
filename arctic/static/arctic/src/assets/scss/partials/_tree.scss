@@ -1,0 +1,49 @@
+.jstree {
+
+    .jstree-anchor {
+        position: relative;
+    }
+
+    // default disabeld
+    [sites] {
+        opacity: 0.5;
+    }
+
+    // default site label styling
+    .jstree-anchor:before {
+        display: block;
+        position: absolute;
+        top: 50%;
+        margin-top: -.6em;
+        padding: 0.25em;
+        background: #F05050;
+        color: white;
+        line-height: 1em;
+        font-size: 0.5em;
+        font-weight: bold;
+        font-style: normal;
+    }
+
+
+    // when there's a new site, add the indentifier  here..
+    $sites: NL, BE;
+
+    @each $site in $sites {
+
+        // has value, so enable it
+        [sites='#{$site}'] {
+            opacity: 1;
+        }
+
+        // ad site label, this also makes it visible
+        [sites='#{$site}'] .jstree-anchor:before {
+            content: '#{$site}';
+        }
+    }
+
+
+    // symbolic icon
+    [type='symboliccategory'] .jstree-anchor .jstree-icon {
+        background-position: -67px -67px;
+    }
+}

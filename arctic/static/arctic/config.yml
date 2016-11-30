@@ -68,10 +68,10 @@ PATHS:
     - "bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
     - "bower_components/selectize/dist/js/standalone/selectize.js"
     - "bower_components/Sortable/Sortable.min.js"
-    - "bower_components/jstree/dist/jstree.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
+    - "src/assets/js/utils/csrf.js"
     - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/reveal-iframe.js"
@@ -79,3 +79,5 @@ PATHS:
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
     - "src/assets/js/components/query-builder.js"
+
+    # - "bower_components/jstree/dist/jstree.js"
