@@ -198,8 +198,7 @@
     tree.prototype.isDragged = function ( event, data ) {
         var self = this;
 
-        // TODO POSITION CHECK!
-        // show a loader..
+        var loader = arctic.utils.growl( 'warning', 'Saving...', 'your latest changes to the server' );
 
         var postdata = {}
         postdata.parent = data.parent;
@@ -214,11 +213,14 @@
         });
 
         post.success( function() {
-            // remove loader...
+            loader.remove();
+            var notification = arctic.utils.growl( 'success', 'Saved', 'your latest changes' );
+            notification.delay( 1000 ).fadeOut();
         });
 
         post.fail( function() {
-            alert( 'Error when sending drag change');
+            loader.remove();
+            var notification = arctic.utils.growl( 'error', 'Error...', 'when sending drag change' );
             throw new Error( 'Error when sending drag change' );
         });
     }
