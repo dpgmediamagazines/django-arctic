@@ -1,9 +1,20 @@
 /*
     TODO:
     - symbolic icon
+    - offline categories (set as li_attr)
+    - visiblity BE or NE only  (set as li_attr)
+
+    - handle dragging
+
     - disable dragging on root
+
     - dialog with symbolic links
-        - this.data and filter symbolic links
+        = ajax ? iframe
+            => refresh page na submit ( zelfde tree state (open folders)? )
+
+    - dialog with create new
+        = ajax ? iframe
+            => refresh page na submit ( zelfde tree state (open folders)? )
  */
 
 ( function ( $ ) {
@@ -14,7 +25,7 @@
         this.element = $( '[data-tree]' );
         this.url = {};
         this.url.data = this.element.data( 'tree' );
-        this.url.post = '/';
+        this.url.post = '/categories/navigation-move-node/';
         this.tree = this.element.find( '[data-tree-container]' );
         this.search = this.element.find( '[data-tree-search]' );
 
@@ -32,6 +43,7 @@
 
         window.foo = this;
     }
+
 
     tree.prototype.init = function ( ) {
         var self = this;
@@ -185,23 +197,27 @@
     tree.prototype.isDragged = function ( event, data ) {
         var self = this;
 
-        // console.log( event );
-        console.log( data );
-        console.log( data.node );
+        // TODO POSITION CHECK!
+
+        var postdata = {}
+        postdata.parent = data.parent;
+        postdata.move = data.node.id;
+        postdata.position = ( data.position + 1 );
 
         var post = $.ajax({
             type: "POST",
             url: self.url.post,
-            data: {},
+            data: postdata,
             dataType: 'json'
         });
 
         post.success( function() {
-            console.log( 'successfull');
+
         });
 
         post.fail( function() {
-            console.log( 'failed');
+            alert( 'Error when sending drag change');
+            throw new Error( 'Error when sending drag change' );
         });
     }
 
