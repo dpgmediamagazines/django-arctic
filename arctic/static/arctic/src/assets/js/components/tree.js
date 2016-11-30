@@ -65,7 +65,10 @@
         self.setContextmenu();
 
         // active changed
-        self.plugins.push( 'changed' );
+        // self.plugins.push( 'changed' );
+
+        // whole row
+        self.plugins.push( 'wholerow' );
 
         // activate search when <data-tree-search /> is set
         if ( self.search.length ) {

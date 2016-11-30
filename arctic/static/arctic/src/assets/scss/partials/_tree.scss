@@ -1,3 +1,18 @@
+[data-tree] {
+    background-color: $greyLightest;
+    padding: $marginLarge;
+
+    .jstree-wholerow-clicked {
+        background: $greyLight;
+    }
+
+    .jstree-wholerow-hovered {
+        background: $greyLighter;
+    }
+
+}
+
+
 .jstree {
     $sites: NL, BE;
     $types: symboliccategory;
