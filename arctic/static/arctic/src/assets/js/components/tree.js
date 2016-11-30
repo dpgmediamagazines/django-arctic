@@ -112,16 +112,27 @@
         var links = function ( node ) {
 
             var items = {
+                "Open": {
+                    "label": "Open",
+                    "action": function ( obj ) {
+                        window.location =  '/categories/' + node.id;
+                    }
+                },
                 "Create": {
                     "label": "Create new",
                     "action": function ( obj ) {
                         self.createCategory( node );
                     }
                 },
-                "Symbolic": {
-                    "label": "Create symbolic",
-                    "action": function ( obj ) {
-                        self.createSymbolic( node );
+                "Other": {
+                    "label": "Add other",
+                    "submenu" :{
+                        "Symbolic": {
+                            "label": "Create symbolic",
+                            "action": function ( obj ) {
+                                self.createSymbolic( node );
+                            }
+                        }
                     }
                 }
             }
