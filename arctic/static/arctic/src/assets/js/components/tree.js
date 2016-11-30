@@ -1,15 +1,9 @@
 /*
     TODO:
-
-    dialog => refresh page na submit ( zelfde tree state (open folders)? )
-
     - http://localhost:8000/categories/create-symbolic/
         - target with search filter
-
     - keep state on refresh
-
-    - sub menu in contextmenu
-
+    - sub menu in contextmenuw
  */
 
 ( function ( $ ) {
@@ -176,7 +170,6 @@
                 'data' : {
                     "url" : self.url.data,
                     "data" : function ( node ) {
-                        console.log( node );
 
                         if ( node.id == '#' ) {
                             return { "level" : 0 };
