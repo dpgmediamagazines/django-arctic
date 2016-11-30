@@ -3,7 +3,6 @@
     - http://localhost:8000/categories/create-symbolic/
         - target with search filter
     - keep state on refresh
-    - sub menu in contextmenuw
  */
 
 ( function ( $ ) {
