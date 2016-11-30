@@ -43,6 +43,7 @@
     .jstree-anchor:before {
         display: block;
         position: absolute;
+        z-index:1;
         top: 50%;
         margin-top: -.6em;
         padding: 0.25em;
