@@ -46,8 +46,6 @@
                 // dialog arguments
                 self.url = self.element.data( 'url' );
                 self.size = self.element.data( 'size' );
-
-                return true;
             }
 
             // script is loaded within an iframe
@@ -55,13 +53,7 @@
                 self.framed = true;
                 self.autoClose = self.element.data( 'auto-close' );
                 self.parentReload = $('body').data( 'refresh-parent' );
-
-                console.log( 'framed', self.element );
-
-                return true;
             }
-
-            return false;
         },
 
 
