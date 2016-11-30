@@ -109,8 +109,7 @@
         // activate plugin
         self.plugins.push( 'contextmenu' );
 
-        var links = function ( node ) {
-
+        var categoryLinks = function ( node ) {
             var items = {
                 "Open": {
                     "label": "Open",
@@ -140,13 +139,30 @@
             return items;
         }
 
+
+        var symbolicLinks = function ( node ) {
+
+            var items = {
+                "Open": {
+                    "label": "Open",
+                    "action": function ( obj ) {
+                        window.location =  '/categories/create/' + node.id;
+                    }
+                }
+            }
+
+            return items;
+        }
+
         // handlers
         self.contextmenu = {
             "items": function ( node ) {
 
                 // no contextmenu on symbolic links..
-                if ( node.li_attr.type !== 'symboliccategory' ) {
-                    return links( node )
+                if ( node.li_attr.type == 'symboliccategory' ) {
+                    return symbolicLinks( node )
+                } else {
+                    return categoryLinks( node )
                 }
             }
         }
