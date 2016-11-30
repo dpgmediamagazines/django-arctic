@@ -12,18 +12,19 @@
 
     function tree( element ) {
         this.element = $( '[data-tree]' );
+        this.tree = this.element.find( '[data-tree-container]' );
+        this.search = this.element.find( '[data-tree-search]' );
+
         this.url = {};
         this.url.data = this.element.data( 'tree' );
         this.url.post = '/categories/navigation-move-node/';
-        this.tree = this.element.find( '[data-tree-container]' );
-        this.search = this.element.find( '[data-tree-search]' );
+        this.url.category = '/categories/create/?dialog=true&parent_id=#';
+        this.url.symbolic = '/categories/create-symbolic/?dialog=true&pk_category=#';
 
         this.plugins = [];
 
         var self = this;
         self.init();
-
-        window.foo = this;
     }
 
 
@@ -261,11 +262,10 @@
     tree.prototype.createCategory = function ( node ) {
         var self = this;
 
-        var url = self.element.data( 'create-category' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.id ) {
-            url = url + "&parent_id=" + node.id;
+        if ( dialog && node.id ) {
+            var url = self.url.category.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
@@ -276,11 +276,10 @@
     tree.prototype.createSymbolic = function ( node ) {
         var self = this;
 
-        var url = self.element.data( 'create-symbolic' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.id ) {
-            url = url + "&pk_category=" + node.id;
+        if ( dialog && node.id ) {
+            var url = self.url.symbolic.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
