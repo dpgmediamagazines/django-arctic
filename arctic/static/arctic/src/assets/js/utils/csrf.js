@@ -1,7 +1,7 @@
-( function ( $, getCookie ) {
+( function ( $ ) {
 
     var setCsrf = {
-        token: getCookie('csrftoken'),
+        token: arctic.utils.getCookie('csrftoken'),
 
         init: function () {
             this.ajaxSetup()
@@ -27,4 +27,4 @@
 
     setCsrf.init();
 
-})( jQuery, getCookie )
+})( jQuery )

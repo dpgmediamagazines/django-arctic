@@ -1,18 +1,48 @@
+[data-tree] {
+    background-color: $greyLightest;
+    padding: $marginLarge;
+
+    .jstree-wholerow-clicked {
+        background: $greyLight;
+    }
+
+    .jstree-wholerow-hovered {
+        background: $greyLighter;
+    }
+
+}
+
 .jstree {
+    $sites: NL, BE;
+    $types: symboliccategory;
 
     .jstree-anchor {
         position: relative;
     }
 
-    // default disabeld
-    [sites] {
+    // default disabeld and enable if data attr value is set
+    .jstree-node .jstree-node .jstree-anchor {
         opacity: 0.5;
     }
+
+    @each $site in $sites {
+        .jstree-node[sites~='#{ $site }'] .jstree-anchor {
+            opacity: 1;
+        }
+    }
+
+    @each $type in $types {
+        .jstree-node[type='#{ $type }'] .jstree-anchor {
+            opacity: 1;
+        }
+    }
+
 
     // default site label styling
     .jstree-anchor:before {
         display: block;
         position: absolute;
+        z-index:1;
         top: 50%;
         margin-top: -.6em;
         padding: 0.25em;
@@ -24,26 +54,20 @@
         font-style: normal;
     }
 
-
-    // when there's a new site, add the indentifier  here..
-    $sites: NL, BE;
-
     @each $site in $sites {
-
-        // has value, so enable it
-        [sites='#{$site}'] {
-            opacity: 1;
-        }
-
         // ad site label, this also makes it visible
         [sites='#{$site}'] .jstree-anchor:before {
             content: '#{$site}';
         }
     }
 
-
     // symbolic icon
     [type='symboliccategory'] .jstree-anchor .jstree-icon {
         background-position: -67px -67px;
     }
+}
+
+// submenu above site label
+.vakata-context {
+    z-index: 1;
 }

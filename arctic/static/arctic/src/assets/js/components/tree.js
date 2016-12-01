@@ -1,15 +1,8 @@
 /*
     TODO:
-
-    dialog => refresh page na submit ( zelfde tree state (open folders)? )
-
     - http://localhost:8000/categories/create-symbolic/
         - target with search filter
-
     - keep state on refresh
-
-    - sub menu in contextmenu
-
  */
 
 ( function ( $ ) {
@@ -18,18 +11,19 @@
 
     function tree( element ) {
         this.element = $( '[data-tree]' );
+        this.tree = this.element.find( '[data-tree-container]' );
+        this.search = this.element.find( '[data-tree-search]' );
+
         this.url = {};
         this.url.data = this.element.data( 'tree' );
         this.url.post = '/categories/navigation-move-node/';
-        this.tree = this.element.find( '[data-tree-container]' );
-        this.search = this.element.find( '[data-tree-search]' );
+        this.url.category = '/categories/create/?dialog=true&parent_id=#';
+        this.url.symbolic = '/categories/create-symbolic/?dialog=true&pk_category=#';
 
         this.plugins = [];
 
         var self = this;
         self.init();
-
-        window.foo = this;
     }
 
 
@@ -65,7 +59,10 @@
         self.setContextmenu();
 
         // active changed
-        self.plugins.push( 'changed' );
+        // self.plugins.push( 'changed' );
+
+        // whole row
+        self.plugins.push( 'wholerow' );
 
         // activate search when <data-tree-search /> is set
         if ( self.search.length ) {
@@ -112,19 +109,44 @@
         // activate plugin
         self.plugins.push( 'contextmenu' );
 
-        var links = function ( node ) {
-
+        var categoryLinks = function ( node ) {
             var items = {
+                "Open": {
+                    "label": "Open",
+                    "action": function ( obj ) {
+                        window.location =  '/categories/' + node.id;
+                    }
+                },
                 "Create": {
                     "label": "Create new",
                     "action": function ( obj ) {
                         self.createCategory( node );
                     }
                 },
-                "Symbolic": {
-                    "label": "Create symbolic",
+                "Other": {
+                    "label": "Add other",
+                    "submenu" :{
+                        "Symbolic": {
+                            "label": "Create symbolic",
+                            "action": function ( obj ) {
+                                self.createSymbolic( node );
+                            }
+                        }
+                    }
+                }
+            }
+
+            return items;
+        }
+
+
+        var symbolicLinks = function ( node ) {
+
+            var items = {
+                "Open": {
+                    "label": "Open",
                     "action": function ( obj ) {
-                        self.createSymbolic( node );
+                        window.location =  '/categories/create/' + node.id;
                     }
                 }
             }
@@ -135,7 +157,13 @@
         // handlers
         self.contextmenu = {
             "items": function ( node ) {
-                return links( node )
+
+                // symbolic has own menu
+                if ( node.li_attr.type == 'symboliccategory' ) {
+                    return symbolicLinks( node )
+                } else {
+                    return categoryLinks( node )
+                }
             }
         }
     }
@@ -169,7 +197,6 @@
                 'data' : {
                     "url" : self.url.data,
                     "data" : function ( node ) {
-                        console.log( node );
 
                         if ( node.id == '#' ) {
                             return { "level" : 0 };
@@ -191,8 +218,7 @@
     tree.prototype.isDragged = function ( event, data ) {
         var self = this;
 
-        // TODO POSITION CHECK!
-        // show a loader..
+        var loader = arctic.utils.growl( 'warning', 'Saving...', 'your latest changes to the server' );
 
         var postdata = {}
         postdata.parent = data.parent;
@@ -207,11 +233,14 @@
         });
 
         post.success( function() {
-            // remove loader...
+            loader.remove();
+            var notification = arctic.utils.growl( 'success', 'Saved', 'your latest changes' );
+            notification.delay( 1000 ).fadeOut();
         });
 
         post.fail( function() {
-            alert( 'Error when sending drag change');
+            loader.remove();
+            var notification = arctic.utils.growl( 'error', 'Error...', 'when sending drag change' );
             throw new Error( 'Error when sending drag change' );
         });
     }
@@ -232,11 +261,10 @@
     tree.prototype.createCategory = function ( node ) {
         var self = this;
 
-        var url = self.element.data( 'create-category' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.parent ) {
-            url = url + "&parent_id=" + node.parent;
+        if ( dialog && node.id ) {
+            var url = self.url.category.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
@@ -247,11 +275,10 @@
     tree.prototype.createSymbolic = function ( node ) {
         var self = this;
 
-        var url = self.element.data( 'create-symbolic' );
         var dialog = $( '[data-reveal]' );
 
-        if ( dialog && url && node.id ) {
-            url = url + "&pk_category=" + node.id;
+        if ( dialog && node.id ) {
+            var url = self.url.symbolic.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
