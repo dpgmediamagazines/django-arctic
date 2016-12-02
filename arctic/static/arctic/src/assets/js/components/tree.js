@@ -16,9 +16,11 @@
 
         this.url = {};
         this.url.data = this.element.data( 'tree' );
-        this.url.post = '/categories/navigation-move-node/';
-        this.url.category = '/categories/create/?dialog=true&parent_id=#';
-        this.url.symbolic = '/categories/create-symbolic/?dialog=true&pk_category=#';
+        this.url.category_move = '/categories/navigation-move-node/';
+        this.url.category_create = '/categories/create/#/?dialog=true';
+        this.url.symbolic_create = '/categories/symbolic/create/#/?dialog=true';
+        this.url.category_detail = '/categories/#/';
+        this.url.symbolic_detail = '/categories/symbolic/#/';
 
         this.plugins = [];
 
@@ -114,7 +116,7 @@
                 "Open": {
                     "label": "Open",
                     "action": function ( obj ) {
-                        window.location =  '/categories/' + node.id;
+                        window.location = self.url.category_detail.replace( '#', node.id );
                     }
                 },
                 "Create": {
@@ -146,7 +148,7 @@
                 "Open": {
                     "label": "Open",
                     "action": function ( obj ) {
-                        window.location =  '/categories/create/' + node.id;
+                        window.location = self.url.symbolic_detail.replace( '#', node.id );
                     }
                 }
             }
@@ -227,7 +229,7 @@
 
         var post = $.ajax({
             type: "POST",
-            url: self.url.post,
+            url: self.url.category_move,
             data: postdata,
             dataType: 'json'
         });
@@ -264,7 +266,7 @@
         var dialog = $( '[data-reveal]' );
 
         if ( dialog && node.id ) {
-            var url = self.url.category.replace( '#', node.id );
+            var url = self.url.category_create.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
@@ -278,7 +280,7 @@
         var dialog = $( '[data-reveal]' );
 
         if ( dialog && node.id ) {
-            var url = self.url.symbolic.replace( '#', node.id );
+            var url = self.url.symbolic_create.replace( '#', node.id );
 
             // open dialog
             arctic.utils.revealIframe.open( dialog, url );
