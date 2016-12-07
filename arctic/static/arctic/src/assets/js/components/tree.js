@@ -17,7 +17,7 @@
         this.url = {};
         this.url.data = this.element.data( 'tree' );
         this.url.category_move = '/categories/navigation-move-node/';
-        this.url.category_create = '/categories/create/';
+        this.url.category_create = '/categories/create/#';
         this.url.symbolic_create = '/categories/symbolic/create/#/?dialog=true';
         this.url.category_detail = '/categories/#/';
         this.url.symbolic_detail = '/categories/symbolic/#/';
