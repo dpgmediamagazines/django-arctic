@@ -25,7 +25,7 @@ class ArticleListView(ListView):
     template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
-    fields = ['title', 'description', 'published', 'category']
+    fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
@@ -35,10 +35,10 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
-        'category': ('articles:category-detail', 'category.pk'),
+        'category': ('articles:category-detail', 'category_id'),
     }
     field_classes = {
-        'published': 'inline-widget boolean-circle',
+        'published': 'inline-widgetboolean-circle',
     }
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
@@ -61,7 +61,7 @@ class ArticleUpdateView(UpdateView):
         ('Back to list', 'articles:list'),
     ]
     layout = OrderedDict([
-                        ('-Basic Details',
+                        ('',
                          ['title|10', ['category', 'tags|5']]),
                         ('Body|Extra Information for this fieldset',
                          ['description']),
@@ -89,6 +89,13 @@ class ArticleCreateView(CreateView):
     model = Article
     form_class = ArticleForm
     permission_required = "articles_create"
+    layout = OrderedDict([
+                        ('-Basic Details',
+                         ['title|10', ['category', 'tags|5']]),
+                        ('Body|Extra Information for this fieldset',
+                         ['description']),
+                        ('Extended Details',
+                         [['published|4', 'updated_at']])])
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))

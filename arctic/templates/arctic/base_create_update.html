@@ -26,6 +26,9 @@
         {% block inlines %}
         {% if inlines %}
             {% for formset in inlines %}
+                {% if formset.verbose_name %}
+                    <h4>{{ formset.verbose_name }}</h4>
+                {% endif %}
                 {{ formset.management_form }}
                 {{ formset.non_form_errors }}
 

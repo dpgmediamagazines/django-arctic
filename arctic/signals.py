@@ -19,4 +19,5 @@ def superuser_post_save(sender, instance, **kwargs):
         except UserRole.DoesNotExist:
             UserRole(user=instance, role=admin).save()
 
+
 post_save.connect(superuser_post_save, sender=User)

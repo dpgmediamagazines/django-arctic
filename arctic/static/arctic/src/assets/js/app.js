@@ -122,11 +122,28 @@ function set_input_widgets() {
         });
     }
 
-    s.on( 'initialize', initializethis );
-    s_tags.on( 'initialize', initializethis );
-
-    var initializethis = function() { alert('js-selectize is initialized') };
-
+    $('.js-selectize-autocomplete').each(function(index) {
+        var url = $(this).attr('url');
+        $(this).selectize({
+            valueField: 'value',
+            labelField: 'label',
+            searchField: 'label',
+            create: false,
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: url + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function() {
+                        callback();
+                    },
+                    success: function(res) {
+                        callback(res.options);
+                    }
+                });
+            }
+        });
+    });
 
     $('.js-datepicker').each(function(index) {
         $(this).datepicker({
@@ -197,7 +214,7 @@ $(document).ready(function() {
 
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
-            if (tab) {
+            if (tab && (tab.text[0] != '●')) {
                 tab.text = '● ' + tab.text;
             }
             document.title = '● ' + document.title;

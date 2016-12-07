@@ -4,13 +4,12 @@
     <div class="small-12 medium-8 columns">
         {% if layout %}
             {% for index, layout_item in layout.items %}
-
+                {% if layout_item.fieldset.collapsible %}
+                    <fieldset class="collapse">
+                {% else %}
+                    <fieldset>
+                {% endif %}
                 {% if layout_item.fieldset.title %}
-                    {% if layout_item.fieldset.collapsible %}
-                        <fieldset class="collapse">
-                    {% else %}
-                        <fieldset>
-                    {% endif %}
                         <legend>{{ layout_item.fieldset.title }}</legend>
                 {% endif %}
 
@@ -30,16 +29,15 @@
                     </div>
                 {% endfor %}
 
-                {% if layout_item.fieldset.title %}
-                    </fieldset>
-                {% endif %}
+                </fieldset>
             {% endfor %}
 
         {% else %}
-
+            <fieldset>
             {% for field in form %}
                 {% include 'arctic/partials/form_field.html' with field=field%}
             {% endfor %}
+            </fieldset>
 
         {% endif %}
     </div>

@@ -7,13 +7,14 @@ from __future__ import (absolute_import, unicode_literals)
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
-from django.forms import model_to_dict
+from django.core.urlresolvers import reverse
 from django.utils import six
 
 from collections import OrderedDict
 
 from arctic.loading import (get_role_model, get_user_role_model)
 from arctic.utils import view_from_url
+from arctic.widgets import SelectAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
@@ -74,8 +75,8 @@ class LayoutMixin(object):
 
     This is how layouts are built:
         Fieldset
-          \-->  Rows
-                  \--> Fields
+          |-->  Rows
+                  |--> Fields
     """
     layout = None
     _fields = []
@@ -114,8 +115,7 @@ class LayoutMixin(object):
         return allowed_rows
 
     def _get_fields(self):
-        mtd = model_to_dict(self.object)
-        self._fields = [field for field, val in mtd.items()]
+        self._fields = [field for field in self.get_form().fields]
 
     def _process_first_level(self, rows):
         allowed_rows = []
@@ -201,7 +201,7 @@ class LayoutMixin(object):
                                            'description.')
 
             title = fieldset
-            if fieldset[0] == '-':
+            if fieldset and fieldset[0] == '-':
                 collapsible = True
                 title = fieldset[1:]
             if '|' in fieldset:
@@ -256,6 +256,54 @@ class LayoutMixin(object):
         else:
             return None
 
+    def update_form_widgets(self, form):
+        for field in form.fields:
+            if form.fields[field].__class__.__name__ == 'ModelChoiceField':
+                for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
+                    field_cls = '.'.join(values[0].lower().split('.')[-2:])
+                    if field_cls == str(form.fields[field].queryset.
+                                        model._meta):
+                        url = reverse('autocomplete', args=[key, ''])
+                        choices = ()
+                        if form.instance.pk:
+                            field_id = getattr(form.instance, field +
+                                               '_id')
+                            field_value = getattr(form.instance, field)
+                            choices = ((field_id, field_value),)
+                        field_id = 1
+                        field_value = 'a'
+                        form.fields[field].widget = SelectAutoComplete(
+                            attrs={'url': url,
+                                   'class': 'js-selectize-autocomplete'},
+                            choices=choices)
+        return form
+
+    def get_form(self, form_class=None):
+        form = super(LayoutMixin, self).get_form(form_class=None)
+        try:
+            form = self.update_form_widgets(form)
+        except AttributeError:
+            pass
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(LayoutMixin, self).get_context_data(**kwargs)
+        try:
+            i = 0
+            for formset in context['inlines']:
+                j = 0
+                if not hasattr(context['inlines'][i], 'verbose_name'):
+                    setattr(context['inlines'][i], 'verbose_name',
+                            formset.model._meta.verbose_name_plural)
+                for form in formset:
+                    context['inlines'][i][j].fields = \
+                        self.update_form_widgets(form).fields
+                    j += 1
+                i += 1
+        except KeyError:
+            pass
+        return context
+
 
 class RoleAuthentication(object):
     """
@@ -279,7 +327,6 @@ class RoleAuthentication(object):
         role. Roles that are no longer specified in settings are set as
         inactive.
         """
-
         try:
             settings_roles = set(settings.ARCTIC_ROLES.keys())
         except AttributeError:
@@ -321,7 +368,6 @@ class RoleAuthentication(object):
         Get permission required property.
         Must return an iterable.
         """
-
         if cls.permission_required is None:
             raise ImproperlyConfigured(
                 '{0} is missing the permission_required attribute. '
