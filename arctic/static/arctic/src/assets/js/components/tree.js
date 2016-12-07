@@ -17,7 +17,7 @@
         this.url = {};
         this.url.data = this.element.data( 'tree' );
         this.url.category_move = '/categories/navigation-move-node/';
-        this.url.category_create = '/categories/create/#/?dialog=true';
+        this.url.category_create = '/categories/create/';
         this.url.symbolic_create = '/categories/symbolic/create/#/?dialog=true';
         this.url.category_detail = '/categories/#/';
         this.url.symbolic_detail = '/categories/symbolic/#/';
@@ -267,9 +267,7 @@
 
         if ( dialog && node.id ) {
             var url = self.url.category_create.replace( '#', node.id );
-
-            // open dialog
-            arctic.utils.revealIframe.open( dialog, url );
+            window.location = url
         }
     }
 
