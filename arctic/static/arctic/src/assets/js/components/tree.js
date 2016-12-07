@@ -39,7 +39,7 @@
         self.build();
 
         // iniate search if plugin is enabled
-        if ( $.inArray('search', self.plugins ) ) {
+        if ( $.inArray( 'search', self.plugins ) ) {
             this.search.submit( function( event ) {
                 self.searchInTree( event );
             });
