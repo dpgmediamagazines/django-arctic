@@ -367,9 +367,14 @@ class ListView(View, base.ListView):
                 fields.append(field[0] if type(field) in (list, tuple)
                               else field)
             for obj in objects:
+                row = []
                 # get the row's foreign key
-                row_id = getattr(obj, 'pk')
-                row = [row_id]
+                row_id = getattr(obj, 'pk', None)
+                if row_id:
+                    row.append(row_id)
+                else:
+                    # while annotating, it's possible that there is no pk
+                    row.append('')
                 for field_name in fields:
                     field = {'field': field_name}
                     try:  # first try to find a virtual field
@@ -384,8 +389,8 @@ class ListView(View, base.ListView):
                                 parent_objs,
                                 field_name.split('__')[-1]).strip('__')
                             value = find_attribute(obj, method_name)()
-                        except AttributeError:  # finally get field's value
-                                value = find_attribute(obj, field_name)
+                        except (AttributeError, TypeError):  # finally get field's value
+                            value = find_attribute(obj, field_name)
 
                     base_field_name = field_name.split('__')[0]
                     field_class = get_field_class(objects, base_field_name)
