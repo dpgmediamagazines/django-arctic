@@ -1,6 +1,7 @@
 import importlib
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.views.generic.base import View as BaseView
 
@@ -60,12 +61,15 @@ class AutoCompleteView(BaseView):
         return {'options': data}
 
     def get(self, request, *args, **kwargs):
-        model_name, field = settings.ARCTIC_AUTOCOMPLETE[kwargs['resource']]
-        model_path = '.'.join(model_name.split('.')[:-1]) + '.models'
-        model_package = importlib.import_module(model_path)
-        model = getattr(model_package, model_name.split('.')[-1])
-        context = self.get_data(model, field, kwargs['search'])
-        return self.render_to_response(context)
+        if settings.DEBUG or request.is_ajax():
+            model_name, field = settings.ARCTIC_AUTOCOMPLETE[
+                kwargs['resource']]
+            model_path = '.'.join(model_name.split('.')[:-1]) + '.models'
+            model_package = importlib.import_module(model_path)
+            model = getattr(model_package, model_name.split('.')[-1])
+            context = self.get_data(model, field, kwargs['search'])
+            return self.render_to_response(context)
+        raise PermissionDenied
 
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(context, safe=False)
