@@ -190,3 +190,10 @@ def find_field_meta(obj, value):
         child_obj = obj._meta.get_field(value_list[0]).rel.to
         return find_field_meta(child_obj, '__'.join(value_list[1:]))
     return obj._meta.get_field(value)
+
+
+def get_field_class(qs, field_name):
+    """
+    Given a queryset and a field name, it will return the field's class
+    """
+    return qs.model._meta.get_field(field_name).__class__.__name__

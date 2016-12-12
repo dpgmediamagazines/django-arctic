@@ -25,7 +25,7 @@ class ArticleListView(ListView):
     template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
-    fields = ['title', 'description', 'published', 'category']
+    fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
     breadcrumbs = (('Home', 'index'), ('Article List', None))
@@ -35,10 +35,10 @@ class ArticleListView(ListView):
     field_links = {
         'title': 'articles:detail',
         'published': 'articles:detail',
-        'category': ('articles:category-detail', 'category.pk'),
+        'category': ('articles:category-detail', 'category_id'),
     }
     field_classes = {
-        'published': 'inline-widget boolean-circle',
+        'published': 'inline-widgetboolean-circle',
     }
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
