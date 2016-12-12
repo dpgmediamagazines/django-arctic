@@ -198,7 +198,7 @@ def get_field_class(qs, field_name):
     Given a queryset and a field name, it will return the field's class
     """
     try:
-        qs.model._meta.get_field(field_name).__class__.__name__
+        return qs.model._meta.get_field(field_name).__class__.__name__
     # while annotating, it's possible that field does not exists.
     except FieldDoesNotExist:
         return None
