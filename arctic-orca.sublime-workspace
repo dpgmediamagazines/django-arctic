@@ -1,0 +1,1493 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bre",
+				"breakpoints"
+			],
+			[
+				"webpa",
+				"webpackConfig〔variable〕"
+			],
+			[
+				"stri",
+				"stringify"
+			],
+			[
+				"type",
+				"typeof〔keyword〕"
+			],
+			[
+				"comp",
+				"components〔module〕"
+			],
+			[
+				"start",
+				"startDate"
+			],
+			[
+				"datepicker",
+				"datepickerValue"
+			],
+			[
+				"ReactR",
+				"ReactRouter"
+			],
+			[
+				"Wel",
+				"WelcomePage"
+			],
+			[
+				"Reac",
+				"ReactDOM"
+			],
+			[
+				"back",
+				"background-color: "
+			],
+			[
+				"gu",
+				"gutil"
+			],
+			[
+				"u",
+				"uppercase"
+			],
+			[
+				"over",
+				"overflow: "
+			],
+			[
+				"m",
+				"middle"
+			],
+			[
+				"text",
+				"text-align: "
+			],
+			[
+				"pa",
+				"padding: "
+			],
+			[
+				"border-sty",
+				"border-top-style: "
+			],
+			[
+				"g",
+				"gutter-double-size"
+			],
+			[
+				"paddi",
+				"padding: "
+			],
+			[
+				"gutter-",
+				"gutter-double-size"
+			],
+			[
+				"gutter-s",
+				"gutter-size-double"
+			],
+			[
+				"gutter",
+				"gutter-size-double"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"numb",
+				"numbersLength"
+			],
+			[
+				"calc",
+				"calcTypesLength"
+			],
+			[
+				"box",
+				"box-sizing: "
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"Pa",
+				"PaulineBroek"
+			],
+			[
+				"current",
+				"current_issue"
+			],
+			[
+				"border-r",
+				"border-right: "
+			],
+			[
+				"trans",
+				"transform-origin: "
+			],
+			[
+				"comments",
+				"comments_settings"
+			],
+			[
+				"te",
+				"text-decoration: "
+			],
+			[
+				"link_",
+				"link_list_date"
+			],
+			[
+				"bac",
+				"background-color: "
+			],
+			[
+				"dis",
+				"display: "
+			],
+			[
+				"Commments",
+				"CommmentsInitialView"
+			],
+			[
+				"content",
+				"content-overview"
+			],
+			[
+				"this",
+				"thisVoteCount"
+			],
+			[
+				"Verkoo",
+				"Verkoopcijfers"
+			],
+			[
+				"cont",
+				"containerWidth"
+			],
+			[
+				"widg",
+				"widget_table_chart"
+			],
+			[
+				"google",
+				"google_analytics"
+			],
+			[
+				"fuel--trip-",
+				"fuel--trip-total-km"
+			],
+			[
+				"margin",
+				"margin: "
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"backgroun",
+				"background-color: "
+			],
+			[
+				"respo",
+				"respond-min"
+			],
+			[
+				"reqre",
+				"requirejs"
+			],
+			[
+				"nameM",
+				"nameMakes"
+			],
+			[
+				"d",
+				"disabled	Attr"
+			],
+			[
+				"paddin",
+				"padding-bottom: "
+			],
+			[
+				"place",
+				"placeholder--ad"
+			],
+			[
+				"backgrou",
+				"background-color: "
+			],
+			[
+				"font-",
+				"font-size: "
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"line",
+				"Line Ending: Unix"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"raw",
+				"Raw Line Edit: Toggle"
+			],
+			[
+				"ra",
+				"Raw Line Edit: Toggle"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"remove pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"line endings",
+				"Preferences: Alignment Key Bindings – User"
+			],
+			[
+				"line en",
+				"Line Endings Unify"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"htmlp",
+				"HTMLPrettify: Set Plugin Options"
+			],
+			[
+				"install pac",
+				"Package Control: Install Package"
+			],
+			[
+				"autopep",
+				"AutoPEP8: Format Code"
+			],
+			[
+				"html pretty",
+				"HTMLPrettify: Set Plugin Options"
+			],
+			[
+				"trimmer",
+				"Trimmer: Trim trailing whitespace."
+			],
+			[
+				"synt",
+				"Set Syntax: Python"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 601.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Raymond/Desktop/components/dist/js/app.js",
+		"/Users/Raymond/Desktop/components/src/js/utils.js",
+		"/Users/Raymond/Desktop/components/src/scss/app.scss",
+		"/Users/Raymond/Desktop/components/package.json",
+		"/Users/Raymond/Desktop/components/gulpfile.js",
+		"/Users/Raymond/Desktop/components/src/html/index.html",
+		"/Users/Raymond/Desktop/components/src/js/app.js",
+		"/Users/Raymond/Desktop/components/src/js/classes/mediaQuery.js",
+		"/Users/Raymond/Desktop/components/config.json",
+		"/Users/Raymond/Desktop/components/bla/package.json",
+		"/Users/Raymond/Desktop/components/dist/js/7474b2c2e90c62d846a8.js",
+		"/Users/Raymond/Desktop/components/webpack.config.js",
+		"/Users/Raymond/Documents/Het Webbureau/www.id.com/static/webpack.config.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/iframe.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/base_data_table.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/base_dialog.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/components/reveal.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/app.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_reveal.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_dialog.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/index.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/base.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/head.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_callout.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/config.yml",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/gulpfile.babel.js",
+		"/Users/Raymond/Desktop/accordion.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/components/sortable.js",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/feeds/feed_config.html",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/rules/ruleset_detail.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_rules.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/base_create_update.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower.json",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/app.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/dist/assets/js/app.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/utils/helpers.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/components/form.js",
+		"/Users/Raymond/Documents/Sanoma/orca_api/api/apps/feed/models.py",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_query-builder.scss",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/db.sqlite3",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_tabs.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/dist/assets/img/arctic_logo.svg",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/static/admin/src/scss/partials/_rules.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/form_validation.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/js/components/slugify.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/.babelrc",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/categories/category_products.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/MANIFEST.in",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/form_fields_inline.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/package.json",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/.gitattributes",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_tables.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_table-filters.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_switch.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/components/selectize/_selectize.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_input-fields.scss",
+		"/Users/Raymond/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/selectize/dist/js/standalone/selectize.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/jquery.are-you-sure/jquery.are-you-sure.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_cards.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_pizza.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/jQuery-QueryBuilder/examples/index.html",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/apps/categories/static/js/query-builder.standalone.min.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/selectize/dist/js/selectize.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/dist/assets/components/selectize/selectize.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_off-canvas.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/dist/assets/css/app.css",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/css/app.css",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/config.json",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/selectize/.bower.json",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/403.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/pages/_detail.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic_bak/src/scss/_project-settings.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/assets/scss/partials/_base.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/.gitignore",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic_bak/src/scss/partials/_tabs.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic_bak/gulpfile.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic_bak/src/scss/app.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/_project-settings.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/partials/_tile.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/js/components/query-builder.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/app.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/js/components/form.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/js/utils/helpers.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/js/app.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/partials/_query-builder.scss",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/products/product_type_detail.html",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/products/product_detail.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/forms/_select.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/jQuery-QueryBuilder/dist/scss/default.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/font-awesome/css/font-awesome.css",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/components/_button.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/_global.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/partials/_off-canvas.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/components/_off-canvas.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/components/_menu.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/js/components/query-builder.js",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/apps/categories/config.py",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/apps/categories/app.py",
+		"/Users/Raymond/Documents/Sanoma/orca_api/api/apps/category/config.py",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/motion-ui/src/util/_series.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/js/components/form.js",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/templates/index.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/jQuery-QueryBuilder/examples/index.html",
+		"/Users/Raymond/Documents/Sanoma/orca_admin/admin/apps/categories/static/css/query-builder.standalone.css",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/gulpfile.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/base_confirm_delete.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/partials/_input-fields.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/_settings.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/scss/partials/_rules.scss",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/js/utils/helpers.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/src/js/app.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/jquery.are-you-sure/jquery.are-you-sure.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/static/arctic/build/components/jquery.are-you-sure/ays-beforeunload-shim.js",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/form_field.html",
+		"/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates/arctic/partials/form_fields.html",
+		"/Users/Raymond/Documents/Sanoma/aw-design/src/static/scss/modules/_navigation.scss",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/atoms/components/message.html",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/templates/super-global.html",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/pages/article/article.html",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/molecules/partials/foot.html",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/molecules/partials/head.html",
+		"/Users/Raymond/Desktop/occasion",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/molecules/modules/videoplayer.html",
+		"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss/molecules/modules/_comments-cta.scss"
+	],
+	"find":
+	{
+		"height": 33.0
+	},
+	"find_in_files":
+	{
+		"height": 113.0,
+		"where_history":
+		[
+			"/Users/Raymond/Documents/Sanoma/django-arctic,/Users/Raymond/Documents/Sanoma/orca_admin, /Users/Raymond/Documents/Sanoma/orca_api",
+			"",
+			"/Users/Raymond/Documents/Sanoma/orca_admin/,/Users/Raymond/Documents/Sanoma/orca_api/, /Users/Raymond/Documents/Sanoma/django-arctic",
+			"/Users/Raymond/Documents/Sanoma/orca_admin/,/Users/Raymond/Documents/Sanoma/orca_api/, /Users/Raymond/Documents/Sanoma/django-admin",
+			"/Users/Raymond/Documents/Sanoma/orca_admin/,/Users/Raymond/Documents/Sanoma/orca_api/",
+			"/Users/Raymond/Documents/Sanoma/orca_admin/",
+			"/Users/Raymond/Documents/Sanoma/orca-admin",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/*.js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/*js",
+			"*.js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			"*.html,/Users/Raymond/Documents/Sanoma/django-arctic/arctic/templates",
+			"*.html",
+			"*.scss",
+			"",
+			"*.html",
+			"*.ht,l",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/data",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"",
+			"-dist,-node_modules",
+			"!node_modules, !dist",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/data",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"",
+			"*.scss",
+			"*.html",
+			"*.js",
+			"*.html",
+			"",
+			"*.scss",
+			"/Users/Raymond/Documents/Sanoma/arctic/arctic/static/arctic/src",
+			"",
+			"*.html",
+			"",
+			"*.scss",
+			"*.js",
+			"*.scss",
+			"*.js",
+			"",
+			"*.html",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			".py",
+			"",
+			"/Users/Raymond/Documents/Sanoma/arctic/arctic/static/arctic/scss",
+			"",
+			"/Users/Raymond/Documents/Sanoma/arctic/arctic/static/arctic/scss",
+			"",
+			"*.scss",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss, /Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js/ui/filters",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js/ui/",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js/ui/filters",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/dist/js/ui/filters",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/dist/js/ui/",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/dist/js",
+			"",
+			"/Users/Raymond/Desktop/tarmac/,-node_modules",
+			"/Users/Raymond/Desktop/tarmac/src",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"",
+			"/Users/Raymond/Documents/Sanoma/hettestpanel",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide",
+			"/Users/Raymond/Documents/Sanoma/aw-web",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/src",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates/autoweek",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/js",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/src",
+			"/Users/Raymond/Documents/Sanoma/hettestpanel-gigya/src",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss,/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/templates",
+			"/Users/Raymond/Documents/Sanoma/aw-styleguide/sites/autoweek/static/autoweek/src/scss",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"match",
+			"console.lo",
+			"media",
+			"all",
+			"lint",
+			"scss",
+			"lint",
+			"__webpack_require__",
+			"webpack",
+			"javascript",
+			"webpa",
+			"javascript",
+			"webpack",
+			"this.id",
+			"data-open",
+			"this.id",
+			"dialog",
+			"auto-close",
+			"reveal",
+			"close",
+			"include",
+			"dialog",
+			"{{",
+			"{% ",
+			"jquery",
+			"{{",
+			"{{{",
+			"{{",
+			"dialog_id",
+			"this.id",
+			"$",
+			"dialog",
+			"this.id = '#' + this.open;",
+			"this.id",
+			"title",
+			"reveal",
+			"data",
+			"self",
+			"this",
+			"self",
+			"reveal",
+			"browser",
+			"open()",
+			"opens",
+			"open-iframe-dialog",
+			"dialog-1",
+			"deleteHandleClass",
+			"self.placeholder",
+			"self.delete",
+			"self.handle",
+			"delete",
+			"placeholder",
+			"handle",
+			"rowClass",
+			"class=\"rules\"",
+			"15px",
+			"10px",
+			"gutter",
+			"this",
+			"remove",
+			"target",
+			".delete",
+			"placeholder",
+			"console.log",
+			"el",
+			"Sortable",
+			"sort",
+			"positions",
+			"consol",
+			"class=\"rules\"",
+			"\"rules\"",
+			"class=\"rules\"",
+			"        ",
+			"gutter",
+			"10px",
+			"red",
+			"Conditional",
+			"Conditional rule",
+			"Conditional",
+			"Simple",
+			"Simple ",
+			"simple rule",
+			"border-top: 1px ",
+			"class=\"rules\"",
+			"rem",
+			"primary",
+			"chosen-select",
+			"class=\"rules\"",
+			".46875rem",
+			"class=\"rules\"",
+			"class=\"rules",
+			"image-min",
+			"#B000B5",
+			"class=\"rules",
+			"rules",
+			"require",
+			"$('.query-builder')",
+			"$( '.query-builder' )",
+			"query-builder",
+			"set_input_widgets",
+			"inline-widget",
+			"lowerCaseKeys",
+			"slugify",
+			"selectize",
+			".html",
+			"query-builder",
+			"query-builder form-inline",
+			"jquery",
+			"filters",
+			".load",
+			"indexOf is not a function",
+			".js",
+			"uncss",
+			"build",
+			"data-dropdown-menu",
+			"page-title",
+			"switch",
+			"small-12 columns table-scroll",
+			"page-filters",
+			"chosen-select",
+			"$global-radius",
+			"$global-radius\n",
+			"border-r",
+			"source",
+			"border-ra",
+			"fields",
+			"$dirtyForms",
+			"foo"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"self.positionPlaceholder",
+			"self.deleteHandle",
+			"self.sortHandle",
+			"data-sortHandle",
+			"deleteHandle",
+			"positionPlaceholder",
+			"sortHandle",
+			"$marginLarge",
+			"$marginMedium",
+			"row",
+			"\"",
+			"",
+			"tile small-4 medium-3 large-2 columns",
+			"tile small-6 medium-3 large-2 columns",
+			"tile small-3 medium-4 large-2 columns",
+			"tile small-6 medium-4 large-2 columns",
+			"tile small-6 medium-4 large-1 columns",
+			"tile small-6 medium-4 large-3 xxlarge-1",
+			"<a href=\"#\" class=\"tile small-6 medium-4 large-3 xxlarge-2 columns\">\n            <div>\n                <img src=\"http://dummyimage.com/400x200/000/fff\" alt=\"title\" />\n                <h5>Lorem ipsum</h5>\n            </div>\n        </a>",
+			"",
+			"#",
+			"tile small-6 medium-4 large-3 xxlarge-2 columns",
+			"tile small-6 medium-4 large-3 xlarge-2 columns",
+			"tile small-6 medium-4 large-3 x-large-2 columns",
+			"tile small-6 medium-4 large-3 xlarge-2 columns",
+			"<a href=\"/bla\" ",
+			"class=\"tile small-6 medium-4 large-3 columns",
+			"<h5>Lorem ipsum</h5>",
+			"small-6 medium-4 large-3 columns",
+			"<a href=\"\" class=\"small-6 medium-4 large-2 columns\">",
+			"<a href=\"\" class=\"small-6 medium-4 large-4 columns\">",
+			"<a href=\"\" class=\"small-6 medium-4 large-3 columns\">",
+			"element",
+			"slug",
+			"AW-",
+			"meta_with_links()",
+			"heading_splash",
+			"# ",
+			"%}",
+			"{%",
+			"bla",
+			"@include button",
+			".",
+			"}\n\n    @",
+			".",
+			"@include widget",
+			"is-stuck",
+			"@include clearfix",
+			"@include icon-arrow-down",
+			"@include icon",
+			"@include font-condensed-bold",
+			"@include font-condensed-regular",
+			"@include font-sans-bold",
+			"@include font-sans-italic",
+			"@include font-sans-regular",
+			"button-shadow",
+			"js/utils/styledScrollbar",
+			"js/utils/sticky",
+			"js/widgets/slider",
+			"/views/article/counter",
+			"/utils/buttonMenu.js",
+			"js/widgets/poll ",
+			"js/utils/tabToggler",
+			"/utils/selectboxNavigation.js",
+			"fontName: 'PT Sans,sans-serif',",
+			"fontName: 'Arial',",
+			"	",
+			"    ",
+			"",
+			"build",
+			".build",
+			"    ",
+			"arctic",
+			"¬",
+			"",
+			"    ",
+			"        ",
+			" }}",
+			"{{ ",
+			"    ",
+			"content-panel-image-1.jpg",
+			" 'is_video' : 1,",
+			"'is_video' : 1,\n                'is_photo' : 0,",
+			"is-large",
+			"$thumbnail-icon-",
+			"thumbnail-symbol-",
+			"symbol-over",
+			" )",
+			"( ",
+			"()",
+			" )",
+			"( ",
+			".has-large-icon",
+			"icon-large",
+			"responsive-and-large-thumbnail",
+			"[class*=\"large-\"]",
+			"[class^=\"large-\"]",
+			".#{$parent}",
+			"teaser",
+			"",
+			"teaser",
+			"&.large-link",
+			"small-content-link",
+			"if (",
+			"});",
+			"' ]",
+			"[ '",
+			"() {",
+			"()",
+			" )",
+			"( ",
+			")",
+			"(",
+			"})",
+			"()",
+			" )",
+			")",
+			"( ",
+			")",
+			"(",
+			"{{ object.id }}",
+			"self.$secondary",
+			"self.$secondaryChildrenTotalWidth",
+			"self.$secondaryChildrenWidths",
+			"self.$secondaryWidths",
+			"visibilityResetDatePicker",
+			"visibilityDatePickerReset",
+			"resetDatePickerVisibility"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 33.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.CSS Extended Completions":
+	{
+		"height": 0.0
+	},
+	"output.autopep8":
+	{
+		"height": 152.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "arctic-orca.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"app.js",
+				"dist/js/app.js"
+			],
+			[
+				"confi",
+				"config.json"
+			],
+			[
+				"config.js",
+				"config.json"
+			],
+			[
+				"app.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/app.scss"
+			],
+			[
+				"projec",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"reveal.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_reveal.scss"
+			],
+			[
+				"index.html",
+				"django-arctic/arctic/templates/arctic/index.html"
+			],
+			[
+				"iframe",
+				"django-arctic/arctic/static/arctic/iframe.html"
+			],
+			[
+				"arctic/templates/arctic/partials/base_data_table.html",
+				"django-arctic/arctic/templates/arctic/partials/base_data_table.html"
+			],
+			[
+				"arctic/templates/arctic/base_dialog.html",
+				"django-arctic/arctic/templates/arctic/base_dialog.html"
+			],
+			[
+				"base.htm",
+				"django-arctic/arctic/templates/arctic/base.html"
+			],
+			[
+				"dialog",
+				"django-arctic/arctic/templates/arctic/base_dialog.html"
+			],
+			[
+				"revea",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/reveal.js"
+			],
+			[
+				"base.html",
+				"django-arctic/arctic/templates/arctic/base.html"
+			],
+			[
+				"iframe.html",
+				"django-arctic/arctic/static/arctic/iframe.html"
+			],
+			[
+				"query",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"reveal.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/reveal.js"
+			],
+			[
+				"head.html",
+				"django-arctic/arctic/templates/arctic/partials/head.html"
+			],
+			[
+				"all.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_callout.scss"
+			],
+			[
+				"config.yml",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"sortab",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/sortable.js"
+			],
+			[
+				"config.tml",
+				"orca_admin/admin/templates/feeds/feed_config.html"
+			],
+			[
+				"babel.",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"base_dial",
+				"django-arctic/arctic/templates/arctic/base_dialog.html"
+			],
+			[
+				"srot",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/sortable.js"
+			],
+			[
+				"sort",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/sortable.js"
+			],
+			[
+				"project-se",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"bower.json",
+				"django-arctic/arctic/static/arctic/bower.json"
+			],
+			[
+				"arctic/base_create_update.html",
+				"django-arctic/arctic/templates/arctic/base_create_update.html"
+			],
+			[
+				"rules.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_rules.scss"
+			],
+			[
+				"helper.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/utils/helpers.js"
+			],
+			[
+				"query-builder.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_query-builder.scss"
+			],
+			[
+				"tabs.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_tabs.scss"
+			],
+			[
+				"project",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"gulpfile",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"arctic/static/arctic/dist/assets/img/arctic_logo.svg",
+				"django-arctic/arctic/static/arctic/dist/assets/img/arctic_logo.svg"
+			],
+			[
+				"config.",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"gulp",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"babelrc",
+				"django-arctic/arctic/static/arctic/.babelrc"
+			],
+			[
+				"babel",
+				"django-arctic/arctic/static/arctic/.babelrc"
+			],
+			[
+				"foot.html",
+				"django-arctic/arctic/templates/arctic/partials/form_validation.html"
+			],
+			[
+				"config",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"arctic/static/arctic/bower.json",
+				"django-arctic/arctic/static/arctic/bower.json"
+			],
+			[
+				"query-bui",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"config.ym",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"inline",
+				"django-arctic/arctic/templates/arctic/partials/form_fields_inline.html"
+			],
+			[
+				"querybuilder.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"category_products.html",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"gulpb",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"gulpfie",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"category",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"gitattr",
+				"django-arctic/.gitattributes"
+			],
+			[
+				"pacja",
+				"django-arctic/arctic/static/arctic/package.json"
+			],
+			[
+				"rules",
+				"orca_admin/admin/templates/rules/ruleset_detail.html"
+			],
+			[
+				"cate",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"gulpfil",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"table.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_tables.scss"
+			],
+			[
+				"partials/_tables",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_table-filters.scss"
+			],
+			[
+				"swith",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_switch.scss"
+			],
+			[
+				"arctic/partials/form_fields_inline.html",
+				"django-arctic/arctic/templates/arctic/partials/form_fields_inline.html"
+			],
+			[
+				"fields.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_input-fields.scss"
+			],
+			[
+				"project-s",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"gulpf",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"select",
+				"django-arctic/arctic/static/arctic/src/assets/scss/components/selectize/_selectize.scss"
+			],
+			[
+				"gulpfile.",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"components/query-builder.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"bower_components/jquery.are-you-sure/jquery.are-you-sure.js",
+				"~/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/jquery.are-you-sure/jquery.are-you-sure.js"
+			],
+			[
+				"components/selectize/_selectize",
+				"django-arctic/arctic/static/arctic/src/assets/scss/components/selectize/_selectize.scss"
+			],
+			[
+				"app",
+				"django-arctic/arctic/static/arctic/src/assets/scss/app.scss"
+			],
+			[
+				"project-",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"partials/_pizza.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_pizza.scss"
+			],
+			[
+				"query-builder.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"arctic/templates/arctic/base_create_update.html",
+				"django-arctic/arctic/templates/arctic/base_create_update.html"
+			],
+			[
+				"query-builder",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"src/assets/js/components/query-builder.js",
+				"django-arctic/arctic/static/arctic/src/assets/js/components/query-builder.js"
+			],
+			[
+				"bower_components/jquery-querybuilder/dist/js/query-builder.standalone.js",
+				"~/Documents/Sanoma/django-arctic/arctic/static/arctic/bower_components/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
+			],
+			[
+				"dist/js/query-builder.js",
+				"orca_admin/admin/apps/categories/static/js/query-builder.standalone.min.js"
+			],
+			[
+				"bower.j",
+				"django-arctic/arctic/static/arctic/bower.json"
+			],
+			[
+				"bower.jo",
+				"django-arctic/arctic/static/arctic/bower.json"
+			],
+			[
+				"off",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_off-canvas.scss"
+			],
+			[
+				"proje",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"arctic/static/arctic/dist/assets/css/app.css",
+				"django-arctic/arctic/static/arctic/dist/assets/css/app.css"
+			],
+			[
+				"pizza",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_pizza.scss"
+			],
+			[
+				"arctic/static/arctic/src/assets/scss/app.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/app.scss"
+			],
+			[
+				"config.y",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"src/assets/scss/app.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/app.scss"
+			],
+			[
+				"off-canvas",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_off-canvas.scss"
+			],
+			[
+				"arctic/static/arctic/build/css/app.css",
+				"django-arctic/arctic/static/arctic/build/css/app.css"
+			],
+			[
+				"arctic/static/arctic/config.json",
+				"django-arctic/arctic/static/arctic/config.json"
+			],
+			[
+				"arctic/templates/arctic/403.html",
+				"django-arctic/arctic/templates/arctic/403.html"
+			],
+			[
+				"arctic/templates/arctic/base.html",
+				"django-arctic/arctic/templates/arctic/base.html"
+			],
+			[
+				"arctic/dist/assets/js/app.js",
+				"django-arctic/arctic/static/arctic/dist/assets/js/app.js"
+			],
+			[
+				"proj",
+				"django-arctic/arctic/static/arctic/src/assets/scss/_project-settings.scss"
+			],
+			[
+				"detail.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/pages/_detail.scss"
+			],
+			[
+				"base.scss",
+				"django-arctic/arctic/static/arctic/src/assets/scss/partials/_base.scss"
+			],
+			[
+				"gitigno",
+				"django-arctic/.gitignore"
+			],
+			[
+				"selec",
+				"django-arctic/arctic/static/arctic/src/assets/scss/components/selectize/_selectize.scss"
+			],
+			[
+				"tile.scss",
+				"django-arctic/arctic/static/arctic/src/scss/partials/_tile.scss"
+			],
+			[
+				"gitat",
+				"django-arctic/.gitattributes"
+			],
+			[
+				"products.html",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"builder.scss",
+				"django-arctic/arctic/static/arctic/src/scss/partials/_query-builder.scss"
+			],
+			[
+				"quer",
+				"django-arctic/arctic/static/arctic/src/js/components/query-builder.js"
+			],
+			[
+				"product_",
+				"orca_admin/admin/templates/products/product_type_detail.html"
+			],
+			[
+				"product",
+				"orca_admin/admin/templates/products/product_detail.html"
+			],
+			[
+				"/admin/templates/categories/category_products.html",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"jquery-querybuilder/dist/scss/default",
+				"django-arctic/arctic/static/arctic/build/components/jQuery-QueryBuilder/dist/scss/default.scss"
+			],
+			[
+				"font-awes",
+				"django-arctic/arctic/static/arctic/build/components/font-awesome/css/font-awesome.css"
+			],
+			[
+				"button.scss",
+				"django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/components/_button.scss"
+			],
+			[
+				"project-sett",
+				"django-arctic/arctic/static/arctic/src/scss/_project-settings.scss"
+			],
+			[
+				"menu.scss",
+				"django-arctic/arctic/static/arctic/build/components/foundation-sites/scss/components/_menu.scss"
+			],
+			[
+				"arctic/static/arctic/src/scss/partials/_query-builder.scss",
+				"django-arctic/arctic/static/arctic/src/scss/partials/_query-builder.scss"
+			],
+			[
+				"querybuilder.scss",
+				"django-arctic/arctic/static/arctic/src/scss/partials/_query-builder.scss"
+			],
+			[
+				"jquery-bui",
+				"django-arctic/arctic/static/arctic/build/js/components/query-builder.js"
+			],
+			[
+				"q",
+				"django-arctic/arctic/static/arctic/build/js/components/query-builder.js"
+			],
+			[
+				"git",
+				"django-arctic/.gitattributes"
+			],
+			[
+				"category_pr",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"query-build",
+				"django-arctic/arctic/static/arctic/src/js/components/query-builder.js"
+			],
+			[
+				"admin/templates/categories/category_products.html",
+				"orca_admin/admin/templates/categories/category_products.html"
+			],
+			[
+				"tiles.csss",
+				"django-arctic/arctic/static/arctic/build/components/motion-ui/src/util/_series.scss"
+			],
+			[
+				"arctic/static/arctic/src/js/components/query-builder.js",
+				"django-arctic/arctic/static/arctic/src/js/components/query-builder.js"
+			],
+			[
+				"form.js",
+				"django-arctic/arctic/static/arctic/src/js/components/form.js"
+			],
+			[
+				"index.htl",
+				"orca_admin/admin/templates/index.html"
+			],
+			[
+				"query-b",
+				"django-arctic/arctic/static/arctic/src/js/components/query-builder.js"
+			],
+			[
+				"gitign",
+				"django-arctic/.gitignore"
+			],
+			[
+				"conf",
+				"django-arctic/arctic/static/arctic/config.yml"
+			],
+			[
+				"gulp.",
+				"django-arctic/arctic/static/arctic/gulpfile.babel.js"
+			],
+			[
+				"css/query-builder.standalone.css",
+				"orca_admin/admin/apps/categories/static/css/query-builder.standalone.css"
+			],
+			[
+				"base_confirm_delete",
+				"django-arctic/arctic/templates/arctic/base_confirm_delete.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 336.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

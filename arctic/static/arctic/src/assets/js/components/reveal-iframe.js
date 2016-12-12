@@ -7,110 +7,164 @@
     data-url = is url which need to be opened with iframe
  */
 
+
 ( function ( $ ) {
 
     'use strict';
 
-    function RevealIframe( element ) {
-        this.element = element;
-
-        // setup dialog with iframe listener
-        if ( this.element && this.element.size() ) {
-            this.location = window.location.href;
-            this.id = this.element.data( 'open' );
-            this.dialog = $( '#' + this.id );
-            this.iframe = this.dialog.find( 'iframe' );
-        }
-
-        // it's an iframe
-        if ( window.parent != window ) {
-            this.framed = true;
-            this.parent = window.parent;
-            this.body = $( 'body' );
-            this.auto_close = this.element.data( 'auto-close' );
-            this.parent_reload = $('body').data( 'refresh-parent' );
-            this.hide = $( '[data-close]' );
-        }
-
-        var self = this;
-        this.init();
-    }
+    var module = {
+        framed: undefined,
 
 
-    RevealIframe.prototype.init = function ( ) {
+        init: function( element ) {
+            var self = this;
 
-        // open dialog with an iframe
-        if ( this.dialog && this.element.size() ) {
+            self.element = element;
+            self.setup();
 
-            this.element.on( 'click', function ( event ) {
+            // iniate listeners
+            if ( self.framed ) {
+                self.dialogListeners();
+            } else if ( self.dialog && self.element.size() ) {
+                self.listeners();
+            } else {
+                return false;
+            };
+        },
+
+
+        // set all variables
+        setup: function() {
+            var self = this;
+
+            // setup dialog with iframe listener
+            if ( self.element && self.element.size() ) {
+                self.location = window.location.href;
+                self.id = self.element.data( 'open' );
+                self.dialog = $( '#' + self.id );
+
+                // dialog arguments
+                self.url = self.element.data( 'url' );
+                self.size = self.element.data( 'size' );
+            }
+
+            // script is loaded within an iframe
+            if ( window.parent != window ) {
+                self.framed = true;
+                self.autoClose = self.element.data( 'auto-close' );
+                self.parentReload = $('body').data( 'refresh-parent' );
+            }
+        },
+
+
+        // listeners from within dialogs iframe
+        dialogListeners: function() {
+            var self = this;
+
+            // auto close from within iframe
+            if ( self.parentReload ) {
+                window.parent.location.reload();
+            };
+
+            // auto close from parent
+            if ( self.autoClose ) {
+                self.close( self.dialog );
+            };
+
+            // close on click
+            $( '[data-close]' ).on( 'click' , function ( ) {
+                self.close( self.dialog );
+            });
+        },
+
+
+        listeners: function() {
+            var self = this;
+
+            // when element clicked opend dialog
+            self.element.on( 'click', function ( event ) {
                 event.preventDefault();
 
-                self.url = $(this).data( 'url' );
-                self.id = $(this).data( 'open' );
-                self.size = $(this).data( 'size' );
-
-                if ( this.size ) {
-                    this.dialog.addClass( this.size );
+                // add sizing class
+                if ( self.size ) {
+                    self.dialog.addClass( self.size );
                 }
 
-                self.open( self.url );
+                // open dialog
+                self.open( self.dialog, self.url );
             })
-        }
+        },
 
-        // if in iframe listen to close dialog
-        if ( this.framed ) {
 
-            if ( this.parent_reload ) {
-                this.parent.location.reload();
+        // opens dialog
+        open: function( dialog, url ) {
+
+            // listsen to foundation event to open dialog
+            dialog.on( 'open.zf.reveal', function ( ) {
+
+                var iframe = dialog.find( 'iframe' );
+
+                // setup correct url
+                iframe.attr( 'src', url );
+
+                // setup iframe height
+                iframe.on( 'load' , function( ) {
+                    var offset = 200;
+                    var height = window.innerHeight;
+
+                    this.style.height = height - offset + 'px';
+                })
+            });
+
+            dialog.foundation( 'open' );
+        },
+
+
+        // closes all .reveal dialogs
+        close: function( ) {
+            console.log('close', dialog);
+
+            var dialog;
+
+            if ( window.parent === window ) {
+                dialog = $( 'body' ).find( '.reveal' );
+            } else {
+                dialog = window.parent.$( window.parent.document ).find( '.reveal' );
             }
 
-            if ( this.auto_close ) {
-                this.close( );
-            }
+            // triggers an close event to all dialogs
+            dialog.foundation( 'close' );
 
-            this.hide.on( 'click' , function ( ) {
-                self.close( );
-            })
+            // get dialog iframe
+            var iframe = dialog.find( 'iframe' );
+
+            // disable areYouSure in iframe before removing src
+            var form;
+            form = iframe.contents().find( '.dirty-check' );
+            form.removeClass( 'dirty' );
+            form.areYouSure( { 'silent':true } );
+
+            // remove src on iframe
+            iframe.removeAttr( 'src' );
         }
     }
 
 
-    RevealIframe.prototype.open = function ( url ) {
-        // setup iframe
+    // iniate revealIframe
+    var element = $( '[data-open][data-url], [data-open][data-auto-close]' );
+    module.init( element );
 
-        self.dialog.on( 'open.zf.reveal', function ( ) {
-            self.iframe.attr( 'src', url );
 
-            self.iframe.on( 'load' , function( ) {
-                this.style.height = this.contentDocument.body.scrollHeight +'px';
-            })
-        })
-
-        this.dialog.trigger('open.zf.reveal');
+    // open() and close() as global
+    window.arctic.utils.revealIframe = {
+        open: function( url, dialog ) {
+            module.open( url, dialog );
+        },
+        close: function() {
+            module.close();
+        }
     }
 
-
-    RevealIframe.prototype.close = function ( ) {
-
-        // close all dialogs in parent window
-        this.dialog = this.parent.$( window.parent.document).find( '.reveal' )
-
-        // close all reveal dialogs within parent window
-        this.dialog.trigger('closeme.zf.reveal');
-
-        this.iframe = this.dialog.find('iframe');
-
-        // disable areYouSure in iframe before removing src
-        this.form = this.iframe.contents().find( '.dirty-check' );
-        this.form.removeClass( 'dirty' );
-        this.form.areYouSure( {'silent':true} );
-
-        // remove src on iframe
-        this.iframe.removeAttr( 'src' );
-    }
-
-
-    // initiate
-    new RevealIframe( $( '[data-open][data-url], [data-open][data-auto-close]' ) );
 
 })( jQuery );
+0

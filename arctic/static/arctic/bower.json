@@ -23,7 +23,8 @@
     "jquery": "2.2.4",
     "Sortable": "sortablejs#1.4.2",
     "air-datepicker": "^2.2.0",
-    "jquery.are-you-sure": "git://github.com/R4YM3/jquery.AreYouSure.git#ef545d843002fe78ee6d3f1b10e02e35a040ca45"
+    "jquery.are-you-sure": "git://github.com/R4YM3/jquery.AreYouSure.git#ef545d843002fe78ee6d3f1b10e02e35a040ca45",
+    "jstree": "3.3.3"
   },
   "private": true,
   "resolutions": {
