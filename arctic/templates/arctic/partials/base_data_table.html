@@ -64,56 +64,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in list_items %}
+                    {% for row in list_items %}
                         <tr>
-                            {% for v in item|slice:"1:" %}
-                                {% if v|typename == 'ManyRelatedManager' or v|typename == 'RelatedManager' %}
-                                    <td>
-                                        {% for item in v.all %}
+                            {% for column in row|slice:"1:" %}
+                                <td {% if column.class %}class="{{ column.class }}"{%endif%}>
+                                    {% if column.url %}
+                                        <a href="{{ column.url }}">
+                                    {% endif %}
+                                    {% if column.value|typename != 'list' %}
+                                        {{ column.value|default_if_none:"" }}
+                                    {% else %}
+                                        {% for item in column.value %}
                                             <span class="badge highlight-background">{{ item }}</span>
                                         {% endfor %}
-                                    </td>
-                                {% else %}
-
-                                    {% if list_header|index:forloop.counter0|get_item:'class' %}
-                                        <td class="{{ list_header|index:forloop.counter0|get_item:'class' }}">
-                                    {% else %}
-                                        <td>
                                     {% endif %}
-
-                                    {% if list_header|index:forloop.counter0|get_item:'link' %}
-                                        {% if v.pk %}
-                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' v.pk %}">
-                                        {% else %}
-                                            <a href="{% arctic_url list_header|index:forloop.counter0|get_item:'link' item.0 %}">
-                                         {% endif %}
-                                            {{ v|default_if_none:""|safe|linebreaks }}
+                                    {% if column.url %}
                                         </a>
-                                    {% else %}
-                                        {% if v|typename == 'datetime' or v|typename == 'date' %}
-                                            {{ v|default_if_none:"" }}
-                                        {% else %}
-                                            {{ v |default_if_none:"" | safe | linebreaks }}
-                                        {% endif %}
                                     {% endif %}
-                                        </td>
-                                {% endif %}
+                                </td>
                             {% endfor %}
-
-                    {% if action_links %}
-                        <td class="actions">
-                            {% for link in action_links %}
-                                <a href="{% arctic_url link.url item.0 %}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
-                                    {% if link.icon %}
-                                        <i class="fa {{ link.icon }} fa-lg"></i>
-                                    {% else %}
-                                        {{ link.label|capfirst }}
-                                    {% endif %}
-                                </a>
-                                &nbsp;
-                            {% endfor %}
-                            </td>
-                        {% endif %}
+                        
+                            {% if action_links %}
+                                <td class="actions">
+                                    {% for link in action_links %}
+                                        <a href="{% url link.url row.0 %}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                            {% if link.icon %}
+                                                <i class="fa {{ link.icon }} fa-lg"></i>
+                                            {% else %}
+                                                {{ link.label|capfirst }}
+                                            {% endif %}
+                                        </a>
+                                        &nbsp;
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
