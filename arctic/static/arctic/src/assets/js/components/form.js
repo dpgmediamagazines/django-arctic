@@ -26,7 +26,7 @@
             }
 
             // there's a change update slug
-            element.val( slugify( target.val() ) );
+            element.val( arctic.utils.slugify( target.val() ) );
         } );
 
 
@@ -36,7 +36,7 @@
             // form is submitted
             element.closest( 'form' ).on( 'submit', function () {
 
-                var targetSlugified = slugify( target.val() );
+                var targetSlugified = arctic.utils.slugify( target.val() );
 
                 // are element or target updated ?
                 if ( elementVal != element.val() || targetVal != target.val() ) {

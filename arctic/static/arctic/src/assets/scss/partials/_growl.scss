@@ -1,0 +1,30 @@
+.growl {
+    position: fixed;
+    top: $marginExtraLarge + 50px;
+    right: $marginExtraLarge;
+    width: 250px;
+    padding: 1em;
+    color: $white;
+
+    h6 {
+        font-weight: bold;
+    }
+
+    h6,
+    p,
+    p:not(:first-child) {
+        margin: 0;
+    }
+
+    &.warning {
+        background-color: $orange;
+    }
+
+    &.error {
+        background-color: $red;
+    }
+
+    &.success {
+        background-color: $green;
+    }
+}
