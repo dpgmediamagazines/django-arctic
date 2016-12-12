@@ -1,4 +1,7 @@
+import pytest
 from django.contrib.auth import get_user_model
+
+from tests.factories import ArticleFactory, TagFactory
 
 User = get_user_model()
 
@@ -30,3 +33,15 @@ def get_form(form):
     """
     form_mock = FormCustomMock(form)
     return form_mock.get_form
+
+
+@pytest.fixture
+def tag():
+    return TagFactory()
+
+
+@pytest.fixture
+def article(tag):
+    article = ArticleFactory()
+    article.tags.add(tag)
+    return article
