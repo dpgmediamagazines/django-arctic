@@ -5,6 +5,7 @@ import importlib
 
 from django.conf import settings
 from django.core import urlresolvers
+from django.core.exceptions import FieldDoesNotExist
 from django.core.urlresolvers import NoReverseMatch
 
 
@@ -196,4 +197,8 @@ def get_field_class(qs, field_name):
     """
     Given a queryset and a field name, it will return the field's class
     """
-    return qs.model._meta.get_field(field_name).__class__.__name__
+    try:
+        return qs.model._meta.get_field(field_name).__class__.__name__
+    # while annotating, it's possible that field does not exists.
+    except FieldDoesNotExist:
+        return None
