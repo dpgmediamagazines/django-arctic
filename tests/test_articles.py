@@ -1,5 +1,5 @@
-import pytest
 from django.urls import reverse
+
 
 def test_article_list(admin_client, article):
     response = admin_client.get(reverse('articles:list'))
