@@ -357,58 +357,66 @@ class ListView(View, base.ListView):
         if not self.fields:
             for obj in objects:
                 items.append([obj.pk, str(obj)])
-        else:
-            # remove all tuples in the field list, no need for the verbose
-            # field name here
-            fields = []
-            field_links = self.get_field_links()
-            field_classes = self.get_field_classes()
-            for field in self.fields:
-                fields.append(field[0] if type(field) in (list, tuple)
-                              else field)
-            for obj in objects:
-                # get the row's foreign key
-                row_id = getattr(obj, 'pk')
-                row = [row_id]
-                for field_name in fields:
-                    field = {'field': field_name}
-                    try:  # first try to find a virtual field
-                        virtual_field_name = "get_{}_field".format(field_name)
-                        value = getattr(self, virtual_field_name)(obj)
-                    except AttributeError:  # then try get_{field}_display
-                        try:
-                            # Get the choice display value
-                            parent_objs = '__'.join(
-                                field_name.split('__')[:-1])
-                            method_name = '{}__get_{}_display'.format(
-                                parent_objs,
-                                field_name.split('__')[-1]).strip('__')
-                            value = find_attribute(obj, method_name)()
-                        except AttributeError:  # finally get field's value
-                                value = find_attribute(obj, field_name)
+            return items
 
-                    base_field_name = field_name.split('__')[0]
-                    field_class = get_field_class(objects, base_field_name)
-                    field['value'] = value
-                    if field_class == 'ManyToManyField':
-                        #  ManyToManyField will be display as an embedded list
-                        #  capped to max_embeded_list_items, an ellipsis is
-                        #  added if there are more items than the max.
-                        m2mfield = getattr(obj, base_field_name)
-                        embeded_list = list(str(l) for l in
-                                            m2mfield.all()
-                                            [:self.max_embeded_list_items + 1])
-                        if len(embeded_list) > self.max_embeded_list_items:
-                            embeded_list = embeded_list[:-1] + ['...']
-                        field['value'] = embeded_list
-                    if field_name in field_links.keys():
-                        field['url'] = self._reverse_field_link(
-                            field_links[field_name], obj)
-                    if field_name in field_classes:
-                        field['class'] = field_classes[field_name]
-                    row.append(field)
-                items.append(row)
+        # remove all tuples in the field list, no need for the verbose
+        # field name here
+        fields = []
+        field_links = self.get_field_links()
+        field_classes = self.get_field_classes()
+        for field in self.fields:
+            fields.append(field[0] if type(field) in (list, tuple)
+                          else field)
+        for obj in objects:
+            row = []
+            # get the row's foreign key
+            row_id = getattr(obj, 'pk', None)
+            if row_id:
+                row.append(row_id)
+            else:
+                # while annotating, it's possible that there is no pk
+                row.append('')
+            for field_name in fields:
+                field = {'field': field_name}
+                base_field_name = field_name.split('__')[0]
+                field_class = get_field_class(objects, base_field_name)
+                field['value'] = self.get_field_value(field_name, obj)
+                if field_class == 'ManyToManyField':
+                    #  ManyToManyField will be display as an embedded list
+                    #  capped to max_embeded_list_items, an ellipsis is
+                    #  added if there are more items than the max.
+                    m2mfield = getattr(obj, base_field_name)
+                    embeded_list = list(str(l) for l in
+                                        m2mfield.all()
+                                        [:self.max_embeded_list_items + 1])
+                    if len(embeded_list) > self.max_embeded_list_items:
+                        embeded_list = embeded_list[:-1] + ['...']
+                    field['value'] = embeded_list
+                if field_name in field_links.keys():
+                    field['url'] = self._reverse_field_link(
+                        field_links[field_name], obj)
+                if field_name in field_classes:
+                    field['class'] = field_classes[field_name]
+                row.append(field)
+            items.append(row)
         return items
+
+    def get_field_value(self, field_name, obj):
+        try:  # first try to find a virtual field
+            virtual_field_name = "get_{}_field".format(field_name)
+            return getattr(self, virtual_field_name)(obj)
+        except AttributeError:  # then try get_{field}_display
+            try:
+                # Get the choice display value
+                parent_objs = '__'.join(
+                    field_name.split('__')[:-1])
+                method_name = '{}__get_{}_display'.format(
+                    parent_objs,
+                    field_name.split('__')[-1]).strip('__')
+                return find_attribute(obj, method_name)()
+            except (AttributeError, TypeError):
+                # finally get field's value
+                return find_attribute(obj, field_name)
 
     def get_action_links(self):
         if not self.action_links:
