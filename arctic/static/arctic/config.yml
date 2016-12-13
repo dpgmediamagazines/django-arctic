@@ -79,5 +79,6 @@ PATHS:
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
     - "src/assets/js/components/query-builder.js"
-
-    # - "bower_components/jstree/dist/jstree.js"
+    # TODO: fix conflict within jstree.min.js
+    # - "bower_components/jstree/dist/jstree.min.js"
+    #- "src/assets/js/components/tree.js"
