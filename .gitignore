@@ -130,6 +130,5 @@ keys/
 demo/media
 
 # frontend stuff
-bower_components
 npm-debug.log
 node_modules
