@@ -113,6 +113,15 @@
         },
 
 
+        isUrlParemeter: function ( url, field ) {
+            if(url.indexOf('?' + field + '=') != -1)
+                return true;
+            else if(url.indexOf('&' + field + '=') != -1)
+                return true;
+            return false
+        },
+
+
         listeners: function( $body ) {
             var self = this;
 
@@ -138,6 +147,21 @@
             // close on click
             var buttons = $body.find( '[data-close-dialog]' );
             buttons.on( 'click' , function ( event ) {
+
+                // is previous page within iframe, then go back..
+                if ( document.referrer.length ) {
+
+                    var referrerUrl = document.referrer;
+                    var referrerIsDialog = self.isUrlParemeter( referrerUrl, 'dialog' );
+
+                    if ( referrerIsDialog ) {
+                        console.log( 'go back' );
+                        history.back();
+                        return
+                    }
+                }
+
+                // else close dialog..
                 event.preventDefault();
                 self.dialog.foundation( 'close' );
                 buttons.off( 'click' );
