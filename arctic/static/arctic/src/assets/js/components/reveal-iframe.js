@@ -1,8 +1,4 @@
 /*
-    TODO:
-    1. add iframe when clicking and remove when closing
-    2. update templates
-    3. areYouSure alert before closing..
 
     Reveal.js extends foundation reveal()
 
