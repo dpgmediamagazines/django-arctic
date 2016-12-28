@@ -24,6 +24,7 @@
     dialog.size = null;
     dialog.url = null;
     dialog.ready = false;
+    dialog.extraScrollHeight = 20;
 
 
     // dialog methods
@@ -109,7 +110,7 @@
         },
 
 
-        isUrlParemeter: function ( url, field ) {
+        isUrlParameter: function ( url, field ) {
             if(url.indexOf('?' + field + '=') != -1)
                 return true;
             else if(url.indexOf('&' + field + '=') != -1)
@@ -148,10 +149,9 @@
                 if ( document.referrer.length ) {
 
                     var referrerUrl = document.referrer;
-                    var referrerIsDialog = self.isUrlParemeter( referrerUrl, 'dialog' );
+                    var referrerIsDialog = self.isUrlParameter( referrerUrl, 'dialog' );
 
                     if ( referrerIsDialog ) {
-                        console.log( 'go back' );
                         history.back();
                         return
                     }
@@ -226,7 +226,7 @@
             var scrollHeight = $wrapper[0].scrollHeight;
 
             // set height
-            iframe.css( 'height', scrollHeight + 20 );
+            iframe.css( 'height', scrollHeight + self.extraScrollHeight );
 
             // trigger resize for positioning
             $( window ).trigger( 'resize' );
