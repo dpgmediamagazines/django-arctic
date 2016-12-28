@@ -31,6 +31,13 @@
                 {% endif %}
                 {{ formset.management_form }}
                 {{ formset.non_form_errors }}
+                {% if formset.errors %}
+                    {% for errors in formset.errors %}
+                        {% for _, error in errors.items %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
 
                 {% for form in formset %}
                     {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}

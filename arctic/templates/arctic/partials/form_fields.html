@@ -34,7 +34,13 @@
 
         {% else %}
             <fieldset>
+            {% if form.errors %}
+                {% for _, error in form.errors.items %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
             {% for field in form %}
+
                 {% include 'arctic/partials/form_field.html' with field=field%}
             {% endfor %}
             </fieldset>
