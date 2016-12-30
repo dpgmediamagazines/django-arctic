@@ -495,7 +495,7 @@ class ListView(View, base.ListView):
 
     def get_filterset_kwargs(self, filterset_class):
         """
-        Returns the keyword arguments for instanciating the filterset.
+        Returns the keyword arguments for instantiating the filterset.
         """
         data = self.request.GET.copy()
         for key in self.request.GET:
