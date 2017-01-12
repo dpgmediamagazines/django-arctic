@@ -74,12 +74,14 @@
             };
 
             // close on click
-            $( '[data-close]' ).on( 'click' , function () {
-                var label = $(this).attr('aria-label');
-                if (label.indexOf('reveal') >=0) {
-                    self.close();
+            $( '[data-close]' ).on( 'click' , function (e) {
+                e.preventDefault();
+                var label = $(this).attr('aria-label') || '';
+                if (label.indexOf('Dismiss') >=0) {
+                    return;
                 }
-            });
+                self.close();
+            }); 
         },
         
         //listen for the foundation close event (background click) 
@@ -147,7 +149,6 @@
             // triggers an close event to all dialogs
             dialog.foundation( 'close' );
             self.onClose(dialog);
-            
         },
         
         // ensures the closing is done correctly, no matter if its from fundation or manually trigered 
