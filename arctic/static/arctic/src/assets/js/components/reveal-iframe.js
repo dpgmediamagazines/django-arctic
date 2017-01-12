@@ -30,7 +30,7 @@
             } else {
                 return false;
             };
-            self.pageListeners();
+            self.closeListeners();
             
         },
 
@@ -75,30 +75,25 @@
 
             // close on click
             $( '[data-close]' ).on( 'click' , function () {
-                self.close();
+                var label = $(this).attr('aria-label');
+                if (label.indexOf('reveal') >=0) {
+                    self.close();
+                }
             });
         },
         
-        //listen for the open foundation reveal event and the foundation close event (background click) 
-        pageListeners: function() {
+        //listen for the foundation close event (background click) 
+        closeListeners: function() {
             
             var self = this;
             var dialog = window.parent.$( window.parent.document ).find( '.reveal' );
             
-            //listen to foundation open event
-            dialog.on( 'closeme.zf.reveal', function (event) {
-                console.log('is opening')
-                console.log(this);
-            });
-            
             //listen to foundation close event
             dialog.on( 'closed.zf.reveal', function () {
-                console.log('a modal is closing');
                 self.onClose(dialog);
             });
         },
 
-        //this function does not seem to work ???????
         listeners: function() {
             var self = this;
             
@@ -115,13 +110,8 @@
                 self.open( self.dialog, self.url );
             })
         },
-        
-        onOpen: function() {
-            
-        },
 
-
-        // opens dialog - NO IT DOES NOT
+        // Manually opens dialog
         open: function( dialog, url ) {
             // listsen to foundation event to open dialog
             dialog.on( 'open.zf.reveal', function () {
