@@ -30,6 +30,8 @@
             } else {
                 return false;
             };
+            self.pageListeners();
+            
         },
 
 
@@ -68,19 +70,38 @@
 
             // auto close from parent
             if ( self.autoClose ) {
-                self.close( self.dialog );
+                self.close();
             };
 
             // close on click
-            $( '[data-close]' ).on( 'click' , function ( ) {
-                self.close( self.dialog );
+            $( '[data-close]' ).on( 'click' , function () {
+                self.close();
+            });
+        },
+        
+        //listen for the open foundation reveal event and the foundation close event (background click) 
+        pageListeners: function() {
+            
+            var self = this;
+            var dialog = window.parent.$( window.parent.document ).find( '.reveal' );
+            
+            //listen to foundation open event
+            dialog.on( 'closeme.zf.reveal', function (event) {
+                console.log('is opening')
+                console.log(this);
+            });
+            
+            //listen to foundation close event
+            dialog.on( 'closed.zf.reveal', function () {
+                console.log('a modal is closing');
+                self.onClose(dialog);
             });
         },
 
-
+        //this function does not seem to work ???????
         listeners: function() {
             var self = this;
-
+            
             // when element clicked opend dialog
             self.element.on( 'click', function ( event ) {
                 event.preventDefault();
@@ -94,14 +115,17 @@
                 self.open( self.dialog, self.url );
             })
         },
+        
+        onOpen: function() {
+            
+        },
 
 
-        // opens dialog
+        // opens dialog - NO IT DOES NOT
         open: function( dialog, url ) {
-
             // listsen to foundation event to open dialog
-            dialog.on( 'open.zf.reveal', function ( ) {
-
+            dialog.on( 'open.zf.reveal', function () {
+                
                 var iframe = dialog.find( 'iframe' );
 
                 // setup correct url
@@ -120,10 +144,9 @@
         },
 
 
-        // closes all .reveal dialogs
+        // closes from the cross icon inside the frame
         close: function( ) {
-            console.log('close', dialog);
-
+            var self = this;
             var dialog;
 
             if ( window.parent === window ) {
@@ -131,21 +154,27 @@
             } else {
                 dialog = window.parent.$( window.parent.document ).find( '.reveal' );
             }
-
             // triggers an close event to all dialogs
             dialog.foundation( 'close' );
-
+            self.onClose(dialog);
+            
+        },
+        
+        // ensures the closing is done correctly, no matter if its from fundation or manually trigered 
+        onClose: function(dialog) {
             // get dialog iframe
             var iframe = dialog.find( 'iframe' );
+            var src = iframe.attr('src');
+            var form;
 
             // disable areYouSure in iframe before removing src
-            var form;
             form = iframe.contents().find( '.dirty-check' );
             form.removeClass( 'dirty' );
             form.areYouSure( { 'silent':true } );
 
-            // remove src on iframe
-            iframe.removeAttr( 'src' );
+            // refresh the iframe
+            iframe.attr( 'src', '' );
+            iframe.attr( 'src', src );
         }
     }
 
