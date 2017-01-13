@@ -176,6 +176,10 @@ function set_input_widgets() {
     });
 }
 
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+
 // jquery stuff goes here
 $(document).ready(function() {
 

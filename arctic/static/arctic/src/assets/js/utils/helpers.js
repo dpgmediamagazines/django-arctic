@@ -42,5 +42,5 @@ window.arctic.utils = {
             .replace( /[^\w ]+/g, '' )
             .replace( / +/g, '-' );
     },
-    iframeStartUrl: false, //tracks first page of an iframe for naviagtioon
+    iframeStartUrl: false, //tracks first page of an iframe for naviagtion handling
 };
