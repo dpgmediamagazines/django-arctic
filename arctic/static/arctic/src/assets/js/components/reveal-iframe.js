@@ -15,7 +15,6 @@
     var module = {
         framed: undefined,
 
-
         init: function( element ) {
             var self = this;
 
@@ -30,8 +29,6 @@
             } else {
                 return false;
             };
-            self.closeListeners();
-            
         },
 
 
@@ -62,6 +59,7 @@
         // listeners from within dialogs iframe
         dialogListeners: function() {
             var self = this;
+            var dialog = window.parent.$( window.parent.document ).find( '.reveal' );
 
             // auto close from within iframe
             if ( self.parentReload ) {
@@ -77,22 +75,33 @@
             $( '[data-close]' ).on( 'click' , function (e) {
                 e.preventDefault();
                 var label = $(this).attr('aria-label') || '';
+                //do not close the dialog if the click is on a notification
                 if (label.indexOf('Dismiss') >=0) {
                     return;
                 }
                 self.close();
-            }); 
-        },
-        
-        //listen for the foundation close event (background click) 
-        closeListeners: function() {
+            });
             
-            var self = this;
-            var dialog = window.parent.$( window.parent.document ).find( '.reveal' );
+            //check if the iframe page is the first one
+            $( '[data-go-back]' ).on( 'click' , function (e) {
+                e.preventDefault();
+                if (window.parent.arctic.utils.iframeStartUrl === window.location.href) {
+                    self.close();
+                } else {
+                    history.back();
+                }
+            });  
             
             //listen to foundation close event
             dialog.on( 'closed.zf.reveal', function () {
                 self.onClose(dialog);
+            });
+            
+            //saves the page that the ifraem opens
+            dialog.on( 'closeme.zf.reveal', function () {
+                if (window) {
+                    window.parent.arctic.utils.iframeStartUrl = window.location.href;
+                }
             });
         },
 
@@ -146,7 +155,7 @@
             } else {
                 dialog = window.parent.$( window.parent.document ).find( '.reveal' );
             }
-            // triggers an close event to all dialogs
+            // triggers a close event to all dialogs
             dialog.foundation( 'close' );
             self.onClose(dialog);
         },
@@ -183,7 +192,7 @@
         close: function() {
             module.close();
         }
-    }
+    } 
 
 
 })( jQuery );
