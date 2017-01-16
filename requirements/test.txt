@@ -3,7 +3,8 @@ pytest==2.9.2
 pytest-cov==2.3.1
 pytest-django==2.9.1
 pytest-pythonpath==0.7.1
-factory-boy==2.7.0
+factory-boy==2.8.1
+Faker==0.7.7
 
 mixer==5.5.7
 
