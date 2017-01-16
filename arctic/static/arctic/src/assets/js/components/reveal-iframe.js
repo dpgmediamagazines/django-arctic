@@ -15,7 +15,6 @@
     var module = {
         framed: undefined,
 
-
         init: function( element ) {
             var self = this;
 
@@ -60,6 +59,7 @@
         // listeners from within dialogs iframe
         dialogListeners: function() {
             var self = this;
+            var dialog = window.parent.$( window.parent.document ).find( '.reveal' );
 
             // auto close from within iframe
             if ( self.parentReload ) {
@@ -68,19 +68,46 @@
 
             // auto close from parent
             if ( self.autoClose ) {
-                self.close( self.dialog );
+                self.close();
             };
 
             // close on click
-            $( '[data-close]' ).on( 'click' , function ( ) {
-                self.close( self.dialog );
+            $( '[data-close]' ).on( 'click' , function (e) {
+                e.preventDefault();
+                var label = $(this).attr('aria-label') || '';
+                //do not close the dialog if the click is on a notification
+                if (label.indexOf('Dismiss') >=0) {
+                    return;
+                }
+                self.close();
+            });
+            
+            //check if the iframe page is the first one
+            $( '[data-go-back]' ).on( 'click' , function (e) {
+                e.preventDefault();
+                if (window.parent.arctic.utils.iframeStartUrl === window.location.href) {
+                    self.close();
+                } else {
+                    history.back();
+                }
+            });  
+            
+            //listen to foundation close event
+            dialog.on( 'closed.zf.reveal', function () {
+                self.onClose(dialog);
+            });
+            
+            //saves the page that the ifraem opens
+            dialog.on( 'closeme.zf.reveal', function () {
+                if (window) {
+                    window.parent.arctic.utils.iframeStartUrl = window.location.href;
+                }
             });
         },
 
-
         listeners: function() {
             var self = this;
-
+            
             // when element clicked opend dialog
             self.element.on( 'click', function ( event ) {
                 event.preventDefault();
@@ -95,13 +122,11 @@
             })
         },
 
-
-        // opens dialog
+        // Manually opens dialog
         open: function( dialog, url ) {
-
             // listsen to foundation event to open dialog
-            dialog.on( 'open.zf.reveal', function ( ) {
-
+            dialog.on( 'open.zf.reveal', function () {
+                
                 var iframe = dialog.find( 'iframe' );
 
                 // setup correct url
@@ -120,10 +145,9 @@
         },
 
 
-        // closes all .reveal dialogs
+        // closes from the cross icon inside the frame
         close: function( ) {
-            console.log('close', dialog);
-
+            var self = this;
             var dialog;
 
             if ( window.parent === window ) {
@@ -131,21 +155,26 @@
             } else {
                 dialog = window.parent.$( window.parent.document ).find( '.reveal' );
             }
-
-            // triggers an close event to all dialogs
+            // triggers a close event to all dialogs
             dialog.foundation( 'close' );
-
+            self.onClose(dialog);
+        },
+        
+        // ensures the closing is done correctly, no matter if its from fundation or manually trigered 
+        onClose: function(dialog) {
             // get dialog iframe
             var iframe = dialog.find( 'iframe' );
+            var src = iframe.attr('src');
+            var form;
 
             // disable areYouSure in iframe before removing src
-            var form;
             form = iframe.contents().find( '.dirty-check' );
             form.removeClass( 'dirty' );
             form.areYouSure( { 'silent':true } );
 
-            // remove src on iframe
-            iframe.removeAttr( 'src' );
+            // refresh the iframe
+            iframe.attr( 'src', '' );
+            iframe.attr( 'src', src );
         }
     }
 
@@ -163,7 +192,7 @@
         close: function() {
             module.close();
         }
-    }
+    } 
 
 
 })( jQuery );

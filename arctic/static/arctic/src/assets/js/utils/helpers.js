@@ -41,5 +41,6 @@ window.arctic.utils = {
             .toLowerCase()
             .replace( /[^\w ]+/g, '' )
             .replace( / +/g, '-' );
-    }
+    },
+    iframeStartUrl: false, //tracks first page of an iframe for naviagtion handling
 };
