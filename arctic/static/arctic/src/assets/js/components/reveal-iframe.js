@@ -308,13 +308,9 @@
 
     // public methods
     window.arctic.utils.revealInIframe = {
-        setup: function() {
-            dialog.setup();//remove this!
-        },
         open: function( url, size ) {
-            // dialog.setup();
-            dialog.element.foundation( 'open' );
             dialog.open( url, size );
+            dialog.element.foundation( 'open' );
         },
         close: function() {
             dialog.close();

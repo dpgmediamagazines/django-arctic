@@ -111,9 +111,6 @@
         // activate plugin
         self.plugins.push( 'contextmenu' );
 
-        // activate dialog
-        arctic.utils.revealInIframe.setup();
-
         var categoryLinks = function ( node ) {
             var items = {
                 "Open": {
