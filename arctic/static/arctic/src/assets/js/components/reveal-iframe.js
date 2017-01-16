@@ -62,7 +62,7 @@
             dialog.element.on( 'closed.zf.reveal', function() {
                 dialog.close();
             });
-        },
+        }
     }
 
 
@@ -171,20 +171,24 @@
 
 
         // setup dialog by adding dialog template into DOM
-        setup: function() {
+        addDialog: function() {
             var self = this;
 
-            self.dialog = self.element;
-            $( 'body' ).append( self.dialog );
+            var hasDialog = $( 'body' ).find( self.dialog ).length;
 
-            new Foundation.Reveal( self.dialog );
+            if ( hasDialog == 0 ) {
+                self.dialog = self.element;
+                $( 'body' ).find( self.dialog );
+                new Foundation.Reveal( self.dialog );
+            }
         },
-
 
         // open dialog
         // * foundation opens dialog
         open: function( url, size ) {
             var self = this;
+
+            self.addDialog();
             dialog.ready = false;
             self.setDialogSize( size );
             self.setIframeSrc( url, self.setIframeDimensions );
@@ -240,6 +244,7 @@
             self.disableAreYouSure();
             self.removeIframeMarkUp();
             self.removeDialogSizes();
+            // self.removeDialog();
         },
 
 
@@ -304,9 +309,10 @@
     // public methods
     window.arctic.utils.revealInIframe = {
         setup: function() {
-            dialog.setup();
+            dialog.setup();//remove this!
         },
         open: function( url, size ) {
+            // dialog.setup();
             dialog.element.foundation( 'open' );
             dialog.open( url, size );
         },
@@ -322,7 +328,6 @@
         var $triggers = $( '[data-open][data-url]' );
 
         if ( $triggers.length ) {
-            dialog.setup();
             isDialog.init( $triggers );
         } else if ( $body.length ) {
             inDialog.init( $body );
