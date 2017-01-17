@@ -84,6 +84,7 @@
             // when element clicked opend dialog
             self.element.on( 'click', function ( event ) {
                 event.preventDefault();
+                var url = $(this).attr('data-url');
 
                 // add sizing class
                 if ( self.size ) {
@@ -91,7 +92,7 @@
                 }
 
                 // open dialog
-                self.open( self.dialog, self.url );
+                self.open(self.dialog, url);
             })
         },
 
@@ -157,8 +158,8 @@
 
     // open() and close() as global
     window.arctic.utils.revealIframe = {
-        open: function( url, dialog ) {
-            module.open( url, dialog );
+        open: function(dialog, url) {
+            module.open(dialog, url);
         },
         close: function() {
             module.close();
