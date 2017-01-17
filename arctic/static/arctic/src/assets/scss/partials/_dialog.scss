@@ -21,8 +21,7 @@ body.dialog {
 
     // don't use scroll of iframe, cause header needs to be sticky..
     .block-wrapper {
-        margin-top: $header-height;
-        padding-top: $marginExtraLarge;
+        padding-top: $marginExtraLarge + $header-height;
         height: 100vh;
         overflow: scroll;
     }

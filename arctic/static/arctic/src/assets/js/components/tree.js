@@ -281,7 +281,7 @@
             var url = self.url.symbolic_create.replace( '#', node.id );
 
             // open dialog
-            arctic.utils.revealIframe.open( dialog, url );
+            arctic.utils.revealInIframe.open( url, 'tiny' );
         }
     }
 
