@@ -47,7 +47,6 @@
             // open dialog with trigger properties
             $triggers.on( 'click', function ( event ) {
                 event.preventDefault();
-
                 var trigger = $( this );
                 dialog.url = trigger.data( 'url' );
                 dialog.size = trigger.data( 'size' );
@@ -58,7 +57,7 @@
                 dialog.open( dialog.url, dialog.size );
             });
 
-            // reset iframe when foundation when closing
+            // reset iframe when foundation when closing from outside the dialog
             dialog.element.on( 'closed.zf.reveal', function() {
                 dialog.close();
             });
@@ -142,9 +141,8 @@
             };
 
             // close on click
-            var buttons = $body.find( '[data-close-dialog]' );
+            var buttons = $body.find( '[data-go-back-dialog]' );
             buttons.on( 'click' , function ( event ) {
-
                 // is previous page within iframe, then go back..
                 if ( document.referrer.length ) {
 
@@ -160,7 +158,11 @@
                 // else close dialog..
                 event.preventDefault();
                 self.dialog.foundation( 'close' );
-                buttons.off( 'click' );
+            });
+            var closeButton = $body.find( '[data-close-dialog]' );
+            closeButton.on( 'click' , function ( event ) {
+                event.preventDefault();
+                self.dialog.foundation( 'close' );
             });
         }
     };
