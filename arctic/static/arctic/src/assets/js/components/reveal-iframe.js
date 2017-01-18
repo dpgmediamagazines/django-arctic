@@ -158,11 +158,13 @@
                 // else close dialog..
                 event.preventDefault();
                 self.dialog.foundation( 'close' );
+                buttons.off('click');
             });
             var closeButton = $body.find( '[data-close-dialog]' );
             closeButton.on( 'click' , function ( event ) {
                 event.preventDefault();
                 self.dialog.foundation( 'close' );
+                closeButton.off('click');
             });
         }
     };
