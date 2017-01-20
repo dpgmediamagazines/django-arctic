@@ -71,6 +71,7 @@ PATHS:
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
+    - "src/assets/js/utils/csrf.js"
     - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/reveal-iframe.js"
@@ -78,3 +79,6 @@ PATHS:
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
     - "src/assets/js/components/query-builder.js"
+    # TODO: fix conflict within jstree.min.js
+    # - "bower_components/jstree/dist/jstree.min.js"
+    #- "src/assets/js/components/tree.js"

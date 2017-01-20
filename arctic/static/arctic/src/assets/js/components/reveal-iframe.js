@@ -1,116 +1,337 @@
-
 /*
+
     Reveal.js extends foundation reveal()
 
-    Required html attributes:
-    data-open = is unique id for dialog
-    data-url = is url which need to be opened with iframe
+    When triggering a dialog
+    <element data-url />  = is url which need to be opened with iframe
+    <element data-size /> = size of dialog
+
+    Closing dialog within iframe
+    <body data=auto-close /> = closes dialog
+    <body data=refresh-parent /> = refresh parent window
+    <element data-close-dialog /> = onclick closes dialog
  */
 
 ( function ( $ ) {
 
-    'use strict';
+    "use strict";
 
-    function RevealIframe( element ) {
-        this.element = element;
+    // template and state
+    var dialog = {};
+    dialog.element = '<section id="reveal-iframe" class="reveal external" data-reveal><iframe frameborder="0" allowfullscreen></iframe></section>';
+    dialog.element = $( dialog.element );
+    dialog.parameter = 'dialog=1';
+    dialog.size = null;
+    dialog.url = null;
+    dialog.ready = false;
+    dialog.extraScrollHeight = 20;
 
-        // setup dialog with iframe listener
-        if ( this.element && this.element.size() ) {
-            this.location = window.location.href;
-            this.id = this.element.data( 'open' );
-            this.dialog = $( '#' + this.id );
-            this.iframe = this.dialog.find( 'iframe' );
+
+    // dialog methods
+    var isDialog = {
+
+        init( $triggers ) {
+            var self = this;
+
+            if ( !$triggers instanceof jQuery ) {
+                throw new Error( '$triggers is not a jQuery object' );
+                return
+            }
+
+            self.listeners( $triggers );
+        },
+
+        listeners: function( $triggers ) {
+            var self = this;
+
+            // open dialog with trigger properties
+            $triggers.on( 'click', function ( event ) {
+                event.preventDefault();
+                var trigger = $( this );
+                dialog.url = trigger.data( 'url' );
+                dialog.size = trigger.data( 'size' );
+
+                // foundation opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
+
+                // setup iframe
+                dialog.open( dialog.url, dialog.size );
+            });
+
+            // reset iframe when foundation when closing from outside the dialog
+            dialog.element.on( 'closed.zf.reveal', function() {
+                dialog.close();
+            });
         }
-
-        // it's an iframe
-        if ( window.parent != window ) {
-            this.framed = true;
-            this.parent = window.parent;
-            this.body = $( 'body' );
-            this.auto_close = this.element.data( 'auto-close' );
-            this.parent_reload = $('body').data( 'refresh-parent' );
-            this.hide = $( '[data-close]' );
-        }
-
-        var self = this;
-        this.init();
     }
 
 
-    RevealIframe.prototype.init = function ( ) {
+    // methods when loaded within dialog iframe
+    var inDialog = {
 
-        // open dialog with an iframe
-        if ( this.dialog && this.element.size() ) {
+        init: function( $body ) {
+            var self = this;
+            self.setup( $body );
+            self.listeners( $body );
+        },
 
-            this.element.on( 'click', function ( event ) {
-                event.preventDefault();
 
-                self.url = $(this).data( 'url' );
-                self.id = $(this).data( 'open' );
-                self.size = $(this).data( 'size' );
+        setup: function( $body ) {
+            var self = this;
 
-                if ( this.size ) {
-                    this.dialog.addClass( this.size );
+            self.linksToDialog( $body );
+        },
+
+
+        // give links isDialog parameter so it opens in dialog layout
+        linksToDialog: function( $body ) {
+            var anchors = $body.find( 'a' );
+
+            if ( !anchors.length ) {
+                return
+            }
+
+            for ( var i = 0; i < anchors.length; i++ ) {
+                var anchor = $( anchors[i] );
+                var url = anchor.attr( 'href' );
+
+                if ( url != undefined && url.length ) {
+
+                    // check if url contains '?'
+                    if ( url.match(/\?./) ) {
+                        url = url + '&' + dialog.parameter;
+                    } else {
+                        url = url + '?' + dialog.parameter;
+                    }
+
+                    anchor.attr( 'href', url );
+                }
+            }
+        },
+
+
+        isUrlParameter: function ( url, field ) {
+            if(url.indexOf('?' + field + '=') != -1)
+                return true;
+            else if(url.indexOf('&' + field + '=') != -1)
+                return true;
+            return false
+        },
+
+
+        listeners: function( $body ) {
+            var self = this;
+
+            // auto close from within iframe
+            var refreshParent = $body.data( 'refresh-parent' );
+            if ( refreshParent ) {
+                window.parent.location.reload();
+            };
+
+            // find dialog..
+            if ( window.parent === window ) {
+                self.dialog = $( 'body' ).find( '.reveal' );
+            } else {
+                self.dialog = window.parent.$( window.parent.document ).find( '.reveal' );
+            }
+
+            // auto close
+            var autoClose = $body.data( 'auto-close' );
+            if ( autoClose ) {
+                self.dialog.foundation( 'close' );
+            };
+
+            // close on click
+            var buttons = $body.find( '[data-go-back-dialog]' );
+            buttons.on( 'click' , function ( event ) {
+                // is previous page within iframe, then go back..
+                if ( document.referrer.length ) {
+
+                    var referrerUrl = document.referrer;
+                    var referrerIsDialog = self.isUrlParameter( referrerUrl, 'dialog' );
+
+                    if ( referrerIsDialog ) {
+                        history.back();
+                        return
+                    }
                 }
 
-                self.open( self.url );
-            })
+                // else close dialog..
+                event.preventDefault();
+                self.dialog.foundation( 'close' );
+                buttons.off('click');
+            });
+            var closeButton = $body.find( '[data-close-dialog]' );
+            closeButton.on( 'click' , function ( event ) {
+                event.preventDefault();
+                self.dialog.foundation( 'close' );
+                closeButton.off('click');
+            });
         }
+    };
 
-        // if in iframe listen to close dialog
-        if ( this.framed ) {
 
-            if ( this.parent_reload ) {
-                this.parent.location.reload();
+    // generic dialog methods
+    $.extend( dialog, {
+
+
+        // setup dialog by adding dialog template into DOM
+        addDialog: function() {
+            var self = this;
+
+            var hasDialog = $( 'body' ).find( self.dialog ).length;
+
+            if ( hasDialog == 0 ) {
+                self.dialog = self.element;
+                $( 'body' ).find( self.dialog );
+                new Foundation.Reveal( self.dialog );
             }
+        },
 
-            if ( this.auto_close ) {
-                this.close( );
+        // open dialog
+        // * foundation opens dialog
+        open: function( url, size ) {
+            var self = this;
+
+            self.addDialog();
+            dialog.ready = false;
+            self.setDialogSize( size );
+            self.setIframeSrc( url, self.setIframeDimensions );
+        },
+
+
+        // set dialog size with as default tiny
+        setDialogSize: function ( size ) {
+            var self = this;
+
+            if ( size !== undefined && size.length ) {
+                self.dialog.addClass( size );
+            } else {
+                self.dialog.addClass( 'tiny' ); // set default size when there's null..
             }
+        },
 
-            this.hide.on( 'click' , function ( ) {
-                self.close( );
-            })
+
+        // set iframe src with an callback to fire when finish loading
+        setIframeSrc: function ( url, callback ) {
+            var self = this;
+            var iframe = self.dialog.find( 'iframe' );
+
+            iframe.load( function() {
+                if ( !dialog.ready ) {
+                    dialog.ready = true;
+                    callback( self )
+                }
+            }).attr( "src", url );
+        },
+
+
+        // set dimensions of iframe
+        setIframeDimensions: function ( self ) {
+            var iframe = self.dialog.find( 'iframe' );
+
+            // container with overflow scroll
+            var $wrapper = iframe.contents().find( ".block-wrapper" );
+            var scrollHeight = $wrapper[0].scrollHeight;
+
+            // set height
+            iframe.css( 'height', scrollHeight + self.extraScrollHeight );
+
+            // trigger resize for positioning
+            $( window ).trigger( 'resize' );
+        },
+
+
+        // close dialog
+        // * foundation closes dialog
+        close: function() {
+            var self = this;
+            self.disableAreYouSure();
+            self.removeIframeMarkUp();
+            self.removeDialogSizes();
+            // self.removeDialog();
+        },
+
+
+        // disable areYouSure in iframe before closing dialog..
+        disableAreYouSure: function() {
+            var self = this;
+            var iframe = self.dialog.find( 'iframe' );
+
+            var form = iframe.contents().find( '.dirty-check' );
+            form.removeClass( 'dirty' );
+            form.areYouSure( { 'silent':true } );
+        },
+
+
+        removeIframeMarkUp: function() {
+            var self = this;
+
+            self.dialog.find( 'iframe' )
+                .removeAttr( 'style' )
+                .removeAttr( 'src' );
+        },
+
+
+        // remove possible already setted sizes
+        removeDialogSizes() {
+            var self = this;
+
+            // possible sizes
+            var sizes = [ 'tiny', 'small', 'large', 'full' ];
+
+            // remove one by one
+            for ( var i = 0; i < sizes.length; i++ ) {
+                self.dialog.removeClass( sizes[i] );
+            }
+        },
+
+
+        // completely remove iframe dialog and listeners
+        destroy: function( $triggers ) {
+            var self = this;
+
+            // remove dialog
+            self.dialog.remove();
+
+            // disable listeners
+            self.dialog.off( 'open.zf.reveal' );
+            self.dialog.off( 'close.zf.reveal' );
+
+            if ( $triggers.length ) {
+
+                if ( !$triggers instanceof jQuery ) {
+                    throw new Error( '$triggers is not a jQuery object' );
+                    return
+                }
+
+                $triggers.off( 'click' );
+            }
+        }
+    });
+
+
+    // public methods
+    window.arctic.utils.revealInIframe = {
+        open: function( url, size ) {
+            dialog.open( url, size );
+            dialog.element.foundation( 'open' );
+        },
+        close: function() {
+            dialog.close();
         }
     }
 
 
-    RevealIframe.prototype.open = function ( url ) {
-        // setup iframe
+    // init module
+    $( document ).ready( function() {
+        var $body = $( 'body.dialog' );
+        var $triggers = $( '[data-open][data-url]' );
 
-        self.dialog.on( 'open.zf.reveal', function ( ) {
-            self.iframe.attr( 'src', url );
-
-            self.iframe.on( 'load' , function( ) {
-                this.style.height = this.contentDocument.body.scrollHeight +'px';
-            })
-        })
-
-        this.dialog.trigger('open.zf.reveal');
-    }
-
-
-    RevealIframe.prototype.close = function ( ) {
-
-        // close all dialogs in parent window
-        this.dialog = this.parent.$( window.parent.document).find( '.reveal' )
-
-        // close all reveal dialogs within parent window
-        this.dialog.trigger('closeme.zf.reveal');
-
-        this.iframe = this.dialog.find('iframe');
-
-        // disable areYouSure in iframe before removing src
-        this.form = this.iframe.contents().find( '.dirty-check' );
-        this.form.removeClass( 'dirty' );
-        this.form.areYouSure( {'silent':true} );
-
-        // remove src on iframe
-        this.iframe.removeAttr( 'src' );
-    }
-
-
-    // initiate
-    new RevealIframe( $( '[data-open][data-url], [data-open][data-auto-close]' ) );
+        if ( $triggers.length ) {
+            isDialog.init( $triggers );
+        } else if ( $body.length ) {
+            inDialog.init( $body );
+        }
+    });
 
 })( jQuery );

@@ -1,0 +1,30 @@
+{
+  "name": "dot",
+  "description": "Concise and fast javascript templating compatible with nodejs and other javascript environments",
+  "main": "doT.js",
+  "authors": [
+    "Laura Doktorova <ldoktorova@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "template",
+    "fast",
+    "simple",
+    "templating"
+  ],
+  "homepage": "https://github.com/olado/doT",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "_release": "e7accbf8c6",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e7accbf8c627229f575ad75d59789b881340dca5"
+  },
+  "_source": "https://github.com/olado/doT.git",
+  "_target": "master",
+  "_originalSource": "doT"
+}
