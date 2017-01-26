@@ -354,7 +354,7 @@ class ListView(View, base.ListView):
 
     def get_list_items(self, objects):
         items = []
-        if not self.fields:
+        if not self.get_fields():
             for obj in objects:
                 items.append([obj.pk, str(obj)])
             return items
@@ -364,7 +364,7 @@ class ListView(View, base.ListView):
         fields = []
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
-        for field in self.fields:
+        for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
         for obj in objects:
