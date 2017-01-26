@@ -50,11 +50,12 @@
                 var trigger = $( this );
                 dialog.url = trigger.data( 'url' );
                 dialog.size = trigger.data( 'size' );
+                dialog.minHeight = trigger.data( 'min-height' );
 
                 // foundation opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
 
                 // setup iframe
-                dialog.open( dialog.url, dialog.size );
+                dialog.open(dialog.url, dialog.size, dialog.minHeight);
             });
 
             // reset iframe when foundation when closing from outside the dialog
@@ -189,13 +190,13 @@
 
         // open dialog
         // * foundation opens dialog
-        open: function( url, size ) {
+        open: function(url, size, minHeight) {
             var self = this;
 
             self.addDialog();
             dialog.ready = false;
             self.setDialogSize( size );
-            self.setIframeSrc( url, self.setIframeDimensions );
+            self.setIframeSrc( url, self.setIframeDimensions, minHeight);
         },
 
 
@@ -212,34 +213,45 @@
 
 
         // set iframe src with an callback to fire when finish loading
-        setIframeSrc: function ( url, callback ) {
+        setIframeSrc: function (url, callback, minHeight) {
             var self = this;
+            console.log(this);
             var iframe = self.dialog.find( 'iframe' );
 
             iframe.load( function() {
                 if ( !dialog.ready ) {
                     dialog.ready = true;
-                    callback( self )
+                    callback(self, minHeight)
                 }
             }).attr( "src", url );
         },
 
 
         // set dimensions of iframe
-        setIframeDimensions: function ( self ) {
+        setIframeDimensions: function (self, minHeight) {
             var iframe = self.dialog.find( 'iframe' );
 
-            // container with overflow scroll
-            var $wrapper = iframe.contents().find( ".block-wrapper" );
-            var scrollHeight = $wrapper[0].scrollHeight;
+            if (minHeight) {
+                iframe.css( 'height', minHeight );
+            } else {
+                // container with overflow scroll
+                var $wrapper = iframe.contents().find( ".block-wrapper" );
+                var scrollHeight = $wrapper[0].scrollHeight;
 
-            // set height
-            iframe.css( 'height', scrollHeight + self.extraScrollHeight );
-
+                // set height
+                iframe.css( 'height', scrollHeight + self.extraScrollHeight );
+            }
             // trigger resize for positioning
+            self.repositionIframe(iframe);
             $( window ).trigger( 'resize' );
         },
-
+        
+        repositionIframe: function (iframe) {
+            var frameHeight = iframe.height();
+            var windowHeight = window.innerHeight; 
+            var top = (windowHeight - frameHeight)/2;
+            iframe.parent().css( 'top', top );
+        },
 
         // close dialog
         // * foundation closes dialog
