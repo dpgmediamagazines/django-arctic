@@ -215,7 +215,7 @@
         // set iframe src with an callback to fire when finish loading
         setIframeSrc: function (url, callback, minHeight) {
             var self = this;
-            console.log(this);
+
             var iframe = self.dialog.find( 'iframe' );
 
             iframe.load( function() {
