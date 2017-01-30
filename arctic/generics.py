@@ -253,7 +253,7 @@ class ListView(View, base.ListView):
             ordering = self.get_default_ordering()
         merged_ordering = list(ordering)  # copy the list
 
-        for ordering_field in self.ordering_fields:
+        for ordering_field in self.get_ordering_fields():
             if (ordering_field.lstrip('-') not in ordering) and \
                (('-' + ordering_field.lstrip('-')) not in ordering):
                 merged_ordering.append(ordering_field)
@@ -274,7 +274,16 @@ class ListView(View, base.ListView):
         return (path + '?' + query_params.urlencode(safe=','), direction)
 
     def get_fields(self):
+        """
+        Hook to dynamically change the fields that will be displayed
+        """
         return self.fields
+
+    def get_ordering_fields(self):
+        """
+        Hook to dynamically change the fields that can be ordered
+        """
+        return self.ordering_fields
 
     def get_field_links(self):
         if not self.field_links:
@@ -345,7 +354,7 @@ class ListView(View, base.ListView):
                     except AttributeError:
                         item['label'] = field_name
                 item['name'] = prefix + name
-                if name in self.ordering_fields:
+                if name in self.get_ordering_fields():
                     item['order_url'], item['order_direction'] = \
                         self.ordering_url(name)
                 result.append(item)
@@ -477,7 +486,8 @@ class ListView(View, base.ListView):
         fields = self.get_ordering_with_prefix()
         if self.prefix:
             fields = [f.replace(prefix, '', 1) for f in fields]
-        return [f for f in fields if f.lstrip('-') in self.ordering_fields]
+        return [f for f in fields if f.lstrip('-')
+                in self.get_ordering_fields()]
 
     def get_filterset_class(self):
         if not self.filter_fields and not self.search_fields:
