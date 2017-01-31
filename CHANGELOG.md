@@ -2,7 +2,10 @@
 
 Arctic uses semantic versioning - please refer to <http://semver.org> for further details.
 
+##0.9.4
 
+- bugfix: get_field_value didn't use get_fields but self.fields
+- introduced self.get_ordering_fields()
 
 ##0.9.3 (2016-10-27)
 

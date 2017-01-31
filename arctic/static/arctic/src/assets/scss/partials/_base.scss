@@ -62,3 +62,11 @@ body {
     background: $highlight-background;
     opacity: 0.65;
 }
+
+.clickable-cell {
+    a {
+        display: block;
+        padding: $table-padding;
+        margin:  $table-negative-padding;
+    }
+}
