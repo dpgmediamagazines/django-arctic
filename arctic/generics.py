@@ -307,6 +307,12 @@ class ListView(View, base.ListView):
             named_url = url
             args = [get_attribute(obj, 'pk')]
 
+        # Instead of giving NoReverseMatch exception
+        # its more desirable, for field_links in listviews
+        # to just ignore the link.
+        if None in args:
+            return ""
+
         return reverse(named_url, args=args)
 
     def get_field_classes(self):
