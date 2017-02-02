@@ -6,6 +6,7 @@ Arctic uses semantic versioning - please refer to <http://semver.org> for furthe
 
 - bugfix: get_field_value didn't use get_fields but self.fields
 - introduced self.get_ordering_fields()
+- In the listview, don't generate NoReverseMatch exception if any value of the arguments is None.
 
 ##0.9.3 (2016-10-27)
 
