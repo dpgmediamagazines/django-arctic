@@ -46,7 +46,7 @@ function copy() {
 
 // Copy files out the fonts from the fontawesome folder
 function copyFonts() {
-    return gulp.src('./bower_components/fontawesome/fonts/*')
+    return gulp.src('./node_modules/font-awesome/fonts/*')
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
 };
 
