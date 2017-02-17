@@ -32,11 +32,26 @@
     "panini": "^1.3.0",
     "rimraf": "^2.4.3",
     "style-sherpa": "^1.0.0",
-    "yargs": "^3.8.0"
+    "yargs": "^3.8.0",
+    "foundation-sites": "6.2.3",
+    "motion-ui": "1.2.2",
+    "fontawesome": "4.6.3",
+    "jQuery-QueryBuilder": "2.3.3",
+    "selectize": "0.12.1",
+    "jquery": "2.2.4",
+    "Sortable": "sortablejs#1.4.2",
+    "air-datepicker": "^2.2.0",
+    "jquery.are-you-sure": "git://github.com/R4YM3/jquery.AreYouSure.git#ef545d843002fe78ee6d3f1b10e02e35a040ca45",
+    "jstree": "3.3.3"
   },
   "babel": {
-    "presets": ["es2015"]
-  },
+    "presets": ["es2015"],
+    "compact": false,
+    "ignore": ["selectize.js", 
+               "query-builder.standalone.js", 
+               "jquery.are-you-sure.js",
+               "datepicker.js"]
+ },
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/sanoma/django-arctic.git"
