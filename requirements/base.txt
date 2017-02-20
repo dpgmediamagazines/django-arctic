@@ -1,4 +1,4 @@
-django-extra-views==git+git://github.com/AndrewIngram/django-extra-views.git@dd5d6b877945eeca6ee04930a7fa441e66a586b0#egg=django-extra-views
+git+git://github.com/AndrewIngram/django-extra-views.git@dd5d6b877945eeca6ee04930a7fa441e66a586b0#egg=django-extra-views
 django-filter==1.0.1
 django-widget-tweaks==1.4.1
 django-betterforms==1.1.4
