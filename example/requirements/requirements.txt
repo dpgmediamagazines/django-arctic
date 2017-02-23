@@ -1,1 +1,1 @@
-django-arctic==0.9.2
+django-arctic==0.9.4
