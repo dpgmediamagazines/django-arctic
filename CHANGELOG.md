@@ -1,16 +1,22 @@
 #Changelog
 
-Arctic uses semantic versioning - please refer to <http://semver.org> for further details.
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+Always reference the ticket number at the end of the issue description.
 
 ##0.9.4
 
-- bugfix: get_field_value didn't use get_fields but self.fields
+##Fixed
+
 - introduced self.get_ordering_fields()
 - In the listview, don't generate NoReverseMatch exception if any value of the arguments is None.
 
 ##0.9.3 (2016-10-27)
 
-###Changes
+###Changed
 
 - `FormView`, `CreateView` and `UpdateView` added a `layout` property to 
   easily customize positioning and width of form fields - [#75][75]
