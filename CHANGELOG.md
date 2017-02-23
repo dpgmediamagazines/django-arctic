@@ -7,12 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-##0.9.4
+##0.9.4 (2017-02-23)
 
-##Fixed
+###Changed
 
-- introduced self.get_ordering_fields()
-- In the listview, don't generate NoReverseMatch exception if any value of the arguments is None.
+- Simplified the frontend tooling, removing Bower and foundation-cli, setup is 
+  now based on npm and gulp - [#161][161]
+
+###Fixed
+
+- In the listview, don't generate NoReverseMatch exception if any value of 
+  the arguments is None.
+
+[161]: //github.com/sanoma/django-arctic/issues/161
+
 
 ##0.9.3 (2016-10-27)
 
