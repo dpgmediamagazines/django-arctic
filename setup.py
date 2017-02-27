@@ -10,11 +10,11 @@ except:
 
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
-    # setup.py does not accept link dependencies mixed with PyPI ones, so 
-    # the django-extra-views package name and its github link are setup here 
-    # and another reference is kept in requirements/test.txt. When a new version 
+    # setup.py does not accept link dependencies mixed with PyPI ones, so
+    # the django-extra-views package name and its github link are setup here,
+    # another reference is kept in requirements/test.txt. When a new version
     # of django-extra-views is released this setup can be simplified.
-   REQUIREMENTS += '\ndjango-extra-views==0.8.0'
+    REQUIREMENTS += '\ndjango-extra-views==0.8.0'
 except:
     REQUIREMENTS = None
 
