@@ -1,4 +1,10 @@
 -r base.txt
+# setup.py does not accept link dependencies mixed with PyPI ones, so 
+# django-extra-views is kept here for testing purposes, and another reference 
+# in setup.py. When a new version of django-extra-views is released this setup
+# can be simplified.
+https://github.com/AndrewIngram/django-extra-views/tarball/dd5d6b877945eeca6ee04930a7fa441e66a586b0#egg=django-extra-views-0.8.0
+
 pytest==3.0.6
 pytest-cov==2.4.0
 pytest-django==3.1.2

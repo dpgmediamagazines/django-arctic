@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##Unreleased
+
+###Changed
+
+- Added full Django 1.10 compatibility - [#164][164]
+
+[164]: //github.com/sanoma/django-arctic/issues/164
+
+
 ##0.9.4 (2017-02-23)
 
 ###Changed
