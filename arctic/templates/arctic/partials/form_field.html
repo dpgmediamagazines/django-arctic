@@ -4,7 +4,6 @@
 {% if field.is_hidden %}
     {{ field }}
 {% else %}
-
     {% comment %}
          Make the field widget type available to templates so we can
          mark-up checkboxes differently to other widgets.
@@ -21,7 +20,6 @@
                 <div class="columns">
             {% endif %}
             <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
-
                 {% block widget %}
                     <!-- {{ field|widget_type }} -->
                     {# checkbox #}
@@ -36,7 +34,6 @@
 
                             {{ field.label|safe }}
                         </label>
-
                     {# radio #}
                     {% elif field|widget_type == 'radioselect' %}
                         <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
@@ -49,11 +46,17 @@
 
                             {{ field.label|safe }}
                         </label>
-
                     {% else %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                        <div class="row">
+                        <div class="small-2 columns">
+                          {% endif %}
                         <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
                             {{ field.label|safe }}
                         </label>
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                        </div>
+                        {% endif %}
                         {# multiple checkboxes #}
                         {% if field|widget_type == 'checkboxselectmultiple' %}
                             {% for checkbox in field %}
@@ -64,26 +67,76 @@
                                     </label>
                                 </div>
                             {% endfor %}
-
                         {# select #}
                         {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' or field|widget_type == 'lazyselect' %}
-                            {% render_field field class+='js-selectize' %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                                <div class="small-10 columns">
+                            {% endif %}
+                                {% render_field field class+='js-selectize' %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
                         {% elif field|widget_type == 'selectmultiple' %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                            <div class="small-10 columns">
+                        {% endif %}
                             {% render_field field class+='js-selectize' multiple="" %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
+
                         {% elif field|widget_type == 'datetimeinput' %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                            <div class="small-10 columns">
+                        {% endif %}
                             {% with rfc_date=field.value|date:"m/d/Y h:i A" %}
                             {% render_field field date=rfc_date class+='js-datetimepicker' %}
                             {% endwith %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+
                         {% elif field|widget_type == 'timeinput' %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                            <div class="small-10 columns">
+                        {% endif %}
                             {% with rfc_date=field.value|date:"h:i A" %}
                             {% render_field field date=rfc_date class+='js-timepicker' %}
                             {% endwith %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
                         {% elif field|widget_type == 'dateinput' %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                            <div class="small-10 columns">
+                        {% endif %}
                             {% with rfc_date=field.value|date:"m/d/Y" %}
                             {% render_field field date=rfc_date class+='js-datepicker' %}
                             {% endwith %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
                         {% else %}
+                        {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+
+                            <div class="small-10 columns">
+                        {% endif %}
                             {% render_field field %}
+                            {% if style == "horizontal" and field|widget_type != 'checkboxselectmultiple' %}
+                                </div>
+                            </div>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
 
