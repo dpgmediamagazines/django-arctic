@@ -10,11 +10,6 @@ except:
 
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
-    # setup.py does not accept link dependencies mixed with PyPI ones, so
-    # the django-extra-views package name and its github link are setup here,
-    # another reference is kept in requirements/test.txt. When a new version
-    # of django-extra-views is released this setup can be simplified.
-    REQUIREMENTS += '\ndjango-extra-views==0.8.0'
 except:
     REQUIREMENTS = None
 
@@ -44,7 +39,7 @@ setup(
     dependency_links=['https://github.com/AndrewIngram/' +\
                       'django-extra-views/tarball/' +\
                       'dd5d6b877945eeca6ee04930a7fa441e66a586b0' +\
-                      '#egg=django-extra-views-0.8.0'],
+                      '#egg=django_extra_views-0.8.0-master'],
     packages=find_packages(),
     include_package_data=True,
     license='MIT',
