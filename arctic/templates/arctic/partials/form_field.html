@@ -14,18 +14,49 @@
             <div class="row align-center {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
-            {% if style %}
+            {% if style and style != 'horizontal'%}
                 <div class="small-12 medium-{{style}} columns">
             {% else %}
                 <div class="columns">
             {% endif %}
-            <div {% if field.widget_type == 'CheckboxInput' %}class="checkbox"{% endif %}>
+            <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
                 {% block widget %}
                     <!-- {{ field|widget_type }} -->
                     {# checkbox or radio #}
                     {% if field|widget_type == 'checkboxinput' or field|widget_type == 'radioselect'%}
+                        {% if style == "horizontal" %}
                         <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+                            <div class="row">
+                            {% if size %}
+                                <div class="small-{{size}} columns">
+                            {% else %}
+                                <div class="small-2 columns">
+                            {% endif %}
 
+                            {{ field.label|safe }}
+
+                            {% if style == "horizontal" %}
+                                </div>
+                                {% if size %}
+                                    <div class="small{{-12|add:size}} columns">
+                                {% else %}
+                                    <div class="small-10 columns">
+                                {% endif %}
+                            {% endif %}
+
+                            {% if field.field.required %}
+                                {% render_field field|attr:'required' %}
+                            {% else %}
+                                {% render_field field %}
+                            {% endif %}
+
+                            {% if style == "horizontal"%}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </label>
+                        {% else %}
+                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
                             {% if field.field.required %}
                                 {% render_field field|attr:'required' %}
                             {% else %}
@@ -34,11 +65,16 @@
 
                             {{ field.label|safe }}
                         </label>
+                        {% endif%}
                     {% else %}
                         {% if style == "horizontal" %}
                         <div class="row">
-                        <div class="small-2 columns">
-                          {% endif %}
+                            {% if size %}
+                            <div class="small-{{size}} columns">
+                            {% else %}
+                            <div class="small-2 columns">
+                            {% endif %}
+                        {% endif %}
                         <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
                             {{ field.label|safe }}
                         </label>
@@ -46,7 +82,11 @@
                         </div>
                         {% endif %}
                         {% if style == "horizontal" %}
+                            {% if size %}
+                            <div class="small{{-12|add:size}} columns">
+                            {% else %}
                             <div class="small-10 columns">
+                            {% endif %}
                         {% endif %}
                         {# multiple checkboxes #}
                         {% if field|widget_type == 'checkboxselectmultiple' %}
