@@ -19,7 +19,7 @@
                 {% include "arctic/partials/form_validation.html" with form=form style="horizontal" %}
             {% endblock %}
             {% block form_fields %}
-                {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+                {% include "arctic/partials/form_fields.html" with form=form style="" %}
             {% endblock %}
         {% endblock %}
 
@@ -33,7 +33,7 @@
                 {{ formset.non_form_errors }}
 
                 {% for form in formset %}
-                    {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+                    {% include "arctic/partials/form_fields.html" with form=form style="" %}
                 {% endfor %}
             {% endfor %}
         {% endif %}
