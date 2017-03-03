@@ -33,7 +33,9 @@
                 {{ formset.non_form_errors }}
 
                 {% for form in formset %}
-                    {% include "arctic/partials/form_fields.html" with form=form style="" %}
+                    {% block inlines_form_fields %}
+                        {% include "arctic/partials/form_fields.html" with form=form style="" %}
+                    {% endblock %}
                 {% endfor %}
             {% endfor %}
         {% endif %}
