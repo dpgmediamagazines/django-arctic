@@ -14,145 +14,46 @@
             <div class="row align-center {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
-            {% if style and style != 'horizontal'%}
-                <div class="small-12 medium-{{style}} columns">
-            {% else %}
-                <div class="columns">
+            <div class="{% if style and style != 'horizontal' %}small-12 medium-{{style}}{% endif %} columns">
+                <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
+
+                    {% block widget %}
+                        <!-- {{ field|widget_type }} -->
+                        {# checkbox or radio #}
+                        {% if style == 'horizontal' %}
+                            {% include "arctic/partials/form_field_parts/form_field_horizontal.html" %}
+                        {% else %}
+                            {% include "arctic/partials/form_field_parts/form_field_default.html" %}
+                        {% endif %}
+                    {% endblock %}
+
+
+                    {% block errors %}
+                        {% for error in field.errors %}
+                            <span class="form-error is-visible">
+                                <i class="icon-exclamation-sign"></i>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    {% endblock %}
+
+
+                    {% block help_text %}
+                        {% if field.help_text %}
+                            <div class='help-text'>
+                                {# We allow HTML within form help fields #}
+                                {{ field.help_text|safe }}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% if not layout %}
+                    </div>
             {% endif %}
-            <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
-                {% block widget %}
-                    <!-- {{ field|widget_type }} -->
-                    {# checkbox or radio #}
-                    {% if field|widget_type == 'checkboxinput' or field|widget_type == 'radioselect'%}
-                        {% if style == "horizontal" %}
-                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-                            <div class="row">
-                            {% if size %}
-                                <div class="small-{{size}} columns">
-                            {% else %}
-                                <div class="small-2 columns">
-                            {% endif %}
-
-                            {{ field.label|safe }}
-
-                            {% if style == "horizontal" %}
-                                </div>
-                                {% if size %}
-                                    <div class="small{{-12|add:size}} columns">
-                                {% else %}
-                                    <div class="small-10 columns">
-                                {% endif %}
-                            {% endif %}
-
-                            {% if field.field.required %}
-                                {% render_field field|attr:'required' %}
-                            {% else %}
-                                {% render_field field %}
-                            {% endif %}
-
-                            {% if style == "horizontal"%}
-                                </div>
-                            </div>
-                            {% endif %}
-                        </label>
-                        {% else %}
-                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-                            {% if field.field.required %}
-                                {% render_field field|attr:'required' %}
-                            {% else %}
-                                {% render_field field %}
-                            {% endif %}
-
-                            {{ field.label|safe }}
-                        </label>
-                        {% endif%}
-                    {% else %}
-                        {% if style == "horizontal" %}
-                        <div class="row">
-                            {% if size %}
-                            <div class="small-{{size}} columns">
-                            {% else %}
-                            <div class="small-2 columns">
-                            {% endif %}
-                        {% endif %}
-                        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-                            {{ field.label|safe }}
-                        </label>
-                        {% if style == "horizontal" %}
-                        </div>
-                        {% endif %}
-                        {% if style == "horizontal" %}
-                            {% if size %}
-                            <div class="small{{-12|add:size}} columns">
-                            {% else %}
-                            <div class="small-10 columns">
-                            {% endif %}
-                        {% endif %}
-                        {# multiple checkboxes #}
-                        {% if field|widget_type == 'checkboxselectmultiple' %}
-                            {% for checkbox in field %}
-                                <div class="checkbox">
-                                    <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
-                                        {{ checkbox.tag }}
-                                        {{ checkbox.choice_label|safe }}
-                                    </label>
-                                </div>
-                            {% endfor %}
-                        {# select #}
-                        {% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' or field|widget_type == 'lazyselect' %}
-                                {% render_field field class+='js-selectize' %}
-                        {% elif field|widget_type == 'selectmultiple' %}
-                            {% render_field field class+='js-selectize' multiple="" %}
-                        {% elif field|widget_type == 'datetimeinput' %}
-                            {% with rfc_date=field.value|date:"m/d/Y h:i A" %}
-                            {% render_field field date=rfc_date class+='js-datetimepicker' %}
-                            {% endwith %}
-                        {% elif field|widget_type == 'timeinput' %}
-                            {% with rfc_date=field.value|date:"h:i A" %}
-                            {% render_field field date=rfc_date class+='js-timepicker' %}
-                            {% endwith %}
-                        {% elif field|widget_type == 'dateinput' %}
-                            {% with rfc_date=field.value|date:"m/d/Y" %}
-                            {% render_field field date=rfc_date class+='js-datepicker' %}
-                            {% endwith %}
-                        {% else %}
-                            {% render_field field %}
-                        {% endif %}
-                        {% if style == "horizontal"%}
-                            </div>
-                        </div>
-                        {% endif %}
-                    {% endif %}
-
-                {% endblock %}
-
-
-                {% block errors %}
-                    {% for error in field.errors %}
-                        <span class="form-error is-visible">
-                            <i class="icon-exclamation-sign"></i>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
-                {% endblock %}
-
-
-                {% block help_text %}
-                    {% if field.help_text %}
-                        <div class='help-text'>
-                            {# We allow HTML within form help fields #}
-                            {{ field.help_text|safe }}
-                        </div>
-                    {% endif %}
-                {% endblock %}
-
-                </div>
-            </div>
         {% endblock %}
-
-        {% if not layout %}
-                </div>
-        {% endif %}
-    {% endblock %}
 
 {% endif %}
