@@ -1,15 +1,15 @@
 {% load widget_tweaks %}
     {% if field|widget_type == 'checkboxinput' or field|widget_type == 'radioselect'%}
-        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
             <div class="row">
                 <div class="{% if size %}small-{{size}}{% else %}small-2{% endif %} columns">
                     {% include "arctic/partials/form_field_parts/field_label.html" %}
                 </div>
                 <div class="{% if size %}small{{-12|add:size}}{% else %}small-10{% endif %} columns">
-                    {% include "arctic/partials/form_field_parts/render_field.html" %}
+                    <label for="{{ field.auto_id }}">
+                        {% include "arctic/partials/form_field_parts/render_field.html" %}
+                    </label>
                 </div>
             </div>
-        </label>
     {% else %}
         <div class="row">
             <div class="{% if size %}small-{{size}}{% else %}small-2{% endif %} columns">
