@@ -39,17 +39,11 @@ This is the case that Arctic wants to solve, creation of a CMS with a high degre
 
 Arctic is available on PIP:
 
-    pip install --process-dependency-links django-arctic
+    pip install django-arctic
 
 or directly from Github:
 
-    pip install --process-dependency-links git+ssh://git@github.com/sanoma/django-arctic.git
-
-**Note:** `--process-dependency-links` is needed so that pip can install an 
-Arctic dependency, django-extra-views, with a version not yet available in PyPI,
-this is needed for full Django 1.10 compatibility. If you are using Arctic in a 
-requirements file, just add a line with `--process-dependency-links` to avoid
-writing this directive in the command line.
+    pip install git+ssh://git@github.com/sanoma/django-arctic.git
 
 
 ## Getting Started
