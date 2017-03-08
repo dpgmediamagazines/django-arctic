@@ -545,6 +545,21 @@ class ListView(View, base.ListView):
         return context
 
 
+class DataListView(ListView):
+    data = []
+
+    def get_context_data(self, **kwargs):
+        context = super(DataListView, self).get_context_data(**kwargs)
+
+    def get_object_list(self):
+        self.object_list = self.data()
+
+    def get_data(self):
+        
+
+
+
+
 class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
