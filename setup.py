@@ -36,10 +36,6 @@ setup(
     version=__VERSION__,
     long_description=README,
     install_requires=REQUIREMENTS,
-    dependency_links=['https://github.com/AndrewIngram/' +\
-                      'django-extra-views/tarball/' +\
-                      'dd5d6b877945eeca6ee04930a7fa441e66a586b0' +\
-                      '#egg=django_extra_views-0.8.0-master'],
     packages=find_packages(),
     include_package_data=True,
     license='MIT',
