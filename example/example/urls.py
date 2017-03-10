@@ -18,6 +18,7 @@ from articles.views import (ArticleCreateView, ArticleDeleteView,
                             TagListView, TagUpdateView)
 from dashboard.views import DashboardView
 
+
 article_patterns = [
     url(r'^$', ArticleListView.as_view(), name='list'),
     url(r'^create/$', ArticleCreateView.as_view(), name='create'),
@@ -49,5 +50,13 @@ urlpatterns = [
 
 
 if settings.DEBUG:
+    try:
+        import debug_toolbar
+        urlpatterns = [
+            url(r'^__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
+    except ModuleNotFoundError:
+        pass
+
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

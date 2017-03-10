@@ -32,10 +32,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = ['127.0.0.1']
+
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -48,7 +50,7 @@ INSTALLED_APPS = (
     'articles',
     'arctic',
     'arctic.users',
-)
+]
 
 
 MIDDLEWARE_CLASSES = [
@@ -121,3 +123,12 @@ MEDIA_ROOT = location("media")
 MEDIA_URL = '/media/'
 
 LOGIN_URL = LOGOUT_URL = 'login'
+
+
+try:
+    import debug_toolbar
+    MIDDLEWARE_CLASSES.append(
+        'debug_toolbar.middleware.DebugToolbarMiddleware')
+    INSTALLED_APPS.append('debug_toolbar')
+except ModuleNotFoundError:
+    pass
