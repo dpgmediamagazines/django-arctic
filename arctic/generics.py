@@ -55,6 +55,7 @@ class View(RoleAuthentication, base.View):
         context['page_title'] = self.get_page_title()
         context['page_description'] = self.get_page_description()
         context['menu'] = menu(user=self.request.user, request=self.request)
+        context['SUBMENU_ICONS_DISPLAY'] = self.get_submenu_icons_display()
         context['urls'] = self.get_urls()
         context['breadcrumbs'] = self.get_breadcrumbs()
         context['tabs'] = self.get_tabs()
@@ -170,6 +171,9 @@ class View(RoleAuthentication, base.View):
 
     def get_logout_url(self):
         return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
+
+    def get_submenu_icons_display(self):
+        return getattr(settings, 'SUBMENU_ICONS_DISPLAY', False)
 
 
 class TemplateView(View, base.TemplateView):

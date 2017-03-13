@@ -17,6 +17,9 @@
                     {% for sub_key, sub_value in value.submenu.items %}
                         <li id="menu-{{ sub_value.url|slugify }}">
                             <a {% if sub_value.active %}class="active" {% endif %} href="{% url sub_value.url %}">
+                                {% if SUBMENU_ICONS_DISPLAY %}
+                                    <i class="fa {{ sub_value.icon|default_if_none:'' }}"></i>
+                                {% endif %}
                                 {% trans sub_key %}
                             </a>
                         </li>

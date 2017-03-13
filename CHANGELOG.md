@@ -12,8 +12,10 @@ Always reference the ticket number at the end of the issue description.
 ###Changed
 
 - Added full Django 1.10 compatibility - [#164][164]
+- Added submenu icons display option - [#178][178]
 
 [164]: //github.com/sanoma/django-arctic/issues/164
+[178]: //github.com/sanoma/django-arctic/issues/178
 
 
 ##0.9.4 (2017-02-23)
