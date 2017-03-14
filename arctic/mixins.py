@@ -256,31 +256,53 @@ class LayoutMixin(object):
         else:
             return None
 
+    def update_form_widgets(self, form):
+        for field in form.fields:
+            if form.fields[field].__class__.__name__ == 'ModelChoiceField':
+                for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
+                    field_cls = '.'.join(values[0].lower().split('.')[-2:])
+                    if field_cls == str(form.fields[field].queryset.
+                                        model._meta):
+                        url = reverse('autocomplete', args=[key, ''])
+                        choices = ()
+                        if form.instance.pk:
+                            field_id = getattr(form.instance, field +
+                                               '_id')
+                            field_value = getattr(form.instance, field)
+                            choices = ((field_id, field_value),)
+                        field_id = 1
+                        field_value = 'a'
+                        form.fields[field].widget = SelectAutoComplete(
+                            attrs={'url': url,
+                                   'class': 'js-selectize-autocomplete'},
+                            choices=choices)
+        return form
+
     def get_form(self, form_class=None):
         form = super(LayoutMixin, self).get_form(form_class=None)
         try:
-            for field in form.fields:
-                if form.fields[field].__class__.__name__ == 'ModelChoiceField':
-                    for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
-                        field_cls = '.'.join(values[0].lower().split('.')[-2:])
-                        if field_cls == str(form.fields[field].queryset.
-                                            model._meta):
-                            url = reverse('autocomplete', args=[key, ''])
-                            choices = ()
-                            if form.instance.pk:
-                                field_id = getattr(form.instance, field +
-                                                   '_id')
-                                field_value = getattr(form.instance, field)
-                                choices = ((field_id, field_value),)
-                            field_id = 1
-                            field_value = 'a'
-                            form.fields[field].widget = SelectAutoComplete(
-                                attrs={'url': url,
-                                       'class': 'js-selectize-autocomplete'},
-                                choices=choices)
+            form = self.update_form_widgets(form)
         except AttributeError:
             pass
         return form
+
+    def get_context_data(self, **kwargs):
+        context = super(LayoutMixin, self).get_context_data(**kwargs)
+        try:
+            i = 0
+            for formset in context['inlines']:
+                j = 0
+                if not hasattr(context['inlines'][i], 'verbose_name'):
+                    setattr(context['inlines'][i], 'verbose_name',
+                            formset.model._meta.verbose_name_plural)
+                for form in formset:
+                    context['inlines'][i][j].fields = \
+                        self.update_form_widgets(form).fields
+                    j += 1
+                i += 1
+        except KeyError:
+            pass
+        return context
 
 
 class RoleAuthentication(object):
@@ -383,7 +405,7 @@ class RoleAuthentication(object):
             return True
 
         # get role of user, skip admin role
-        role = UserRole.objects.get(user=user).role.name
+        role = user.urole.role.name
         if role == cls.ADMIN:
             return True
 

@@ -17,6 +17,7 @@ eggs/
 lib/
 lib64/
 parts/
+dist/
 sdist/
 var/
 *.egg-info/
@@ -119,6 +120,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+*.sublime-workspace
+
 # Virtualenv
 venv/
 venv3/
@@ -130,6 +133,5 @@ keys/
 demo/media
 
 # frontend stuff
-bower_components
 npm-debug.log
 node_modules

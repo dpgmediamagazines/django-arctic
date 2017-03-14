@@ -11,7 +11,7 @@
 
 
 {% block content %}
-    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide>
+    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
 
         {% csrf_token %}
         {% block form %}
@@ -26,6 +26,9 @@
         {% block inlines %}
         {% if inlines %}
             {% for formset in inlines %}
+                {% if formset.verbose_name %}
+                    <h4>{{ formset.verbose_name }}</h4>
+                {% endif %}
                 {{ formset.management_form }}
                 {{ formset.non_form_errors }}
 
@@ -55,6 +58,8 @@
             </div>
 
             <div class="small-6 medium-4 columns text-right">
+                {% block form_actions_buttons %}
+                {% endblock %}
                 <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
             </div>
         </div>
