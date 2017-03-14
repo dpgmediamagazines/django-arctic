@@ -555,7 +555,7 @@ class DataListView(ListView):
         self.object_list = self.data()
 
     def get_data(self):
-        
+        pass
 
 
 
