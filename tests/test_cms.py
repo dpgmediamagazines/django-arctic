@@ -22,8 +22,8 @@ class TestCMS(object):
         """
         response = self.client.post('/login/',
                                     {
-                                     'username': 'admin',
-                                     'password': 'password'
+                                        'username': 'admin',
+                                        'password': 'password'
                                     })
 
         assert response.status_code == 302
@@ -39,8 +39,8 @@ class TestCMS(object):
         """
         response = self.client.post('/login/?next=/articles/',
                                     {
-                                     'username': 'admin',
-                                     'password': 'password'
+                                        'username': 'admin',
+                                        'password': 'password'
                                     })
 
         assert response.status_code == 302
@@ -56,8 +56,8 @@ class TestCMS(object):
         """
         response = self.client.post('/login/?next=http://www.no.domain/test/',
                                     {
-                                     'username': 'admin',
-                                     'password': 'password'
+                                        'username': 'admin',
+                                        'password': 'password'
                                     })
 
         assert response.status_code == 302
