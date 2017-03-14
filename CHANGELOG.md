@@ -13,9 +13,11 @@ Always reference the ticket number at the end of the issue description.
 
 - Added full Django 1.10 compatibility - [#164][164]
 - Added submenu icons display option - [#178][178]
+- Considerate improved performance; no query per has_permission call - [#182][182]
 
 [164]: //github.com/sanoma/django-arctic/issues/164
 [178]: //github.com/sanoma/django-arctic/issues/178
+[182]: //github.com/sanoma/django-arctic/issues/182
 
 
 ##0.9.4 (2017-02-23)
