@@ -1,3 +1,5 @@
+--process-dependency-links
+-e .
 -r test.txt
 
 django>=1.8.12,<1.11

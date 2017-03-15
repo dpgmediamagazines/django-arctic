@@ -63,7 +63,7 @@ body {
     opacity: 0.65;
 }
 
-td {
+.clickable-cell {
     a {
         display: block;
         padding: $table-padding;

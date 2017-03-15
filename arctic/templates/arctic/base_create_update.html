@@ -12,7 +12,7 @@
 
 {% block content %}
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
-        <fieldset {%if readonly %}disabled{%endif%}>
+        <fieldset type="POST">
             {% csrf_token %}
             {% block form %}
                 {% block form_validation %}
@@ -56,10 +56,10 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-
-                <div class="small-6 medium-4 columns text-right">
-                    <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
-                </div>
+            <div class="small-6 medium-4 columns text-right">
+                {% block form_actions_buttons %}
+                {% endblock %}
+                <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
             </div>
             {% endblock form_actions %}
         </fieldset>
