@@ -27,7 +27,7 @@ class TestCMS(object):
                                     })
 
         assert response.status_code == 302
-        assert response.url == '/'
+        assert response.url in ('/', 'http://testserver/')
 
     def test_login_success_redirect_next(self, admin_user):
         """
@@ -44,7 +44,7 @@ class TestCMS(object):
                                     })
 
         assert response.status_code == 302
-        assert response.url == '/articles/'
+        assert response.url in ('/articles/', 'http://testserver/articles/')
 
     def test_login_success_redirect_next_other_host(self, admin_user):
         """
@@ -61,7 +61,7 @@ class TestCMS(object):
                                     })
 
         assert response.status_code == 302
-        assert response.url == '/'
+        assert response.url in ('/', 'http://testserver/')
 
     def test_login_success(self, admin_user):
         """
