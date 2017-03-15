@@ -12,7 +12,7 @@
 
 {% block content %}
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
-        <fieldset type="POST">
+        <fieldset type="post">
             {% csrf_token %}
             {% block form %}
                 {% block form_validation %}

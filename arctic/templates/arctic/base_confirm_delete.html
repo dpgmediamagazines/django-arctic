@@ -14,7 +14,7 @@
     <div>
         {% if can_delete %}
             <form class="warning callout text-center" action="" method="post">
-                <fieldset {%if readonly%}disabled{%endif%}>
+                <fieldset type="post">
                     {% csrf_token %}
 
                     {% block confirm_message %}
