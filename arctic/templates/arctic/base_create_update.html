@@ -32,10 +32,11 @@
                     {{ formset.management_form }}
                     {{ formset.non_form_errors }}
 
-                {% for form in formset %}
-                    {% block inlines_form_fields %}
-                        {% include "arctic/partials/form_fields.html" with form=form %}
-                    {% endblock %}
+                    {% for form in formset %}
+                        {% block inlines_form_fields %}
+                            {% include "arctic/partials/form_fields.html" with form=form %}
+                        {% endblock %}
+                    {% endfor %}
                 {% endfor %}
             {% endif %}
             {% endblock inlines %}
