@@ -1,0 +1,6 @@
+{% load widget_tweaks %}
+{% if field.field.required %}
+    {% render_field field|attr:'required' %}
+{% else %}
+    {% render_field field %}
+{% endif %}
