@@ -405,7 +405,7 @@ class RoleAuthentication(object):
             return True
 
         # get role of user, skip admin role
-        role = UserRole.objects.get(user=user).role.name
+        role = user.urole.role.name
         if role == cls.ADMIN:
             return True
 
