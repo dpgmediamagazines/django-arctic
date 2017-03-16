@@ -5,14 +5,16 @@
     <div class="row">
         {% if has_filter %}
             <form action="" method="GET" class="columns expand">
-                <div class="page-filters row">
-                    {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                    <div class="columns shrink left">
-                        <button type="submit" class="button secondary">
-                            <i class="fa fa-search"></i>
-                        </button>
+                <fieldset type="get">
+                    <div class="page-filters row">
+                        {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+                        <div class="columns shrink left">
+                            <button type="submit" class="button secondary">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </fieldset>
             </form>
         {% endif %}
         {% if tool_links %}

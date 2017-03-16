@@ -14,18 +14,20 @@
     <div>
         {% if can_delete %}
             <form class="warning callout text-center" action="" method="post">
-                {% csrf_token %}
+                <fieldset type="post">
+                    {% csrf_token %}
 
-                {% block confirm_message %}
-                    <h5>Are you sure you want to delete "{{ object }}"?</h5>
-                    <p>This cannot be undone</p>
-                {% endblock %}
+                    {% block confirm_message %}
+                        <h5>Are you sure you want to delete "{{ object }}"?</h5>
+                        <p>This cannot be undone</p>
+                    {% endblock %}
 
-                <div class="button-group text-center">
-                    {# Javascript cause forms, get filled values back #}
-                    <a href="#" onclick="window.history.go(-1); return false;" class="secondary button">Cancel</a>
-                    <input type="submit" value="Delete" class="alert button" />
-                </div>
+                    <div class="button-group text-center">
+                        {# Javascript cause forms, get filled values back #}
+                        <a href="#" onclick="window.history.go(-1); return false;" class="secondary button">Cancel</a>
+                        <input type="submit" value="Delete" class="alert button" />
+                    </div>
+                </fieldset>
             </form>
         {% else %}
             <section class="warning callout">

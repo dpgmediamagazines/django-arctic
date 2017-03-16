@@ -12,60 +12,58 @@
 
 {% block content %}
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
-
-        {% csrf_token %}
-        {% block form %}
-            {% block form_validation %}
-                {% include "arctic/partials/form_validation.html" with form=form style="horizontal" %}
+        <fieldset type="post">
+            {% csrf_token %}
+            {% block form %}
+                {% block form_validation %}
+                    {% include "arctic/partials/form_validation.html" with form=form %}
+                {% endblock %}
+                {% block form_fields %}
+                    {% include "arctic/partials/form_fields.html" with form=form %}
+                {% endblock %}
             {% endblock %}
-            {% block form_fields %}
-                {% include "arctic/partials/form_fields.html" with form=form %}
-            {% endblock %}
-        {% endblock %}
 
-        {% block inlines %}
-        {% if inlines %}
-            {% for formset in inlines %}
-                {% if formset.verbose_name %}
-                    <h4>{{ formset.verbose_name }}</h4>
-                {% endif %}
-                {{ formset.management_form }}
-                {{ formset.non_form_errors }}
+            {% block inlines %}
+            {% if inlines %}
+                {% for formset in inlines %}
+                    {% if formset.verbose_name %}
+                        <h4>{{ formset.verbose_name }}</h4>
+                    {% endif %}
+                    {{ formset.management_form }}
+                    {{ formset.non_form_errors }}
 
                 {% for form in formset %}
                     {% block inlines_form_fields %}
                         {% include "arctic/partials/form_fields.html" with form=form %}
                     {% endblock %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
-        {% endblock inlines %}
+            {% endif %}
+            {% endblock inlines %}
 
-        {% block extra_forms %} {% endblock %}
+            {% block extra_forms %} {% endblock %}
 
-        {% block form_actions %}
-        <div class="row align-center">
-            <div class="small-6 medium-4 columns">
-                {% if links %}
-                    {% for link in links %}
-                        {% if object.pk %}
-                            <a class="button secondary" href="{% arctic_url link.1 object.pk %}">
-                        {% else %}
-                            <a class="button secondary" href="{% arctic_url link.1 %}">
-                        {% endif %}
-                            {{ link.0 }}
-                        </a>
-                    {% endfor %}
-                {% endif %}
-            </div>
-
+            {% block form_actions %}
+            <div class="row align-center">
+                <div class="small-6 medium-4 columns">
+                    {% if links %}
+                        {% for link in links %}
+                            {% if object.pk %}
+                                <a class="button secondary" href="{% arctic_url link.1 object.pk %}">
+                            {% else %}
+                                <a class="button secondary" href="{% arctic_url link.1 %}">
+                            {% endif %}
+                                {{ link.0 }}
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             <div class="small-6 medium-4 columns text-right">
                 {% block form_actions_buttons %}
                 {% endblock %}
                 <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
             </div>
-        </div>
-        {% endblock form_actions %}
+            {% endblock form_actions %}
+        </fieldset>
     </form>
 
     {% block extra_content %}{% endblock %}
