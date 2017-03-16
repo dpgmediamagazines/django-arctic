@@ -99,20 +99,20 @@ select {
 }
 
 
-fieldset {
+.fieldset-default {
     border: 2px solid $greyLight;
     border-radius: $global-radius;
     padding: $marginLarge;
     margin-bottom: 1rem;
 }
 
-fieldset legend {
+.fieldset-default legend {
     padding: 5px 10px;
     border-radius: 5px;
     text-align: center;
 }
 
-fieldset p {
+.fieldset-default p {
     padding: 0 0 1rem 0;
     margin: -1.2rem 0 0 0;
     font-style: italic;
