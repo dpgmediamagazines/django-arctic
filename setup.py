@@ -1,7 +1,7 @@
 from setuptools import (find_packages, setup)
 
 
-__VERSION__ = '0.9.4'
+__VERSION__ = '0.9.5'
 
 try:
     README = open('README.md').read()
@@ -28,7 +28,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],

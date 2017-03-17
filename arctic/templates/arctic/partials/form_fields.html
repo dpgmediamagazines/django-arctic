@@ -5,7 +5,7 @@
         {% if layout %}
             {% for index, layout_item in layout.items %}
                 {% if layout_item.fieldset.collapsible %}
-                    <fieldset class="collapse">
+                    <fieldset class="fieldset-default collapse">
                 {% else %}
                     <fieldset>
                 {% endif %}
@@ -33,7 +33,7 @@
             {% endfor %}
 
         {% else %}
-            <fieldset>
+            <fieldset class="fieldset-default">
             {% for field in form %}
                 {% include 'arctic/partials/form_field.html' with field=field%}
             {% endfor %}
