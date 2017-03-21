@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##Pending
+
+- Added support for read-only fields in update view - [#72][72]
+
+[72]: //github.com/sanoma/django-arctic/issues/72
+
 ##0.9.5 (2017-03-16)
 
 ###Changed
