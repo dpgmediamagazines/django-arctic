@@ -55,7 +55,7 @@ if settings.DEBUG:
         urlpatterns = [
             url(r'^__debug__/', include(debug_toolbar.urls)),
         ] + urlpatterns
-    except ModuleNotFoundError:
+    except ImportError:
         pass
 
     urlpatterns += static(settings.MEDIA_URL,

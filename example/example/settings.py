@@ -130,5 +130,5 @@ try:
     MIDDLEWARE_CLASSES.append(
         'debug_toolbar.middleware.DebugToolbarMiddleware')
     INSTALLED_APPS.append('debug_toolbar')
-except ModuleNotFoundError:
+except ImportError:
     pass

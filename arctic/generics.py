@@ -546,18 +546,18 @@ class ListView(View, base.ListView):
 
 
 class DataListView(ListView):
-    data = []
+    data = None
+    url_template = None
 
     def get_context_data(self, **kwargs):
         context = super(DataListView, self).get_context_data(**kwargs)
+        return context
 
     def get_object_list(self):
-        self.object_list = self.data()
+        self.object_list = self.get_data()
 
     def get_data(self):
         pass
-
-
 
 
 class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
