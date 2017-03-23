@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##Pending
+
+###Changed
+
+- Bumped django-filters to 1.0.1 and fixed breaking changes - [#171][171]
+
+[171]: //github.com/sanoma/django-arctic/issues/171
+
 ##0.9.5 (2017-03-16)
 
 ###Changed
