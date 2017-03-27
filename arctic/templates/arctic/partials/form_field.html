@@ -14,7 +14,7 @@
             <div class="row align-center {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
-            <div class="{% if style and style != 'horizontal' %}small-12 medium-{{style}}{% endif %} columns">
+            <div class="{%if column %}small-12 medium-{{column}}{% endif %} columns">
                 <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
 
                     {% block widget %}
