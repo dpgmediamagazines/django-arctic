@@ -20,9 +20,12 @@
                     {% block widget %}
                         <!-- {{ field|widget_type }} -->
                         {# checkbox or radio #}
-                        {% if style == 'horizontal' %}
+                        {% if style == 'vertical' %}
+                            {% include "arctic/partials/form_field_parts/form_field_default.html" %}
+                        {% elif style == 'horizontal' %}
                             {% include "arctic/partials/form_field_parts/form_field_horizontal.html" %}
                         {% else %}
+                            {# deafault #}
                             {% include "arctic/partials/form_field_parts/form_field_default.html" %}
                         {% endif %}
                     {% endblock %}
