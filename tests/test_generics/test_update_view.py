@@ -23,9 +23,11 @@ class TestArticleUpdate(object):
         # Check with readonly field enabled
         view.readonly_fields = ['title']
         response = admin_client.get(self.get_url(article.pk))
-        assert response.context_data['form'].fields['title'].widget.attrs.get('readonly')
+        assert response.context_data['form'].fields['title']\
+            .widget.attrs.get('readonly')
 
         # Check with readonly field disabled
         view.readonly_fields = []
         response = admin_client.get(self.get_url(article.pk))
-        assert not response.context_data['form'].fields['title'].widget.attrs.get('readonly')
+        assert not response.context_data['form'].fields['title']\
+            .widget.attrs.get('readonly')
