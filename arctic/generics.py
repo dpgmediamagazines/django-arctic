@@ -183,7 +183,6 @@ class DetailView(View, LinksMixin, base.DetailView):
 
     fields = None            # Which fields should be shown in the details
     links = None             # Optional links such as list of linked items
-    read_only_fields = None  # Optional list of read-only fields
 
     def get_fields(self, obj):
         result = OrderedDict()
@@ -567,7 +566,7 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
     success_message = _('%(object)s was updated successfully')
 
     links = None             # Optional links such as list of linked items
-    read_only_fields = None  # Optional list of read-only fields
+    readonly_fields = None   # Optional list of readonly fields
 
     def get_page_title(self):
         if not self.page_title:

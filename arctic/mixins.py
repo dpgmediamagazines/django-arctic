@@ -80,7 +80,7 @@ class LayoutMixin(object):
     """
     layout = None
     _fields = []
-    read_only_fields = None
+    readonly_fields = None
     ALLOWED_COLUMNS = 12        # There are 12 columns available
 
     def get_layout(self):
@@ -275,7 +275,7 @@ class LayoutMixin(object):
                             attrs={'url': url,
                                    'class': 'js-selectize-autocomplete'},
                             choices=choices)
-            if self.read_only_fields and field in self.read_only_fields:
+            if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True
         return form
 
