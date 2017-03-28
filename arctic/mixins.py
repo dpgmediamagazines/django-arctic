@@ -80,6 +80,7 @@ class LayoutMixin(object):
     """
     layout = None
     _fields = []
+    readonly_fields = None
     ALLOWED_COLUMNS = 12        # There are 12 columns available
 
     def get_layout(self):
@@ -256,7 +257,7 @@ class LayoutMixin(object):
         else:
             return None
 
-    def update_form_widgets(self, form):
+    def update_form_fields(self, form):
         for field in form.fields:
             if form.fields[field].__class__.__name__ == 'ModelChoiceField':
                 for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
@@ -270,18 +271,18 @@ class LayoutMixin(object):
                                                '_id')
                             field_value = getattr(form.instance, field)
                             choices = ((field_id, field_value),)
-                        field_id = 1
-                        field_value = 'a'
                         form.fields[field].widget = SelectAutoComplete(
                             attrs={'url': url,
                                    'class': 'js-selectize-autocomplete'},
                             choices=choices)
+            if self.readonly_fields and field in self.readonly_fields:
+                form.fields[field].widget.attrs['readonly'] = True
         return form
 
     def get_form(self, form_class=None):
         form = super(LayoutMixin, self).get_form(form_class=None)
         try:
-            form = self.update_form_widgets(form)
+            form = self.update_form_fields(form)
         except AttributeError:
             pass
         return form
@@ -297,7 +298,7 @@ class LayoutMixin(object):
                             formset.model._meta.verbose_name_plural)
                 for form in formset:
                     context['inlines'][i][j].fields = \
-                        self.update_form_widgets(form).fields
+                        self.update_form_fields(form).fields
                     j += 1
                 i += 1
         except KeyError:
