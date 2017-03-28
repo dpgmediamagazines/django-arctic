@@ -333,7 +333,7 @@ so you have to define it when creating new Views.
 
 The strings describing the permission can be anything, but it's advisable to 
 follow Django's conventions, by using `<view|add|change|delete>_<entity>`
-whenever it makes sense, for example `permission_required = 'view_users'`.
+whenever it makes sense, for example `permission_required = 'view_user'`.
 
 
 **Methods**

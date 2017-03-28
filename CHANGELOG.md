@@ -9,9 +9,17 @@ Always reference the ticket number at the end of the issue description.
 
 ##Pending
 
+###Added
+
 - Added support for read-only fields in update view - [#72][72]
 
+###Changed
+
+- Bumped django-filters to 1.0.1 and fixed breaking changes - [#171][171]
+
 [72]: //github.com/sanoma/django-arctic/issues/72
+[171]: //github.com/sanoma/django-arctic/issues/171
+
 
 ##0.9.5 (2017-03-16)
 
