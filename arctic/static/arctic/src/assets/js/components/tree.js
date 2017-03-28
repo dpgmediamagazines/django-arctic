@@ -182,11 +182,6 @@
                     // it's a drag event
                     if ( more && more.dnd && ( operation === 'move_node' )) {
 
-                        // disable dragging on root level
-                        if ( node.parent === '#' ) {
-                            return false;
-                        }
-
                         // limit dragging to same parent level
                         if ( node.parent !== node_parent.id ) {
                             return false;
