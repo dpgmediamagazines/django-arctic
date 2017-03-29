@@ -181,8 +181,8 @@ class DetailView(View, LinksMixin, base.DetailView):
     Custom detail view.
     """
 
-    fields = None  # Which fields should be shown in the details
-    links = None   # Optional links such as viewing list of linked items
+    fields = None            # Which fields should be shown in the details
+    links = None             # Optional links such as list of linked items
 
     def get_fields(self, obj):
         result = OrderedDict()
@@ -470,7 +470,8 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
-    links = None  # Optional links such as viewing list of linked items
+    links = None             # Optional links such as list of linked items
+    readonly_fields = None   # Optional list of readonly fields
 
     def get_page_title(self):
         if not self.page_title:
