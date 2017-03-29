@@ -202,3 +202,47 @@ def get_field_class(qs, field_name):
     # while annotating, it's possible that field does not exists.
     except FieldDoesNotExist:
         return None
+
+
+class RemoteDataSet():
+    url_template = '{filters}{fields}{order}{paginate}'
+    paginate_template = '&offset={}&limit={}'
+    order_separator = ','
+    order_template = '&order={}'
+    fields_separator = ','
+    fields_template = '&fields={}'
+    filters_template = '{}'
+    filters_template_kv = '&{key}={value}'
+    _options = {'fields': '',
+                'order': '',
+                'filters': '',
+                'paginate': ''}
+
+    def fields(self, fields):
+        if fields:
+            fields_str = self.fields_separator.join(fields)
+            self._options['fields'] = self.fields_template.format(fields_str)
+        return self
+
+    def order_by(self, order):
+        if order:
+            order_str = self.order_separator.join(order)
+            self._options['order'] = self.order_template.format(order_str)
+        return self
+
+    def filter(self, **kwargs):
+        if kwargs:
+            filters = ''
+            for key, value in kwargs.items():
+                filters += self.filters_template_kv.format(
+                    key=key,
+                    value=value)
+            self._options['filters'] = self.filters_template.format(filters)
+        return self
+
+    def get_url(self, page):
+        url = self.url_template.format(**self._options)
+        return url.replace('?&', '?')
+
+    def get(self, page):
+        pass

@@ -18,7 +18,7 @@ import extra_views
 
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
-                     LayoutMixin)
+                     LayoutMixin, ListMixin)
 from .utils import (find_attribute, get_field_class, find_field_meta,
                     get_attribute, menu, view_from_url)
 
@@ -204,19 +204,14 @@ class DetailView(View, LinksMixin, base.DetailView):
         return context
 
 
-class ListView(View, base.ListView):
+class ListView(View, ListMixin, base.ListView):
     """
     Custom listview. Adding filter, sorting and display logic.
     """
-    template_name = 'arctic/base_list.html'
-    fields = None  # Which fields should be shown in listing
     filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
-    ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     action_links = []  # "Action" links on item level. For example "Edit"
-    field_links = {}
-    field_classes = {}
     tool_links_icon = 'fa-wrench'
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
@@ -238,65 +233,6 @@ class ListView(View, base.ListView):
 
         return self.object_list
 
-    def ordering_url(self, field):
-        """
-        Creates a url link for sorting the given field.
-
-        The direction of sorting will be either ascending, if the field is not
-        yet sorted, or the opposite of the current sorting if sorted.
-        """
-        path = self.request.path
-        direction = ''
-        query_params = self.request.GET.copy()
-        ordering = self.request.GET.get('order', '').split(',')
-        if not ordering:
-            ordering = self.get_default_ordering()
-        merged_ordering = list(ordering)  # copy the list
-
-        for ordering_field in self.get_ordering_fields():
-            if (ordering_field.lstrip('-') not in ordering) and \
-               (('-' + ordering_field.lstrip('-')) not in ordering):
-                merged_ordering.append(ordering_field)
-
-        new_ordering = []
-        for item in merged_ordering:
-            if item.lstrip('-') == field.lstrip('-'):
-                if (item[0] == '-') or not (item in ordering):
-                    if item in ordering:
-                        direction = 'desc'
-                    new_ordering.insert(0, item.lstrip('-'))
-                else:
-                    direction = 'asc'
-                    new_ordering.insert(0, '-' + item)
-
-        query_params['order'] = ','.join(new_ordering)
-
-        return (path + '?' + query_params.urlencode(safe=','), direction)
-
-    def get_fields(self):
-        """
-        Hook to dynamically change the fields that will be displayed
-        """
-        return self.fields
-
-    def get_ordering_fields(self):
-        """
-        Hook to dynamically change the fields that can be ordered
-        """
-        return self.ordering_fields
-
-    def get_field_links(self):
-        if not self.field_links:
-            return {}
-        else:
-            allowed_field_links = {}
-            for field, url in self.field_links.items():
-                # check permission based on named_url
-                if not view_from_url(url).has_permission(self.request.user):
-                    continue
-                allowed_field_links[field] = url
-            return allowed_field_links
-
     def _reverse_field_link(self, url, obj):
         if type(url) in (list, tuple):
             named_url = url[0]
@@ -314,9 +250,6 @@ class ListView(View, base.ListView):
             return ""
 
         return reverse(named_url, args=args)
-
-    def get_field_classes(self):
-        return self.field_classes
 
     def get_list_header(self):
         """
@@ -352,9 +285,6 @@ class ListView(View, base.ListView):
                         else:
                             # title-case the field name (issue #80)
                             item['label'] = field_meta.verbose_name.title()
-
-                        # item['label'] = model._meta.get_field(field_name).\
-                        #     verbose_name
                     except FieldDoesNotExist:
                         item['label'] = field_name
                     except AttributeError:
@@ -433,46 +363,6 @@ class ListView(View, base.ListView):
                 # finally get field's value
                 return find_attribute(obj, field_name)
 
-    def get_action_links(self):
-        if not self.action_links:
-            return []
-        else:
-            allowed_action_links = []
-            for link in self.action_links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_action_links.append({'label': link[0],
-                                             'url': link[1],
-                                             'icon': icon})
-            return allowed_action_links
-
-    def get_tool_links(self):
-        if not self.tool_links:
-            return []
-        else:
-            allowed_tool_links = []
-            for link in self.tool_links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_tool_links.append({'label': link[0],
-                                           'url': link[1],
-                                           'icon': icon})
-            return allowed_tool_links
-
     def get_tool_links_icon(self):
         return self.tool_links_icon
 
@@ -545,12 +435,12 @@ class ListView(View, base.ListView):
         return context
 
 
-class DataListView(ListView):
-    data = None
-    url_template = None
+class DataListView(TemplateView, ListMixin):
+    dataset = None
+    template_name = 'arctic/base_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(DataListView, self).get_context_data(**kwargs)
+        context = super(TemplateView, self).get_context_data(**kwargs)
         return context
 
     def get_object_list(self):

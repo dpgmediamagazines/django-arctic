@@ -305,6 +305,116 @@ class LayoutMixin(object):
         return context
 
 
+class ListMixin(object):
+    template_name = 'arctic/base_list.html'
+    fields = None  # Which fields should be shown in listing
+    ordering_fields = []  # Fields with ordering (subset of fields)
+    field_links = {}
+    field_classes = {}
+
+    def ordering_url(self, field):
+        """
+        Creates a url link for sorting the given field.
+
+        The direction of sorting will be either ascending, if the field is not
+        yet sorted, or the opposite of the current sorting if sorted.
+        """
+        path = self.request.path
+        direction = ''
+        query_params = self.request.GET.copy()
+        ordering = self.request.GET.get('order', '').split(',')
+        if not ordering:
+            ordering = self.get_default_ordering()
+        merged_ordering = list(ordering)  # copy the list
+
+        for ordering_field in self.get_ordering_fields():
+            if (ordering_field.lstrip('-') not in ordering) and \
+               (('-' + ordering_field.lstrip('-')) not in ordering):
+                merged_ordering.append(ordering_field)
+
+        new_ordering = []
+        for item in merged_ordering:
+            if item.lstrip('-') == field.lstrip('-'):
+                if (item[0] == '-') or not (item in ordering):
+                    if item in ordering:
+                        direction = 'desc'
+                    new_ordering.insert(0, item.lstrip('-'))
+                else:
+                    direction = 'asc'
+                    new_ordering.insert(0, '-' + item)
+
+        query_params['order'] = ','.join(new_ordering)
+
+        return (path + '?' + query_params.urlencode(safe=','), direction)
+
+    def get_fields(self):
+        """
+        Hook to dynamically change the fields that will be displayed
+        """
+        return self.fields
+
+    def get_ordering_fields(self):
+        """
+        Hook to dynamically change the fields that can be ordered
+        """
+        return self.ordering_fields
+
+    def get_field_links(self):
+        if not self.field_links:
+            return {}
+        else:
+            allowed_field_links = {}
+            for field, url in self.field_links.items():
+                # check permission based on named_url
+                if not view_from_url(url).has_permission(self.request.user):
+                    continue
+                allowed_field_links[field] = url
+            return allowed_field_links
+
+    def get_field_classes(self):
+        return self.field_classes
+
+    def get_action_links(self):
+        if not self.action_links:
+            return []
+        else:
+            allowed_action_links = []
+            for link in self.action_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
+                icon = None
+                if len(link) == 3:  # if an icon class is given
+                    icon = link[2]
+                allowed_action_links.append({'label': link[0],
+                                             'url': link[1],
+                                             'icon': icon})
+            return allowed_action_links
+
+    def get_tool_links(self):
+        if not self.tool_links:
+            return []
+        else:
+            allowed_tool_links = []
+            for link in self.tool_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
+                icon = None
+                if len(link) == 3:  # if an icon class is given
+                    icon = link[2]
+                allowed_tool_links.append({'label': link[0],
+                                           'url': link[1],
+                                           'icon': icon})
+            return allowed_tool_links
+
+
 class RoleAuthentication(object):
     """
     This class adds a role relation to the standard django auth user to add

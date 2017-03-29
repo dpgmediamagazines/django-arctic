@@ -3,7 +3,7 @@ from __future__ import (absolute_import, unicode_literals)
 from django.utils.translation import ugettext as _
 
 from arctic.generics import DataListView
-from collections import OrderedDict
+from arctic.utils import RemoteDataSet
 
 
 class CountryListView(DataListView):
@@ -23,29 +23,11 @@ class CountryListView(DataListView):
     permission_required = "articles_view"
 
 
-class RemoteDataSet():
-    url_template = None
-    options = []
-    offset = 0
-    limit = None
-    order = ''
-    fields = []
-    filters = ''
+class CountriesDataSet(RemoteDataSet):
+    url_template = 'https://restcountries.eu/rest/v2{filters}'
+    filters_template_kv = '/{key}/{value}'
+    paginate_by = 10
 
-    def init(self, url_template, fields=None):
-        self.url_template = url_template
-        self.fields = fields
-
-    def filter(self, **kwargs):
-        self.filters = ''
-        template = '/{key}/{value}'
-        for key, value in kwargs.items():
-            self.filters += template.format(key=key, value=value)
-
-        return self
-
-    def order_by(self, ):
-        pass
-
-    def get():
-        options = filters + '?' + order + '&fields=' + fields.join(',')
+    def get(self, page):
+        r = requests.get(self.get_url())
+        return r.json()
