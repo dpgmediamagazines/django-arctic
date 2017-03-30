@@ -1,5 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
+import requests
+
 from django.utils.translation import ugettext as _
 
 from arctic.generics import DataListView
@@ -7,8 +9,8 @@ from arctic.utils import RemoteDataSet
 
 
 class CountryListView(DataListView):
-    url_template = 'https://restcountries.eu/rest/v2/{options}'
     paginate_by = 2
+    dataset = CountriesDataSet(paginate_by)
     fields = ['name', 'topLevelDomain', 'capital', 'translations', 'flag']
     ordering_fields = ['name', 'topLevelDomain']
     search_fields = ['name']
@@ -18,9 +20,8 @@ class CountryListView(DataListView):
         'published': 'articles:detail',
         'category': ('articles:category-detail', 'category_id'),
     }
-
     filter_fields = ['published']
-    permission_required = "articles_view"
+    permission_required = 'country_view'
 
 
 class CountriesDataSet(RemoteDataSet):
@@ -30,4 +31,5 @@ class CountriesDataSet(RemoteDataSet):
 
     def get(self, page):
         r = requests.get(self.get_url())
+        print r.json
         return r.json()

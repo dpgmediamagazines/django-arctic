@@ -217,6 +217,7 @@ class RemoteDataSet():
                 'order': '',
                 'filters': '',
                 'paginate': ''}
+    paginate_by = None
 
     def fields(self, fields):
         if fields:
@@ -244,5 +245,5 @@ class RemoteDataSet():
         url = self.url_template.format(**self._options)
         return url.replace('?&', '?')
 
-    def get(self, page):
+    def get(self, page=1):
         pass

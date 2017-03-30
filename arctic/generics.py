@@ -210,10 +210,7 @@ class ListView(View, ListMixin, base.ListView):
     """
     filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
-    default_ordering = []  # Default ordering, e.g. ['title', '-brand']
-    action_links = []  # "Action" links on item level. For example "Edit"
     tool_links_icon = 'fa-wrench'
-    tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
     max_embeded_list_items = 10  # when displaying a list in a column
 
@@ -440,14 +437,77 @@ class DataListView(TemplateView, ListMixin):
     template_name = 'arctic/base_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super(TemplateView, self).get_context_data(**kwargs)
+        context = super(DataListView, self).get_context_data(**kwargs)
+        context['list_header'] = self.get_list_header()
+        context['action_links'] = self.get_action_links()
+        context['tool_links'] = self.get_tool_links()
+
         return context
 
-    def get_object_list(self):
-        self.object_list = self.get_data()
+    def get_list_header(self):
+        """
+        Creates a list of dictionaries with the field names, labels,
+        field links, field css classes, order_url and order_direction,
+        this simplifies the creation of a table in a template.
+        """
+        result = []
+        for field_name in self.get_fields():
+            item = {}
+            if isinstance(field_name, tuple):
+                # custom property that is not a field of the model
+                item['name'] = field_name[0]
+                item['label'] = field_name[1]
+            else:
+                item['name'] = field_name
+                item['label'] = field_name.title()
+            if item['name'] in self.get_ordering_fields():
+                item['order_url'], item['order_direction'] = \
+                    self.ordering_url(item['name'])
+            result.append(item)
 
-    def get_data(self):
-        pass
+        return result
+
+    def get_list_items(self, objects):
+        items = []
+        fields = []
+        field_links = self.get_field_links()
+        field_classes = self.get_field_classes()
+        for field in self.get_fields():
+            fields.append(field[0] if type(field) in (list, tuple)
+                          else field)
+        for obj in objects:
+            row = []
+            # get the row's foreign key
+            row_id = getattr(obj, 'pk', None)
+            if row_id:
+                row.append(row_id)
+            else:
+                # while annotating, it's possible that there is no pk
+                row.append('')
+            for field_name in fields:
+                field = {'field': field_name}
+                base_field_name = field_name.split('__')[0]
+                field_class = get_field_class(objects, base_field_name)
+                field['value'] = self.get_field_value(field_name, obj)
+                if field_class == 'ManyToManyField':
+                    #  ManyToManyField will be display as an embedded list
+                    #  capped to max_embeded_list_items, an ellipsis is
+                    #  added if there are more items than the max.
+                    m2mfield = getattr(obj, base_field_name)
+                    embeded_list = list(str(l) for l in
+                                        m2mfield.all()
+                                        [:self.max_embeded_list_items + 1])
+                    if len(embeded_list) > self.max_embeded_list_items:
+                        embeded_list = embeded_list[:-1] + ['...']
+                    field['value'] = embeded_list
+                if field_name in field_links.keys():
+                    field['url'] = self._reverse_field_link(
+                        field_links[field_name], obj)
+                if field_name in field_classes:
+                    field['class'] = field_classes[field_name]
+                row.append(field)
+            items.append(row)
+        return items
 
 
 class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):

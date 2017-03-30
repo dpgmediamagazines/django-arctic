@@ -312,6 +312,9 @@ class ListMixin(object):
     ordering_fields = []  # Fields with ordering (subset of fields)
     field_links = {}
     field_classes = {}
+    action_links = []  # "Action" links on item level. For example "Edit"
+    tool_links = []   # Global links. For Example "Add object"
+    default_ordering = []  # Default ordering, e.g. ['title', '-brand']
 
     def ordering_url(self, field):
         """
