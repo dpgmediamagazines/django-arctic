@@ -20,10 +20,10 @@
                 {% for row in layout_item.rows %}
                     <div class="row {% if field.errors %}error{% endif %}">
                         {% if row|typename == 'dict' %}
-                            {% include 'arctic/partials/form_field.html' with field=row.field style=row.column %}
+                            {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column %}
                         {% else %}
                             {% for field in row %}
-                                {% include 'arctic/partials/form_field.html' with field=field.field style=field.column %}
+                                {% include 'arctic/partials/form_field.html' with field=field.field style=style column=field.column %}
                             {% endfor %}
                         {% endif %}
                     </div>

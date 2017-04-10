@@ -257,7 +257,6 @@ This view displays data from a model using a default template.
 * `arctic.mixins.LinksMixin`
 * `django.views.DetailView`
 
-
 ## CreateView
 
 `class arctic.generics.CreateView`
@@ -287,6 +286,12 @@ includes a default template.
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.UpdateView`
 
+**Properties**
+
+### `readonly_fields`
+
+List of strings of fieldnames that are rendered as readonly. Users cannot edit the input values,
+but the value is displayed for reference.
 
 ## DeleteView
 
