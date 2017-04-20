@@ -4,23 +4,27 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist)
+from django.core.exceptions import FieldDoesNotExist
+from django.core.paginator import InvalidPage
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
+from django.http import Http404
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
-from django.utils.http import is_safe_url, quote
+from django.utils.http import (is_safe_url, quote)
 from django.utils.text import capfirst
-from django.utils.translation import (get_language, ugettext as _)
+from django.utils.translation import ugettext as _
+from django.utils.translation import get_language
 from django.views import generic as base
 
 import extra_views
 
 from .filters import filterset_factory
-from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
-                     LayoutMixin, ListMixin)
-from .utils import (find_attribute, get_field_class, find_field_meta,
-                    get_attribute, menu, view_from_url)
+from .mixins import (LayoutMixin, LinksMixin, ListMixin, RoleAuthentication,
+                     SuccessMessageMixin)
+from .paginator import RemoteDataPaginator
+from .utils import (find_attribute, find_field_meta, get_attribute,
+                    get_field_class, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -435,14 +439,37 @@ class ListView(View, ListMixin, base.ListView):
 class DataListView(TemplateView, ListMixin):
     dataset = None
     template_name = 'arctic/base_list.html'
+    page_kwarg = 'page'
 
     def get_context_data(self, **kwargs):
         context = super(DataListView, self).get_context_data(**kwargs)
+        dataset = self.dataset
+        page_size = self.get_paginate_by(dataset)
+        page_context = {
+            'paginator': None,
+            'page_obj': None,
+            'is_paginated': False,
+            'object_list': dataset
+        }
+        if page_size:
+            paginator, page, dataset, is_paginated = self.paginate_dataset(
+                dataset, page_size)
+            page_context = {
+                'paginator': paginator,
+                'page_obj': page,
+                'is_paginated': is_paginated,
+                'object_list': dataset
+            }
+        context.update(page_context)
         context['list_header'] = self.get_list_header()
+        context['list_items'] = self.get_list_items()
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
 
         return context
+
+    def get_paginate_by(self, dataset):
+        return self.paginate_by
 
     def get_list_header(self):
         """
@@ -467,7 +494,11 @@ class DataListView(TemplateView, ListMixin):
 
         return result
 
-    def get_list_items(self, objects):
+    def get_objects(self):
+        return self.dataset.get(1, self.paginate_by)
+
+    def get_list_items(self):
+        objects = self.get_objects()
         items = []
         fields = []
         field_links = self.get_field_links()
@@ -478,7 +509,7 @@ class DataListView(TemplateView, ListMixin):
         for obj in objects:
             row = []
             # get the row's foreign key
-            row_id = getattr(obj, 'pk', None)
+            row_id = getattr(obj, 'id', None)
             if row_id:
                 row.append(row_id)
             else:
@@ -486,20 +517,7 @@ class DataListView(TemplateView, ListMixin):
                 row.append('')
             for field_name in fields:
                 field = {'field': field_name}
-                base_field_name = field_name.split('__')[0]
-                field_class = get_field_class(objects, base_field_name)
                 field['value'] = self.get_field_value(field_name, obj)
-                if field_class == 'ManyToManyField':
-                    #  ManyToManyField will be display as an embedded list
-                    #  capped to max_embeded_list_items, an ellipsis is
-                    #  added if there are more items than the max.
-                    m2mfield = getattr(obj, base_field_name)
-                    embeded_list = list(str(l) for l in
-                                        m2mfield.all()
-                                        [:self.max_embeded_list_items + 1])
-                    if len(embeded_list) > self.max_embeded_list_items:
-                        embeded_list = embeded_list[:-1] + ['...']
-                    field['value'] = embeded_list
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
                         field_links[field_name], obj)
@@ -508,6 +526,44 @@ class DataListView(TemplateView, ListMixin):
                 row.append(field)
             items.append(row)
         return items
+
+    def get_field_value(self, field_name, obj):
+        try:  # first try to find a virtual field
+            virtual_field_name = "get_{}_field".format(field_name)
+            return getattr(self, virtual_field_name)(obj)
+        except AttributeError:
+            return obj[field_name]
+
+    def get_paginator(self, dataset, per_page, orphans=0,
+                      allow_empty_first_page=True, **kwargs):
+        """Return an instance of the paginator for this view."""
+        return RemoteDataPaginator(
+            dataset, per_page, orphans=orphans,
+            allow_empty_first_page=allow_empty_first_page, **kwargs)
+
+    def paginate_dataset(self, dataset, page_size):
+        paginator = self.get_paginator(
+            dataset, page_size, orphans=0,
+            allow_empty_first_page=self.get_allow_empty())
+        page_kwarg = self.page_kwarg
+        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg)\
+            or 1
+        try:
+            page_number = int(page)
+        except ValueError:
+            if page == 'last':
+                page_number = paginator.num_pages
+            else:
+                raise Http404(_("Page is not 'last', nor can it be converted "
+                                "to an int."))
+        try:
+            page = paginator.page(page_number)
+            return (paginator, page, page.object_list, page.has_other_pages())
+        except InvalidPage as e:
+            raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
+                'page_number': page_number,
+                'message': str(e)
+            })
 
 
 class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):

@@ -213,11 +213,15 @@ class RemoteDataSet():
     fields_template = '&fields={}'
     filters_template = '{}'
     filters_template_kv = '&{key}={value}'
+    count = -1
     _options = {'fields': '',
                 'order': '',
                 'filters': '',
                 'paginate': ''}
-    paginate_by = None
+    page_size = None
+
+    def get_count(self):
+        return self.count
 
     def fields(self, fields):
         if fields:
@@ -241,9 +245,9 @@ class RemoteDataSet():
             self._options['filters'] = self.filters_template.format(filters)
         return self
 
-    def get_url(self, page):
+    def get_url(self, page, page_size):
         url = self.url_template.format(**self._options)
         return url.replace('?&', '?')
 
-    def get(self, page=1):
+    def get(self, page, page_size):
         pass
