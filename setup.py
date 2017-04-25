@@ -3,16 +3,14 @@ from setuptools import (find_packages, setup)
 
 __VERSION__ = '0.9.6'
 
-try:
-    from pypandoc import convert
 
-    def read_md(f):
+def read_md(f):
+    try:
+        from pypandoc import convert
         return convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc not found, could not convert Markdown to RST")
-
-    def read_md(f):
+    except ImportError:
         return open(f, 'r', encoding='utf-8').read()
+
 
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
@@ -39,7 +37,7 @@ setup(
     ],
 
     version=__VERSION__,
-    long_description=read_md(),
+    long_description=read_md('README.md'),
     install_requires=REQUIREMENTS,
     packages=find_packages(),
     include_package_data=True,
