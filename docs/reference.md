@@ -113,6 +113,23 @@ one of the tuples should point to the current view.
 indicates if this view can only be accessed by authenticated users.
 Can be `True` or `False`, default is `True`.
 
+### `Media`
+
+optional inner class indicating extra media assets to be included, if the View
+has a form, all the form assets will be also included.
+
+Example:
+
+    from arctic.generics import View
+
+    class MyView(View):
+        class Media:
+            css = {
+                'all': ('extra.css',)
+            }
+            js = ('extra.js', 'another.js')
+
+For more information on the Media class usage check the [Django Form Assets documentation](https://docs.djangoproject.com/en/dev/topics/forms/media/)
 
 **Methods**
 
@@ -184,11 +201,12 @@ accompanying method written like "get_{}_field". That method receives a
 row_instance, so you can manipulate row data there.
 
 Example:
-class MyListView(arctic.ListView):
-    fields = (model_field1, model_field2, not_a_model_field)
 
-    def get_not_a_model_field_field(row_instance):
-        return '<b>' + row_instance.model_field3 + '</b>'
+    class MyListView(arctic.ListView):
+        fields = (model_field1, model_field2, not_a_model_field)
+
+        def get_not_a_model_field_field(row_instance):
+            return '<b>' + row_instance.model_field3 + '</b>'
 
 ### `search_fields`
 
