@@ -9,7 +9,7 @@ def read_md(f):
         from pypandoc import convert
         return convert(f, 'rst')
     except ImportError:
-        return open(f, 'r', encoding='utf-8').read()
+        return open(f, 'r').read()
 
 
 try:
