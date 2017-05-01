@@ -8,6 +8,8 @@ from django.core.exceptions import FieldDoesNotExist
 from django.core.paginator import InvalidPage
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
+from django.forms import (Form, ModelForm)
+from django.forms.widgets import Media
 from django.http import Http404
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
@@ -71,6 +73,7 @@ class View(RoleAuthentication, base.View):
         context['DATETIME_FORMATS'] = self.get_datetime_formats()
         context['LOGIN_URL'] = self.get_login_url()
         context['LOGOUT_URL'] = self.get_logout_url()
+        context['media'] = self.media
         return context
 
     def get_urls(self):
@@ -174,6 +177,37 @@ class View(RoleAuthentication, base.View):
 
     def get_logout_url(self):
         return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
+
+    @classmethod
+    def _forms(cls):
+        forms = []
+        for f in dir(cls):
+            try:
+                if (issubclass(getattr(cls, f), Form) or
+                        issubclass(getattr(cls, f), ModelForm)):
+                    forms.append(f)
+            except TypeError:
+                pass
+        return forms
+
+    @property
+    def media(self):
+        """
+        Return all media required to render this view, including forms.
+        """
+        media = Media()
+        try:
+            media.add_css(self.Media.css)
+        except AttributeError:
+            pass
+        try:
+            media.add_js(self.Media.js)
+        except AttributeError:
+            pass
+        forms = self._forms()
+        for form in forms:
+            media = media + getattr(self, form)().media
+        return media
 
 
 class TemplateView(View, base.TemplateView):

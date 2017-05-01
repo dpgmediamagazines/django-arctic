@@ -7,18 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-##Pending
 
-###Added
-
-- Added support for read-only fields in update view - [#72][72]
+##0.9.6 (2017-04-25)
 
 ###Changed
 
+- Added support for read-only fields in update view - [#72][72]
+- Added support for media assets in Views and default templates - [#195][195]
 - Bumped django-filters to 1.0.1 and fixed breaking changes - [#171][171]
 
 [72]: //github.com/sanoma/django-arctic/issues/72
 [171]: //github.com/sanoma/django-arctic/issues/171
+[195]: //github.com/sanoma/django-arctic/issues/195
 
 
 ##0.9.5 (2017-03-16)
