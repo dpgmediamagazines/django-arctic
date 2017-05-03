@@ -191,6 +191,22 @@ class View(RoleAuthentication, base.View):
         """
         Return all media required to render this view, including forms.
         """
+        media = self._get_view_media()
+        custom_media = self.get_media_assets()
+        if custom_media:
+            media += custom_media
+        return media
+
+    def get_media_assets(self):
+        """
+        Allows to define additional media for view
+        """
+        return
+
+    def _get_view_media(self):
+        """
+        Gather view-level media assets
+        """
         media = Media()
         try:
             media.add_css(self.Media.css)
@@ -200,10 +216,33 @@ class View(RoleAuthentication, base.View):
             media.add_js(self.Media.js)
         except AttributeError:
             pass
-        forms = self._forms()
-        for form in forms:
-            media = media + getattr(self, form)().media
         return media
+
+
+class FormMediaMixin(object):
+    """
+    Gather media assets defined in forms
+    """
+
+    @property
+    def media(self):
+        # Why not simply call super? I think it is more reasonable
+        # to have custom media defined at the bottom, since order
+        # matters here.
+        media = self._get_view_media()
+        form_media = self._get_form_media()
+        if form_media:
+            media += self._get_form_media()
+
+        custom_media = self.get_media_assets()
+        if custom_media:
+            media += custom_media
+
+        return media
+
+    def _get_form_media(self):
+        form = self.get_form()
+        return getattr(form, 'media', None)
 
 
 class TemplateView(View, base.TemplateView):
@@ -579,7 +618,8 @@ class ListView(View, base.ListView):
         return context
 
 
-class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
+class CreateView(View, SuccessMessageMixin, LayoutMixin, FormMediaMixin,
+                 base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -595,7 +635,7 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
 
 
 class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
-                 extra_views.UpdateWithInlinesView):
+                 FormMediaMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
@@ -614,7 +654,8 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
         return context
 
 
-class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
+class FormView(View, SuccessMessageMixin, LayoutMixin, FormMediaMixin,
+               base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 
