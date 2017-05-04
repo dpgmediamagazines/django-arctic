@@ -2,12 +2,12 @@ from __future__ import (division, unicode_literals)
 
 from collections import OrderedDict
 
+import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
 from django.core.exceptions import (FieldDoesNotExist)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
-from django.forms import (Form, ModelForm)
 from django.forms.widgets import Media
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
@@ -16,8 +16,7 @@ from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
-import extra_views
-
+from arctic.mixins import FormMediaMixin
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
@@ -174,34 +173,20 @@ class View(RoleAuthentication, base.View):
     def get_logout_url(self):
         return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
 
-    @classmethod
-    def _forms(cls):
-        forms = []
-        for f in dir(cls):
-            try:
-                if (issubclass(getattr(cls, f), Form) or
-                        issubclass(getattr(cls, f), ModelForm)):
-                    forms.append(f)
-            except TypeError:
-                pass
-        return forms
-
     @property
     def media(self):
         """
         Return all media required to render this view, including forms.
         """
         media = self._get_view_media()
-        custom_media = self.get_media_assets()
-        if custom_media:
-            media += custom_media
+        media += self.get_media_assets()
         return media
 
     def get_media_assets(self):
         """
         Allows to define additional media for view
         """
-        return
+        return Media()
 
     def _get_view_media(self):
         """
@@ -217,32 +202,6 @@ class View(RoleAuthentication, base.View):
         except AttributeError:
             pass
         return media
-
-
-class FormMediaMixin(object):
-    """
-    Gather media assets defined in forms
-    """
-
-    @property
-    def media(self):
-        # Why not simply call super? I think it is more reasonable
-        # to have custom media defined at the bottom, since order
-        # matters here.
-        media = self._get_view_media()
-        form_media = self._get_form_media()
-        if form_media:
-            media += self._get_form_media()
-
-        custom_media = self.get_media_assets()
-        if custom_media:
-            media += custom_media
-
-        return media
-
-    def _get_form_media(self):
-        form = self.get_form()
-        return getattr(form, 'media', None)
 
 
 class TemplateView(View, base.TemplateView):
@@ -618,8 +577,8 @@ class ListView(View, base.ListView):
         return context
 
 
-class CreateView(View, SuccessMessageMixin, LayoutMixin, FormMediaMixin,
-                 base.CreateView):
+class CreateView(FormMediaMixin, View, SuccessMessageMixin,
+                 LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -634,8 +593,8 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, FormMediaMixin,
         return context
 
 
-class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
-                 FormMediaMixin, extra_views.UpdateWithInlinesView):
+class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
+                 LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
@@ -654,7 +613,7 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
         return context
 
 
-class FormView(View, SuccessMessageMixin, LayoutMixin, FormMediaMixin,
+class FormView(FormMediaMixin, View, SuccessMessageMixin, LayoutMixin,
                base.FormView):
     template_name = 'arctic/base_create_update.html'
 

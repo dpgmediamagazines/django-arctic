@@ -432,3 +432,24 @@ class RoleAuthentication(object):
             except AttributeError:
                 pass
         return result
+
+
+class FormMediaMixin(object):
+    """
+    Gathers media assets defined in forms
+    """
+
+    @property
+    def media(self):
+        # Why not simply call super? Just
+        # to have custom media defined at the bottom,
+        # since order matters here.
+        media = self._get_view_media()
+        media += self._get_form_media()
+        media += self.get_media_assets()
+
+        return media
+
+    def _get_form_media(self):
+        form = self.get_form()
+        return getattr(form, 'media', None)
