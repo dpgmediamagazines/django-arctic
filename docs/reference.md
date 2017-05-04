@@ -115,8 +115,8 @@ Can be `True` or `False`, default is `True`.
 
 ### `Media`
 
-optional inner class indicating extra media assets to be included, if the View
-has a form, all the form assets will be also included.
+optional inner class indicating extra media assets to be included. If View is instance of FormView, 
+or CreateView/UpdateView generics all assets defined in form the used in the view will be also included. 
 
 Example:
 
@@ -130,6 +130,10 @@ Example:
             js = ('extra.js', 'another.js')
 
 For more information on the Media class usage check the [Django Form Assets documentation](https://docs.djangoproject.com/en/dev/topics/forms/media/)
+
+### `get_media_assets`
+adds media assets dynamically to view. Does not overrides media from `Media` class but allows to set additional assets 
+ on the fly.
 
 **Methods**
 
