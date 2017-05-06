@@ -67,7 +67,7 @@ if not provided, a default color will be used.
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
-and 'logout'.
+and 'logout'. Could be set to `None` if you don't want to use authentication in your app.
 
 # Generic Class Based Views
 
