@@ -1,6 +1,6 @@
 import pytest
 from django.core.exceptions import ImproperlyConfigured
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 
 
 @pytest.mark.django_db
