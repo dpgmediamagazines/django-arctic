@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist)
+from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms import (Form, ModelForm)
@@ -47,9 +47,18 @@ class View(RoleAuthentication, base.View):
         If a login is not required then the requires_login property
         can be set to False to disable this.
         """
-        if (not request.user.is_authenticated()) and self.requires_login:
-            return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
-                                            quote(request.get_full_path())))
+        if self.requires_login:
+            if settings.LOGIN_URL is None or settings.LOGOUT_URL is None:
+                raise ImproperlyConfigured(
+                    'LOGIN_URL and LOGOUT_URL '
+                    'has to be defined if requires_login is True'
+                )
+
+            if not request.user.is_authenticated():
+                return redirect('%s?next=%s' % (
+                    resolve_url(settings.LOGIN_URL),
+                    quote(request.get_full_path())))
+
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -169,10 +178,12 @@ class View(RoleAuthentication, base.View):
         return dtformats
 
     def get_login_url(self):
-        return reverse(getattr(settings, 'LOGIN_URL', 'login'))
+        login_url = getattr(settings, 'LOGIN_URL', 'login')
+        return reverse(login_url) if login_url else None
 
     def get_logout_url(self):
-        return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
+        logout_url = getattr(settings, 'LOGOUT_URL', 'logout')
+        return reverse(logout_url) if logout_url else None
 
     @classmethod
     def _forms(cls):
