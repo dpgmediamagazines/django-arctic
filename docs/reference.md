@@ -116,7 +116,7 @@ Can be `True` or `False`, default is `True`.
 ### `Media`
 
 optional inner class indicating extra media assets to be included. If View is instance of FormView, 
-or CreateView/UpdateView generics all assets defined in form the used in the view will be also included. 
+or CreateView/UpdateView generics all assets defined in form used in the view will be also included. 
 
 Example:
 
