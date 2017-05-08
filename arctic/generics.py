@@ -2,12 +2,12 @@ from __future__ import (division, unicode_literals)
 
 from collections import OrderedDict
 
+import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
-from django.forms import (Form, ModelForm)
 from django.forms.widgets import Media
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
@@ -16,8 +16,7 @@ from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
-import extra_views
-
+from arctic.mixins import FormMediaMixin
 from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
@@ -185,22 +184,24 @@ class View(RoleAuthentication, base.View):
         logout_url = getattr(settings, 'LOGOUT_URL', 'logout')
         return reverse(logout_url) if logout_url else None
 
-    @classmethod
-    def _forms(cls):
-        forms = []
-        for f in dir(cls):
-            try:
-                if (issubclass(getattr(cls, f), Form) or
-                        issubclass(getattr(cls, f), ModelForm)):
-                    forms.append(f)
-            except TypeError:
-                pass
-        return forms
-
     @property
     def media(self):
         """
         Return all media required to render this view, including forms.
+        """
+        media = self._get_view_media()
+        media += self.get_media_assets()
+        return media
+
+    def get_media_assets(self):
+        """
+        Allows to define additional media for view
+        """
+        return Media()
+
+    def _get_view_media(self):
+        """
+        Gather view-level media assets
         """
         media = Media()
         try:
@@ -211,9 +212,6 @@ class View(RoleAuthentication, base.View):
             media.add_js(self.Media.js)
         except AttributeError:
             pass
-        forms = self._forms()
-        for form in forms:
-            media = media + getattr(self, form)().media
         return media
 
 
@@ -590,7 +588,8 @@ class ListView(View, base.ListView):
         return context
 
 
-class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
+class CreateView(FormMediaMixin, View, SuccessMessageMixin,
+                 LayoutMixin, base.CreateView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -605,8 +604,8 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
         return context
 
 
-class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
-                 extra_views.UpdateWithInlinesView):
+class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
+                 LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
@@ -625,7 +624,8 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
         return context
 
 
-class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
+class FormView(FormMediaMixin, View, SuccessMessageMixin, LayoutMixin,
+               base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 
