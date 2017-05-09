@@ -16,35 +16,37 @@
 <div class="row align-center align-middle">
     <div class="medium-6 large-4 columns">
         <form action=".?next={{ next }}" method="post">
-            {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="callout alert" data-closable>
-                        <p>{{ message }}</p>
-                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <fieldset type="get">
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="callout alert" data-closable>
+                            <p>{{ message }}</p>
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="row column">
+                    <div class="log-in-form">
+                        <h4 class="text-center">{{ SITE_NAME }} Login</h4>
+                        <br />
+                        {% block form_fields %}
+                        <p>
+                            <input type="text" value="{{ username }}" name="username" id="username" placeholder="Username">
+                        </p>
+                        <p>
+                            <input type="password" name="password" type="password" placeholder="Password">
+                        </p>
+                        {% endblock %}
+                        <p><button type="submit" class="button expanded">Login</button></p>
+                        {% block forgot_password %}
+                        <p class="text-center"><a href="#">Forgot your password?</a></p>
+                        {% endblock %}
                     </div>
-                {% endfor %}
-            {% endif %}
-            <div class="row column">
-                <div class="log-in-form">
-                    <h4 class="text-center">{{ SITE_NAME }} Login</h4>
-                    <br />
-                    {% block form_fields %}
-                    <p>
-                        <input type="text" value="{{ username }}" name="username" id="username" placeholder="Username">
-                    </p>
-                    <p>
-                        <input type="password" name="password" type="password" placeholder="Password">
-                    </p>
-                    {% endblock %}
-                    <p><button type="submit" class="button expanded">Login</button></p>
-                    {% block forgot_password %}
-                    <p class="text-center"><a href="#">Forgot your password?</a></p>
-                    {% endblock %}
                 </div>
-            </div>
+            </fieldset>
         </form>
   </div>
 </div>

@@ -67,7 +67,7 @@ if not provided, a default color will be used.
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
-and 'logout'.
+and 'logout'. Could be set to `None` if you don't want to use authentication in your app.
 
 # Generic Class Based Views
 
@@ -113,6 +113,27 @@ one of the tuples should point to the current view.
 indicates if this view can only be accessed by authenticated users.
 Can be `True` or `False`, default is `True`.
 
+### `Media`
+
+optional inner class indicating extra media assets to be included. If View is instance of FormView, 
+or CreateView/UpdateView generics all assets defined in form used in the view will be also included. 
+
+Example:
+
+    from arctic.generics import View
+
+    class MyView(View):
+        class Media:
+            css = {
+                'all': ('extra.css',)
+            }
+            js = ('extra.js', 'another.js')
+
+For more information on the Media class usage check the [Django Form Assets documentation](https://docs.djangoproject.com/en/dev/topics/forms/media/)
+
+### `get_media_assets`
+adds media assets dynamically to view. Does not overrides media from `Media` class but allows to set additional assets 
+ on the fly.
 
 **Methods**
 
@@ -184,11 +205,12 @@ accompanying method written like "get_{}_field". That method receives a
 row_instance, so you can manipulate row data there.
 
 Example:
-class MyListView(arctic.ListView):
-    fields = (model_field1, model_field2, not_a_model_field)
 
-    def get_not_a_model_field_field(row_instance):
-        return '<b>' + row_instance.model_field3 + '</b>'
+    class MyListView(arctic.ListView):
+        fields = (model_field1, model_field2, not_a_model_field)
+
+        def get_not_a_model_field_field(row_instance):
+            return '<b>' + row_instance.model_field3 + '</b>'
 
 ### `search_fields`
 
@@ -257,7 +279,6 @@ This view displays data from a model using a default template.
 * `arctic.mixins.LinksMixin`
 * `django.views.DetailView`
 
-
 ## CreateView
 
 `class arctic.generics.CreateView`
@@ -287,6 +308,12 @@ includes a default template.
 * `arctic.mixins.SuccessMessageMixin`
 * `django.views.UpdateView`
 
+**Properties**
+
+### `readonly_fields`
+
+List of strings of fieldnames that are rendered as readonly. Users cannot edit the input values,
+but the value is displayed for reference.
 
 ## DeleteView
 
@@ -328,7 +355,7 @@ so you have to define it when creating new Views.
 
 The strings describing the permission can be anything, but it's advisable to 
 follow Django's conventions, by using `<view|add|change|delete>_<entity>`
-whenever it makes sense, for example `permission_required = 'view_users'`.
+whenever it makes sense, for example `permission_required = 'view_user'`.
 
 
 **Methods**

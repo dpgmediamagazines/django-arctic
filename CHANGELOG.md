@@ -1,17 +1,59 @@
 #Changelog
 
-Arctic uses semantic versioning - please refer to <http://semver.org> for further details.
+All notable changes to this project will be documented in this file.
 
-##0.9.4
+The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+and this project adheres to [Semantic Versioning](http://semver.org/).
 
-- bugfix: get_field_value didn't use get_fields but self.fields
-- introduced self.get_ordering_fields()
-- introduced self.get_search_fields()
-- introduced self.get_filter_fields()
+Always reference the ticket number at the end of the issue description.
+
+
+##0.9.6 (2017-04-25)
+
+###Changed
+
+- Added support for read-only fields in update view - [#72][72]
+- Added support for media assets in Views and default templates - [#195][195]
+- Bumped django-filters to 1.0.1 and fixed breaking changes - [#171][171]
+
+[72]: //github.com/sanoma/django-arctic/issues/72
+[171]: //github.com/sanoma/django-arctic/issues/171
+[195]: //github.com/sanoma/django-arctic/issues/195
+
+
+##0.9.5 (2017-03-16)
+
+###Changed
+
+- Added full Django 1.10 compatibility - [#164][164]
+- Added submenu icons display option - [#178][178]
+- Considerate improved performance; no query per has_permission call - [#182][182]
+- Check that 'next' redirect in the login view only goes to own host - [#186][186]
+
+[164]: //github.com/sanoma/django-arctic/issues/164
+[178]: //github.com/sanoma/django-arctic/issues/178
+[182]: //github.com/sanoma/django-arctic/issues/182
+[186]: //github.com/sanoma/django-arctic/issues/186
+
+
+##0.9.4 (2017-02-23)
+
+###Changed
+
+- Simplified the frontend tooling, removing Bower and foundation-cli, setup is 
+  now based on npm and gulp - [#161][161]
+
+###Fixed
+
+- In the listview, don't generate NoReverseMatch exception if any value of 
+  the arguments is None.
+
+[161]: //github.com/sanoma/django-arctic/issues/161
+
 
 ##0.9.3 (2016-10-27)
 
-###Changes
+###Changed
 
 - `FormView`, `CreateView` and `UpdateView` added a `layout` property to 
   easily customize positioning and width of form fields - [#75][75]

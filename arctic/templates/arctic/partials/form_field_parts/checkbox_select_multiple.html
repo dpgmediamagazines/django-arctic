@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+{# multiple checkboxes #}
+{% if field|widget_type == 'checkboxselectmultiple' %}
+    {% for checkbox in field %}
+        <div class="checkbox">
+            <label for="{{ checkbox.id_for_label }}" class="{% if field.field.required %}required{% endif %}">
+                {{ checkbox.tag }}
+                {{ checkbox.choice_label|safe }}
+            </label>
+        </div>
+    {% endfor %}
+{# select #}
+{% elif field|widget_type == 'select' or field|widget_type == 'toggleselectwidget' or field|widget_type == 'lazyselect' %}
+        {% render_field field class+='js-selectize' %}
+{% elif field|widget_type == 'selectmultiple' %}
+    {% render_field field class+='js-selectize' multiple="" %}
+{% elif field|widget_type == 'datetimeinput' %}
+    {% with rfc_date=field.value|date:"m/d/Y h:i A" %}
+    {% render_field field date=rfc_date class+='js-datetimepicker' %}
+    {% endwith %}
+{% elif field|widget_type == 'timeinput' %}
+    {% with rfc_date=field.value|date:"h:i A" %}
+    {% render_field field date=rfc_date class+='js-timepicker' %}
+    {% endwith %}
+{% elif field|widget_type == 'dateinput' %}
+    {% with rfc_date=field.value|date:"m/d/Y" %}
+    {% render_field field date=rfc_date class+='js-datepicker' %}
+    {% endwith %}
+{% else %}
+    {% render_field field %}
+{% endif %}

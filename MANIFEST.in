@@ -6,5 +6,5 @@ recursive-include arctic/templates *.html
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 prune arctic/static/arctic/node_modules
-prune arctic/static/arctic/bower_components
+prune arctic/static/arctic/node_modules
 prune arctic/static/arctic/src

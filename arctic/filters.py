@@ -38,20 +38,22 @@ class BooleanFilterSelect(forms.NullBooleanSelect):
 
 
 class FilterSet(django_filters.FilterSet):
-    filter_overrides = {
-        DateTimeField: {
-            'filter_class': django_filters.DateFromToRangeFilter,
-            'extra': lambda f: {
-                'widget': DateRangeInput,
-            }
-        },
-        BooleanField: {
-            'filter_class': django_filters.BooleanFilter,
-            'extra': lambda f: {
-                'widget': BooleanFilterSelect,
+
+    class Meta:
+        filter_overrides = {
+            DateTimeField: {
+                'filter_class': django_filters.DateFromToRangeFilter,
+                'extra': lambda f: {
+                    'widget': DateRangeInput,
+                }
+            },
+            BooleanField: {
+                'filter_class': django_filters.BooleanFilter,
+                'extra': lambda f: {
+                    'widget': BooleanFilterSelect,
+                }
             }
         }
-    }
     search_fields = None
 
     def __init__(self, *args, **kwargs):
@@ -71,7 +73,7 @@ class FilterSet(django_filters.FilterSet):
                     {'choices': choices}
                 )
 
-    def search_filter(self, queryset, value):
+    def search_filter(self, queryset, name, value):
         if self.search_fields:
             q_list = []
             for field_name in self.search_fields:
@@ -88,8 +90,8 @@ def filterset_factory(model, fields, search_fields=None):
 
     class DynamicFilterSet(FilterSet):
         if search_fields:
-            search = django_filters.MethodFilter(action='search_filter',
-                                                 widget=SearchInput)
+            search = django_filters.CharFilter(method='search_filter',
+                                               widget=SearchInput)
 
     meta = type(str('Meta'), (object,), {
         'model': model,
