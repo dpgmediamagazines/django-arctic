@@ -589,7 +589,7 @@ class ListView(View, base.ListView):
 
 
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,
-                 LayoutMixin, base.CreateView):
+                 LayoutMixin, extra_views.CreateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
