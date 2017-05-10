@@ -7,8 +7,10 @@ from .models import Article
 class ArticleInline(InlineFormSet):
     model = Article
     extra = 0
+    fields = "__all__"
 
 
 class TagsInline(InlineFormSet):
     model = Article.tags.through
     extra = 3
+    fields = "__all__"
