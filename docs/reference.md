@@ -291,7 +291,7 @@ default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.CreateView`
+* `extra_views.CreateWithInlinesView`
 
 
 ## UpdateView
@@ -306,7 +306,7 @@ includes a default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.UpdateView`
+* `extra_views.UpdateWithInlinesView`
 
 **Properties**
 
