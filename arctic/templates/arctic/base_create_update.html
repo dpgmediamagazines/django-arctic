@@ -34,7 +34,7 @@
 
                     {% for form in formset %}
                         {% block inlines_form_fields %}
-                            {% include "arctic/partials/form_fields.html" with form=form %}
+                            {% include "arctic/partials/form_field_inline.html" with form=form %}
                         {% endblock %}
                     {% endfor %}
                 {% endfor %}

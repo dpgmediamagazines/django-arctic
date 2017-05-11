@@ -8,6 +8,7 @@ from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
 from collections import OrderedDict
 
 from .forms import ArticleForm
+from .inlines import TagsInline
 from .models import (Article, Category, Tag)
 
 
@@ -56,6 +57,7 @@ class ArticleUpdateView(UpdateView):
     permission_required = "change_article"
     model = Article
     success_url = reverse_lazy('articles:list')
+    inlines = [TagsInline]
     form_class = ArticleForm
     links = [
         ('Back to list', 'articles:list'),
