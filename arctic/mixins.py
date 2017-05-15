@@ -447,7 +447,8 @@ class FormMediaMixin(object):
         # Why not simply call super? Just
         # to have custom media defined at the bottom,
         # since order matters here.
-        media = self._get_view_media()
+        media = self._get_common_media()
+        media += self._get_view_media()
         media += self._get_form_media()
         media += self.get_media_assets()
 

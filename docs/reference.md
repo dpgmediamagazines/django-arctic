@@ -19,6 +19,19 @@ The callback url also needs to be setup in `urls.py`:
         autocomplete_url,
     ]
 
+## `ARCTIC_COMMON_MEDIA_ASSETS`
+
+Dictionary with JS/CSS resources, that has to be added to all pages. Note, the View has to be inherited from
+`arctic.generics.View` to work. 
+Example configuration is:
+
+    ARCTIC_COMMON_MEDIA_ASSETS = {
+        'css': {
+            'all': ('common1.css', 'common2.css')
+        },
+        'js': ('common1.js', )
+    }
+
 ## `ARCTIC_HIGHLIGHT_COLOR`
 
 String representing the highlight color used in table headers, the side menu,
@@ -291,7 +304,7 @@ default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.CreateView`
+* `extra_views.CreateWithInlinesView`
 
 
 ## UpdateView
@@ -306,7 +319,7 @@ includes a default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.UpdateView`
+* `extra_views.UpdateWithInlinesView`
 
 **Properties**
 

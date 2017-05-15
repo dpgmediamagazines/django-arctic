@@ -92,6 +92,20 @@ class TestViewAssets(object):
 
         assert str(view.media) == response
 
+    def test_regular_view_with_media(self, settings):
+        settings.ARCTIC_COMMON_MEDIA_ASSETS = {
+            'css': {
+                'all': ['common.css']
+            }
+        }
+        view = ViewWithAssets()
+        response = """<link href="/static/common.css" type="text/css" media="all" rel="stylesheet" />
+<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/static/view.js"></script>"""  # noqa
+
+        assert str(view.media) == response
+
     def test_view_with_assets_and_forms(self):
         view = ViewWithAssetsAndForms()
         response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
@@ -106,6 +120,21 @@ class TestViewAssets(object):
         view.request = request
         response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
 <link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/static/form1-1.js"></script>
+<script type="text/javascript" src="/static/form-common.js"></script>"""  # noqa
+
+        assert str(view.media) == response
+
+    def test_form_view_with_form_and_common_assets(self, rf, settings):
+        settings.ARCTIC_COMMON_MEDIA_ASSETS = {
+            'js': ['common.js']
+        }
+        view = ViewWithForm()
+        request = rf.get('/')
+        view.request = request
+        response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/static/common.js"></script>
 <script type="text/javascript" src="/static/form1-1.js"></script>
 <script type="text/javascript" src="/static/form-common.js"></script>"""  # noqa
 
