@@ -2,13 +2,13 @@ from __future__ import (division, unicode_literals)
 
 from collections import OrderedDict
 
+import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import FieldDoesNotExist
+from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
 from django.core.paginator import InvalidPage
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
-from django.forms import (Form, ModelForm)
 from django.forms.widgets import Media
 from django.http import Http404
 from django.shortcuts import (redirect, render, resolve_url)
@@ -19,8 +19,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-import extra_views
-
+from arctic.mixins import FormMediaMixin
 from .filters import filterset_factory
 from .mixins import (LayoutMixin, LinksMixin, ListMixin, RoleAuthentication,
                      SuccessMessageMixin)
@@ -51,9 +50,18 @@ class View(RoleAuthentication, base.View):
         If a login is not required then the requires_login property
         can be set to False to disable this.
         """
-        if (not request.user.is_authenticated()) and self.requires_login:
-            return redirect('%s?next=%s' % (resolve_url(settings.LOGIN_URL),
-                                            quote(request.get_full_path())))
+        if self.requires_login:
+            if settings.LOGIN_URL is None or settings.LOGOUT_URL is None:
+                raise ImproperlyConfigured(
+                    'LOGIN_URL and LOGOUT_URL '
+                    'has to be defined if requires_login is True'
+                )
+
+            if not request.user.is_authenticated():
+                return redirect('%s?next=%s' % (
+                    resolve_url(settings.LOGIN_URL),
+                    quote(request.get_full_path())))
+
         return super(View, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -173,27 +181,41 @@ class View(RoleAuthentication, base.View):
         return dtformats
 
     def get_login_url(self):
-        return reverse(getattr(settings, 'LOGIN_URL', 'login'))
+        login_url = getattr(settings, 'LOGIN_URL', 'login')
+        return reverse(login_url) if login_url else None
 
     def get_logout_url(self):
-        return reverse(getattr(settings, 'LOGOUT_URL', 'logout'))
-
-    @classmethod
-    def _forms(cls):
-        forms = []
-        for f in dir(cls):
-            try:
-                if (issubclass(getattr(cls, f), Form) or
-                        issubclass(getattr(cls, f), ModelForm)):
-                    forms.append(f)
-            except TypeError:
-                pass
-        return forms
+        logout_url = getattr(settings, 'LOGOUT_URL', 'logout')
+        return reverse(logout_url) if logout_url else None
 
     @property
     def media(self):
         """
         Return all media required to render this view, including forms.
+        """
+        media = self._get_common_media()
+        media += self._get_view_media()
+        media += self.get_media_assets()
+        return media
+
+    def _get_common_media(self):
+        config = getattr(settings, 'ARCTIC_COMMON_MEDIA_ASSETS', [])
+        media = Media()
+        if 'css' in config:
+            media.add_css(config['css'])
+        if 'js' in config:
+            media.add_js(config['js'])
+        return media
+
+    def get_media_assets(self):
+        """
+        Allows to define additional media for view
+        """
+        return Media()
+
+    def _get_view_media(self):
+        """
+        Gather view-level media assets
         """
         media = Media()
         try:
@@ -204,9 +226,6 @@ class View(RoleAuthentication, base.View):
             media.add_js(self.Media.js)
         except AttributeError:
             pass
-        forms = self._forms()
-        for form in forms:
-            media = media + getattr(self, form)().media
         return media
 
 
@@ -600,7 +619,8 @@ class DataListView(TemplateView, ListMixin):
             })
 
 
-class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
+class CreateView(FormMediaMixin, View, SuccessMessageMixin,
+                 LayoutMixin, extra_views.CreateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -615,8 +635,8 @@ class CreateView(View, SuccessMessageMixin, LayoutMixin, base.CreateView):
         return context
 
 
-class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
-                 extra_views.UpdateWithInlinesView):
+class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
+                 LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
 
@@ -635,7 +655,8 @@ class UpdateView(SuccessMessageMixin, LayoutMixin, View, LinksMixin,
         return context
 
 
-class FormView(View, SuccessMessageMixin, LayoutMixin, base.FormView):
+class FormView(FormMediaMixin, View, SuccessMessageMixin, LayoutMixin,
+               base.FormView):
     template_name = 'arctic/base_create_update.html'
 
 

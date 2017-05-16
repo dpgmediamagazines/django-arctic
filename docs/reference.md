@@ -19,6 +19,19 @@ The callback url also needs to be setup in `urls.py`:
         autocomplete_url,
     ]
 
+## `ARCTIC_COMMON_MEDIA_ASSETS`
+
+Dictionary with JS/CSS resources, that has to be added to all pages. Note, the View has to be inherited from
+`arctic.generics.View` to work. 
+Example configuration is:
+
+    ARCTIC_COMMON_MEDIA_ASSETS = {
+        'css': {
+            'all': ('common1.css', 'common2.css')
+        },
+        'js': ('common1.js', )
+    }
+
 ## `ARCTIC_HIGHLIGHT_COLOR`
 
 String representing the highlight color used in table headers, the side menu,
@@ -67,7 +80,7 @@ if not provided, a default color will be used.
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
-and 'logout'.
+and 'logout'. Could be set to `None` if you don't want to use authentication in your app.
 
 # Generic Class Based Views
 
@@ -115,8 +128,8 @@ Can be `True` or `False`, default is `True`.
 
 ### `Media`
 
-optional inner class indicating extra media assets to be included, if the View
-has a form, all the form assets will be also included.
+optional inner class indicating extra media assets to be included. If View is instance of FormView, 
+or CreateView/UpdateView generics all assets defined in form used in the view will be also included. 
 
 Example:
 
@@ -130,6 +143,10 @@ Example:
             js = ('extra.js', 'another.js')
 
 For more information on the Media class usage check the [Django Form Assets documentation](https://docs.djangoproject.com/en/dev/topics/forms/media/)
+
+### `get_media_assets`
+adds media assets dynamically to view. Does not overrides media from `Media` class but allows to set additional assets 
+ on the fly.
 
 **Methods**
 
@@ -287,7 +304,7 @@ default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.CreateView`
+* `extra_views.CreateWithInlinesView`
 
 
 ## UpdateView
@@ -302,7 +319,7 @@ includes a default template.
 * `arctic.generics.View`
 * `arctic.mixins.LayoutMixin`
 * `arctic.mixins.SuccessMessageMixin`
-* `django.views.UpdateView`
+* `extra_views.UpdateWithInlinesView`
 
 **Properties**
 
