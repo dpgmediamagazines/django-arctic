@@ -220,9 +220,6 @@ class RemoteDataSet():
                 'paginate': ''}
     page_size = None
 
-    def get_count(self):
-        return self.count
-
     def fields(self, fields):
         if fields:
             fields_str = self.fields_separator.join(fields)
@@ -251,3 +248,9 @@ class RemoteDataSet():
 
     def get(self, page, page_size):
         pass
+
+    def __len__(self):
+        return self.count
+
+    def __getitem__(self, slice):
+        return self.get(1, 10)

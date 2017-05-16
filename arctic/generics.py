@@ -24,7 +24,7 @@ import extra_views
 from .filters import filterset_factory
 from .mixins import (LayoutMixin, LinksMixin, ListMixin, RoleAuthentication,
                      SuccessMessageMixin)
-from .paginator import RemoteDataPaginator
+from .paginator import IndefinitePaginator
 from .utils import (find_attribute, find_field_meta, get_attribute,
                     get_field_class, menu, view_from_url)
 
@@ -571,14 +571,14 @@ class DataListView(TemplateView, ListMixin):
     def get_paginator(self, dataset, per_page, orphans=0,
                       allow_empty_first_page=True, **kwargs):
         """Return an instance of the paginator for this view."""
-        return RemoteDataPaginator(
+        return IndefinitePaginator(
             dataset, per_page, orphans=orphans,
             allow_empty_first_page=allow_empty_first_page, **kwargs)
 
     def paginate_dataset(self, dataset, page_size):
         paginator = self.get_paginator(
             dataset, page_size, orphans=0,
-            allow_empty_first_page=self.get_allow_empty())
+            allow_empty_first_page=True)
         page_kwarg = self.page_kwarg
         page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg)\
             or 1

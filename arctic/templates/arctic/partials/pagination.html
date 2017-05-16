@@ -1,7 +1,7 @@
 {% load arctic_tags %}
 {% load i18n %}
 
-{% if paginator.num_pages > 1 %}
+{% if paginator.num_pages > 1 or paginator.num_pages == -1 %}
     <div class="row align-middle align-justify">
         <ul class="pagination column" role="navigation" aria-label="Pagination">
             {% if page_obj.has_previous %}
