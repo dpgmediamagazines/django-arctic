@@ -189,8 +189,18 @@ class View(RoleAuthentication, base.View):
         """
         Return all media required to render this view, including forms.
         """
-        media = self._get_view_media()
+        media = self._get_common_media()
+        media += self._get_view_media()
         media += self.get_media_assets()
+        return media
+
+    def _get_common_media(self):
+        config = getattr(settings, 'ARCTIC_COMMON_MEDIA_ASSETS', [])
+        media = Media()
+        if 'css' in config:
+            media.add_css(config['css'])
+        if 'js' in config:
+            media.add_js(config['js'])
         return media
 
     def get_media_assets(self):

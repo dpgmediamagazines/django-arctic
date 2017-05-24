@@ -94,7 +94,8 @@ class LayoutMixin(object):
         if type(self.layout) is OrderedDict:
             for fieldset, rows in self.layout.items():
                 fieldset = self._return_fieldset(fieldset)
-                if type(rows) is str:
+                if isinstance(rows, six.string_types) or \
+                        isinstance(rows, six.text_type):
                     allowed_rows.update({i: {'fieldset': fieldset,
                                              'rows': rows}})
                 else:
@@ -121,7 +122,8 @@ class LayoutMixin(object):
     def _process_first_level(self, rows):
         allowed_rows = []
         for row in rows:
-            if type(row) is str:
+            if isinstance(row, six.string_types) or \
+                    isinstance(row, six.text_type):
                 allowed_rows.append(self._return_field(row))
             elif type(row) in (list, tuple):
                 rows = self._process_row(row)
@@ -138,7 +140,8 @@ class LayoutMixin(object):
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
             if type(field) in (list, OrderedDict):
                 _row[index] = self._process_row(field)
-            elif type(field) == str:
+            elif isinstance(field, six.string_types) or \
+                    isinstance(field, six.text_type):
                 name, column = self._split_str(field)
                 if column:
                     has_column[index] = self._return_field(field)
@@ -444,7 +447,8 @@ class FormMediaMixin(object):
         # Why not simply call super? Just
         # to have custom media defined at the bottom,
         # since order matters here.
-        media = self._get_view_media()
+        media = self._get_common_media()
+        media += self._get_view_media()
         media += self._get_form_media()
         media += self.get_media_assets()
 
