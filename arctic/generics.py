@@ -505,8 +505,11 @@ class ListView(View, base.ListView):
         if not self.get_filter_fields() and not self.get_search_fields():
             return None
 
-        return filterset_factory(self.model or self.queryset.model,
-                                 self.get_filter_fields(), self.get_search_fields())
+        return filterset_factory(
+            model=self.model or self.queryset.model,
+            fields=self.get_filter_fields(),
+            search_fields=self.get_search_fields()
+        )
 
     def get_filterset(self, filterset_class):
         """
