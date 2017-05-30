@@ -282,7 +282,7 @@ class ListView(View, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        if self.filter_fields or self.search_fields:
+        if self.get_filter_fields() or self.get_search_fields():
             filterset_class = self.get_filterset_class()
             self.filterset = self.get_filterset(filterset_class)
             self.object_list = self.filterset.qs
@@ -337,6 +337,18 @@ class ListView(View, base.ListView):
         Hook to dynamically change the fields that can be ordered
         """
         return self.ordering_fields
+
+    def get_filter_fields(self):
+        """
+        Hook to dynamically change the fields that can be filtered
+        """
+        return self.filter_fields
+
+    def get_search_fields(self):
+        """
+        Hook to dynamically change the fields that can be searched
+        """
+        return self.search_fields
 
     def get_field_links(self):
         if not self.field_links:
@@ -549,11 +561,14 @@ class ListView(View, base.ListView):
                 in self.get_ordering_fields()]
 
     def get_filterset_class(self):
-        if not self.filter_fields and not self.search_fields:
+        if not self.get_filter_fields() and not self.get_search_fields():
             return None
 
-        return filterset_factory(self.model or self.queryset.model,
-                                 self.filter_fields, self.search_fields)
+        return filterset_factory(
+            model=self.model or self.queryset.model,
+            fields=self.get_filter_fields(),
+            search_fields=self.get_search_fields()
+        )
 
     def get_filterset(self, filterset_class):
         """
@@ -592,7 +607,7 @@ class ListView(View, base.ListView):
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.filter_fields or self.search_fields:
+        if self.get_filter_fields() or self.get_search_fields():
             context['has_filter'] = True
             context['filter'] = self.filterset
         return context
