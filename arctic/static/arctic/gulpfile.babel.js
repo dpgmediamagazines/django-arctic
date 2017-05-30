@@ -27,7 +27,7 @@ function loadConfig() {
 }
 
 // Build the "dist" folder by running all of the below tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts)));
+gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts, copyJstree)));
 
 // Build the site for development purpose
 gulp.task('default', gulp.series('build', watch));
@@ -46,9 +46,14 @@ function copy() {
 
 // Copy files out the fonts from the fontawesome folder
 function copyFonts() {
-    return gulp.src('./bower_components/fontawesome/fonts/*')
+    return gulp.src('./node_modules/font-awesome/fonts/*')
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
 };
+
+function copyJstree() {
+    return gulp.src('./node_modules/jstree/dist/themes/default/*')
+    .pipe(gulp.dest(PATHS.dist + '/assets/img/jstree'));
+}
 
 // Compile Sass into CSS. In production, the CSS is compressed
 function sass() {

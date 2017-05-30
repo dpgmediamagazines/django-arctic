@@ -1,4 +1,4 @@
-django-extra-views==0.7.1
-django-filter==0.12.0
+django-extra-views==0.9.0
+django-filter==1.0.1
 django-widget-tweaks==1.4.1
 django-betterforms==1.1.4

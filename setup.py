@@ -1,12 +1,16 @@
 from setuptools import (find_packages, setup)
 
 
-__VERSION__ = '0.9.3'
+__VERSION__ = '0.9.6'
 
-try:
-    README = open('README.md').read()
-except:
-    README = None
+
+def read_md(f):
+    try:
+        from pypandoc import convert
+        return convert(f, 'rst')
+    except ImportError:
+        return open(f, 'r').read()
+
 
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
@@ -28,13 +32,12 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
     version=__VERSION__,
-    long_description=README,
+    long_description=read_md('README.md'),
     install_requires=REQUIREMENTS,
     packages=find_packages(),
     include_package_data=True,

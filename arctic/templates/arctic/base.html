@@ -27,6 +27,7 @@
                 <div class="columns shrink">
                     <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
                         {% if not request.user.is_anonymous %}
+                        {% if LOGOUT_URL %}
                         <li>
                             <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
                             <ul class="menu">
@@ -35,10 +36,13 @@
                                 </li>
                             </ul>
                         </li>
+                        {% endif %}
                         {% else %}
-                        <li id="menu-login">
-                        	<a href="{{ LOGIN_URL }}">Login</a>
-                        </li>
+                        {% if LOGIN_URL %}
+                            <li id="menu-login">
+                                <a href="{{ LOGIN_URL }}">Login</a>
+                            </li>
+                        {% endif %}
                         {% endif %}
                     </ul>
                 </div>
@@ -142,6 +146,7 @@
                 var TIME_FORMAT = '{{ DATETIME_FORMATS.TIME }}'
             </script>
             <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
+            {{ media.js }}
         {% endblock %}
     </body>
 </html>

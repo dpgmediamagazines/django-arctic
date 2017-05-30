@@ -23,7 +23,7 @@ body.dialog {
     .block-wrapper {
         padding-top: $marginExtraLarge + $header-height;
         height: 100vh;
-        overflow: scroll;
+        overflow: auto;
     }
 
     .close-button {

@@ -1,3 +1,4 @@
+-e .
 -r test.txt
-
+pypandoc==1.4
 django>=1.8.12,<1.11

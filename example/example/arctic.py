@@ -27,7 +27,10 @@ ARCTIC_ROLE_MODEL = 'arctic.Role'
 
 ARCTIC_ROLES = {
     'editor': (
-        'articles_view',
+        'view_dashboard',
+        'view_article',
+        'change_article',
+        'add_article',
     ),
 }
 

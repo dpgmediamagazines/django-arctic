@@ -13,30 +13,10 @@
 }
 
 .jstree {
-    $sites: NL, BE;
-    $types: symboliccategory;
 
     .jstree-anchor {
         position: relative;
     }
-
-    // default disabeld and enable if data attr value is set
-    .jstree-node .jstree-node .jstree-anchor {
-        opacity: 0.5;
-    }
-
-    @each $site in $sites {
-        .jstree-node[sites~='#{ $site }'] .jstree-anchor {
-            opacity: 1;
-        }
-    }
-
-    @each $type in $types {
-        .jstree-node[type='#{ $type }'] .jstree-anchor {
-            opacity: 1;
-        }
-    }
-
 
     // default site label styling
     .jstree-anchor:before {
@@ -54,17 +34,6 @@
         font-style: normal;
     }
 
-    @each $site in $sites {
-        // ad site label, this also makes it visible
-        [sites='#{$site}'] .jstree-anchor:before {
-            content: '#{$site}';
-        }
-    }
-
-    // symbolic icon
-    [type='symboliccategory'] .jstree-anchor .jstree-icon {
-        background-position: -100px -67px;
-    }
 }
 
 // submenu above site label
