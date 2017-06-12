@@ -274,6 +274,7 @@ class ListView(View, base.ListView):
     tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
     max_embeded_list_items = 10  # when displaying a list in a column
+    primary_key = 'pk'
 
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
@@ -370,7 +371,7 @@ class ListView(View, base.ListView):
                 args.append(find_attribute(obj, arg))
         else:
             named_url = url
-            args = [get_attribute(obj, 'pk')]
+            args = [get_attribute(obj, self.primary_key)]
 
         # Instead of giving NoReverseMatch exception
         # its more desirable, for field_links in listviews
@@ -433,6 +434,7 @@ class ListView(View, base.ListView):
         return result
 
     def get_list_items(self, objects):
+        self.has_action_links = False
         items = []
         if not self.get_fields():
             for obj in objects:
@@ -444,20 +446,15 @@ class ListView(View, base.ListView):
         fields = []
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
+        field_actions = self.get_action_links()
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
         for obj in objects:
             row = []
-            # get the row's foreign key
-            row_id = getattr(obj, 'pk', None)
-            if row_id:
-                row.append(row_id)
-            else:
-                # while annotating, it's possible that there is no pk
-                row.append('')
+
             for field_name in fields:
-                field = {'field': field_name}
+                field = {'type': 'field', 'field': field_name}
                 base_field_name = field_name.split('__')[0]
                 field_class = get_field_class(objects, base_field_name)
                 field['value'] = self.get_field_value(field_name, obj)
@@ -478,7 +475,18 @@ class ListView(View, base.ListView):
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
+            if field_actions:
+                actions = []
+                for field_action in field_actions:
+                    actions.append({'label': field_action['label'],
+                                    'icon': field_action['icon'],
+                                    'url': self._reverse_field_link(
+                                        field_action['url'], obj)})
+                row.append({'type': 'actions', 'actions': actions})
+                self.has_action_links = True
             items.append(row)
+
+            print(items)
         return items
 
     def get_field_value(self, field_name, obj):
@@ -504,9 +512,11 @@ class ListView(View, base.ListView):
         else:
             allowed_action_links = []
             for link in self.action_links:
-
+                url = named_url = link[1]
+                if type(url) in (list, tuple):
+                    named_url = url[0]
                 # check permission based on named_url
-                if not view_from_url(link[1]).\
+                if not view_from_url(named_url).\
                         has_permission(self.request.user):
                     continue
 
@@ -514,7 +524,7 @@ class ListView(View, base.ListView):
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
                 allowed_action_links.append({'label': link[0],
-                                             'url': link[1],
+                                             'url': url,
                                              'icon': icon})
             return allowed_action_links
 
@@ -604,8 +614,9 @@ class ListView(View, base.ListView):
         context['prefix'] = self.prefix
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(context['object_list'])
-        context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
+        # self.has_action_links is set in get_list_items
+        context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
         if self.get_filter_fields() or self.get_search_fields():
             context['has_filter'] = True
