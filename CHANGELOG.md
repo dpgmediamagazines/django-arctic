@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+##0.9.7 (2017-06-13)
+
+###Fixed
+
+- Action Links now support named urls with parameters - [#165][165]
+
+[165]: //github.com/sanoma/django-arctic/issues/165
+
+
 ##0.9.6 (2017-04-25)
 
 ###Changed
