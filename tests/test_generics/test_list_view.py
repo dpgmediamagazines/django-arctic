@@ -27,7 +27,9 @@ class TestListView(object):
         article = ArticleFactory()
         response = self._request(admin_client)
         self._assert_list_items_len(response, 1)
-        assert response.context_data['list_items'][0][0] == article.pk
+        field = response.context_data['list_items'][0][0]['field']
+        assert response.context_data['list_items'][0][0]['value'] == \
+            getattr(article, field)
 
     def test_paginated_items(self, admin_client):
         """

@@ -44,10 +44,7 @@ class TestVirtualFields(object):
 
         search_virtual_field = False
         for field in response.context_data['list_items'][0]:
-            if type(field) == int:
-                continue
-
-            if 'virtual_field' in field['field']:
+            if field['type'] == 'field' and 'virtual_field' in field['field']:
                 search_virtual_field = True
 
         assert search_virtual_field is False
