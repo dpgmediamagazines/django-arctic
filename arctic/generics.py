@@ -485,8 +485,6 @@ class ListView(View, base.ListView):
                 row.append({'type': 'actions', 'actions': actions})
                 self.has_action_links = True
             items.append(row)
-
-            print(items)
         return items
 
     def get_field_value(self, field_name, obj):
