@@ -1,13 +1,9 @@
 'use strict';
 
-// Import the dependency plugins from Foundation
 import plugins  from 'gulp-load-plugins';
 import yargs    from 'yargs';
-//import browser  from 'browser-sync';
 import gulp     from 'gulp';
-//import panini   from 'panini';
 import rimraf   from 'rimraf';
-//import sherpa   from 'style-sherpa';
 import yaml     from 'js-yaml';
 import fs       from 'fs';
 
@@ -27,7 +23,7 @@ function loadConfig() {
 }
 
 // Build the "dist" folder by running all of the below tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts, copyJstree)));
+gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts)));
 
 // Build the site for development purpose
 gulp.task('default', gulp.series('build', watch));
@@ -50,14 +46,9 @@ function copyFonts() {
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
 };
 
-function copyJstree() {
-    return gulp.src('./node_modules/jstree/dist/themes/default/*')
-    .pipe(gulp.dest(PATHS.dist + '/assets/img/jstree'));
-}
-
 // Compile Sass into CSS. In production, the CSS is compressed
 function sass() {
-    return gulp.src('src/assets/scss/app.scss')
+    return gulp.src('src/assets/scss/arctic.scss')
     .pipe($.sourcemaps.init())
     .pipe($.sass({
         includePaths: PATHS.sass,
