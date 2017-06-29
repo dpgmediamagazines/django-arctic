@@ -48,3 +48,27 @@ class TestVirtualFields(object):
                 search_virtual_field = True
 
         assert search_virtual_field is False
+
+    def test_missing_virtual_field_error(self, admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'virtual_field']
+
+        exc = pytest.raises(AttributeError, view.get_field_value, 'virtual_field', article)
+
+        assert exc.value.message == "'Article' object has no attribute 'virtual_field'"
+
+    def test_missing_virtual_field_execution_attribute_error(self, admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'broken']
+        view.get_broken_field = lambda obj: obj.unknown_field
+        print(view.__dict__)
+        exc = pytest.raises(AttributeError, view.get_field_value, 'broken', article)
+        assert exc.value.message == "'Article' object has no attribute 'unknown_field'", exc.value.message

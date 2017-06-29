@@ -488,21 +488,21 @@ class ListView(View, base.ListView):
         return items
 
     def get_field_value(self, field_name, obj):
-        try:  # first try to find a virtual field
-            virtual_field_name = "get_{}_field".format(field_name)
+        # first try to find a virtual field
+        virtual_field_name = "get_{}_field".format(field_name)
+        if virtual_field_name in self.__dict__:
             return getattr(self, virtual_field_name)(obj)
-        except AttributeError:  # then try get_{field}_display
-            try:
-                # Get the choice display value
-                parent_objs = '__'.join(
-                    field_name.split('__')[:-1])
-                method_name = '{}__get_{}_display'.format(
-                    parent_objs,
-                    field_name.split('__')[-1]).strip('__')
-                return find_attribute(obj, method_name)()
-            except (AttributeError, TypeError):
-                # finally get field's value
-                return find_attribute(obj, field_name)
+        try:
+            # Get the choice display value
+            parent_objs = '__'.join(
+                field_name.split('__')[:-1])
+            method_name = '{}__get_{}_display'.format(
+                parent_objs,
+                field_name.split('__')[-1]).strip('__')
+            return find_attribute(obj, method_name)()
+        except (AttributeError, TypeError):
+            # finally get field's value
+            return find_attribute(obj, field_name)
 
     def get_action_links(self):
         if not self.action_links:
