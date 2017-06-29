@@ -58,11 +58,15 @@ class TestVirtualFields(object):
         view = ArticleListView()
         view.fields = ['title', 'description', 'published', 'virtual_field']
 
-        exc = pytest.raises(AttributeError, view.get_field_value, 'virtual_field', article)
+        exc = pytest.raises(
+            AttributeError, view.get_field_value, 'virtual_field', article)
 
-        assert exc.value.message == "'Article' object has no attribute 'virtual_field'"
+        assert exc.value.message == \
+            "'Article' object has no attribute 'virtual_field'", \
+            exc.value.message
 
-    def test_missing_virtual_field_execution_attribute_error(self, admin_client):
+    def test_missing_virtual_field_execution_attribute_error(self,
+                                                             admin_client):
         """
         Error happens on wrong virtual field name
         """
@@ -70,5 +74,8 @@ class TestVirtualFields(object):
         view = ArticleListView()
         view.fields = ['title', 'description', 'published', 'broken']
         view.get_broken_field = lambda obj: obj.unknown_field
-        exc = pytest.raises(AttributeError, view.get_field_value, 'broken', article)
-        assert exc.value.message == "'Article' object has no attribute 'unknown_field'", exc.value.message
+        exc = pytest.raises(
+            AttributeError, view.get_field_value, 'broken', article)
+        assert exc.value.message == \
+            "'Article' object has no attribute 'unknown_field'", \
+            exc.value.message
