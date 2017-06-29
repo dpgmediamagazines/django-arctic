@@ -31,7 +31,6 @@ class TestVirtualFields(object):
         assert item[0]['value'] == article.title
         assert item[1]['value'] == article.description
         assert item[2]['value'] == article.published
-        print(type(item[3]['value']))
         assert item[3]['value'] == article.category.name
 
     def test_missing_virtual_field(self, admin_client):
@@ -61,7 +60,7 @@ class TestVirtualFields(object):
         exc = pytest.raises(
             AttributeError, view.get_field_value, 'virtual_field', article)
 
-        assert exc.value.message == \
+        assert str(exc.value) == \
             "'Article' object has no attribute 'virtual_field'", \
             exc.value.message
 
@@ -76,6 +75,6 @@ class TestVirtualFields(object):
         view.get_broken_field = lambda obj: obj.unknown_field
         exc = pytest.raises(
             AttributeError, view.get_field_value, 'broken', article)
-        assert exc.value.message == \
+        assert str(exc.value) == \
             "'Article' object has no attribute 'unknown_field'", \
             exc.value.message
