@@ -490,7 +490,7 @@ class ListView(View, base.ListView):
     def get_field_value(self, field_name, obj):
         # first try to find a virtual field
         virtual_field_name = "get_{}_field".format(field_name)
-        if virtual_field_name in self.__dict__:
+        if hasattr(self, virtual_field_name):
             return getattr(self, virtual_field_name)(obj)
         try:
             # Get the choice display value
