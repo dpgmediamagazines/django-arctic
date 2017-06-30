@@ -564,7 +564,8 @@ class DataListView(TemplateView, ListMixin):
         return result
 
     def get_objects(self):
-        return self.dataset.get(1, self.paginate_by)
+        page = int(self.request.GET.get(self.page_kwarg))
+        return self.dataset.get(page, self.paginate_by)
 
     def get_list_items(self):
         objects = self.get_objects()
