@@ -1,7 +1,7 @@
 from setuptools import (find_packages, setup)
 
 
-__VERSION__ = '0.9.6'
+__VERSION__ = '0.9.7'
 
 
 def read_md(f):

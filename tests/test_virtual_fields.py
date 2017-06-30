@@ -28,10 +28,10 @@ class TestVirtualFields(object):
         self._assert_list_items_len(response, 1)
 
         item = response.context_data['list_items'][0]
-        assert item[1]['value'] == article.title
-        assert item[2]['value'] == article.description
-        assert item[3]['value'] == article.published
-        assert item[4]['value'] == article.category.name
+        assert item[0]['value'] == article.title
+        assert item[1]['value'] == article.description
+        assert item[2]['value'] == article.published
+        assert item[3]['value'] == article.category.name
 
     def test_missing_virtual_field(self, admin_client):
         """
@@ -44,10 +44,37 @@ class TestVirtualFields(object):
 
         search_virtual_field = False
         for field in response.context_data['list_items'][0]:
-            if type(field) == int:
-                continue
-
-            if 'virtual_field' in field['field']:
+            if field['type'] == 'field' and 'virtual_field' in field['field']:
                 search_virtual_field = True
 
         assert search_virtual_field is False
+
+    def test_missing_virtual_field_error(self, admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'virtual_field']
+
+        exc = pytest.raises(
+            AttributeError, view.get_field_value, 'virtual_field', article)
+
+        assert str(exc.value) == \
+            "'Article' object has no attribute 'virtual_field'", \
+            exc.value.message
+
+    def test_missing_virtual_field_execution_attribute_error(self,
+                                                             admin_client):
+        """
+        Error happens on wrong virtual field name
+        """
+        article = ArticleFactory()
+        view = ArticleListView()
+        view.fields = ['title', 'description', 'published', 'broken']
+        view.get_broken_field = lambda obj: obj.unknown_field
+        exc = pytest.raises(
+            AttributeError, view.get_field_value, 'broken', article)
+        assert str(exc.value) == \
+            "'Article' object has no attribute 'unknown_field'", \
+            exc.value.message

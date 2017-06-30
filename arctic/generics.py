@@ -270,6 +270,7 @@ class ListView(View, ListMixin, base.ListView):
     tool_links_icon = 'fa-wrench'
     prefix = ''  # Prefix for embedding multiple list views in detail view
     max_embeded_list_items = 10  # when displaying a list in a column
+    primary_key = 'pk'
 
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
@@ -278,7 +279,7 @@ class ListView(View, ListMixin, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        if self.filter_fields or self.search_fields:
+        if self.get_filter_fields() or self.get_search_fields():
             filterset_class = self.get_filterset_class()
             self.filterset = self.get_filterset(filterset_class)
             self.object_list = self.filterset.qs
@@ -295,7 +296,7 @@ class ListView(View, ListMixin, base.ListView):
                 args.append(find_attribute(obj, arg))
         else:
             named_url = url
-            args = [get_attribute(obj, 'pk')]
+            args = [get_attribute(obj, self.primary_key)]
 
         # Instead of giving NoReverseMatch exception
         # its more desirable, for field_links in listviews
@@ -352,6 +353,7 @@ class ListView(View, ListMixin, base.ListView):
         return result
 
     def get_list_items(self, objects):
+        self.has_action_links = False
         items = []
         if not self.get_fields():
             for obj in objects:
@@ -363,20 +365,15 @@ class ListView(View, ListMixin, base.ListView):
         fields = []
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
+        field_actions = self.get_action_links()
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
         for obj in objects:
             row = []
-            # get the row's foreign key
-            row_id = getattr(obj, 'pk', None)
-            if row_id:
-                row.append(row_id)
-            else:
-                # while annotating, it's possible that there is no pk
-                row.append('')
+
             for field_name in fields:
-                field = {'field': field_name}
+                field = {'type': 'field', 'field': field_name}
                 base_field_name = field_name.split('__')[0]
                 field_class = get_field_class(objects, base_field_name)
                 field['value'] = self.get_field_value(field_name, obj)
@@ -397,25 +394,34 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
+            if field_actions:
+                actions = []
+                for field_action in field_actions:
+                    actions.append({'label': field_action['label'],
+                                    'icon': field_action['icon'],
+                                    'url': self._reverse_field_link(
+                                        field_action['url'], obj)})
+                row.append({'type': 'actions', 'actions': actions})
+                self.has_action_links = True
             items.append(row)
         return items
 
     def get_field_value(self, field_name, obj):
-        try:  # first try to find a virtual field
-            virtual_field_name = "get_{}_field".format(field_name)
+        # first try to find a virtual field
+        virtual_field_name = "get_{}_field".format(field_name)
+        if hasattr(self, virtual_field_name):
             return getattr(self, virtual_field_name)(obj)
-        except AttributeError:  # then try get_{field}_display
-            try:
-                # Get the choice display value
-                parent_objs = '__'.join(
-                    field_name.split('__')[:-1])
-                method_name = '{}__get_{}_display'.format(
-                    parent_objs,
-                    field_name.split('__')[-1]).strip('__')
-                return find_attribute(obj, method_name)()
-            except (AttributeError, TypeError):
-                # finally get field's value
-                return find_attribute(obj, field_name)
+        try:
+            # Get the choice display value
+            parent_objs = '__'.join(
+                field_name.split('__')[:-1])
+            method_name = '{}__get_{}_display'.format(
+                parent_objs,
+                field_name.split('__')[-1]).strip('__')
+            return find_attribute(obj, method_name)()
+        except (AttributeError, TypeError):
+            # finally get field's value
+            return find_attribute(obj, field_name)
 
     def get_tool_links_icon(self):
         return self.tool_links_icon
@@ -440,11 +446,14 @@ class ListView(View, ListMixin, base.ListView):
                 in self.get_ordering_fields()]
 
     def get_filterset_class(self):
-        if not self.filter_fields and not self.search_fields:
+        if not self.get_filter_fields() and not self.get_search_fields():
             return None
 
-        return filterset_factory(self.model or self.queryset.model,
-                                 self.filter_fields, self.search_fields)
+        return filterset_factory(
+            model=self.model or self.queryset.model,
+            fields=self.get_filter_fields(),
+            search_fields=self.get_search_fields()
+        )
 
     def get_filterset(self, filterset_class):
         """
@@ -480,10 +489,11 @@ class ListView(View, ListMixin, base.ListView):
         context['prefix'] = self.prefix
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(context['object_list'])
-        context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
+        # self.has_action_links is set in get_list_items
+        context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.filter_fields or self.search_fields:
+        if self.get_filter_fields() or self.get_search_fields():
             context['has_filter'] = True
             context['filter'] = self.filterset
         return context
