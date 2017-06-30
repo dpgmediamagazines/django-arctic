@@ -366,6 +366,18 @@ class ListMixin(object):
         """
         return self.ordering_fields
 
+    def get_filter_fields(self):
+        """
+        Hook to dynamically change the fields that can be filtered
+        """
+        return self.filter_fields
+
+    def get_search_fields(self):
+        """
+        Hook to dynamically change the fields that can be searched
+        """
+        return self.search_fields
+
     def get_field_links(self):
         if not self.field_links:
             return {}
@@ -387,9 +399,11 @@ class ListMixin(object):
         else:
             allowed_action_links = []
             for link in self.action_links:
-
+                url = named_url = link[1]
+                if type(url) in (list, tuple):
+                    named_url = url[0]
                 # check permission based on named_url
-                if not view_from_url(link[1]).\
+                if not view_from_url(named_url).\
                         has_permission(self.request.user):
                     continue
 
@@ -397,7 +411,7 @@ class ListMixin(object):
                 if len(link) == 3:  # if an icon class is given
                     icon = link[2]
                 allowed_action_links.append({'label': link[0],
-                                             'url': link[1],
+                                             'url': url,
                                              'icon': icon})
             return allowed_action_links
 
