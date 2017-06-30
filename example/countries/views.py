@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
-import requests
+import json
+from six.moves import urllib
 
 from arctic.generics import DataListView
 from arctic.utils import RemoteDataSet
@@ -11,10 +12,11 @@ class CountriesDataSet(RemoteDataSet):
     filters_template_kv = '/{key}/{value}'
 
     def get(self, page, paginate_by):
-        r = requests.get(self.get_url(page, paginate_by))
+        r = urllib.request.urlopen((self.get_url(page, paginate_by)))
         offset = (page - 1) * paginate_by
         limit = offset + paginate_by
-        return r.json()[offset:limit]
+        data = r.read().decode("utf-8")
+        return json.loads(data)[offset:limit]
 
 
 class CountryListView(DataListView):

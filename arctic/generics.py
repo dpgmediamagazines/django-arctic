@@ -361,7 +361,6 @@ class ListView(View, ListMixin, base.ListView):
                                 'icon': field_action['icon'],
                                 'url': self._reverse_field_link(
                                     field_action['url'], obj)})
-        if actions:
             return {'type': 'actions', 'actions': actions}
         return None
 
@@ -406,7 +405,7 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
-            actions = self._get_field_actions(self, obj)
+            actions = self._get_field_actions(obj)
             if actions:
                 row.append(actions)
                 self.has_action_links = True
@@ -578,15 +577,8 @@ class DataListView(TemplateView, ListMixin):
                           else field)
         for obj in objects:
             row = []
-            # get the row's foreign key
-            row_id = getattr(obj, 'id', None)
-            if row_id:
-                row.append(row_id)
-            else:
-                # while annotating, it's possible that there is no pk
-                row.append('')
             for field_name in fields:
-                field = {'field': field_name}
+                field = {'field': field_name, 'type': 'field'}
                 field['value'] = self.get_field_value(field_name, obj)
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
