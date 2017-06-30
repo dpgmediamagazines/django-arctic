@@ -352,6 +352,19 @@ class ListView(View, ListMixin, base.ListView):
 
         return result
 
+    def _get_field_actions(self, obj):
+        field_actions = self.get_action_links()
+        if field_actions:
+            actions = []
+            for field_action in field_actions:
+                actions.append({'label': field_action['label'],
+                                'icon': field_action['icon'],
+                                'url': self._reverse_field_link(
+                                    field_action['url'], obj)})
+        if actions:
+            return {'type': 'actions', 'actions': actions}
+        return None
+
     def get_list_items(self, objects):
         self.has_action_links = False
         items = []
@@ -365,7 +378,6 @@ class ListView(View, ListMixin, base.ListView):
         fields = []
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
-        field_actions = self.get_action_links()
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
@@ -394,14 +406,9 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
-            if field_actions:
-                actions = []
-                for field_action in field_actions:
-                    actions.append({'label': field_action['label'],
-                                    'icon': field_action['icon'],
-                                    'url': self._reverse_field_link(
-                                        field_action['url'], obj)})
-                row.append({'type': 'actions', 'actions': actions})
+            actions = self._get_field_actions(self, obj)
+            if actions:
+                row.append(actions)
                 self.has_action_links = True
             items.append(row)
         return items

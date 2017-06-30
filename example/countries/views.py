@@ -2,8 +2,6 @@ from __future__ import (absolute_import, unicode_literals)
 
 import requests
 
-from django.utils.translation import ugettext as _
-
 from arctic.generics import DataListView
 from arctic.utils import RemoteDataSet
 
