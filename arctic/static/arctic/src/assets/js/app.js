@@ -1,4 +1,8 @@
-$(document).foundation();
+$(document).ready(function () {
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+});
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -96,7 +100,7 @@ function inlineWidget(css_class, template, dict, list_separator) {
 
 function set_input_widgets() {
     var s = $('.js-selectize');
-    if ( s.size() ) {
+    if ( s.length ) {
         s.selectize(
             {
                 allowEmptyOption: true,
@@ -108,7 +112,7 @@ function set_input_widgets() {
 
 
     var s_tags = $('.js-selectize-tags');
-    if (s_tags.size()) {
+    if (s_tags.length) {
         s_tags.selectize({
             delimiter: ',',
             persist: false,
@@ -209,7 +213,7 @@ $(document).ready(function() {
     });
 
     var dirty_check = $('form.dirty-check');
-    if (dirty_check.size() && !window.parent != window ) {
+    if (dirty_check.length && !window.parent != window ) {
         dirty_check.areYouSure();
 
         $('form').on('dirty.areYouSure', function() {

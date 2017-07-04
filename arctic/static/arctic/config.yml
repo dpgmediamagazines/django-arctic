@@ -30,9 +30,10 @@ PATHS:
     - "node_modules/bootstrap/scss/"
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
-    # Libraries requried by Foundation
-    - "node_modules/jquery/dist/jquery.js"
-    - "src/assets/js/components/what-input.js"
+    # Libraries required by Bootstrap
+    - "node_modules/jquery/dist/jquery.slim.js"
+    - "node_modules/popper.js/dist/umd/popper.js"
+    - "node_modules/bootstrap/dist/js/bootstrap.js"
 
     # Custom addons
     - "src/assets/js/components/jquery.are-you-sure.js"
@@ -41,15 +42,12 @@ PATHS:
 
     # Arctic JS deps
     - "node_modules/selectize/dist/js/standalone/selectize.js"
-    - "node_modules/sortablejs/Sortable.min.js"
+    #- "node_modules/sortablejs/Sortable.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
     - "src/assets/js/utils/csrf.js"
     - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
-    - "src/assets/js/components/reveal-iframe.js"
-    - "src/assets/js/components/sortable.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
-    - "src/assets/js/components/query-builder.js"

@@ -12,131 +12,21 @@
 
         {% block body %}
 
-            {# page header #}
-            <header class="primary-header row align-middle align-justify topbar-background">
-                <div class="columns shrink">
-                    <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
-                        <span class="burger-icon"></span>
-                    </a>
-                    <a href="{{ index_url }}" class="logo">
-                        <img src="{% static SITE_LOGO %}" />
-                        <span class="hide-for-small-only">{{ SITE_NAME }}</span>
-                    </a>
-                </div>
-                {% block topbar_menu %}
-                <div class="columns shrink">
-                    <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
-                        {% if not request.user.is_anonymous %}
-                        {% if LOGOUT_URL %}
-                        <li>
-                            <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
-                            <ul class="menu">
-                                <li id="menu-logout">
-                                	<a href="{{ LOGOUT_URL }}">Logout</a>
-                                </li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                        {% else %}
-                        {% if LOGIN_URL %}
-                            <li id="menu-login">
-                                <a href="{{ LOGIN_URL }}">Login</a>
-                            </li>
-                        {% endif %}
-                        {% endif %}
-                    </ul>
-                </div>
-                {% endblock %}
-            </header>
-
-            <div class="off-canvas-wrapper">
-                <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-
-                    {# sidebar #}
-                    <div class="off-canvas position-left reveal-for-large" id="offCanvas" data-off-canvas>
-
+        <div class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-left">
+                <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
                     {% include "arctic/partials/menu.html" %}
                 </div>
-
-                    {# page content #}
-                    <div class="off-canvas-content" data-off-canvas-content>
-
-                        {% block outer_content %}
-                            <div class="block-wrapper">
-                            {% if breadcrumbs %}
-                                <nav aria-label="You are here:" role="navigation">
-                                    <ul class="breadcrumbs">
-                                        {% for name, url in breadcrumbs %}
-                                            {% if forloop.last %}
-                                                <li><span class="show-for-sr">Current: </span>{{ name }}</li>
-                                            {% else %}
-                                                <li><a href="{% url url %}">{{ name }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </nav>
-                            {% endif %}
-
-                                {# page page header #}
-                                <div class="row">
-                                    <h3 class="columns">
-                                        {{ page_title }}
-                                    </h3>
-                                </div>
-
-                                {# page page description #}
-                                {% if page_description %}
-                                    <div class="row">
-                                        <small>{{ page_description }}</small>
-                                    </div>
-                                {% endif %}
-
-                                {# tabs #}
-                                {% if tabs %}
-                                    <div class="row">
-                                        <div class="small-12 columns">
-                                            <ul class="tabs" id="table-tabs">
-                                                {% for name, url in tabs %}
-                                                    {% if object.pk %}
-                                                        {% arctic_url url object.pk as url %}
-                                                    {% else %}
-                                                        {% arctic_url url as url %}
-                                                    {% endif %}
-                                                    {% if request.path == url %}
-                                                        <li class="tabs-title is-active"><a href="javascript:">{{ name }}</a></li>
-                                                    {% else %}
-                                                        <li class="tabs-title"><a href="{{ url }}">{{ name }}</a></li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                {# page messages #}
-                                {% if messages %}
-                                    {% for message in messages %}
-                                    <div class="row">
-                                        <div class="column">
-                                        <div class="callout {{ message.tags }}" data-closable>
-                                            {{ message }}
-                                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-
-                                {# content #}
-                                {% block content %}content here{% endblock %}
-                            </div>
-                        {% endblock %}
-                    </div>
-
+                <div class="col-12 col-md-9">
+                    {% block outer_content %}
+                        <div class="hidden-md-up">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+                        </div>
+                        {% block content %}content here{% endblock %}
+                    {% endblock %}
                 </div>
             </div>
+        </div>
         {% endblock %}
 
         {% block scripts_bottom %}
