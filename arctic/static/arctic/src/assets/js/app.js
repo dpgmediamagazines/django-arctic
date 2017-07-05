@@ -1,7 +1,7 @@
-$(document).ready(function () {
-  $('[data-toggle="offcanvas"]').click(function () {
-    $('.row-offcanvas').toggleClass('active')
-  });
+$('#menu-button').click(function (e) {
+    $(this).toggleClass('is-active');
+    $('.row-offcanvas').toggleClass('active');
+    e.preventDefault();
 });
 
 String.prototype.replaceAll = function(search, replacement) {

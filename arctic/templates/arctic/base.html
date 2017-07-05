@@ -13,14 +13,16 @@
         {% block body %}
 
         <div class="container-fluid">
-            <div class="row row-offcanvas row-offcanvas-left">
+            <div class="row row-offcanvas row-offcanvas-left flex-nowrap">
                 <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
                     {% include "arctic/partials/menu.html" %}
                 </div>
                 <div class="col-12 col-md-9">
                     {% block outer_content %}
                         <div class="hidden-md-up">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+                            <a href="#" class="menu-button" id="menu-button">
+                                <span class="burger-icon"></span>
+                            </a>
                         </div>
                         {% block content %}content here{% endblock %}
                     {% endblock %}
