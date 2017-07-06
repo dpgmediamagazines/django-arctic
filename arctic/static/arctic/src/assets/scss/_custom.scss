@@ -77,6 +77,11 @@ $brand-warning:             $orange !default;
 $brand-danger:              $red !default;
 $brand-inverse:             $gray-dark !default;
 
+// Arctic specific colors
+
+$highlight-background: var(--highlight-background, #6EB5C0);
+$highlight-color:      var(--highlight-color, $gray-lighter);
+
 
 // Options
 //
@@ -882,3 +887,5 @@ $kbd-bg:                      $gray-dark !default;
 
 $pre-color:                   $gray-dark !default;
 $pre-scrollable-max-height:   340px !default;
+
+// Art
