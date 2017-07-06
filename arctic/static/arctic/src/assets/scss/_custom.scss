@@ -276,11 +276,11 @@ $list-inline-padding: 5px !default;
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-cell-padding:            .75rem !default;
+$table-cell-padding:            .55rem;
 $table-cell-padding-sm:         .3rem !default;
 
-$table-bg:                      transparent !default;
-$table-accent-bg:               rgba($black,.05) !default;
+$table-bg:                      rgba($black,.05);
+$table-accent-bg:               white;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 

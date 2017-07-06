@@ -1,0 +1,17 @@
+//used in base-data-table
+
+.table {
+    thead th,
+    tbody th {
+        a {
+            color: #fff;
+            padding-right: 1.5em;
+        }
+    }
+}
+
+//Add to globals
+
+a:hover {
+    text-decoration: none;
+}

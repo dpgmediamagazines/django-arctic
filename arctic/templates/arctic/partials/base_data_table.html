@@ -8,7 +8,7 @@
                 <fieldset type="get">
                     <div class="page-filters row">
                         {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                        <div class="columns shrink left">
+                        <div class="col col-md-auto left">
                             <button type="submit" class="button secondary">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -18,7 +18,7 @@
             </form>
         {% endif %}
         {% if tool_links %}
-            <div class="columns {% if has_filter %}shrink{% endif %}">
+            <div class="col {% if has_filter %}col-md-auto{% endif %}">
                 {% if tool_links|length > 1 %}
                     <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
                         <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
@@ -29,7 +29,7 @@
                             </ul>
                         </div>
                 {% else %}
-                    <a class="button secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
+                    <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
                 {% endif %}
             </div>
         {% endif %}
@@ -38,9 +38,8 @@
     <div class="row">
     {# data table #}
     {% if list_items %}
-        <div class="small-12 columns">
-            <div class="table-scroll">
-            <table class="table">
+        <div class="col-sm-12 col">
+            <table class="table table-striped table-bordered table-responsive">
                 <thead>
                     <tr>
                         {% for item in list_header %}
@@ -102,10 +101,44 @@
                             {% endfor %}
                         </tr>
                     {% endfor %}
+                    {% for row in list_items %}
+                        <tr>
+                            {% for column in row %}
+                                {% if column.type == 'field' %}
+                                    <td {% if column.class %}class="{{ column.class }}"{%endif%}>
+                                        {% if column.url %}
+                                            <a href="{{ column.url }}">
+                                        {% endif %}
+                                        {% if column.value|typename != 'list' %}
+                                            {{ column.value|default_if_none:"" }}
+                                        {% else %}
+                                            {% for item in column.value %}
+                                                <span class="badge highlight-background">{{ item }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if column.url %}
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                {% elif column.type == 'actions' %}
+                                    <td class="actions">
+                                        {% for link in column.actions %}
+                                            <a href="{{ link.url }}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                                {% if link.icon %}
+                                                    <i class="fa {{ link.icon }} fa-lg"></i>
+                                                {% else %}
+                                                    {{ link.label|capfirst }}
+                                                {% endif %}
+                                            </a>
+                                            &nbsp;
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
-
-            </div> {# table-scroll #}
         </div> {# small-12 columns #}
     </div> {# row #}
     {% block pagination %}
