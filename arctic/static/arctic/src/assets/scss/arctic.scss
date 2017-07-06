@@ -4,8 +4,11 @@
 @import "custom";
 @import "bootstrap";
 
+//partials
 @import "partials/offcanvas";
-@import "partials/burger";
+
+//pages
+@import "pages/_login";
 
 // Datepicker
 // @import "components/air-datepicker/cell";

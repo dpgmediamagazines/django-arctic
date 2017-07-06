@@ -28,15 +28,15 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                  <div class="log-in-form">
+                  <div class="log-in-form form-group">
                         <h4 class="text-center">{{ SITE_NAME }} Login</h4>
                         <br />
                         {% block form_fields %}
                         <p>
-                            <input type="text" value="{{ username }}" name="username" id="username" placeholder="Username">
+                            <input type="text" class="form-control" value="{{ username }}" name="username" id="username" placeholder="Username">
                         </p>
                         <p>
-                            <input type="password" name="password" type="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" type="password" placeholder="Password">
                         </p>
                         {% endblock %}
                         <p><button type="submit" class="btn btn-primary btn-block">Login</button></p>
