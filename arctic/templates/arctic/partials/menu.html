@@ -1,5 +1,10 @@
 {% load i18n staticfiles arctic_tags %}
-
+<div class="sidebar__header">
+    <a href="{{ index_url }}" class="logo">
+        <img src="{% static SITE_LOGO %}" />
+        <h1>{{ SITE_NAME }}</h1>
+    </a>
+</div>
 <ul class="sidebar__menu" id="side-menu">
     {% for key, value in menu.items %}
         {% if value.submenu %}
