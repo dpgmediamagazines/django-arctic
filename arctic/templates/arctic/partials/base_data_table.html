@@ -4,12 +4,12 @@
 
     <div class="row">
         {% if has_filter %}
-            <form action="" method="GET" class="columns expand">
+            <form action="" method="GET" class="col">
                 <fieldset type="get">
                     <div class="page-filters row">
                         {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                        <div class="col col-md-auto left">
-                            <button type="submit" class="button secondary">
+                        <div class="col-12 col-md-auto left">
+                            <button type="submit" class="btn btn-secondary btn-sm">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -29,7 +29,7 @@
                             </ul>
                         </div>
                 {% else %}
-                    <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
+                    <a class="btn btn-secondary btn-sm" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
                 {% endif %}
             </div>
         {% endif %}
