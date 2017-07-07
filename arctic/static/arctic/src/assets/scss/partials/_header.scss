@@ -11,4 +11,9 @@ header {
 
 .header__menu {
     float: right;
+    padding: 0;
+
+    .nav-link {
+        padding: 0;
+    }
 }
