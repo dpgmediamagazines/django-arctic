@@ -14,18 +14,44 @@
 
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-left flex-nowrap">
-                <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
+                <div class="col sidebar-offcanvas" id="sidebar">
                     {% include "arctic/partials/menu.html" %}
                 </div>
-                <div class="col-12 col-md-9">
-                    {% block outer_content %}
-                        <div class="hidden-md-up">
-                            <a href="#" class="menu-button" id="menu-button">
-                                <span class="burger-icon"></span>
-                            </a>
-                        </div>
-                        {% block content %}content here{% endblock %}
+                <div class="col">
+                    {% block header %}
+                    <header>
+                        <h3 class="header__title">
+                            <span class="hidden-md-up">
+                                <a href="#" class="menu-button" id="menu-button">
+                                    <span class="burger-icon"></span>
+                                </a>
+                            </span>
+                            {{ page_title }}
+                        </h3>
+                        <ul class="header__menu">
+                            {% if not request.user.is_anonymous %}
+                                {% if LOGOUT_URL %}
+                                    <li>
+                                        <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
+                                        <ul>
+                                            <li id="menu-logout">
+                                                <a href="{{ LOGOUT_URL }}">Logout</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                {% if LOGIN_URL %}
+                                    <li id="menu-login">
+                                        <a href="{{ LOGIN_URL }}">Login</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </header>
                     {% endblock %}
+
+                    {% block content %}content here{% endblock %}
                 </div>
             </div>
         </div>
