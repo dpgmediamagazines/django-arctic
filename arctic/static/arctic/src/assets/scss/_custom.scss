@@ -131,10 +131,10 @@ $body-color:    $gray-dark !default;
 //
 // Style anchor elements.
 
-$link-color:            $brand-primary !default;
+$link-color:            #2199e8;
 $link-decoration:       none !default;
 $link-hover-color:      darken($link-color, 15%) !default;
-$link-hover-decoration: underline !default;
+$link-hover-decoration: none;
 
 
 // Grid breakpoints
@@ -276,11 +276,11 @@ $list-inline-padding: 5px !default;
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-cell-padding:            .75rem !default;
+$table-cell-padding:            .55rem;
 $table-cell-padding-sm:         .3rem !default;
 
-$table-bg:                      transparent !default;
-$table-accent-bg:               rgba($black,.05) !default;
+$table-bg:                      rgba($black,.05);
+$table-accent-bg:               white;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 

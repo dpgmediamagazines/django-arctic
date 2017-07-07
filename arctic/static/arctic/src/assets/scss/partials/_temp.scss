@@ -1,0 +1,16 @@
+//used in base-data-table
+
+.table {
+    thead th,
+    tbody th {
+        a {
+            color: #fff;
+            padding-right: 1.5em;
+        }
+    }
+}
+
+thead {
+    color: white;
+    -webkit-font-smoothing: antialiased; //Add to body?
+}

@@ -5,14 +5,14 @@
     {% if field.is_hidden %}
         {{ field }}
     {% else %}
-        <div class="columns medium-6 large-expand">
+        <div class="col">
 
             {% if not hide_label %}
                 {{ field.label_tag }}
             {% endif %}
 
             {% if field|widget_type == 'searchinput' %}
-                {% render_field field placeholder="Search.." %}
+                {% render_field field placeholder="Search.." class+='form-control' %}
             {% elif field|widget_type == 'daterangeinput' %}
                 <div class="field__date">
                     {% render_field field class+='js-datepicker' placeholder="Date.." %}
@@ -24,7 +24,7 @@
             {% elif field|widget_type == 'selectmultiple' and not disable_chosen %}
                 {% render_field field class+='js-selectize' data-placeholder=field.label %}
             {% else %}
-                {% render_field field %}
+                {% render_field field class+='form-control' %}
             {% endif %}
 
             {% for error in field.errors %}
