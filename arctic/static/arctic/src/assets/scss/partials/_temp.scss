@@ -28,3 +28,19 @@ thead {
     padding: 12px;
     //maybe add a max-width with margin auto for higher resolutions?
 }
+
+
+//forms
+.fieldset-default {
+    border: 2px solid #E3E3E3;
+    border-radius: 3px;
+    padding: 15px;
+    margin-bottom: 1rem;
+
+    legend {
+        width: auto;
+        padding: 5px 10px;
+        font-size: 0.875rem;
+        text-align: center;
+    }
+}
