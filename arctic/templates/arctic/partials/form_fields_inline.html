@@ -11,7 +11,6 @@
                 {% if not hide_label %}
                     {{ field.label_tag }}
                 {% endif %}
-
                 {% if field|widget_type == 'searchinput' %}
                     {% render_field field placeholder="Search.." class+='form-control' %}
                 {% elif field|widget_type == 'daterangeinput' %}
