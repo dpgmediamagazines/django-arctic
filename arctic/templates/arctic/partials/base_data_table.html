@@ -65,6 +65,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
                     {% for row in list_items %}
                         <tr>
                             {% for column in row %}
@@ -101,41 +102,6 @@
                             {% endfor %}
                         </tr>
                     {% endfor %}
-                    {% for row in list_items %}
-                        <tr>
-                            {% for column in row %}
-                                {% if column.type == 'field' %}
-                                    <td {% if column.class %}class="{{ column.class }}"{%endif%}>
-                                        {% if column.url %}
-                                            <a href="{{ column.url }}">
-                                        {% endif %}
-                                        {% if column.value|typename != 'list' %}
-                                            {{ column.value|default_if_none:"" }}
-                                        {% else %}
-                                            {% for item in column.value %}
-                                                <span class="badge highlight-background">{{ item }}</span>
-                                            {% endfor %}
-                                        {% endif %}
-                                        {% if column.url %}
-                                            </a>
-                                        {% endif %}
-                                    </td>
-                                {% elif column.type == 'actions' %}
-                                    <td class="actions">
-                                        {% for link in column.actions %}
-                                            <a href="{{ link.url }}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
-                                                {% if link.icon %}
-                                                    <i class="fa {{ link.icon }} fa-lg"></i>
-                                                {% else %}
-                                                    {{ link.label|capfirst }}
-                                                {% endif %}
-                                            </a>
-                                            &nbsp;
-                                        {% endfor %}
-                                    </td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
                     {% endfor %}
                 </tbody>
             </table>

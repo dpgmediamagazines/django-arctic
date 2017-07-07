@@ -1,3 +1,5 @@
+//TEMP FILE EVERYTHING WILL BE MOVED TO THE CORRECT PLACE AT THE END
+
 //used in base-data-table
 
 .table {
@@ -13,4 +15,16 @@
 thead {
     color: white;
     -webkit-font-smoothing: antialiased; //Add to body?
+}
+
+.table-responsive {
+  @include media-breakpoint-down(md) {
+      display: table; //bootstraap sets the display to block and that causes problems it will be fixed in a version update
+    }
+}
+
+//Global block wrapper for every page_title
+.block-wrapper {
+    padding: 12px;
+    //maybe add a max-width with margin auto for higher resolutions?
 }

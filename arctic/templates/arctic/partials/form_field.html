@@ -11,45 +11,49 @@
     {% block control_group %}
 
         {% if not layout %}
-            <div class="row align-center {% if field.errors %}error{% endif %}">
+            <div class="row justify-content-center {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
-            <div class="{%if column %}small-12 medium-{{column}}{% endif %} columns">
-                <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
+            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
+                <div class="form-group">
+                    <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
 
-                    {% block widget %}
-                        <!-- {{ field|widget_type }} -->
-                        {# checkbox or radio #}
-                        {% if style == 'vertical' %}
-                            {% include "arctic/partials/form_field_parts/form_field_default.html" %}
-                        {% elif style == 'horizontal' %}
-                            {% include "arctic/partials/form_field_parts/form_field_horizontal.html" %}
-                        {% else %}
-                            {# deafault #}
-                            {% include "arctic/partials/form_field_parts/form_field_default.html" %}
-                        {% endif %}
-                    {% endblock %}
-
-
-                    {% block errors %}
-                        {% for error in field.errors %}
-                            <span class="form-error is-visible">
-                                <i class="icon-exclamation-sign"></i>
-                                {{ error }}
-                            </span>
-                        {% endfor %}
-                    {% endblock %}
-
-
-                    {% block help_text %}
-                        {% if field.help_text %}
-                            <div class='help-text'>
-                                {# We allow HTML within form help fields #}
-                                {{ field.help_text|safe }}
+                        {% block widget %}
+                            <!-- {{ field|widget_type }} -->
+                            {# checkbox or radio #}
+                            <div class="form-check">
+                            {% if style == 'vertical' %}
+                                {% include "arctic/partials/form_field_parts/form_field_default.html" %}
+                            {% elif style == 'horizontal' %}
+                                {% include "arctic/partials/form_field_parts/form_field_horizontal.html" %}
+                            {% else %}
+                                {# deafault #}
+                                {% include "arctic/partials/form_field_parts/form_field_default.html" %}
+                            {% endif %}
                             </div>
-                        {% endif %}
-                    {% endblock %}
+                        {% endblock %}
 
+
+                        {% block errors %}
+                            {% for error in field.errors %}
+                                <span class="form-error is-visible">
+                                    <i class="icon-exclamation-sign"></i>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        {% endblock %}
+
+
+                        {% block help_text %}
+                            {% if field.help_text %}
+                                <div class='help-text'>
+                                    {# We allow HTML within form help fields #}
+                                    {{ field.help_text|safe }}
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+
+                        </div>
                     </div>
                 </div>
             {% endblock %}
