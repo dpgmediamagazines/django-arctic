@@ -65,6 +65,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
                     {% for row in list_items %}
                         <tr>
                             {% for column in row %}
@@ -100,6 +101,7 @@
                                 {% endif %}
                             {% endfor %}
                         </tr>
+                    {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
