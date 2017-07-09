@@ -82,7 +82,7 @@ $sidebar-width: 15em;
 
 @mixin active-menu-item {
     position: relative;
-    color: $sidebar-color-active;
+    color: rgba(0, 0, 0, 0.5);
 
     > :after {
         border-right: 0.9rem solid $body-bg;
@@ -107,7 +107,7 @@ $sidebar-width: 15em;
         padding: .25rem;
 
         &:hover {
-            background: rgba(0,0,0,0.07);
+            background: rgba(0, 0, 0, 0.07);
         }
 
         &.no-sub.active {
@@ -148,7 +148,7 @@ $sidebar-width: 15em;
 .sidebar__header {
     text-align: center;
     padding: 1em;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     margin-bottom: 1em;
 
     img {
