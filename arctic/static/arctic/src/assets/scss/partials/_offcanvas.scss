@@ -76,20 +76,73 @@ $sidebar-width: 15em;
     max-width: $sidebar-width;
     min-width: $sidebar-width;
     min-height: 100vh;
-    background-color: $highlight-background;
-    color: $highlight-color;
+    background-color: $sidebar-background;
+    color: $sidebar-color;
+}
+
+@mixin active-menu-item {
+    position: relative;
+    color: $sidebar-color-active;
+
+    > :after {
+        border-right: 0.9rem solid $body-bg;
+        border-top: 0.9rem solid transparent;
+        border-bottom: 0.9rem solid transparent;
+        content: "";
+        display: inline-block;
+        position: absolute;
+        right: -0.95rem;
+        top: 0px;
+    }
+
 }
 
 .sidebar__menu {
     list-style: none;
+    padding-left: 0;
 
-    li a {
-        color: $highlight-color;
+    >li a {
+        color: $sidebar-color;
+        display: block;
+        padding: .25rem;
+
+        &:hover {
+            background: rgba(0,0,0,0.07);
+        }
+
+        &.no-sub.active {
+            @include active-menu-item;
+        }
+
+        >.menu__arrow {
+            float: right;
+            padding-top: 2%;
+        }
+
+    }
+}
+
+.sidebar__submenu {
+    list-style: none;
+    padding-left: 0;
+    display: none;
+
+    >li a {
+        padding: .25rem .25rem .25rem 1.25rem;
+
+        &.active {
+            @include active-menu-item;
+        }
     }
 
-    ul {
-        list-style: none;    
+    &.active {
+        display: block;
     }
+}
+
+.sidebar__icon {
+    display: inline-block;
+    width: 1.2rem;
 }
 
 .sidebar__header {
@@ -107,7 +160,7 @@ $sidebar-width: 15em;
     }
 
     a {
-        color: $highlight-color;
+        color: $sidebar-color;
     }
 
     h1 {

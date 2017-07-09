@@ -79,8 +79,9 @@ $brand-inverse:             $gray-dark !default;
 
 // Arctic specific colors
 
-$highlight-background: var(--highlight-background, #6EB5C0);
-$highlight-color:      var(--highlight-color, $gray-lighter);
+$sidebar-background:   var(--highlight-background, #6EB5C0);
+$sidebar-color:        var(--highlight-color, $gray-lighter);
+$sidebar-color-active: var(--highlight-color-active, $gray-dark);
 
 
 // Options
