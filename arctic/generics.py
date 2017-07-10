@@ -264,7 +264,7 @@ class ListView(View, base.ListView):
     template_name = 'arctic/base_list.html'
     fields = None  # Which fields should be shown in listing
     search_fields = []
-    simple_search_form = SimpleSearchForm
+    simple_search_form = None  # Simple search form if search_fields is defined
     advanced_search_form = None  # Custom form for advanced search
     ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
@@ -293,7 +293,10 @@ class ListView(View, base.ListView):
             except AttributeError:
                 raise AttributeError('advanced_search_form must implement get_search_filter()')
         if self.get_simple_search_form():
-            form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+            if self.get_search_fields():
+                form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+            else:
+                form = self.get_simple_search_form()(data=self.request.GET)
             try:
                 qs = qs.filter(form.get_search_filter())
             except AttributeError:
@@ -354,6 +357,8 @@ class ListView(View, base.ListView):
         """
         Hook to dynamically change the simple search form
         """
+        if not self.simple_search_form and self.get_search_fields():
+            return SimpleSearchForm
         return self.simple_search_form
 
     def get_advanced_search_form(self):
@@ -601,9 +606,9 @@ class ListView(View, base.ListView):
         context['tool_links_icon'] = self.get_tool_links_icon()
         if self.get_simple_search_form():
             context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
+            context['has_filter'] = True
         if self.get_advanced_search_form():
             context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
-        if self.get_search_fields() or self.get_advanced_search_form():
             context['has_filter'] = True
         return context
 
