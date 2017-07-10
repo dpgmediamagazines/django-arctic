@@ -6,7 +6,7 @@
                 <div class="form-block">
                     {% if layout_item.fieldset.title or layout_item.fieldset.description %}
                         <div class="arctic-card__form-header {% if layout_item.fieldset.collapsible %} js--collapse-toggle{% endif %}">
-                            <i class="fa fa-angle-up collapse-control {% if layout_item.fieldset.collapsible %} collapsed {% endif %}" data-toggle="collapse" data-target="#js--collapse-form-{{forloop.counter}}" aria-expanded="false" aria-controls="js--collapse-form"></i>
+                            <i class="fa fa-angle-down collapse-control {% if layout_item.fieldset.collapsible %} collapsed {% endif %}" data-toggle="collapse" data-target="#js--collapse-form-{{forloop.counter}}" aria-expanded="false" aria-controls="js--collapse-form"></i>
                     {% endif %}
                         {% if layout_item.fieldset.title %}
                             <h6 class="arctic-card__title">{{ layout_item.fieldset.title }}</h6>
