@@ -284,18 +284,16 @@ class ListView(View, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        value = self.request.GET.get('search')
+        qs = self.get_queryset()
 
-        # simple search
-        if value:
-            if self.get_advanced_search_form():
-                form = self.get_advanced_search_form()(data=self.request.GET)
-                self.object_list = self.get_queryset().filter(form.get_search_filter())
-            elif self.get_search_fields():
-                form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
-                self.object_list = self.get_queryset().filter(form.get_search_filter())
-        else:
-            self.object_list = self.get_queryset()
+        if self.get_advanced_search_form():
+            form = self.get_advanced_search_form()(data=self.request.GET)
+            qs = qs.filter(form.get_search_filter())
+        elif self.get_simple_search_form():
+            form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+            qs = qs.filter(form.get_search_filter())
+
+        self.object_list = qs
 
         return self.object_list
 
