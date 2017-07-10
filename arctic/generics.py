@@ -599,8 +599,10 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
-        context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
+        if self.get_simple_search_form():
+            context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
+        if self.get_advanced_search_form():
+            context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
         if self.get_search_fields() or self.get_advanced_search_form():
             context['has_filter'] = True
         return context
