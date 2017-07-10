@@ -50,7 +50,19 @@ or directly from Github:
 
 Setup a python virtualenv and install django-arctic.
 
-In the terminal, create a new Django project:
+A helper command exists to bootstrap a new Arctic project.
+The generated project is similar to the Django project generated with 
+`django-admin` plus a few Arctic required configurations.
+The syntax for the command is:
+ 
+    arctic start <project name> [<optional project directory>]
+
+The generated project already configures `INSTALLED_APPS` and sets a default 
+site name, so it possible to skip the next steps up to the database 
+configuration migrations/migrations.
+
+If you'd like to start a Django project from scratch, in the terminal, create a new 
+Django project:
 
     django-admin startproject arctic_demo
 
