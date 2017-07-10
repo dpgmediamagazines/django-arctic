@@ -76,8 +76,14 @@
     }
 }
 
+//forms
+.fieldset-default {
+    position: relative;
+    padding: 24px 0;
+}
+
 .form-block {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .form-size {
@@ -90,9 +96,11 @@
     }
 }
 
+.collapse-control {
+    position: absolute;
+    right: 12px;
 
-//forms
-.fieldset-default {
-    position: relative;
-    padding: 24px 0;
+    &.collapsed {
+        transform: rotate(180deg);
+    }
 }
