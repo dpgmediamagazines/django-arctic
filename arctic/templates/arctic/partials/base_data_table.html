@@ -5,21 +5,21 @@
     <div class="row">
         {% if simple_search_form or advanced_search_form %}
             <form action="" method="GET" class="col">
+                {% block search_form %}
                 <fieldset type="get">
                     <div class="page-filters row">
-                        {% block search_form %}
                         <div class="col">
                             <label class="sr-only" for="search">Search</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">&#128269;</div>
-                                <input type="text" class="form-control" id="search" placeholder="Search" name="search">
+                                <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
                                 {% if advanced_search_form %}
-                                    <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-title="Test form" data-popover_content_container="#advanced_search">&equiv;</a>
+                                    <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-popover_content_container="#advanced_search">&equiv;</a>
                                 {% endif %}
                             </div>
                             {% if advanced_search_form %}
                                 {% block advanced_search_form %}
-                                    <div class="artic_toggle_form hidden" id="advanced_search">
+                                    <div class="artic_toggle_form hidden" id="advanced_search" hidden>
                                         {{ advanced_search_form }}
                                     </div>
                                 {% endblock %}
@@ -30,9 +30,9 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
-                        {% endblock %}
                     </div>
                 </fieldset>
+                {% endblock %}
             </form>
         {% endif %}
         {% if tool_links %}
