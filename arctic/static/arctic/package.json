@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "air-datepicker": "2.2.3",
+    "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
     "babel-plugin-transform-es2015-modules-umd": "6.24.1",
     "babel-preset-es2015": "6.24.1",
     "babel-register": "6.24.1",
@@ -45,7 +46,7 @@
       "es2015"
     ],
     "plugins": [
-      "transform-es2015-modules-umd"
+      "transform-es2015-modules-strip"
     ],
     "compact": false,
     "ignore": [
