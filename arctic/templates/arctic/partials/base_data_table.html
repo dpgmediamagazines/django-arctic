@@ -53,7 +53,7 @@
                             {% for item in list_header %}
                                 <th>
                                     {% if item.order_url %}
-                                        <a href="{{ item.order_url }}">{{ item.label }}
+                                        <a href="{{ item.order_url }}">{{ item.label }}&nbsp;
                                             {% if item.order_direction == 'desc' %}
                                                 <i class="fa fa-sort-desc"></i>
                                             {% elif item.order_direction == 'asc' %}
@@ -73,6 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {# TODO remove test for #}
                         {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
                         {% for row in list_items %}
                             <tr>
