@@ -2,7 +2,6 @@
 
 (function($) {
     $('.arctic_toggle_form_button').popover({
-        container: 'body',
         content: function () {
             // copy
             var selector = $(this).data('popover_content_container');
@@ -18,7 +17,6 @@
                 var attr = $(this).attr('id');
                 $(this).attr('id', attr + '_in_advanced_search');
             });
-
             return contents;
         },
         html: true
