@@ -18,20 +18,6 @@
     }
 }
 
-.arctic-card {
-    border-radius: $border-radius;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
-    background-color: white;
-
-    &__title {
-        margin: 0;
-        color: $gray-dark;
-        font-weight: 300;
-        padding: 12px;
-    }
-}
-
-
 .table-responsive {
   @include media-breakpoint-down(md) {
       display: table; //bootstraap sets the display to block and that causes problems it will be fixed in a version update
@@ -39,23 +25,46 @@
 }
 
 //Global block wrapper for every page_title
-.block-wrapper {
+.content-wrapper {
     padding: 12px;
-    //maybe add a max-width with margin auto for higher resolutions?
+    max-width: 1140px; //define max-width variable
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+//arctic card css
+.arctic-card {
+    border-radius: $border-radius;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+    background-color: white;
+
+    &__header {
+        padding: 12px;
+        padding-bottom: 24px;
+    }
+
+    &__title {
+        margin: 0;
+        color: $gray-dark;
+        font-weight: 300;
+    }
+
+    &__subtitle {
+        color: $gray-dark;
+        font-size: 13px;
+        margin-bottom: 0px;
+    }
+
+    &__content {
+        padding: 12px;
+        padding-top: 0;
+    }
 }
 
 
 //forms
 .fieldset-default {
-    border: 2px solid #E3E3E3;
-    border-radius: 3px;
-    padding: 15px;
+    padding: 0 12px 12px 12px;
     margin-bottom: 1rem;
-
-    legend {
-        width: auto;
-        padding: 5px 10px;
-        font-size: 0.875rem;
-        text-align: center;
-    }
 }

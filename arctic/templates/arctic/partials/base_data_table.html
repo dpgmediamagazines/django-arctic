@@ -41,9 +41,11 @@
         <div class="col-sm-12 col">
             <div class="arctic-card">
                 {% if page_title %}
-                    <h4 class="arctic-card__title">
-                        {{ page_title }}
-                    </h4>
+                    <div class="arctic-card__header">
+                        <h4 class="arctic-card__title">
+                            {{ page_title }}
+                        </h4>
+                    </div>
                 {% endif %}
                 <table class="table table-striped table-responsive table-hover">
                     <thead>
