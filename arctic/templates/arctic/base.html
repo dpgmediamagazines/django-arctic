@@ -28,17 +28,14 @@
                             </span>
                             {{ page_title }}
                         </h3>
-                        <ul class="header__menu">
+                        <nav class="nav dropdown header__menu">
                             {% if not request.user.is_anonymous %}
                                 {% if LOGOUT_URL %}
-                                    <li>
-                                        <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
-                                        <ul>
-                                            <li id="menu-logout">
-                                                <a href="{{ LOGOUT_URL }}">Logout</a>
+                                    <a href="#" class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
+                                        <div class="dropdown-menu" aria-labelledby="user-dropdown">
+                                                <a class="dropdown-item" href="{{ LOGOUT_URL }}">{% trans "Logout" %}</a>
                                             </li>
                                         </ul>
-                                    </li>
                                 {% endif %}
                             {% else %}
                                 {% if LOGIN_URL %}
@@ -50,16 +47,18 @@
                         </ul>
                     </header>
                     {% if breadcrumbs %}
-                        <nav>
-                            <ul class="breadcrumbs">
-                                {% for name, url in breadcrumbs %}
-                                    {% if forloop.last %}
-                                        <li><span class="show-for-sr">Current: </span>{{ name }}</li>
-                                    {% else %}
-                                        <li><a href="{% url url %}">{{ name }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                        <nav class="breadcrumb">
+                            {% for name, url in breadcrumbs %}
+                                {% if forloop.last %}
+                                    <span class="breadcrumb-item active">
+                                        {{ name }}
+                                    </span>
+                                {% else %}
+                                    <a class="breadcrumb-item" href="{% url url %}">
+                                        {{ name }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
                         </nav>
                     {% endif %}
 

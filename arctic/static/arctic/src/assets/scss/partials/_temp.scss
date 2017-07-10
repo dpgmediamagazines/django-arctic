@@ -3,6 +3,7 @@
 //used in base-data-table
 
 .table {
+    border-radius: $border-radius;
     thead th,
     tbody th {
         border-top: none;

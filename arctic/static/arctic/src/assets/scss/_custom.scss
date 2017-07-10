@@ -67,7 +67,7 @@ $gray-dark:                 #292b2c !default;
 $gray:                      #464a4c !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
-$gray-lightest:             #f7f7f9 !default;
+$gray-lightest:             #f7f7f7;
 
 // Reassign color vars to semantic color scheme
 $brand-primary:             $blue !default;
@@ -78,10 +78,11 @@ $brand-danger:              $red !default;
 $brand-inverse:             $gray-dark !default;
 
 // Arctic specific colors
-
 $gray-medium:          #9A9A9A;
 $highlight-background: var(--highlight-background, #6EB5C0);
 $highlight-color:      var(--highlight-color, $gray-lighter);
+$sidebar-background:   var(--highlight-background, #6EB5C0);
+$sidebar-color:        var(--highlight-color, $gray-lighter);
 
 
 // Options
@@ -125,7 +126,7 @@ $sizes: (
 //
 // Settings for the `<body>` element.
 
-$body-bg:       $white !default;
+$body-bg:       $gray-lightest !default;
 $body-color:    $gray-dark !default;
 
 // Links
@@ -281,7 +282,7 @@ $table-cell-padding:            .75rem;
 $table-cell-padding-sm:         .3rem !default;
 
 $table-bg:                      white !default;
-$table-accent-bg:               rgba($black,.05) !default;
+$table-accent-bg:               $gray-lightest;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 
@@ -494,7 +495,7 @@ $form-feedback-invalid-color: $brand-danger !default;
 // Dropdown menu container and contents.
 
 $dropdown-min-width:             10rem !default;
-$dropdown-padding-y:             .5rem !default;
+$dropdown-padding-y:             .2rem !default;
 $dropdown-margin-top:            .125rem !default;
 $dropdown-bg:                    $white !default;
 $dropdown-border-color:          rgba($black,.15) !default;
@@ -836,11 +837,11 @@ $figure-caption-color:     $gray-light !default;
 
 // Breadcrumbs
 
-$breadcrumb-padding-y:          .75rem !default;
-$breadcrumb-padding-x:          1rem !default;
+$breadcrumb-padding-y:          .5rem !default;
+$breadcrumb-padding-x:          0 !default;
 $breadcrumb-item-padding:       .5rem !default;
 
-$breadcrumb-bg:                 $gray-lighter !default;
+$breadcrumb-bg:                 inherit !default;
 $breadcrumb-divider-color:      $gray-light !default;
 $breadcrumb-active-color:       $gray-light !default;
 $breadcrumb-divider:            "/" !default;

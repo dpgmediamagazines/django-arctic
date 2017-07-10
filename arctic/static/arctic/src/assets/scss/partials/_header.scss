@@ -1,5 +1,5 @@
 header {
-    padding: 1em;
+    padding: 1em 0 1em 0;
     border-bottom: 1px solid rgba(0,0,0,0.2);
     margin-bottom: 1em;
 }
@@ -11,4 +11,9 @@ header {
 
 .header__menu {
     float: right;
+    padding: 0;
+
+    .nav-link {
+        padding: 0;
+    }
 }
