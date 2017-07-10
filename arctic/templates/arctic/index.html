@@ -9,54 +9,73 @@
                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
             </div>
             <div class="row">
+
                 <div class="small-12 medium-6 large-3 columns">
-                    <label>
-                        Name
-                        <input type="text" placeholder="Name" aria-describedby="exampleHelpText" required pattern="text">
-                        <span class="form-error">Name is required</span>
-                    </label>
-                    <p class="help-text" id="exampleHelpText">Fill in your name</p>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="name" type="text" placeholder="Name" required pattern="text"/>
+                            <label for="name">Name</label>
+                        </span>
+                    </div>
                 </div>
+
                 <div class="small-12 medium-6 large-3 columns">
-                    <label>Surname
-                        <input type="text" placeholder="Surname" aria-describedby="exampleHelpText" required pattern="text">
-                        <span class="form-error">Surname is required.</span>
-                    </label>
-                    <p class="help-text" id="exampleHelpText">Fill in your surname</p>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="surname" type="text" placeholder="Surname" required pattern="text">
+                            <label for="surname">Surname</label>
+                        </span>
+                    </div>
                 </div>
+
                 <div class="small-12 medium-6 large-3 columns">
-                    <label>Password
-                        <input type="password" placeholder="Password" aria-describedby="exampleHelpText" required pattern="">
-                        <span class="form-error">Chosen password is too weak</span>
-                    </label>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="password" type="password" placeholder="Password" required pattern="">
+                            <label for="password">Password</label>
+                        </span>
+                    </div>
                 </div>
+
                 <div class="small-12 medium-6 large-3 columns">
-                    <label>Repeat Password
-                        <input type="password" placeholder="Repeat Password" aria-describedby="exampleHelpText" required pattern="">
-                        <span class="form-error">Passwords don't match'</span>
-                    </label>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="repeat-password" type="password" placeholder="Repeat Password" required pattern="">
+                            <label for="repeat-password">Repeat Password</label>
+                        </span>
+                    </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="small-12 medium-6 columns">
-                    <label>Street
-                        <input type="text" placeholder="Street" aria-describedby="exampleHelpText" required pattern="text" id="input-tags">
-                        <span class="form-error">Street is required</span>
-                    </label>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="street" type="text" placeholder="Street" required pattern="text"/>
+                            <label for="street">Street</label>
+                        </span>
+                    </div>
                 </div>
+
                 <div class="small-6 medium-3 columns">
-                    <label>House Number
-                        <input type="text" placeholder="House Number" aria-describedby="exampleHelpText" required pattern="number">
-                        <span class="form-error">House number can olny be numeric</span>
-                    </label>
+                    <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="house-number" type="number" placeholder="Street" required pattern="number"/>
+                            <label for="house-number">House Number</label>
+                        </span>
+                    </div>
                 </div>
+
                 <div class="small-6 medium-3 columns">
-                    <label>House Number Extension
-                        <input type="text" placeholder="House Number Extension" aria-describedby="exampleHelpText" pattern="">
-                        <span class="form-error">Error</span>
-                    </label>
+                   <div class="form-group input-group">
+                        <span class="has-float-label">
+                            <input class="form-control" id="extension" type="text" placeholder="House number extension" required pattern="text"/>
+                            <label for="extension">House Number Extension</label>
+                        </span>
+                    </div>
                 </div>
             </div>
+
             <div class="row button-group">
                 <div class="small-12 columns">
                     <button class="button" type="submit" value="Submit">Submit</button>
