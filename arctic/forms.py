@@ -5,7 +5,7 @@ from django.db.models import Q
 
 
 class SimpleSearchForm(forms.Form):
-    search = forms.CharField(max_length=100)
+    search = forms.CharField(max_length=100, required=False)
 
     def __init__(self, search_fields=[], *args, **kwargs):
         super(SimpleSearchForm, self).__init__(*args, **kwargs)
@@ -13,6 +13,9 @@ class SimpleSearchForm(forms.Form):
 
     def get_search_filter(self):
         value = self.data.get('search')
+        if not value:
+            return Q()
+
         q_list = []
         for field_name in self.search_fields:
             q_list.append(Q(**{field_name + '__icontains': value}))

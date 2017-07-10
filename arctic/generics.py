@@ -288,10 +288,16 @@ class ListView(View, base.ListView):
 
         if self.get_advanced_search_form():
             form = self.get_advanced_search_form()(data=self.request.GET)
-            qs = qs.filter(form.get_search_filter())
-        elif self.get_simple_search_form():
+            try:
+                qs = qs.filter(form.get_search_filter())
+            except AttributeError:
+                raise AttributeError('advanced_search_form must implement get_search_filter()')
+        if self.get_simple_search_form():
             form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
-            qs = qs.filter(form.get_search_filter())
+            try:
+                qs = qs.filter(form.get_search_filter())
+            except AttributeError:
+                raise AttributeError('simple_search_form must implement get_search_filter()')
 
         self.object_list = qs
 
@@ -593,8 +599,8 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        context['simple_search_form'] = self.get_simple_search_form()
-        context['advanced_search_form'] = self.get_advanced_search_form()
+        context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
+        context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
         if self.get_search_fields() or self.get_advanced_search_form():
             context['has_filter'] = True
         return context

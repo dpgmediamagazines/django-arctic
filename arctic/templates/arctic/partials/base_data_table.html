@@ -12,20 +12,12 @@
                             <label class="sr-only" for="search">Search</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div class="input-group-addon">&#128269;</div>
-                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <!--<input type="text" class="form-control" id="search" placeholder="Search" name="search">-->
+                                {{ simple_search_form }}
                                 <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-title="Test form" data-popover_content_container="#advanced_search">&equiv;</a>
                             </div>
-                            <div class="artic_toggle_form hidden" id="advanced_search" hidden>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput">Example label</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                           placeholder="Example input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="formGroupExampleInput2">Another label</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput2"
-                                           placeholder="Another input">
-                                </div>
+                            <div class="artic_toggle_form hidden" id="advanced_search">
+                                {{ advanced_search_form }}
                             </div>
                         </div>
                         <div class="col col-auto">
