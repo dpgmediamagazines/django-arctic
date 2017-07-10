@@ -1,7 +1,6 @@
 {% extends "arctic/base.html" %}
 
 {% block content %}
-    <hr class="clearfix" />
     <h4 id="form" data-magellan-target="form">Form with validation</h4>
     <form class="content-block__flex-wrap" data-abide novalidate>
         <fieldset type="get">
@@ -9,7 +8,7 @@
                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
             </div>
             <div class="row">
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>
                         Name
                         <input type="text" placeholder="Name" aria-describedby="exampleHelpText" required pattern="text">
@@ -17,20 +16,20 @@
                     </label>
                     <p class="help-text" id="exampleHelpText">Fill in your name</p>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Surname
                         <input type="text" placeholder="Surname" aria-describedby="exampleHelpText" required pattern="text">
                         <span class="form-error">Surname is required.</span>
                     </label>
                     <p class="help-text" id="exampleHelpText">Fill in your surname</p>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Password
                         <input type="password" placeholder="Password" aria-describedby="exampleHelpText" required pattern="">
                         <span class="form-error">Chosen password is too weak</span>
                     </label>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Repeat Password
                         <input type="password" placeholder="Repeat Password" aria-describedby="exampleHelpText" required pattern="">
                         <span class="form-error">Passwords don't match'</span>
@@ -38,19 +37,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="small-12 medium-6 columns">
+                <div class="col-sm-12 col-md-6 col">
                     <label>Street
                         <input type="text" placeholder="Street" aria-describedby="exampleHelpText" required pattern="text" id="input-tags">
                         <span class="form-error">Street is required</span>
                     </label>
                 </div>
-                <div class="small-6 medium-3 columns">
+                <div class="col-sm-6 col-md-3 col">
                     <label>House Number
                         <input type="text" placeholder="House Number" aria-describedby="exampleHelpText" required pattern="number">
                         <span class="form-error">House number can olny be numeric</span>
                     </label>
                 </div>
-                <div class="small-6 medium-3 columns">
+                <div class="col-sm-6 col-md-3 col">
                     <label>House Number Extension
                         <input type="text" placeholder="House Number Extension" aria-describedby="exampleHelpText" pattern="">
                         <span class="form-error">Error</span>
@@ -58,7 +57,7 @@
                 </div>
             </div>
             <div class="row button-group">
-                <div class="small-12 columns">
+                <div class="col-sm-12 col">
                     <button class="button" type="submit" value="Submit">Submit</button>
                     <button class="button" type="reset" value="Reset">Reset</button>
                 </div>
@@ -69,13 +68,13 @@
     <hr class="clearfix"/>
     <h4>Selectize</h4>
     <div class="row">
-        <div class="medium-4 columns">
+        <div class="col-md-4 col">
             <label>
                 Tags
                 <input type="text" class="js-selectize-tags" placeholder="Selectize tags" value="tags,test,arctic">
             </label>
         </div>
-        <div class="medium-4 columns">
+        <div class="col-md-4 col">
             <label for="select-gear">Option groups</label>
             <select id="select-gear" class="js-selectize" multiple placeholder="Select gear...">
                 <option value="">Select gear...</option>
@@ -291,7 +290,7 @@
         <p>It has an easy to override visual style, and is appropriately subdued.</p>
         <a href="#">It's dangerous to go alone, take this.</a>
     </div>
-    <div class="callout small success">
+    <div class="callout col-sm success">
         <h5>This is a success panel</h5>
         <p>It has an easy to override visual style, and is appropriately subdued.</p>
         <a href="#">It's dangerous to go alone, take this.</a>
@@ -300,40 +299,40 @@
     <hr class="clearfix"/>
     <h4 id="inputSlider" data-magellan-target="inputSlider">Input slider</h4>
     <div class="row">
-        <div class="small-10 medium-3 columns">
+        <div class="col-sm-10 col-md-3 col">
             <div class="slider" data-slider data-initial-start="50">
                 <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
                 <span class="slider-fill" data-slider-fill></span>
             </div>
         </div>
-        <div class="small-2 medium-1 columns">
+        <div class="col-sm-2 col-md-1 col">
             <input type="number" id="sliderOutput1">
         </div>
     </div>
     <strong>with fixed steps</strong>
     <div class="row">
-        <div class="small-10 medium-3 columns">
+        <div class="col-sm-10 col-md-3 col">
             <div class="slider" data-slider data-initial-start="50" data-step="25">
                 <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput2"></span>
                 <span class="slider-fill" data-slider-fill></span>
             </div>
         </div>
-        <div class="small-2 medium-1 columns">
+        <div class="col-sm-2 col-md-1 col">
             <input type="number" id="sliderOutput2">
         </div>
     </div>
     <strong>2 handlers with output below</strong>
     <div class="row">
-        <div class="small-4 columns">
+        <div class="col-sm-4 col">
             <div class="slider" data-slider data-initial-start="25" data-initial-end="75">
                 <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput3"></span>
                 <span class="slider-fill" data-slider-fill></span>
                 <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput4"></span>
             </div>
-            <div class="small-4 medium-2 columns float-left">
+            <div class="col-sm-4 col-md-2 col float-left">
                 <input type="number" id="sliderOutput3" class="float-left">
             </div>
-            <div class="small-4 medium-2 columns float-right">
+            <div class="col-sm-4 col-md-2 col float-right">
                 <input type="number" id="sliderOutput4" class="float-right">
             </div>
         </div>
@@ -346,14 +345,14 @@
     <hr class="clearfix"/>
     <h4 id="sticky" data-magellan-target="sticky">Sticky elements</h4>
     <div class="row align-justify" id="stickyElements">
-        <div class="medium-4 columns">
+        <div class="col-md-4 col">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit dapibus dolor, ut mattis felis auctor at. Curabitur scelerisque, nibh sagittis egestas volutpat, est mi efficitur enim, id venenatis nunc nunc a velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean dapibus, libero id varius feugiat, libero libero aliquet velit, vel placerat metus odio in arcu. Cras nulla dui, convallis vitae cursus tincidunt, consequat eget diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nisi et justo lobortis mattis.</p>
             <p>Vestibulum quis tortor vitae massa elementum condimentum. Donec eget elit arcu. Nullam non dolor et ex pellentesque consequat nec vel erat. Proin quis mauris viverra, feugiat felis in, vulputate tellus. In quis ornare metus. Fusce non semper dolor, nec dapibus dui. Aenean ac libero posuere, sollicitudin nisl sed, semper est. Aliquam vel pharetra justo, non lacinia massa. Sed non ultrices risus, vitae ultrices sapien.</p>
             <p>Mauris ut dignissim ligula, ut facilisis sem. Aliquam euismod, odio nec condimentum porttitor, tellus odio tempor enim, eu tristique nibh elit sed nibh. Nullam dignissim nisi vitae augue semper, id convallis nulla pretium. Integer lacinia porta arcu, in vestibulum leo hendrerit sit amet. Donec pharetra sit amet lectus id fringilla. Vivamus metus ex, placerat rhoncus nisl sed, vestibulum posuere urna. Ut vel massa vitae quam mattis luctus. Praesent eleifend convallis neque, at consequat nunc tempor eget.</p>
             <p>Maecenas consectetur varius blandit. Sed non magna ac sapien egestas imperdiet ultrices vitae mi. Nam massa urna, egestas quis justo vitae, iaculis dictum ipsum. Aliquam erat volutpat. Proin imperdiet, libero eget dignissim mollis, turpis est porta urna, sed ullamcorper neque metus ut turpis. Nam eu nunc tortor. Pellentesque vestibulum a eros at suscipit. Proin eget lacinia tellus, nec sodales purus. Morbi nec consectetur ipsum, eget pellentesque mauris.</p>
             <p>Aliquam elementum convallis nulla maximus vehicula. Nunc condimentum eleifend commodo. Phasellus est nibh, porta sed blandit vestibulum, semper nec lorem. Phasellus bibendum vehicula tincidunt. Duis congue dui ornare, vulputate orci quis, rhoncus elit. Nunc efficitur vulputate nunc eu dictum. Proin malesuada odio quam, quis pretium ante tincidunt sit amet.</p>
         </div>
-        <div class="medium-4 columns right" data-sticky-container>
+        <div class="col-md-4 col right" data-sticky-container>
             <div class="sticky" data-sticky data-anchor="stickyElements">
                 <img class="thumbnail" src="http://dummyimage.com/400x200/000/fff"/>
             </div>
@@ -363,7 +362,7 @@
     <hr class="clearfix">
     <h4 id="meters" data-magellan-target="meters">Meters</h4>
     <div class="row">
-        <div class="small-12 columns">
+        <div class="col-sm-12 col">
             <p>Meter support is limited, has no support in Internet Explorer, Mobile Safari, or Android 2. Colors are set automaticly based on it's value</p>
             <p>
                 <meter value="30" min="0" low="33" high="66" optimum="100" max="100"></meter>
@@ -375,22 +374,37 @@
 
     <hr class="clearfix"/>
     <h4 id="modal" data-magellan-target="modal">Modal</h4>
-    <div class="reveal" id="exampleModal1" data-reveal>
-        <h1>Awesome. I Have It.</h1>
-        <p class="lead">Your couch. It is mine.</p>
-        <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            I'm a Modal
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
-        <p><a data-open="exampleModal1">Click me for a modal</a></p>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Click me for a modal
+            </button>
+        </div>
     </div>
 
     <hr class="clearfix">
     <h4 id="progress" data-magellan-target="progress">Progress</h4>
     <div class="row">
-        <div class="small-12 columns">
+        <div class="col-sm-12 col">
             <p>Native HTML5 progress element</p>
             <p>
                 <progress class="" max="100" value="75"></progress>
@@ -404,7 +418,7 @@
     <hr class="clearfix"/>
     <h4 id="badges" data-magellan-target="badges">Badges</h4>
     <div class="row">
-        <div class="columns">
+        <div class="col">
             <p>
                 <span class="secondary badge">2</span>
                 <span class="success badge">3</span>
@@ -420,7 +434,7 @@
     <hr class="clearfix"/>
     <h4 id="labels" data-magellan-target="labels">Labels</h4>
     <div class="row">
-        <div class="columns">
+        <div class="col">
             <span class="secondary label">Secondary Label</span>
             <span class="success label">Success Label</span>
             <span class="alert label">Alert Label</span>
@@ -433,8 +447,8 @@
 
     <hr class="clearfix">
     <h4 id="cards" data-magellan-target="cards">Cards</h4>
-    <div class="row small-up-3 medium-up-6 large-up-12">
-        <div class="columns">
+    <div class="row col-sm-up-3 col-md-up-6 col-lg-up-12">
+        <div class="col">
             <div class="card">
                 <div class="card__description">
                     <div class="fa fa-paper-plane-o card__description-icon"></div>
@@ -445,7 +459,7 @@
                 </div>
             </div>
         </div>
-        <div class="columns">
+        <div class="col">
             <div class="card">
                 <div class="card__description">
                     <div class="fa fa-flask card__description-icon"></div>
@@ -456,7 +470,7 @@
                 </div>
             </div>
         </div>
-        <div class="columns">
+        <div class="col">
             <div class="card">
                 <div class="card__description">
                     <div class="fa fa-diamond card__description-icon"></div>
@@ -472,7 +486,7 @@
     <hr class="clearfix">
     <h4 id="cardgroup" data-magellan-target="cardgroup">Card group</h4>
     <div class="row">
-        <div class="small-12 medium-6 large-4 columns">
+        <div class="col-sm-12 col-md-6 col-lg-4 col">
             <div class="cardgroup">
                 <div class="card cardgroup__card">
                     <div class="card__description cardgroup__card-description">
@@ -527,17 +541,17 @@
         </label>
     </div>
 
-    <div class="switch small">
-        <input class="switch-input" id="smallSwitch" type="checkbox" name="exampleSwitch">
-        <label class="switch-paddle" for="smallSwitch">
-            <span class="show-for-sr">Small Portions Only</span>
+    <div class="switch col-sm">
+        <input class="switch-input" id="col-smSwitch" type="checkbox" name="exampleSwitch">
+        <label class="switch-paddle" for="col-smSwitch">
+            <span class="show-for-sr">col-sm Portions Only</span>
         </label>
     </div>
 
-    <div class="switch large">
-        <input class="switch-input" id="largeSwitch" type="checkbox" name="exampleSwitch">
-        <label class="switch-paddle" for="largeSwitch">
-            <span class="show-for-sr">Show Large Elephants</span>
+    <div class="switch col-lg">
+        <input class="switch-input" id="col-lgSwitch" type="checkbox" name="exampleSwitch">
+        <label class="switch-paddle" for="col-lgSwitch">
+            <span class="show-for-sr">Show col-lg Elephants</span>
         </label>
     </div>
 </div>
