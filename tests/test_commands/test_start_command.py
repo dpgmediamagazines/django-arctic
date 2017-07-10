@@ -5,7 +5,9 @@ from subprocess import call
 
 
 def test_start_new_project():
-    # create new temporary project from template
+    """
+    Test creating a new project with project bootstrap command.
+    """
     project_name = 'test_arctic_project'
     project_path = tempfile.mkdtemp()
     manage_py_bin = os.path.join(project_path, 'manage.py')
@@ -21,8 +23,13 @@ def test_start_new_project():
     assert retcode == 0
     assert os.path.exists(manage_py_bin)
 
-    # run Django system checks on generated project
+    # run Django system checks of generated project
     args = [manage_py_bin, 'check']
+    retcode = call(args, env=env)
+    assert retcode == 0
+
+    # run Django migrations of generated project
+    args = [manage_py_bin, 'migrate']
     retcode = call(args, env=env)
     assert retcode == 0
 
