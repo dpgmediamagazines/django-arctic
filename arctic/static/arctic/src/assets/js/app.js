@@ -137,19 +137,6 @@ function set_input_widgets() {
 
 // jquery stuff goes here
 $(document).ready(function() {
-
-    // Toggle menu burger to cross
-    var canvas = $( '.off-canvas' );
-    var hamburger = $('#menu-button');
-
-    canvas.on('opened.zf.offcanvas', function () {
-        hamburger.addClass('is-active');
-    });
-
-    canvas.on('closed.zf.offcanvas', function () {
-        hamburger.removeClass('is-active');
-    });
-
     // Stepper input
     var $stepperInput = $('.stepper-input input');
 

@@ -23,7 +23,6 @@ class DashboardView(TemplateView):
 
 
 class ArticleListView(ListView):
-    template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
     fields = ['title', 'description', 'published', 'category', 'tags']
