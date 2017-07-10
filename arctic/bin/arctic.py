@@ -20,7 +20,8 @@ def create_project(parser, options, args):
     except IndexError:
         dest_dir = None
 
-    # Make sure given name is not already in use by another python package/module.
+    # Make sure given name is not already in use by another
+    # python package/module.
     try:
         __import__(project_name)
     except ImportError:
@@ -30,7 +31,8 @@ def create_project(parser, options, args):
                      "Python module and cannot be used as a project "
                      "name. Please try another name." % project_name)
 
-    print("Creating a Arctic project called %(project_name)s" % {'project_name': project_name})  # noqa
+    print("Creating a Arctic project called %(project_name)s" % {
+        'project_name': project_name})  # noqa
 
     # Create the project from the Arctic template using startapp
 
@@ -52,7 +54,8 @@ def create_project(parser, options, args):
     utility = ManagementUtility(utility_args)
     utility.execute()
 
-    print("Success! %(project_name)s has been created" % {'project_name': project_name})  # noqa
+    print("Success! %(project_name)s has been created" % {
+        'project_name': project_name})  # noqa
 
 
 COMMANDS = {
