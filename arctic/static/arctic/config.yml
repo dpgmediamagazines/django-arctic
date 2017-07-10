@@ -31,7 +31,7 @@ PATHS:
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
     # Libraries required by Bootstrap
-    - "node_modules/jquery/dist/jquery.slim.js"
+    - "node_modules/jquery/dist/jquery.min.js"
     - "node_modules/popper.js/dist/umd/popper.js"
     - "node_modules/bootstrap/dist/js/bootstrap.js"
 
