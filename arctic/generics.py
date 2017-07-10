@@ -606,10 +606,8 @@ class ListView(View, base.ListView):
         context['tool_links_icon'] = self.get_tool_links_icon()
         if self.get_simple_search_form():
             context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
-            context['has_filter'] = True
         if self.get_advanced_search_form():
             context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
-            context['has_filter'] = True
         return context
 
 
