@@ -40,8 +40,16 @@
     background-color: white;
 
     &__header {
-        padding-bottom: 24px;
-        margin-left: -48px;
+        padding: 12px;
+    }
+
+    &__form-header {
+        position: absolute;
+        width: calc(100% - 24px);
+        left: 12px;
+        padding: 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid $input-border-color;
     }
 
     &__title {
@@ -55,10 +63,20 @@
         font-size: 13px;
         margin-bottom: 0px;
     }
+
+    &__placeholder {
+
+        width: 100%;
+        &--small {
+            height: 42px
+        }
+        &--big {
+            height: 68px
+        }
+    }
 }
 
 .form-block {
-    position: relative;
     margin-bottom: 1rem;
 }
 
@@ -75,5 +93,6 @@
 
 //forms
 .fieldset-default {
+    position: relative;
     padding: 24px 0;
 }
