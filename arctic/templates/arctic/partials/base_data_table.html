@@ -8,8 +8,24 @@
                 <fieldset type="get">
                     <div class="page-filters row">
                         <div class="col">
-                            <div class="form-group">
-                                <input class="form-control" id="id_search" name="search" placeholder="Search.." type="text">
+{#      ----------      TODO: create partial and hook it up to backend      ----------              #}
+                            <label class="sr-only" for="search">Search</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon">&#128269;</div>
+                                <input type="text" class="form-control" id="search" placeholder="Search">
+                                <a class="input-group-addon" class="arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-title="Test form" data-popover_content_element="#advanced_search">&equiv;</a>
+                            </div>
+                            <div class="artic_toggle_form hidden" id="advanced_search" hidden>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput">Example label</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput"
+                                           placeholder="Example input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formGroupExampleInput2">Another label</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput2"
+                                           placeholder="Another input">
+                                </div>
                             </div>
                         </div>
                         <div class="col col-auto">
@@ -18,6 +34,17 @@
                             </button>
                         </div>
                     </div>
+
+                    <script>
+                        jQuery('[data-toggle="popover"]').popover({
+                            container: 'body',
+                            content: function(){
+                                var selector = $(this).data('popover_content_element');
+                                return $(selector).contents().clone();
+                            },
+                            html: true
+                        })
+                    </script>
                 </fieldset>
             </form>
         {% endif %}
