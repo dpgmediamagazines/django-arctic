@@ -7,7 +7,11 @@
             <form action="" method="GET" class="col">
                 <fieldset type="get">
                     <div class="page-filters row">
-                        {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" id="id_search" name="search" placeholder="Search.." type="text">
+                            </div>
+                        </div>
                         <div class="col col-auto">
                             <button type="submit" class="btn btn-secondary">
                                 <i class="fa fa-search"></i>

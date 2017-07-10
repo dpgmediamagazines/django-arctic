@@ -44,7 +44,7 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
 
-    filter_fields = ['published']
+    search_fields = ['published']
     permission_required = "view_article"
 
     def get_category_field(self, row):

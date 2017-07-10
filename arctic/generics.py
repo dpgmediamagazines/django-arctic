@@ -3,10 +3,13 @@ from __future__ import (division, unicode_literals)
 from collections import OrderedDict
 
 import extra_views
+import operator
+from functools import reduce
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
+from django.db.models import Q
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
 from django.shortcuts import (redirect, render, resolve_url)
@@ -17,7 +20,6 @@ from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
 from arctic.mixins import FormMediaMixin
-from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
 from .utils import (find_attribute, get_field_class, find_field_meta,
@@ -263,8 +265,8 @@ class ListView(View, base.ListView):
     """
     template_name = 'arctic/base_list.html'
     fields = None  # Which fields should be shown in listing
-    filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
+    advanced_search_form = None  # Custom form for advanced search
     ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     action_links = []  # "Action" links on item level. For example "Edit"
@@ -283,10 +285,15 @@ class ListView(View, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        if self.get_filter_fields() or self.get_search_fields():
-            filterset_class = self.get_filterset_class()
-            self.filterset = self.get_filterset(filterset_class)
-            self.object_list = self.filterset.qs
+        value = self.request.GET.get('search')
+
+        # simple search
+        if self.get_search_fields() and value:
+            q_list = []
+            for field_name in self.search_fields:
+                q_list.append(Q(**{field_name + '__icontains': value}))
+
+            self.object_list = self.get_queryset().filter(reduce(operator.or_, q_list))
         else:
             self.object_list = self.get_queryset()
 
@@ -339,11 +346,11 @@ class ListView(View, base.ListView):
         """
         return self.ordering_fields
 
-    def get_filter_fields(self):
+    def get_advanced_search_form(self):
         """
-        Hook to dynamically change the fields that can be filtered
+        Hook to dynamically change the advanced search form
         """
-        return self.filter_fields
+        return self.advanced_search_form
 
     def get_search_fields(self):
         """
@@ -568,40 +575,6 @@ class ListView(View, base.ListView):
         return [f for f in fields if f.lstrip('-')
                 in self.get_ordering_fields()]
 
-    def get_filterset_class(self):
-        if not self.get_filter_fields() and not self.get_search_fields():
-            return None
-
-        return filterset_factory(
-            model=self.model or self.queryset.model,
-            fields=self.get_filter_fields(),
-            search_fields=self.get_search_fields()
-        )
-
-    def get_filterset(self, filterset_class):
-        """
-        Returns an instance of the filterset to be used in this view.
-        """
-        kwargs = self.get_filterset_kwargs(filterset_class)
-        return filterset_class(**kwargs)
-
-    def get_filterset_kwargs(self, filterset_class):
-        """
-        Returns the keyword arguments for instantiating the filterset.
-        """
-        data = self.request.GET.copy()
-        for key in self.request.GET:
-            if not data[key]:
-                data.pop(key)
-
-        kwargs = {
-            'data': data,
-            'queryset': self.get_queryset(),
-        }
-        if self.prefix:
-            kwargs['prefix'] = self.prefix
-        return kwargs
-
     def get_page_title(self):
         if not self.page_title:
             return capfirst(self.object_list.model._meta.verbose_name_plural)
@@ -616,9 +589,8 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_filter_fields() or self.get_search_fields():
+        if self.get_search_fields():
             context['has_filter'] = True
-            context['filter'] = self.filterset
         return context
 
 
