@@ -20,6 +20,9 @@ class CountriesDataSet(RemoteDataSet):
         data = r.read().decode("utf-8")
         return json.loads(data)[offset:limit]
 
+    def __len__(self):
+        return len(self.get(1, -1))
+
 
 class CountryListView(DataListView):
     paginate_by = 5
