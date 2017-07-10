@@ -288,12 +288,15 @@ class ListView(View, base.ListView):
         value = self.request.GET.get('search')
 
         # simple search
-        if self.get_search_fields() and value:
-            q_list = []
-            for field_name in self.search_fields:
-                q_list.append(Q(**{field_name + '__icontains': value}))
+        if value:
+            if self.get_advanced_search_form():
+                self.object_list = self.get_queryset().self.get_advanced_search_form().get_search_filter(self.request)
+            elif self.get_search_fields():
+                q_list = []
+                for field_name in self.search_fields:
+                    q_list.append(Q(**{field_name + '__icontains': value}))
 
-            self.object_list = self.get_queryset().filter(reduce(operator.or_, q_list))
+                self.object_list = self.get_queryset().filter(reduce(operator.or_, q_list))
         else:
             self.object_list = self.get_queryset()
 
@@ -589,7 +592,8 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_search_fields():
+        context['search_form'] = self.get_advanced_search_form()
+        if self.get_search_fields() or self.get_advanced_search_form():
             context['has_filter'] = True
         return context
 
