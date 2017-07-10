@@ -11,7 +11,7 @@
     {% block control_group %}
 
         {% if not layout %}
-            <div class="row justify-content-center {% if field.errors %}error{% endif %}">
+            <div class="{% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
             <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">

@@ -21,13 +21,13 @@
 .table-responsive {
   @include media-breakpoint-down(md) {
       display: table; //bootstraap sets the display to block and that causes problems it will be fixed in a version update
-    }
+  }
 }
 
 //Global block wrapper for every page_title
 .content-wrapper {
     padding: 12px;
-    max-width: 1140px; //define max-width variable
+    max-width: 1180px; //define max-width variable
     margin-left: auto;
     margin-right: auto;
 }
@@ -40,8 +40,8 @@
     background-color: white;
 
     &__header {
-        padding: 12px;
         padding-bottom: 24px;
+        margin-left: -48px;
     }
 
     &__title {
@@ -55,20 +55,25 @@
         font-size: 13px;
         margin-bottom: 0px;
     }
+}
 
-    &__content {
-        padding: 12px;
-        padding-top: 0;
-    }
+.form-block {
+    position: relative;
+    margin-bottom: 1rem;
+}
 
-    &__form-actions {
-        padding: 12px;
+.form-size {
+    max-width: 100%;
+    padding: 0 12px;
+    @include media-breakpoint-up(md) {
+        max-width: 70%;
+        margin: auto;
+        padding: 0;
     }
 }
 
 
 //forms
 .fieldset-default {
-    padding: 0 12px 12px 12px;
-    margin-bottom: 1rem;
+    padding: 24px 0;
 }

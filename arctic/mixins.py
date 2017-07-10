@@ -201,7 +201,7 @@ class LayoutMixin(object):
                 raise ImproperlyConfigured('The fieldset name does not '
                                            'support more than one | sign. '
                                            'It\'s meant to separate a '
-                                           'fieldset from it\'s '
+                                           'fieldset from its '
                                            'description.')
 
             title = fieldset
