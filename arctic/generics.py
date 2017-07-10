@@ -289,13 +289,11 @@ class ListView(View, base.ListView):
         # simple search
         if value:
             if self.get_advanced_search_form():
-                form_filter = self.get_advanced_search_form()()\
-                    .get_search_filter(self.request)
-                self.object_list = self.get_queryset().filter(form_filter)
+                form = self.get_advanced_search_form()(data=self.request.GET)
+                self.object_list = self.get_queryset().filter(form.get_search_filter())
             elif self.get_search_fields():
-                form_filter = self.get_simple_search_form()(search_fields=self.get_search_fields())\
-                    .get_search_filter(self.request)
-                self.object_list = self.get_queryset().filter(form_filter)
+                form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+                self.object_list = self.get_queryset().filter(form.get_search_filter())
         else:
             self.object_list = self.get_queryset()
 

@@ -11,8 +11,8 @@ class SimpleSearchForm(forms.Form):
         super(SimpleSearchForm, self).__init__(*args, **kwargs)
         self.search_fields = search_fields
 
-    def get_search_filter(self, request):
-        value = request.GET.get('search')
+    def get_search_filter(self):
+        value = self.data.get('search')
         q_list = []
         for field_name in self.search_fields:
             q_list.append(Q(**{field_name + '__icontains': value}))
