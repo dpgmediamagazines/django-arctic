@@ -12,7 +12,8 @@
 
 {% block content %}
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
-        <fieldset type="post">
+        <fieldset type="post" class="fieldset-default arctic-card">
+            <div class="form-size">
             {% csrf_token %}
             {% block form %}
                 {% block form_validation %}
@@ -42,10 +43,10 @@
             {% endblock inlines %}
 
             {% block extra_forms %} {% endblock %}
-
+            {# TODO move form-actions to it's own section #}
             {% block form_actions %}
-            <div class="row align-center">
-                <div class="small-6 medium-4 columns">
+            <div class="row justify-content-center">
+                <div class="col-sm-6 col-md-4 col">
                     {% if links %}
                         {% for link in links %}
                             {% if object.pk %}
@@ -58,12 +59,14 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-            <div class="small-6 medium-4 columns text-right">
-                {% block form_actions_buttons %}
-                {% endblock %}
-                <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
+                <div class="col-sm-6 col-md-4 col text-right">
+                    {% block form_actions_buttons %}
+                    {% endblock %}
+                    <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
+                </div>
             </div>
             {% endblock form_actions %}
+            </div>
         </fieldset>
     </form>
 
