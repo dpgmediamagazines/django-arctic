@@ -85,9 +85,9 @@ $sidebar-width: 15em;
     color: rgba(0, 0, 0, 0.5);
 
     > :after {
-        border-right: 0.9rem solid $body-bg;
-        border-top: 0.9rem solid transparent;
-        border-bottom: 0.9rem solid transparent;
+        border-right: 0.8rem solid $body-bg;
+        border-top: 0.8rem solid transparent;
+        border-bottom: 0.8rem solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
