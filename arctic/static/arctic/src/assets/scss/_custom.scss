@@ -79,6 +79,7 @@ $brand-inverse:             $gray-dark !default;
 
 // Arctic specific colors
 
+$gray-medium:          #9A9A9A;
 $highlight-background: var(--highlight-background, #6EB5C0);
 $highlight-color:      var(--highlight-color, $gray-lighter);
 
@@ -279,8 +280,8 @@ $list-inline-padding: 5px !default;
 $table-cell-padding:            .75rem;
 $table-cell-padding-sm:         .3rem !default;
 
-$table-bg:                      rgba($black,.05);
-$table-accent-bg:               white;
+$table-bg:                      white !default;
+$table-accent-bg:               rgba($black,.05) !default;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 

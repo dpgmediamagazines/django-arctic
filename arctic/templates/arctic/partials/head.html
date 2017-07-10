@@ -20,7 +20,6 @@
     {% endif %}
     {% if HIGHLIGHT_COLOR %}
         .highlight-background,
-        table tfoot, table thead,
         .accordion-item.is-active, .accordion-item:hover,
         .accordion-title:focus, .accordion-title:hover,
         .off-canvas .side-menu>li.sub--collapsed ul.active:before,
@@ -28,10 +27,6 @@
         .selectize-control.multi .selectize-input .item,
         .label {
             background-color: {{ HIGHLIGHT_COLOR }};
-        }
-
-        table thead {
-            border-color: {{ HIGHLIGHT_COLOR }};
         }
 
         .primary-color,
