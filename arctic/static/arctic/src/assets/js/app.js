@@ -53,51 +53,6 @@ function django2datepicker(django_format) {
     return datepicker_format;
 }
 
-function inlineWidget(css_class, template, dict, list_separator) {
-    $('.inline-widget.' + css_class).html(function(i, content) {
-        var has_link = false;
-        var text = $(content).text();
-        var result = "";
-        if ($(content).attr('href')) {
-            text = $(content).children(':first').text();
-            has_link = true;
-        }
-
-        var text_list = [text];
-        if (list_separator) {
-            text_list = text.split(list_separator);
-        }
-
-        for (i = 0; i < text_list.length; i++)
-        {
-            var item = text_list[i];
-            if (list_separator) {
-                item += list_separator;
-            }
-
-            if (!dict) {
-                item = template.replaceAll('{{ key }}', text_list[i]);
-            }
-            else {
-                var lower_dict = lowerCaseKeys(dict);
-                var lower_text_item = text_list[i].toLowerCase();
-
-                if (lower_text_item in lower_dict) {
-                    item = template.replaceAll('{{ value }}', lower_dict[lower_text_item]);
-                    item = item.replaceAll('{{ key }}', text_list[i]);
-                }
-            }
-            result += item;
-        }
-
-        if (has_link) {
-            result = $(content).empty().append(result);
-        }
-
-        return result;
-    });
-}
-
 function set_input_widgets() {
     var s = $('.js-selectize');
     if ( s.length ) {
@@ -182,19 +137,6 @@ function set_input_widgets() {
 
 // jquery stuff goes here
 $(document).ready(function() {
-
-    // Toggle menu burger to cross
-    var canvas = $( '.off-canvas' );
-    var hamburger = $('#menu-button');
-
-    canvas.on('opened.zf.offcanvas', function () {
-        hamburger.addClass('is-active');
-    });
-
-    canvas.on('closed.zf.offcanvas', function () {
-        hamburger.removeClass('is-active');
-    });
-
     // Stepper input
     var $stepperInput = $('.stepper-input input');
 

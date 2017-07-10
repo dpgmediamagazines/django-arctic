@@ -13,8 +13,8 @@
 
 
 {% block body %}
-<div class="row align-center align-middle">
-    <div class="medium-6 large-4 columns">
+<div class="row justify-content-center text-center">
+    <div class="col-lg-4 col-sm-6 col">
         <form action=".?next={{ next }}" method="post">
             <fieldset type="get">
                 {% csrf_token %}
@@ -28,24 +28,22 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <div class="row column">
-                    <div class="log-in-form">
+                  <div class="log-in-form form-group">
                         <h4 class="text-center">{{ SITE_NAME }} Login</h4>
                         <br />
                         {% block form_fields %}
                         <p>
-                            <input type="text" value="{{ username }}" name="username" id="username" placeholder="Username">
+                            <input type="text" class="form-control" value="{{ username }}" name="username" id="username" placeholder="Username">
                         </p>
                         <p>
-                            <input type="password" name="password" type="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" type="password" placeholder="Password">
                         </p>
                         {% endblock %}
-                        <p><button type="submit" class="button expanded">Login</button></p>
+                        <p><button type="submit" class="btn btn-primary btn-block">Login</button></p>
                         {% block forgot_password %}
                         <p class="text-center"><a href="#">Forgot your password?</a></p>
                         {% endblock %}
-                    </div>
-                </div>
+                  </div>
             </fieldset>
         </form>
   </div>

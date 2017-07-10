@@ -1,11 +1,12 @@
 {% load arctic_tags %}
 
-<div class="row align-center">
-    <div class="small-12 medium-8 columns">
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
         {% if layout %}
             {% for index, layout_item in layout.items %}
                 {% if layout_item.fieldset.collapsible %}
-                    <fieldset class="fieldset-default collapse">
+                    {# This does not seem to be working in the current version remove or make it work? #}
+                    <fieldset class="fieldset-default">
                 {% else %}
                     <fieldset class="fieldset-default">
                 {% endif %}

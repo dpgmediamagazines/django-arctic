@@ -4,8 +4,17 @@
 @import "custom";
 @import "bootstrap";
 
+//partials
 @import "partials/offcanvas";
 @import "partials/burger";
+@import "partials/header";
+@import "partials/_temp";
+
+//pages
+@import "pages/_login";
+
+//vendor
+@import "components/selectize/_selectize";
 
 @import "partials/temp";
 

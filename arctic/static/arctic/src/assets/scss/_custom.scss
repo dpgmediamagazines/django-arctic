@@ -79,8 +79,10 @@ $brand-inverse:             $gray-dark !default;
 
 // Arctic specific colors
 
-$highlight-background: var(--highlight-background, #6EB5C0);
-$highlight-color:      var(--highlight-color, $gray-lighter);
+$sidebar-background:   var(--sidebar-background, #6EB5C0);
+$sidebar-color:        var(--sidebar-color, $gray-lighter);
+$highlight-background: var(--highlight-background, #C1C1D1);
+$highlight-color:      var(--highlight-color, #FFFFFF);
 
 
 // Options
@@ -124,17 +126,17 @@ $sizes: (
 //
 // Settings for the `<body>` element.
 
-$body-bg:       $white !default;
+$body-bg:       $gray-lightest !default;
 $body-color:    $gray-dark !default;
 
 // Links
 //
 // Style anchor elements.
 
-$link-color:            $brand-primary !default;
+$link-color:            #2199e8;
 $link-decoration:       none !default;
 $link-hover-color:      darken($link-color, 15%) !default;
-$link-hover-decoration: underline !default;
+$link-hover-decoration: none;
 
 
 // Grid breakpoints
@@ -212,7 +214,7 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
 $font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 $font-family-base:       $font-family-sans-serif !default;
 
-$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-base: .875rem;
 $font-size-lg:   1.25rem !default;
 $font-size-sm:   .875rem !default;
 $font-size-xs:   .75rem !default;
@@ -276,11 +278,11 @@ $list-inline-padding: 5px !default;
 //
 // Customizes the `.table` component with basic values, each used across all table variations.
 
-$table-cell-padding:            .75rem !default;
+$table-cell-padding:            .75rem;
 $table-cell-padding-sm:         .3rem !default;
 
-$table-bg:                      transparent !default;
-$table-accent-bg:               rgba($black,.05) !default;
+$table-bg:                      rgba($black,.05);
+$table-accent-bg:               white;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 
@@ -493,7 +495,7 @@ $form-feedback-invalid-color: $brand-danger !default;
 // Dropdown menu container and contents.
 
 $dropdown-min-width:             10rem !default;
-$dropdown-padding-y:             .5rem !default;
+$dropdown-padding-y:             .2rem !default;
 $dropdown-margin-top:            .125rem !default;
 $dropdown-bg:                    $white !default;
 $dropdown-border-color:          rgba($black,.15) !default;
@@ -835,11 +837,11 @@ $figure-caption-color:     $gray-light !default;
 
 // Breadcrumbs
 
-$breadcrumb-padding-y:          .75rem !default;
-$breadcrumb-padding-x:          1rem !default;
+$breadcrumb-padding-y:          .5rem !default;
+$breadcrumb-padding-x:          0 !default;
 $breadcrumb-item-padding:       .5rem !default;
 
-$breadcrumb-bg:                 $gray-lighter !default;
+$breadcrumb-bg:                 inherit !default;
 $breadcrumb-divider-color:      $gray-light !default;
 $breadcrumb-active-color:       $gray-light !default;
 $breadcrumb-divider:            "/" !default;
