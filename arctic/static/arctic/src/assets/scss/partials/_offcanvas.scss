@@ -3,7 +3,7 @@
  * --------------------------------------------------
  */
 
-$sidebar-width: 15em;
+$sidebar-width: 200px;
 
 
 @each $bp in map-keys($grid-breakpoints) {
@@ -18,66 +18,30 @@ $sidebar-width: 15em;
     }
   }
 }
+.row-offcanvas {
+    &.active {
+        #sidebar {
+            transform:translateX($sidebar-width);
+        }
 
-
-@include media-breakpoint-down(sm) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all .25s ease-out;
-         -o-transition: all .25s ease-out;
-            transition: all .25s ease-out;
-  }
-
-  .row-offcanvas-right {
-    right: 0;
-  }
-
-  .row-offcanvas-left {
-    left: 0;
-  }
-
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -100%; /* 12 columns */
-  }
-
-  .row-offcanvas-right.active
-  .sidebar-offcanvas {
-    right: -$sidebar-width; /* 6 columns */
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -100%; /* 12 columns */
-  }
-
-  .row-offcanvas-left.active
-  .sidebar-offcanvas {
-    left: -$sidebar-width; /* 6 columns */
-  }
-
-  .row-offcanvas-right.active {
-    right: $sidebar-width; /* 6 columns */
-  }
-
-  .row-offcanvas-left.active {
-    left: $sidebar-width; /* 6 columns */
-  }
-
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: $sidebar-width; /* 6 columns */
-  }
+        .content-offcanvas {
+            transform:translateX($sidebar-width);
+        }
+    }
 }
 
-
 #sidebar {
+    position: fixed;
     max-width: $sidebar-width;
-    min-width: $sidebar-width;
     min-height: 100vh;
     background-color: $sidebar-background;
     color: $sidebar-color;
+    left: #{-$sidebar-width};
+    transition: transform .4s ease;
+
+    @include media-breakpoint-up(lg) {
+        left: 0;
+    }
 }
 
 @mixin active-menu-item {
@@ -85,9 +49,9 @@ $sidebar-width: 15em;
     color: rgba(0, 0, 0, 0.5);
 
     > :after {
-        border-right: 0.9rem solid $body-bg;
-        border-top: 0.9rem solid transparent;
-        border-bottom: 0.9rem solid transparent;
+        border-right: 0.8rem solid $body-bg;
+        border-top: 0.8rem solid transparent;
+        border-bottom: 0.8rem solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
@@ -167,5 +131,14 @@ $sidebar-width: 15em;
         font-size: $font-size-lg;
         font-weight: normal;
         padding-top: 0.5em;
+    }
+}
+
+.content-offcanvas {
+    min-height: 100vh;
+    transition: transform .4s ease;
+
+    @include media-breakpoint-up(lg) {
+        margin-left: $sidebar-width;
     }
 }

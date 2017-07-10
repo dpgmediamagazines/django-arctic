@@ -67,7 +67,7 @@ $gray-dark:                 #292b2c !default;
 $gray:                      #464a4c !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
-$gray-lightest:             #f7f7f9 !default;
+$gray-lightest:             #f7f7f7;
 
 // Reassign color vars to semantic color scheme
 $brand-primary:             $blue !default;
@@ -78,7 +78,7 @@ $brand-danger:              $red !default;
 $brand-inverse:             $gray-dark !default;
 
 // Arctic specific colors
-
+$gray-medium:          #9A9A9A;
 $sidebar-background:   var(--sidebar-background, #6EB5C0);
 $sidebar-color:        var(--sidebar-color, $gray-lighter);
 $highlight-background: var(--highlight-background, #C1C1D1);
@@ -173,7 +173,7 @@ $container-max-widths: (
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:               12 !default;
-$grid-gutter-width-base:     30px !default;
+$grid-gutter-width-base:     20px;
 $grid-gutter-widths: (
   xs: $grid-gutter-width-base,
   sm: $grid-gutter-width-base,
@@ -281,8 +281,8 @@ $list-inline-padding: 5px !default;
 $table-cell-padding:            .75rem;
 $table-cell-padding-sm:         .3rem !default;
 
-$table-bg:                      rgba($black,.05);
-$table-accent-bg:               white;
+$table-bg:                      white !default;
+$table-accent-bg:               $gray-lightest;
 $table-hover-bg:                rgba($black,.075) !default;
 $table-active-bg:               $table-hover-bg !default;
 
