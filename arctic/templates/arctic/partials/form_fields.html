@@ -1,45 +1,46 @@
 {% load arctic_tags %}
 
-<div class="row justify-content-center">
-    <div class="col-sm-12 col-md-8">
         {% if layout %}
+            {# TODO Move layout to it's own template file #}
             {% for index, layout_item in layout.items %}
-                {% if layout_item.fieldset.collapsible %}
-                    {# This does not seem to be working in the current version remove or make it work? #}
-                    <fieldset class="fieldset-default">
-                {% else %}
-                    <fieldset class="fieldset-default">
-                {% endif %}
-                {% if layout_item.fieldset.title %}
-                        <legend>{{ layout_item.fieldset.title }}</legend>
-                {% endif %}
-
-                {% if layout_item.fieldset.description %}
-                    <p>{{ layout_item.fieldset.description }}</p>
-                {% endif %}
-
-                {% for row in layout_item.rows %}
-                    <div class="row {% if field.errors %}error{% endif %}">
-                        {% if row|typename == 'dict' %}
-                            {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column %}
-                        {% else %}
-                            {% for field in row %}
-                                {% include 'arctic/partials/form_field.html' with field=field.field style=style column=field.column %}
-                            {% endfor %}
+                <div class="form-block">
+                    {% if layout_item.fieldset.title or layout_item.fieldset.description %}
+                        <div class="arctic-card__form-header">
+                    {% endif %}
+                        {% if layout_item.fieldset.title %}
+                            <h6 class="arctic-card__title">{{ layout_item.fieldset.title }}</h6>
                         {% endif %}
+                        {% if layout_item.fieldset.description %}
+                            <p class="arctic-card__subtitle">{{ layout_item.fieldset.description }}</p>
+                        {% endif %}
+                    {% if layout_item.fieldset.title or layout_item.fieldset.description %}
+                        </div>
+                        <div class="arctic-card__placeholder
+                        {%if layout_item.fieldset.title and layout_item.fieldset.description %}
+                        arctic-card__placeholder--big {% else %}
+                        arctic-card__placeholder--small
+                        {% endif %}"></div>
+                    {% endif %}
+                    <div  class="{% if layout_item.fieldset.collapsible %} test-collapse {% endif %}">
+                        {% for row in layout_item.rows %}
+                            <div class="row{% if field.errors %} error {% endif %}">
+                                {% if row|typename == 'dict' %}
+                                    {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column %}
+                                {% else %}
+                                    {% for field in row %}
+                                        {% include 'arctic/partials/form_field.html' with field=field.field style=style column=field.column %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-
-                </fieldset>
+                </div>
             {% endfor %}
-
         {% else %}
-            <fieldset class="fieldset-default">
-            {% for field in form %}
-                {% include 'arctic/partials/form_field.html' with field=field%}
-            {% endfor %}
-            </fieldset>
-
+            {# TODO Move this section to it's own template file #}
+            <div class="form-block">
+                {% for field in form %}
+                    {% include 'arctic/partials/form_field.html' with field=field%}
+                {% endfor %}
+            </div>
         {% endif %}
-    </div>
-</div>

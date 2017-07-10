@@ -46,21 +46,25 @@
                             {% endif %}
                         </ul>
                     </header>
-                    {% if breadcrumbs %}
-                        <nav class="breadcrumb">
-                            {% for name, url in breadcrumbs %}
-                                {% if forloop.last %}
-                                    <span class="breadcrumb-item active">
-                                        {{ name }}
-                                    </span>
-                                {% else %}
-                                    <a class="breadcrumb-item" href="{% url url %}">
-                                        {{ name }}
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </nav>
-                    {% endif %}
+                    {% endblock %}
+                    <div class="content-wrapper">
+                    {% block breadcrumbs%}
+                        {% if breadcrumbs %}
+                            <nav class="breadcrumb">
+                                {% for name, url in breadcrumbs %}
+                                    {% if forloop.last %}
+                                        <span class="breadcrumb-item active">
+                                            {{ name }}
+                                        </span>
+                                    {% else %}
+                                        <a class="breadcrumb-item" href="{% url url %}">
+                                            {{ name }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </nav>
+                        {% endif %}
+                    {% endblock %}
 
 <!--                    {# page page description #}
                     {% if page_description %}
@@ -107,9 +111,8 @@
                         {% endfor %}
                     {% endif %}
 >>>>>>> b7dab0d53be67e4c3dd010567e67252ec13dfc8c -->
-                    {% endblock %}
-
-                    {% block content %}content here{% endblock %}
+                        {% block content %}content here{% endblock %}
+                    </div>
                 </div>
             </div>
         </div>
