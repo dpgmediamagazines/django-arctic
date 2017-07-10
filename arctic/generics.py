@@ -3,13 +3,10 @@ from __future__ import (division, unicode_literals)
 from collections import OrderedDict
 
 import extra_views
-import operator
-from functools import reduce
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
 from django.core.urlresolvers import (NoReverseMatch, reverse)
-from django.db.models import Q
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
 from django.shortcuts import (redirect, render, resolve_url)
@@ -19,6 +16,7 @@ from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
+from arctic.forms import SimpleSearchForm
 from arctic.mixins import FormMediaMixin
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
@@ -266,6 +264,7 @@ class ListView(View, base.ListView):
     template_name = 'arctic/base_list.html'
     fields = None  # Which fields should be shown in listing
     search_fields = []
+    simple_search_form = SimpleSearchForm
     advanced_search_form = None  # Custom form for advanced search
     ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
@@ -290,13 +289,13 @@ class ListView(View, base.ListView):
         # simple search
         if value:
             if self.get_advanced_search_form():
-                self.object_list = self.get_queryset().self.get_advanced_search_form().get_search_filter(self.request)
+                form_filter = self.get_advanced_search_form()()\
+                    .get_search_filter(self.request)
+                self.object_list = self.get_queryset().filter(form_filter)
             elif self.get_search_fields():
-                q_list = []
-                for field_name in self.search_fields:
-                    q_list.append(Q(**{field_name + '__icontains': value}))
-
-                self.object_list = self.get_queryset().filter(reduce(operator.or_, q_list))
+                form_filter = self.get_simple_search_form()(search_fields=self.get_search_fields())\
+                    .get_search_filter(self.request)
+                self.object_list = self.get_queryset().filter(form_filter)
         else:
             self.object_list = self.get_queryset()
 
@@ -348,6 +347,12 @@ class ListView(View, base.ListView):
         Hook to dynamically change the fields that can be ordered
         """
         return self.ordering_fields
+
+    def get_simple_search_form(self):
+        """
+        Hook to dynamically change the simple search form
+        """
+        return self.simple_search_form
 
     def get_advanced_search_form(self):
         """
@@ -592,7 +597,8 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        context['search_form'] = self.get_advanced_search_form()
+        context['simple_search_form'] = self.get_simple_search_form()
+        context['advanced_search_form'] = self.get_advanced_search_form()
         if self.get_search_fields() or self.get_advanced_search_form():
             context['has_filter'] = True
         return context
