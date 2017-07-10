@@ -43,26 +43,29 @@
 
             {% block extra_forms %} {% endblock %}
 
+            {# TODO move form-actions to it's own section #}
             {% block form_actions %}
-            <div class="row align-center">
-                <div class="small-6 medium-4 columns">
-                    {% if links %}
-                        {% for link in links %}
-                            {% if object.pk %}
-                                <a class="button secondary" href="{% arctic_url link.1 object.pk %}">
-                            {% else %}
-                                <a class="button secondary" href="{% arctic_url link.1 %}">
-                            {% endif %}
-                                {{ link.0 }}
-                            </a>
-                        {% endfor %}
-                    {% endif %}
+            <div class="col">
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 col-md-4 col">
+                        {% if links %}
+                            {% for link in links %}
+                                {% if object.pk %}
+                                    <a class="button secondary" href="{% arctic_url link.1 object.pk %}">
+                                {% else %}
+                                    <a class="button secondary" href="{% arctic_url link.1 %}">
+                                {% endif %}
+                                    {{ link.0 }}
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6 col-md-4 col text-right">
+                        {% block form_actions_buttons %}
+                        {% endblock %}
+                        <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
+                    </div>
                 </div>
-            <div class="small-6 medium-4 columns text-right">
-                {% block form_actions_buttons %}
-                {% endblock %}
-                <input type="submit" name="save" value="Submit" class="button" id="submit-id-save" />
-            </div>
             {% endblock form_actions %}
         </fieldset>
     </form>

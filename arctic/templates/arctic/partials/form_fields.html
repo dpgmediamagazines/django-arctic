@@ -3,10 +3,11 @@
 <div class="row justify-content-center">
     <div class="col-sm-12">
         {% if layout %}
+            {# TODO Move layout to it's own template file #}
             {% for index, layout_item in layout.items %}
                 <fieldset class="fieldset-default arctic-card {% if layout_item.fieldset.collapsible %} test-collapse{% endif %}">
                     <div class="row justify-content-center">
-                        <div class="col-sm-12 col-md-8 justify-content-center">
+                        <div class="col-sm-12 col-md-8">
                             {% if layout_item.fieldset.title or layout_item.fieldset.description %}
                                 <div class="arctic-card__header">
                             {% endif %}
@@ -35,14 +36,17 @@
                     </div>
                 </fieldset>
             {% endfor %}
-
         {% else %}
-            <fieldset class="fieldset-default">
-            {% for field in form %}
-                {% include 'arctic/partials/form_field.html' with field=field%}
-            {% endfor %}
+            {# TODO Move this section to it's own template file #}
+            <fieldset class="fieldset-default arctic-card">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-8">
+                        {% for field in form %}
+                            {% include 'arctic/partials/form_field.html' with field=field%}
+                        {% endfor %}
+                    </div>
+                </div>
             </fieldset>
-
         {% endif %}
     </div>
 </div>
