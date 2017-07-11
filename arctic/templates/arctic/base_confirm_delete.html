@@ -13,7 +13,7 @@
 {% block content %}
     <div>
         {% if can_delete %}
-            <form class="warning callout text-center" action="" method="post">
+            <form class="alert alert-warning text-center" action="" method="post">
                 <fieldset type="post">
                     {% csrf_token %}
 
@@ -24,13 +24,13 @@
 
                     <div class="button-group text-center">
                         {# Javascript cause forms, get filled values back #}
-                        <a href="#" onclick="window.history.go(-1); return false;" class="secondary button">Cancel</a>
-                        <input type="submit" value="Delete" class="alert button" />
+                        <a href="#" onclick="window.history.go(-1); return false;" class="btn btn-secondary">Cancel</a>
+                        <input class="btn btn-danger" type="submit" value="Delete" class="alert button" />
                     </div>
                 </fieldset>
             </form>
         {% else %}
-            <section class="warning callout">
+            <section class="alert alert-warning">
                 <header>
                     <h5>{{ collector_message }}</h5>
                 </header>
@@ -42,7 +42,7 @@
                 </ul>
 
                 {# Javascript cause forms, get filled values back #}
-                <a href="#" onclick="history.go(-1)" class="secondary button">Back</a>
+                <a href="#" onclick="history.go(-1)" class="btn btn-secondary">Back</a>
 
             </section>
         {% endif %}

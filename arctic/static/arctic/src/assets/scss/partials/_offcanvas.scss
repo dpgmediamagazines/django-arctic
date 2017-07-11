@@ -140,5 +140,6 @@ $sidebar-width: 200px;
 
     @include media-breakpoint-up(lg) {
         margin-left: $sidebar-width;
+        width: calc(100% - 200px);
     }
 }
