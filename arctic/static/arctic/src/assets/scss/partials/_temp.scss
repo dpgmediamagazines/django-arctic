@@ -20,9 +20,7 @@
 }
 
 .table-responsive {
-  @include media-breakpoint-down(md) {
-      display: table; //bootstraap sets the display to block and that causes problems it will be fixed in a version update
-  }
+    overflow-x: auto; //turn overflow on on all screen resolutions
 }
 
 label {

@@ -49,73 +49,75 @@
                         </h4>
                     </div>
                 {% endif %}
-                <table class="table table-striped table-responsive table-hover">
-                    <thead>
-                        <tr>
-                            {% for item in list_header %}
-                                <th>
-                                    {% if item.order_url %}
-                                        <a href="{{ item.order_url }}">{{ item.label }}&nbsp;
-                                            {% if item.order_direction == 'desc' %}
-                                                <i class="fa fa-sort-desc"></i>
-                                            {% elif item.order_direction == 'asc' %}
-                                                <i class="fa fa-sort-asc"></i>
-                                            {% else %}
-                                                <i class="fa fa-sort"></i>
-                                            {% endif %}</a>
-                                    {% else %}
-                                        {{ item.label }}
-                                    {% endif %}
-                                </th>
-                            {% endfor %}
-
-                            {% if has_action_links %}
-                                <th>{% trans "Actions" %}</th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {# TODO remove test for #}
-                        {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
-                        {% for row in list_items %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
                             <tr>
-                                {% for column in row %}
-                                    {% if column.type == 'field' %}
-                                        <td {% if column.class %}class="{{ column.class }}"{%endif%}>
-                                            {% if column.url %}
-                                                <a href="{{ column.url }}">
-                                            {% endif %}
-                                            {% if column.value|typename != 'list' %}
-                                                {{ column.value|default_if_none:"" }}
-                                            {% else %}
-                                                {% for item in column.value %}
-                                                    <span class="badge highlight-background">{{ item }}</span>
-                                                {% endfor %}
-                                            {% endif %}
-                                            {% if column.url %}
-                                                </a>
-                                            {% endif %}
-                                        </td>
-                                    {% elif column.type == 'actions' %}
-                                        <td class="actions">
-                                            {% for link in column.actions %}
-                                                <a href="{{ link.url }}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
-                                                    {% if link.icon %}
-                                                        <i class="fa {{ link.icon }} fa-lg"></i>
-                                                    {% else %}
-                                                        {{ link.label|capfirst }}
-                                                    {% endif %}
-                                                </a>
-                                                &nbsp;
-                                            {% endfor %}
-                                        </td>
-                                    {% endif %}
+                                {% for item in list_header %}
+                                    <th>
+                                        {% if item.order_url %}
+                                            <a href="{{ item.order_url }}">{{ item.label }}&nbsp;
+                                                {% if item.order_direction == 'desc' %}
+                                                    <i class="fa fa-sort-desc"></i>
+                                                {% elif item.order_direction == 'asc' %}
+                                                    <i class="fa fa-sort-asc"></i>
+                                                {% else %}
+                                                    <i class="fa fa-sort"></i>
+                                                {% endif %}</a>
+                                        {% else %}
+                                            {{ item.label }}
+                                        {% endif %}
+                                    </th>
                                 {% endfor %}
+
+                                {% if has_action_links %}
+                                    <th>{% trans "Actions" %}</th>
+                                {% endif %}
                             </tr>
-                        {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {# TODO remove test for #}
+                            {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+                            {% for row in list_items %}
+                                <tr>
+                                    {% for column in row %}
+                                        {% if column.type == 'field' %}
+                                            <td {% if column.class %}class="{{ column.class }}"{%endif%}>
+                                                {% if column.url %}
+                                                    <a href="{{ column.url }}">
+                                                {% endif %}
+                                                {% if column.value|typename != 'list' %}
+                                                    {{ column.value|default_if_none:"" }}
+                                                {% else %}
+                                                    {% for item in column.value %}
+                                                        <span class="badge highlight-background">{{ item }}</span>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% if column.url %}
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        {% elif column.type == 'actions' %}
+                                            <td class="actions">
+                                                {% for link in column.actions %}
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                                        {% if link.icon %}
+                                                            <i class="fa {{ link.icon }} fa-lg"></i>
+                                                        {% else %}
+                                                            {{ link.label|capfirst }}
+                                                        {% endif %}
+                                                    </a>
+                                                    &nbsp;
+                                                {% endfor %}
+                                            </td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div> {# small-12 columns #}
     </div> {# row #}

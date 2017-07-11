@@ -94,28 +94,10 @@
             </select>
         </div>
     </div>
-    <!-- <label for="select-state">States:</label>
-    <select id="select-state" name="state[]" multiple class="selectize" style="width:50%" placeholder="Select a state...">
-        <option value="">Select a state...</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA" selected>California</option>
-        <option value="CO">Colorado</option>
-        <option value="CT">Connecticut</option>
-        <option value="DE">Delaware</option>
-        <option value="DC">District of Columbia</option>
-        <option value="FL">Florida</option>
-        <option value="GA">Georgia</option>
-        <option value="HI">Hawaii</option>
-        <option value="ID">Idaho</option>
-        <option value="WY" selected>Wyoming</option>
-    </select> -->
 
     <hr class="clearfix"/>
     <h4 id="tooltips" data-magellan-target="tooltips">Tooltips</h4>
-    <p>The <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle.">scarabaeus</span> hung quite clear of any branches, and, if allowed to fall, would have fallen at our feet. Legrand immediately took the scythe, and cleared with it a circular space, three or four yards in diameter, just beneath the insect, and, having accomplished this, ordered Jupiter to let go the string and come down from the tree.</p>
+    <p>The <a href="#" data-toggle="tooltip" data-original-title="Fancy word for beetle" title="Fancy word for a beetle.">scarabaeus</a> hung quite clear of any branches, and, if allowed to fall, would have fallen at our feet. Legrand immediately took the scythe, and cleared with it a circular space, three or four yards in diameter, just beneath the insect, and, having accomplished this, ordered Jupiter to let go the string and come down from the tree.</p>
 
     <hr class="clearfix"/>
     <h4 id="pagination" data-magellan-target="pagination">Pagination</h4>
@@ -133,167 +115,163 @@
 
     <hr class="clearfix"/>
     <h4 id="tables" data-magellan-target="tables">Tables</h4>
-    <ul class="tabs" data-tabs id="table-tabs">
-        <li class="tabs-title"><a href="#panel1" aria-selected="true">Default table</a></li>
-        <li class="tabs-title is-active"><a href="#panel2">Horizontal scroll table</a></li>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#panel1" class="nav-link active" data-toggle="tab" role="tab">Default table</a>
+        </li>
+        <li class="nav-item">
+            <a href="#panel2" class="nav-link" data-toggle="tab" role="tab">Horizontal scroll table</a>
+        </li>
     </ul>
-    <div class="tabs-content" data-tabs-content="table-tabs">
-        <div class="tabs-panel" id="panel1">
-            <table>
-                <thead>
-                    <tr>
-                        <th width="200">Table Header</th>
-                        <th>Table Header</th>
-                        <th width="150">Table Header</th>
-                        <th width="150">Table Header</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="tab-content">
+        <div class="tab-pane active" id="panel1" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th width="200">Table Header</th>
+                            <th>Table Header</th>
+                            <th width="150">Table Header</th>
+                            <th width="150">Table Header</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="tabs-panel table-scroll is-active" id="panel2">
-            <table>
-                <thead>
-                    <tr>
-                        <th>This is the description!</th>
-                        <th>One</th>
-                        <th>Two</th>
-                        <th>Three</th>
-                        <th>Four</th>
-                        <th>Five</th>
-                        <th>Six</th>
-                        <th>Seven</th>
-                        <th>Eight</th>
-                        <th>Nine</th>
-                        <th>Ten</th>
-                        <th>Eleven</th>
-                        <th>Twelve</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="display:block; width:400px;">These are all the words that people use to describe Foundation 6!</td>
-                        <td>Cool</td>
-                        <td>Swag</td>
-                        <td>Chill</td>
-                        <td>Killer</td>
-                        <td>Rad</td>
-                        <td>Baller</td>
-                        <td>OMG</td>
-                        <td>Sweet</td>
-                        <td>Awesome</td>
-                        <td>Beast</td>
-                        <td>Dope</td>
-                        <td>Tubular</td>
-                    </tr>
-                    <tr>
-                        <td>These are some words that people use to describe other web frameworks.</td>
-                        <td>Whatevs</td>
-                        <td>Ugh.</td>
-                        <td>LOL</td>
-                        <td>K</td>
-                        <td>Aight</td>
-                        <td>Eh.</td>
-                        <td>Grrr...</td>
-                        <td>Meh.</td>
-                        <td>TTYL</td>
-                        <td>Bleh.</td>
-                        <td>Really?</td>
-                        <td>Why?</td>
-                    </tr>
-                    <tr>
-                        <td>Here are some great super heros.</td>
-                        <td>Batman</td>
-                        <td>Superman</td>
-                        <td>Spiderman</td>
-                        <td>Wonder Woman</td>
-                        <td>Hulk</td>
-                        <td>Nicolas Cage</td>
-                        <td>Antman</td>
-                        <td>Aquaman</td>
-                        <td>Captain America</td>
-                        <td>Wolverine</td>
-                        <td>Thor</td>
-                        <td>Iron Man</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Here's a footer, just in case</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+        <div class="tab-pane" id="panel2" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>This is the description!</th>
+                            <th>One</th>
+                            <th>Two</th>
+                            <th>Three</th>
+                            <th>Four</th>
+                            <th>Five</th>
+                            <th>Six</th>
+                            <th>Seven</th>
+                            <th>Eight</th>
+                            <th>Nine</th>
+                            <th>Ten</th>
+                            <th>Eleven</th>
+                            <th>Twelve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="display:block; width:400px;">These are all the words that people use to describe Foundation 6!</td>
+                            <td>Cool</td>
+                            <td>Swag</td>
+                            <td>Chill</td>
+                            <td>Killer</td>
+                            <td>Rad</td>
+                            <td>Baller</td>
+                            <td>OMG</td>
+                            <td>Sweet</td>
+                            <td>Awesome</td>
+                            <td>Beast</td>
+                            <td>Dope</td>
+                            <td>Tubular</td>
+                        </tr>
+                        <tr>
+                            <td>These are some words that people use to describe other web frameworks.</td>
+                            <td>Whatevs</td>
+                            <td>Ugh.</td>
+                            <td>LOL</td>
+                            <td>K</td>
+                            <td>Aight</td>
+                            <td>Eh.</td>
+                            <td>Grrr...</td>
+                            <td>Meh.</td>
+                            <td>TTYL</td>
+                            <td>Bleh.</td>
+                            <td>Really?</td>
+                            <td>Why?</td>
+                        </tr>
+                        <tr>
+                            <td>Here are some great super heros.</td>
+                            <td>Batman</td>
+                            <td>Superman</td>
+                            <td>Spiderman</td>
+                            <td>Wonder Woman</td>
+                            <td>Hulk</td>
+                            <td>Nicolas Cage</td>
+                            <td>Antman</td>
+                            <td>Aquaman</td>
+                            <td>Captain America</td>
+                            <td>Wolverine</td>
+                            <td>Thor</td>
+                            <td>Iron Man</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Here's a footer, just in case</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 
     <hr class="clearfix">
     <h4 id="callouts" data-magellan-target="callouts">Callouts</h4>
-    <div class="callout primary" data-closable="">
-        <h5>This is a primary panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+        <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
     </div>
-    <div class="callout secondary">
-        <h5>This is a secondary panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+        <strong>Heads up!</strong> This <a href="#" class="alert-link">alert needs your attention</a>, but it's not super important.
     </div>
-    <div class="callout success" data-closable="">
-        <h5>This is a success panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+        <strong>Warning!</strong> Better check yourself, you're <a href="#" class="alert-link">not looking too good</a>.
     </div>
-    <div class="callout warning">
-        <h5>This is a warning panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-    </div>
-    <div class="callout alert">
-        <h5>This is a alert panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-    </div>
-    <div class="callout col-sm success">
-        <h5>This is a success panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+        <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
     </div>
 
     <hr class="clearfix"/>
@@ -340,19 +318,6 @@
     <strong>Native HTML5 slider (does not work with IE9, has less styling options etc)</strong>
     <div class="row">
         <input type="range" min="1" max="100" step="1">
-    </div>
-
-    <hr class="clearfix">
-    <h4 id="meters" data-magellan-target="meters">Meters</h4>
-    <div class="row">
-        <div class="col-sm-12 col">
-            <p>Meter support is limited, has no support in Internet Explorer, Mobile Safari, or Android 2. Colors are set automaticly based on it's value</p>
-            <p>
-                <meter value="30" min="0" low="33" high="66" optimum="100" max="100"></meter>
-                <meter value="50" min="0" low="33" high="66" optimum="100" max="100"></meter>
-                <meter value="100" min="0" low="33" high="66" optimum="100" max="100"></meter>
-            </p>
-        </div>
     </div>
 
     <hr class="clearfix"/>
