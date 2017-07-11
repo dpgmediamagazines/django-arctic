@@ -19,6 +19,7 @@
         {% endif %}
         {% if tool_links %}
             <div class="col {% if has_filter %}col-auto{% endif %}">
+                <div class="form-group">
                 {% if tool_links|length > 1 %}
                     <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
                         <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
@@ -31,6 +32,7 @@
                 {% else %}
                     <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
                 {% endif %}
+                </div>
             </div>
         {% endif %}
     </div>
