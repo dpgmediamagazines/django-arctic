@@ -11,12 +11,12 @@
     {% block control_group %}
 
         {% if not layout %}
-            <div class="{% if field.errors %}error{% endif %}">
+            <div class="row {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
             <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
                 <div class="form-group">
-                    <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
+                    <div{% if field|widget_type == 'checkboxinput' %} class="checkbox"{% endif %}>
 
                         {% block widget %}
                             <!-- {{ field|widget_type }} -->
