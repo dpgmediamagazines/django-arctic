@@ -28,6 +28,9 @@
     {% endwith %}
 {% elif field|widget_type == 'selectautocomplete' %}
     {% render_field field %}
+{% elif field|widget_type == 'textarea' %}
+    {% render_field field class+="form-control" id="id_description" type="textarea" required="true" %}
 {% else %}
-    {% render_field field class+="form-control" %}
+    {% render_field field class+="form-control" id="id_title" type="text" %}
 {% endif %}
+
