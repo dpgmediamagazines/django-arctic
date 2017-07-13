@@ -11,10 +11,14 @@
     {% endblock %}
 </title>
 
+{% block arctic_head_includes %}
 <link href="{% static "arctic/dist/assets/css/arctic.css" %}" rel="stylesheet">
 {{ media.css }}
+{% endblock %}
 
+{% block arctic_extra_head_includes %}{% endblock %}
 <style>
+    {% block arctic_styles %}
     {% if TOPBAR_BACKGROUND_COLOR %}
         .topbar-background { background-color: {{ TOPBAR_BACKGROUND_COLOR }}; }
     {% endif %}
@@ -38,4 +42,6 @@
             color: {{ HIGHLIGHT_COLOR }};
         }
     {% endif %}
+    {% endblock %}
+    {% block arctic__extra_styles %}{% endblock %}
 </style>
