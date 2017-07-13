@@ -14,10 +14,23 @@ from collections import OrderedDict
 
 from arctic.loading import (get_role_model, get_user_role_model)
 from arctic.utils import view_from_url
-from arctic.widgets import SelectAutoComplete
+from arctic.widgets import SelectizeAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
+
+try:
+    ARCTIC_WIDGETS = settings.ARCTIC_WIDGETS
+except AttributeError:
+    ARCTIC_WIDGETS = {
+        'DateField': 'arctic.widgets.DatePickerInput',
+        'DateTimeField': 'arctic.widgets.DatePickerInput',
+        'TimeField': 'arctic.widgets.TimePickerInput',
+        'ChoiceField': 'arctic.widgets.Selectize',
+        'TypedChoiceField': 'arctic.widgets.Selectize',
+        'MultipleChoiceField': 'arctic.widgets.Selectize',
+        'TypedMultipleChoiceField': 'arctic.widgets.Selectize',
+    }
 
 
 class SuccessMessageMixin(object):
@@ -201,8 +214,7 @@ class LayoutMixin(object):
                 raise ImproperlyConfigured('The fieldset name does not '
                                            'support more than one | sign. '
                                            'It\'s meant to separate a '
-                                           'fieldset from its '
-                                           'description.')
+                                           'fieldset from its description.')
 
             title = fieldset
             if fieldset and fieldset[0] == '-':
@@ -262,7 +274,8 @@ class LayoutMixin(object):
 
     def update_form_fields(self, form):
         for field in form.fields:
-            if form.fields[field].__class__.__name__ == 'ModelChoiceField':
+            field_class_name = form.fields[field].__class__.__name__
+            if field_class_name == 'ModelChoiceField':
                 for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
                     field_cls = '.'.join(values[0].lower().split('.')[-2:])
                     if field_cls == str(form.fields[field].queryset.
@@ -274,10 +287,14 @@ class LayoutMixin(object):
                                                '_id')
                             field_value = getattr(form.instance, field)
                             choices = ((field_id, field_value),)
-                        form.fields[field].widget = SelectAutoComplete(
-                            attrs={'url': url,
-                                   'class': 'js-selectize-autocomplete'},
+                        form.fields[field].widget = SelectizeAutoComplete(
+                            attrs={'data-autocomplete-url': url},
                             choices=choices)
+            # elif field_class_name == 'DateTimeField':
+            #     form.fields[field].widget = PopupDateTimeInput(
+            #         attrs={'data-autocomplete-url': url},
+            #         choices=choices)
+
             if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True
         return form
