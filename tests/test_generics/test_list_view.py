@@ -93,7 +93,8 @@ class TestListView(object):
         assert len(response.context_data['list_items']) == 2
 
         # search filled, filter content
-        response = admin_client.get(reverse('articles:list'), {'search': 'le1'})
+        response = admin_client.get(reverse('articles:list'),
+                                    {'search': 'le1'})
         assert len(response.context_data['list_items']) == 1
         assert response.context_data['list_items'][0][0]['value'] == 'title1'
 
@@ -105,10 +106,12 @@ class TestListView(object):
         ArticleFactory(title='title2', description='description2')
 
         # empty search, return all
-        response = admin_client.get(reverse('articles:list'), {'description': ''})
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': ''})
         assert len(response.context_data['list_items']) == 2
 
         # search filled, filter content
-        response = admin_client.get(reverse('articles:list'), {'description': 'tion2'})
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': 'tion2'})
         assert len(response.context_data['list_items']) == 1
         assert response.context_data['list_items'][0][0]['value'] == 'title2'
