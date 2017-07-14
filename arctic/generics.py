@@ -16,8 +16,8 @@ from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
+from arctic.forms import SimpleSearchForm
 from arctic.mixins import FormMediaMixin
-from .filters import filterset_factory
 from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
                      LayoutMixin)
 from .utils import (find_attribute, get_field_class, find_field_meta,
@@ -263,8 +263,9 @@ class ListView(View, base.ListView):
     """
     template_name = 'arctic/base_list.html'
     fields = None  # Which fields should be shown in listing
-    filter_fields = []  # One on one maping to django-filter fields meta option
     search_fields = []
+    simple_search_form = None  # Simple search form if search_fields is defined
+    advanced_search_form = None  # Custom form for advanced search
     ordering_fields = []  # Fields with ordering (subset of fields)
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     action_links = []  # "Action" links on item level. For example "Edit"
@@ -283,12 +284,25 @@ class ListView(View, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        if self.get_filter_fields() or self.get_search_fields():
-            filterset_class = self.get_filterset_class()
-            self.filterset = self.get_filterset(filterset_class)
-            self.object_list = self.filterset.qs
-        else:
-            self.object_list = self.get_queryset()
+        qs = self.get_queryset()
+
+        if self.get_advanced_search_form():
+            form = self.get_advanced_search_form()(data=self.request.GET)
+            if not hasattr(form, 'get_search_filter'):
+                raise AttributeError('advanced_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
+
+        if self.get_simple_search_form():
+            if self.get_search_fields():
+                form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+            else:
+                form = self.get_simple_search_form()(data=self.request.GET)
+
+            if not hasattr(form, 'get_search_filter'):
+                raise AttributeError('simple_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
+
+        self.object_list = qs
 
         return self.object_list
 
@@ -339,11 +353,19 @@ class ListView(View, base.ListView):
         """
         return self.ordering_fields
 
-    def get_filter_fields(self):
+    def get_simple_search_form(self):
         """
-        Hook to dynamically change the fields that can be filtered
+        Hook to dynamically change the simple search form
         """
-        return self.filter_fields
+        if not self.simple_search_form and self.get_search_fields():
+            return SimpleSearchForm
+        return self.simple_search_form
+
+    def get_advanced_search_form(self):
+        """
+        Hook to dynamically change the advanced search form
+        """
+        return self.advanced_search_form
 
     def get_search_fields(self):
         """
@@ -568,40 +590,6 @@ class ListView(View, base.ListView):
         return [f for f in fields if f.lstrip('-')
                 in self.get_ordering_fields()]
 
-    def get_filterset_class(self):
-        if not self.get_filter_fields() and not self.get_search_fields():
-            return None
-
-        return filterset_factory(
-            model=self.model or self.queryset.model,
-            fields=self.get_filter_fields(),
-            search_fields=self.get_search_fields()
-        )
-
-    def get_filterset(self, filterset_class):
-        """
-        Returns an instance of the filterset to be used in this view.
-        """
-        kwargs = self.get_filterset_kwargs(filterset_class)
-        return filterset_class(**kwargs)
-
-    def get_filterset_kwargs(self, filterset_class):
-        """
-        Returns the keyword arguments for instantiating the filterset.
-        """
-        data = self.request.GET.copy()
-        for key in self.request.GET:
-            if not data[key]:
-                data.pop(key)
-
-        kwargs = {
-            'data': data,
-            'queryset': self.get_queryset(),
-        }
-        if self.prefix:
-            kwargs['prefix'] = self.prefix
-        return kwargs
-
     def get_page_title(self):
         if not self.page_title:
             return capfirst(self.object_list.model._meta.verbose_name_plural)
@@ -616,9 +604,10 @@ class ListView(View, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_filter_fields() or self.get_search_fields():
-            context['has_filter'] = True
-            context['filter'] = self.filterset
+        if self.get_simple_search_form():
+            context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
+        if self.get_advanced_search_form():
+            context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
         return context
 
 

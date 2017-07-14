@@ -7,7 +7,7 @@ from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
 from collections import OrderedDict
 
-from .forms import ArticleForm
+from .forms import ArticleForm, AdvancedCategorySearchForm
 from .inlines import TagsInline
 from .models import (Article, Category, Tag)
 
@@ -44,7 +44,6 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
 
-    filter_fields = ['published']
     permission_required = "view_article"
 
     def get_category_field(self, row):
@@ -119,6 +118,8 @@ class CategoryListView(ListView):
         (_('Create Category'), 'articles:category-create'),
     ]
     permission_required = 'view_category'
+    search_fields = ('name',)
+    advanced_search_form = AdvancedCategorySearchForm
 
 
 class CategoryArticlesListView(ArticleListView):
