@@ -1,5 +1,4 @@
 setuptools
 django-extra-views==0.9.0
-django-filter==1.0.4
 django-widget-tweaks==1.4.1
 django-betterforms==1.1.4
