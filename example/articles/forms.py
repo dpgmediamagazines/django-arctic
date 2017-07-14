@@ -18,7 +18,9 @@ class ArticleForm(forms.ModelForm):
 
 
 class AdvancedArticleSearchForm(forms.Form):
-    description = forms.CharField(max_length=100, required=False, label='Description')
+    description = forms.CharField(max_length=100,
+                                  required=False,
+                                  label='Description')
 
     def __init__(self, data):
         # Reset data, but store for get_search_filter

@@ -18,8 +18,6 @@ class SimpleSearchForm(forms.Form):
 
         q_list = []
         for field_name in self.search_fields:
-            q_list.append(
-                Q(**{field_name + '__icontains': value})
-            )
+            q_list.append(Q(**{field_name + '__icontains': value}))
 
         return reduce(operator.or_, q_list)
