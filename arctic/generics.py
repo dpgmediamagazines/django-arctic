@@ -296,7 +296,9 @@ class ListView(View, base.ListView):
         if self.get_simple_search_form():
             if self.get_search_fields():
                 form = self.get_simple_search_form()(
-                    search_fields=self.get_search_fields(), data=self.request.GET)
+                    search_fields=self.get_search_fields(),
+                    data=self.request.GET
+                )
             else:
                 form = self.get_simple_search_form()(data=self.request.GET)
 
