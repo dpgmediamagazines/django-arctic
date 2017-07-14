@@ -290,7 +290,7 @@ class ListView(View, base.ListView):
             form = self.get_advanced_search_form()(data=self.request.GET)
             try:
                 qs = qs.filter(form.get_search_filter())
-            except AttributeError:
+            except AttributeError as e:
                 raise AttributeError('advanced_search_form must implement get_search_filter()')
         if self.get_simple_search_form():
             if self.get_search_fields():
@@ -299,7 +299,7 @@ class ListView(View, base.ListView):
                 form = self.get_simple_search_form()(data=self.request.GET)
             try:
                 qs = qs.filter(form.get_search_filter())
-            except AttributeError:
+            except AttributeError as e:
                 raise AttributeError('simple_search_form must implement get_search_filter()')
 
         self.object_list = qs
