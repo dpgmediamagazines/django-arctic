@@ -4,9 +4,18 @@
             {% include "arctic/partials/form_field_parts/render_field.html" %}
             {% include "arctic/partials/form_field_parts/field_label.html" %}
         </label>
+    {% elif field|widget_type == 'textarea' %}
+        <div class="form-group float-label">
+            {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
+            <label for="{{ field.auto_id }}">
+                {% include "arctic/partials/form_field_parts/field_label.html" %}
+            </label>
+        </div>
     {% else %}
-        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+    <div class="form-group float-label">
+        {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
+        <label for="{{ field.auto_id }}">
             {% include "arctic/partials/form_field_parts/field_label.html" %}
         </label>
-        {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
+    </div>
     {% endif %}
