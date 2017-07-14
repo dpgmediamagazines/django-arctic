@@ -1,7 +1,6 @@
 {% extends "arctic/base.html" %}
 
 {% block content %}
-    <hr class="clearfix" />
     <h4 id="form" data-magellan-target="form">Form with validation</h4>
     <form class="content-block__flex-wrap" data-abide novalidate>
         <fieldset type="get">
@@ -9,7 +8,7 @@
                 <p><i class="fi-alert"></i> There are some errors in your form.</p>
             </div>
             <div class="row">
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>
                         Name
                         <input type="text" placeholder="Name" aria-describedby="exampleHelpText" required pattern="text">
@@ -17,20 +16,20 @@
                     </label>
                     <p class="help-text" id="exampleHelpText">Fill in your name</p>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Surname
                         <input type="text" placeholder="Surname" aria-describedby="exampleHelpText" required pattern="text">
                         <span class="form-error">Surname is required.</span>
                     </label>
                     <p class="help-text" id="exampleHelpText">Fill in your surname</p>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Password
                         <input type="password" placeholder="Password" aria-describedby="exampleHelpText" required pattern="">
                         <span class="form-error">Chosen password is too weak</span>
                     </label>
                 </div>
-                <div class="small-12 medium-6 large-3 columns">
+                <div class="col-sm-12 col-md-6 col-lg-3 col">
                     <label>Repeat Password
                         <input type="password" placeholder="Repeat Password" aria-describedby="exampleHelpText" required pattern="">
                         <span class="form-error">Passwords don't match'</span>
@@ -38,19 +37,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="small-12 medium-6 columns">
+                <div class="col-sm-12 col-md-6 col">
                     <label>Street
                         <input type="text" placeholder="Street" aria-describedby="exampleHelpText" required pattern="text" id="input-tags">
                         <span class="form-error">Street is required</span>
                     </label>
                 </div>
-                <div class="small-6 medium-3 columns">
+                <div class="col-sm-6 col-md-3 col">
                     <label>House Number
                         <input type="text" placeholder="House Number" aria-describedby="exampleHelpText" required pattern="number">
                         <span class="form-error">House number can olny be numeric</span>
                     </label>
                 </div>
-                <div class="small-6 medium-3 columns">
+                <div class="col-sm-6 col-md-3 col">
                     <label>House Number Extension
                         <input type="text" placeholder="House Number Extension" aria-describedby="exampleHelpText" pattern="">
                         <span class="form-error">Error</span>
@@ -58,9 +57,9 @@
                 </div>
             </div>
             <div class="row button-group">
-                <div class="small-12 columns">
-                    <button class="button" type="submit" value="Submit">Submit</button>
-                    <button class="button" type="reset" value="Reset">Reset</button>
+                <div class="col-sm-12 col">
+                    <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                    <button class="btn btn-secondary" type="reset" value="Reset">Reset</button>
                 </div>
             </div>
         </fieldset>
@@ -69,17 +68,17 @@
     <hr class="clearfix"/>
     <h4>Selectize</h4>
     <div class="row">
-        <div class="medium-4 columns">
+        <div class="col-md-4 col">
             <label>
                 Tags
                 <input type="text" class="js-selectize-tags" placeholder="Selectize tags" value="tags,test,arctic">
             </label>
         </div>
-        <div class="medium-4 columns">
+        <div class="col-md-4 col">
             <label for="select-gear">Option groups</label>
             <select id="select-gear" class="js-selectize" multiple placeholder="Select gear...">
                 <option value="">Select gear...</option>
-                    <optgroup label="Climbing">
+                <optgroup label="Climbing">
                     <option value="pitons">Pitons</option>
                     <option value="cams">Cams</option>
                     <option value="nuts">Nuts</option>
@@ -95,455 +94,283 @@
             </select>
         </div>
     </div>
-    <!-- <label for="select-state">States:</label>
-    <select id="select-state" name="state[]" multiple class="selectize" style="width:50%" placeholder="Select a state...">
-        <option value="">Select a state...</option>
-        <option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-        <option value="AZ">Arizona</option>
-        <option value="AR">Arkansas</option>
-        <option value="CA" selected>California</option>
-        <option value="CO">Colorado</option>
-        <option value="CT">Connecticut</option>
-        <option value="DE">Delaware</option>
-        <option value="DC">District of Columbia</option>
-        <option value="FL">Florida</option>
-        <option value="GA">Georgia</option>
-        <option value="HI">Hawaii</option>
-        <option value="ID">Idaho</option>
-        <option value="WY" selected>Wyoming</option>
-    </select> -->
 
     <hr class="clearfix"/>
     <h4 id="tooltips" data-magellan-target="tooltips">Tooltips</h4>
-    <p>The <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Fancy word for a beetle.">scarabaeus</span> hung quite clear of any branches, and, if allowed to fall, would have fallen at our feet. Legrand immediately took the scythe, and cleared with it a circular space, three or four yards in diameter, just beneath the insect, and, having accomplished this, ordered Jupiter to let go the string and come down from the tree.</p>
+    <p>The <a href="#" data-toggle="tooltip" data-original-title="Fancy word for beetle" title="Fancy word for a beetle.">scarabaeus</a> hung quite clear of any branches, and, if allowed to fall, would have fallen at our feet. Legrand immediately took the scythe, and cleared with it a circular space, three or four yards in diameter, just beneath the insect, and, having accomplished this, ordered Jupiter to let go the string and come down from the tree.</p>
 
     <hr class="clearfix"/>
     <h4 id="pagination" data-magellan-target="pagination">Pagination</h4>
-    <ul class="pagination" role="navigation" aria-label="Pagination">
-        <li class="disabled">Previous <span class="show-for-sr">page</span></li>
-        <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-        <li><a href="#" aria-label="Page 2">2</a></li>
-        <li><a href="#" aria-label="Page 3">3</a></li>
-        <li><a href="#" aria-label="Page 4">4</a></li>
-        <li class="ellipsis" aria-hidden="true"></li>
-        <li><a href="#" aria-label="Page 12">12</a></li>
-        <li><a href="#" aria-label="Page 13">13</a></li>
-        <li><a href="#" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
-    </ul>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </li>
+            <li class="page-item active">
+                <span class="page-link">
+                1
+                    <span class="sr-only">(current)</span>
+                </span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">5</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <hr class="clearfix"/>
     <h4 id="tables" data-magellan-target="tables">Tables</h4>
-    <ul class="tabs" data-tabs id="table-tabs">
-        <li class="tabs-title"><a href="#panel1" aria-selected="true">Default table</a></li>
-        <li class="tabs-title is-active"><a href="#panel2">Horizontal scroll table</a></li>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#panel1" class="nav-link active" data-toggle="tab" role="tab">Default table</a>
+        </li>
+        <li class="nav-item">
+            <a href="#panel2" class="nav-link" data-toggle="tab" role="tab">Horizontal scroll table</a>
+        </li>
     </ul>
-    <div class="tabs-content" data-tabs-content="table-tabs">
-        <div class="tabs-panel" id="panel1">
-            <table>
-                <thead>
-                    <tr>
-                        <th width="200">Table Header</th>
-                        <th>Table Header</th>
-                        <th width="150">Table Header</th>
-                        <th width="150">Table Header</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                    <tr>
-                        <td>Content Goes Here</td>
-                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                        <td>Content Goes Here</td>
-                        <td>Content Goes Here</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="tab-content">
+        <div class="tab-pane active" id="panel1" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th width="200">Table Header</th>
+                            <th>Table Header</th>
+                            <th width="150">Table Header</th>
+                            <th width="150">Table Header</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>Content Goes Here</td>
+                            <td>Content Goes Here</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="tabs-panel table-scroll is-active" id="panel2">
-            <table>
-                <thead>
-                    <tr>
-                        <th>This is the description!</th>
-                        <th>One</th>
-                        <th>Two</th>
-                        <th>Three</th>
-                        <th>Four</th>
-                        <th>Five</th>
-                        <th>Six</th>
-                        <th>Seven</th>
-                        <th>Eight</th>
-                        <th>Nine</th>
-                        <th>Ten</th>
-                        <th>Eleven</th>
-                        <th>Twelve</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="display:block; width:400px;">These are all the words that people use to describe Foundation 6!</td>
-                        <td>Cool</td>
-                        <td>Swag</td>
-                        <td>Chill</td>
-                        <td>Killer</td>
-                        <td>Rad</td>
-                        <td>Baller</td>
-                        <td>OMG</td>
-                        <td>Sweet</td>
-                        <td>Awesome</td>
-                        <td>Beast</td>
-                        <td>Dope</td>
-                        <td>Tubular</td>
-                    </tr>
-                    <tr>
-                        <td>These are some words that people use to describe other web frameworks.</td>
-                        <td>Whatevs</td>
-                        <td>Ugh.</td>
-                        <td>LOL</td>
-                        <td>K</td>
-                        <td>Aight</td>
-                        <td>Eh.</td>
-                        <td>Grrr...</td>
-                        <td>Meh.</td>
-                        <td>TTYL</td>
-                        <td>Bleh.</td>
-                        <td>Really?</td>
-                        <td>Why?</td>
-                    </tr>
-                    <tr>
-                        <td>Here are some great super heros.</td>
-                        <td>Batman</td>
-                        <td>Superman</td>
-                        <td>Spiderman</td>
-                        <td>Wonder Woman</td>
-                        <td>Hulk</td>
-                        <td>Nicolas Cage</td>
-                        <td>Antman</td>
-                        <td>Aquaman</td>
-                        <td>Captain America</td>
-                        <td>Wolverine</td>
-                        <td>Thor</td>
-                        <td>Iron Man</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Here's a footer, just in case</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+        <div class="tab-pane" id="panel2" role="tabpanel">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>This is the description!</th>
+                            <th>One</th>
+                            <th>Two</th>
+                            <th>Three</th>
+                            <th>Four</th>
+                            <th>Five</th>
+                            <th>Six</th>
+                            <th>Seven</th>
+                            <th>Eight</th>
+                            <th>Nine</th>
+                            <th>Ten</th>
+                            <th>Eleven</th>
+                            <th>Twelve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="display:block; width:400px;">These are all the words that people use to describe Foundation 6!</td>
+                            <td>Cool</td>
+                            <td>Swag</td>
+                            <td>Chill</td>
+                            <td>Killer</td>
+                            <td>Rad</td>
+                            <td>Baller</td>
+                            <td>OMG</td>
+                            <td>Sweet</td>
+                            <td>Awesome</td>
+                            <td>Beast</td>
+                            <td>Dope</td>
+                            <td>Tubular</td>
+                        </tr>
+                        <tr>
+                            <td>These are some words that people use to describe other web frameworks.</td>
+                            <td>Whatevs</td>
+                            <td>Ugh.</td>
+                            <td>LOL</td>
+                            <td>K</td>
+                            <td>Aight</td>
+                            <td>Eh.</td>
+                            <td>Grrr...</td>
+                            <td>Meh.</td>
+                            <td>TTYL</td>
+                            <td>Bleh.</td>
+                            <td>Really?</td>
+                            <td>Why?</td>
+                        </tr>
+                        <tr>
+                            <td>Here are some great super heros.</td>
+                            <td>Batman</td>
+                            <td>Superman</td>
+                            <td>Spiderman</td>
+                            <td>Wonder Woman</td>
+                            <td>Hulk</td>
+                            <td>Nicolas Cage</td>
+                            <td>Antman</td>
+                            <td>Aquaman</td>
+                            <td>Captain America</td>
+                            <td>Wolverine</td>
+                            <td>Thor</td>
+                            <td>Iron Man</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Here's a footer, just in case</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 
     <hr class="clearfix">
     <h4 id="callouts" data-magellan-target="callouts">Callouts</h4>
-    <div class="callout primary" data-closable="">
-        <h5>This is a primary panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
+        <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
     </div>
-    <div class="callout secondary">
-        <h5>This is a secondary panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-    </div>
-    <div class="callout success" data-closable="">
-        <h5>This is a success panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
+        <strong>Heads up!</strong> This <a href="#" class="alert-link">alert needs your attention</a>, but it's not super important.
     </div>
-    <div class="callout warning">
-        <h5>This is a warning panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Warning!</strong> Better check yourself, you're <a href="#" class="alert-link">not looking too good</a>.
     </div>
-    <div class="callout alert">
-        <h5>This is a alert panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-    </div>
-    <div class="callout small success">
-        <h5>This is a success panel</h5>
-        <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        <a href="#">It's dangerous to go alone, take this.</a>
-    </div>
-
-    <hr class="clearfix"/>
-    <h4 id="inputSlider" data-magellan-target="inputSlider">Input slider</h4>
-    <div class="row">
-        <div class="small-10 medium-3 columns">
-            <div class="slider" data-slider data-initial-start="50">
-                <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
-                <span class="slider-fill" data-slider-fill></span>
-            </div>
-        </div>
-        <div class="small-2 medium-1 columns">
-            <input type="number" id="sliderOutput1">
-        </div>
-    </div>
-    <strong>with fixed steps</strong>
-    <div class="row">
-        <div class="small-10 medium-3 columns">
-            <div class="slider" data-slider data-initial-start="50" data-step="25">
-                <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput2"></span>
-                <span class="slider-fill" data-slider-fill></span>
-            </div>
-        </div>
-        <div class="small-2 medium-1 columns">
-            <input type="number" id="sliderOutput2">
-        </div>
-    </div>
-    <strong>2 handlers with output below</strong>
-    <div class="row">
-        <div class="small-4 columns">
-            <div class="slider" data-slider data-initial-start="25" data-initial-end="75">
-                <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput3"></span>
-                <span class="slider-fill" data-slider-fill></span>
-                <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput4"></span>
-            </div>
-            <div class="small-4 medium-2 columns float-left">
-                <input type="number" id="sliderOutput3" class="float-left">
-            </div>
-            <div class="small-4 medium-2 columns float-right">
-                <input type="number" id="sliderOutput4" class="float-right">
-            </div>
-        </div>
-    </div>
-    <strong>Native HTML5 slider (does not work with IE9, has less styling options etc)</strong>
-    <div class="row">
-        <input type="range" min="1" max="100" step="1">
-    </div>
-
-    <hr class="clearfix"/>
-    <h4 id="sticky" data-magellan-target="sticky">Sticky elements</h4>
-    <div class="row align-justify" id="stickyElements">
-        <div class="medium-4 columns">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit dapibus dolor, ut mattis felis auctor at. Curabitur scelerisque, nibh sagittis egestas volutpat, est mi efficitur enim, id venenatis nunc nunc a velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean dapibus, libero id varius feugiat, libero libero aliquet velit, vel placerat metus odio in arcu. Cras nulla dui, convallis vitae cursus tincidunt, consequat eget diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nisi et justo lobortis mattis.</p>
-            <p>Vestibulum quis tortor vitae massa elementum condimentum. Donec eget elit arcu. Nullam non dolor et ex pellentesque consequat nec vel erat. Proin quis mauris viverra, feugiat felis in, vulputate tellus. In quis ornare metus. Fusce non semper dolor, nec dapibus dui. Aenean ac libero posuere, sollicitudin nisl sed, semper est. Aliquam vel pharetra justo, non lacinia massa. Sed non ultrices risus, vitae ultrices sapien.</p>
-            <p>Mauris ut dignissim ligula, ut facilisis sem. Aliquam euismod, odio nec condimentum porttitor, tellus odio tempor enim, eu tristique nibh elit sed nibh. Nullam dignissim nisi vitae augue semper, id convallis nulla pretium. Integer lacinia porta arcu, in vestibulum leo hendrerit sit amet. Donec pharetra sit amet lectus id fringilla. Vivamus metus ex, placerat rhoncus nisl sed, vestibulum posuere urna. Ut vel massa vitae quam mattis luctus. Praesent eleifend convallis neque, at consequat nunc tempor eget.</p>
-            <p>Maecenas consectetur varius blandit. Sed non magna ac sapien egestas imperdiet ultrices vitae mi. Nam massa urna, egestas quis justo vitae, iaculis dictum ipsum. Aliquam erat volutpat. Proin imperdiet, libero eget dignissim mollis, turpis est porta urna, sed ullamcorper neque metus ut turpis. Nam eu nunc tortor. Pellentesque vestibulum a eros at suscipit. Proin eget lacinia tellus, nec sodales purus. Morbi nec consectetur ipsum, eget pellentesque mauris.</p>
-            <p>Aliquam elementum convallis nulla maximus vehicula. Nunc condimentum eleifend commodo. Phasellus est nibh, porta sed blandit vestibulum, semper nec lorem. Phasellus bibendum vehicula tincidunt. Duis congue dui ornare, vulputate orci quis, rhoncus elit. Nunc efficitur vulputate nunc eu dictum. Proin malesuada odio quam, quis pretium ante tincidunt sit amet.</p>
-        </div>
-        <div class="medium-4 columns right" data-sticky-container>
-            <div class="sticky" data-sticky data-anchor="stickyElements">
-                <img class="thumbnail" src="http://dummyimage.com/400x200/000/fff"/>
-            </div>
-        </div>
-    </div>
-
-    <hr class="clearfix">
-    <h4 id="meters" data-magellan-target="meters">Meters</h4>
-    <div class="row">
-        <div class="small-12 columns">
-            <p>Meter support is limited, has no support in Internet Explorer, Mobile Safari, or Android 2. Colors are set automaticly based on it's value</p>
-            <p>
-                <meter value="30" min="0" low="33" high="66" optimum="100" max="100"></meter>
-                <meter value="50" min="0" low="33" high="66" optimum="100" max="100"></meter>
-                <meter value="100" min="0" low="33" high="66" optimum="100" max="100"></meter>
-            </p>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
     </div>
 
     <hr class="clearfix"/>
     <h4 id="modal" data-magellan-target="modal">Modal</h4>
-    <div class="reveal" id="exampleModal1" data-reveal>
-        <h1>Awesome. I Have It.</h1>
-        <p class="lead">Your couch. It is mine.</p>
-        <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    I'm a Modal
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
-        <p><a data-open="exampleModal1">Click me for a modal</a></p>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Click me for a modal
+            </button>
+        </div>
     </div>
 
     <hr class="clearfix">
     <h4 id="progress" data-magellan-target="progress">Progress</h4>
     <div class="row">
-        <div class="small-12 columns">
-            <p>Native HTML5 progress element</p>
-            <p>
-                <progress class="" max="100" value="75"></progress>
-                <progress class="success" max="100" value="75"></progress>
-                <progress class="warning" max="100" value="75"></progress>
-                <progress class="alert" max="100" value="75"></progress>
-            </p>
-        </div>
-    </div>
-
-    <hr class="clearfix"/>
-    <h4 id="badges" data-magellan-target="badges">Badges</h4>
-    <div class="row">
-        <div class="columns">
-            <p>
-                <span class="secondary badge">2</span>
-                <span class="success badge">3</span>
-                <span class="alert badge">A</span>
-                <span class="warning badge">B</span>
-                <span class="info badge"><i class="fa fa-wrench"></i></span>
-                <span class="success badge"><i class="fa fa-rocket"></i></span>
-                <span class="warning badge"><i class="fa fa-futbol-o"></i></span>
-            </p>
+        <div class="col-sm-12 col">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div><br>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div><br>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-info w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div><br>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
         </div>
     </div>
 
     <hr class="clearfix"/>
     <h4 id="labels" data-magellan-target="labels">Labels</h4>
     <div class="row">
-        <div class="columns">
-            <span class="secondary label">Secondary Label</span>
-            <span class="success label">Success Label</span>
-            <span class="alert label">Alert Label</span>
-            <span class="warning label">Warning Label</span>
-            <span class="alert label"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Alert Label</span>
-            <span class="warning label"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Warning Label</span>
-            <span class="info label"><i class="fa fa-info-circle" aria-hidden="true"></i> Info Label</span>
+        <div class="col">
+            <span class="badge badge-default">Default</span>
+            <span class="badge badge-primary">Primary</span>
+            <span class="badge badge-success">Success</span>
+            <span class="badge badge-info">Info</span>
+            <span class="badge badge-warning">Warning</span>
+            <span class="badge badge-danger">Danger</span>
         </div>
-    </div>
-
-    <hr class="clearfix">
-    <h4 id="cards" data-magellan-target="cards">Cards</h4>
-    <div class="row small-up-3 medium-up-6 large-up-12">
-        <div class="columns">
-            <div class="card">
-                <div class="card__description">
-                    <div class="fa fa-paper-plane-o card__description-icon"></div>
-                    <div class="card__description-text">Paper plane</div>
-                </div>
-                <div class="card__footer">
-                    Value / Price
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="card">
-                <div class="card__description">
-                    <div class="fa fa-flask card__description-icon"></div>
-                    <div class="card__description-text">Science potion</div>
-                </div>
-                <div class="card__footer">
-                    100,00 euro
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="card">
-                <div class="card__description">
-                    <div class="fa fa-diamond card__description-icon"></div>
-                    <div class="card__description-text">Diamond</div>
-                </div>
-                <div class="card__footer">
-                    Value
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <hr class="clearfix">
-    <h4 id="cardgroup" data-magellan-target="cardgroup">Card group</h4>
-    <div class="row">
-        <div class="small-12 medium-6 large-4 columns">
-            <div class="cardgroup">
-                <div class="card cardgroup__card">
-                    <div class="card__description cardgroup__card-description">
-                        <div class="icon fa fa-ship card__description-icon"></div>
-                        <div class="card__description-text">This is a ship</div>
-                    </div>
-                    <div class="card__footer">One Million</div>
-                </div>
-                <div class="card cardgroup__card">
-                    <div class="card__description cardgroup__card-description">
-                        <div class="icon fa fa-recycle card__description-icon"></div>
-                        <div class="card__description-text">Recycle</div>
-                    </div>
-                    <div class="card__footer">Free!</div>
-                </div>
-                <div class="card cardgroup__card">
-                    <div class="card__description cardgroup__card-description">
-                        <div class="icon fa fa-plug card__description-icon"></div>
-                        <div class="card__description-text">Plug it in</div>
-                    </div>
-                    <div class="card__footer">Try for free</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <hr class="clearfix">
-    <h4 id="stepperInput" data-magellan-target="stepperInput">Stepper input</h4>
-    <div class="stepper-input">
-        <button class="button button--left">-</button>
-        <input type="text" placeholder="Age" value="32" class="input stepper-input__input"/>
-        <button class="button button--right">+</button>
     </div>
 
     <hr class="clearfix"/>
     <h4 id="breadcrumbs" data-magellan-target="breadcrumbs">Breadcrumbs</h4>
-    <nav aria-label="You are here:" role="navigation">
-        <ul class="breadcrumbs">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Features</a></li>
-            <li class="disabled">Gene Splicing</li>
-            <li><span class="show-for-sr">Current: </span> Cloning</li>
+    <div>
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Features</a></li>
+            <li class="breadcrumb-item active"><span class="show-for-sr">Current: </span> Cloning</li>
         </ul>
-    </nav>
-
-    <hr class="clearfix"/>
-    <h4 id="toggle" data-magellan-taget="toggle">Toggle switch</h4>
-    <div class="switch tiny">
-        <input class="switch-input" id="tinySwitch" type="checkbox" name="exampleSwitch">
-        <label class="switch-paddle" for="tinySwitch">
-            <span class="show-for-sr">Tiny Sandwiches Enabled</span>
-        </label>
     </div>
-
-    <div class="switch small">
-        <input class="switch-input" id="smallSwitch" type="checkbox" name="exampleSwitch">
-        <label class="switch-paddle" for="smallSwitch">
-            <span class="show-for-sr">Small Portions Only</span>
-        </label>
-    </div>
-
-    <div class="switch large">
-        <input class="switch-input" id="largeSwitch" type="checkbox" name="exampleSwitch">
-        <label class="switch-paddle" for="largeSwitch">
-            <span class="show-for-sr">Show Large Elephants</span>
-        </label>
-    </div>
-</div>
 
 {% endblock %}
 
 {% block scripts_bottom %}
-    {{ block.super }}
+{{ block.super }}
 {% endblock %}
