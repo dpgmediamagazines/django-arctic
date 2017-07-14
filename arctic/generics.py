@@ -289,17 +289,20 @@ class ListView(View, base.ListView):
         if self.get_advanced_search_form():
             form = self.get_advanced_search_form()(data=self.request.GET)
             if not hasattr(form, 'get_search_filter'):
-                raise AttributeError('advanced_search_form must implement get_search_filter()')
+                raise AttributeError(
+                    'advanced_search_form must implement get_search_filter()')
             qs = qs.filter(form.get_search_filter())
 
         if self.get_simple_search_form():
             if self.get_search_fields():
-                form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
+                form = self.get_simple_search_form()(
+                    search_fields=self.get_search_fields(), data=self.request.GET)
             else:
                 form = self.get_simple_search_form()(data=self.request.GET)
 
             if not hasattr(form, 'get_search_filter'):
-                raise AttributeError('simple_search_form must implement get_search_filter()')
+                raise AttributeError(
+                    'simple_search_form must implement get_search_filter()')
             qs = qs.filter(form.get_search_filter())
 
         self.object_list = qs
@@ -605,9 +608,11 @@ class ListView(View, base.ListView):
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
         if self.get_simple_search_form():
-            context['simple_search_form'] = self.get_simple_search_form()(data=self.request.GET)
+            context['simple_search_form'] = \
+                self.get_simple_search_form()(data=self.request.GET)
         if self.get_advanced_search_form():
-            context['advanced_search_form'] = self.get_advanced_search_form()(data=self.request.GET)
+            context['advanced_search_form'] = \
+                self.get_advanced_search_form()(data=self.request.GET)
         return context
 
 
