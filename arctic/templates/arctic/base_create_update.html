@@ -19,7 +19,7 @@
     </div>
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
         <fieldset type="post" class="fieldset-default arctic-card">
-            <div class="form-size">
+            <div class="{% block form_size_class %}form-size{% endblock %}">
             {% csrf_token %}
             {% block form %}
                 {% block form_fields %}
