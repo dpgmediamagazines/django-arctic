@@ -76,8 +76,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {# TODO remove test for #}
-                            {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
                             {% for row in list_items %}
                                 <tr>
                                     {% for column in row %}
@@ -114,13 +112,12 @@
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
-                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div> {# small-12 columns #}
-    </div> {# row #}
+        </div>
+    </div> 
     {% block pagination %}
         {% with page_obj=page_obj paginator=page_obj.paginator %}
             {% include "arctic/partials/pagination.html" %}

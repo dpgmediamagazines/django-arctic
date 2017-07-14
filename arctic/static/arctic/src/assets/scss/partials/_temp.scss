@@ -23,9 +23,36 @@
     overflow-x: auto; //turn overflow on on all screen resolutions
 }
 
+//bootstrap overwrite
+a:not([href]):not([tabindex]) {
+    color: $link-color;
+    cursor: pointer;
+    &:hover {
+        color: $link-hover-color
+    }
+}
+
+.clickable-cell {
+    a {
+        display: block;
+        padding: $table-cell-padding;
+        margin: #{-$table-cell-padding};
+    }
+}
+
 label {
     display: block;
     margin: 0;
+}
+
+.pagination {
+    margin-top: 1rem;
+}
+
+.pagination-info {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: .45rem 0;
 }
 
 //Global block wrapper for every page_title
