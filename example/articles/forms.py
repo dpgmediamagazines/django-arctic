@@ -17,16 +17,16 @@ class ArticleForm(forms.ModelForm):
         self.fields['category'].empty_label = ""
 
 
-class AdvancedCategorySearchForm(forms.Form):
-    name = forms.CharField(max_length=100, required=False, label='Strict name match')
+class AdvancedArticleSearchForm(forms.Form):
+    description = forms.CharField(max_length=100, required=False, label='Description')
 
     def __init__(self, data):
         # Reset data, but store for get_search_filter
         self.stored_data = data
-        super(AdvancedCategorySearchForm, self).__init__()
+        super(AdvancedArticleSearchForm, self).__init__()
 
     def get_search_filter(self):
-        value = self.stored_data.get('name')
+        value = self.stored_data.get('description')
         if value:
-            return Q(name=value)
+            return Q(description__icontains=value)
         return Q()
