@@ -9,16 +9,19 @@
     template-detail
 {% endblock %}
 
-
 {% block content %}
+    <div class="row">
+        <div class="form-size">
+        {% block form_validation %}
+            {% include "arctic/partials/form_validation.html" with form=form %}
+        {% endblock %}
+        </div>
+    </div>
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide novalidate>
         <fieldset type="post" class="fieldset-default arctic-card">
             <div class="form-size">
             {% csrf_token %}
             {% block form %}
-                {% block form_validation %}
-                    {% include "arctic/partials/form_validation.html" with form=form %}
-                {% endblock %}
                 {% block form_fields %}
                     {% include "arctic/partials/form_fields.html" with form=form %}
                 {% endblock %}
