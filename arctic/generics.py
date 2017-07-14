@@ -288,19 +288,19 @@ class ListView(View, base.ListView):
 
         if self.get_advanced_search_form():
             form = self.get_advanced_search_form()(data=self.request.GET)
-            try:
-                qs = qs.filter(form.get_search_filter())
-            except AttributeError as e:
+            if not hasattr(form, 'get_search_filter'):
                 raise AttributeError('advanced_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
+
         if self.get_simple_search_form():
             if self.get_search_fields():
                 form = self.get_simple_search_form()(search_fields=self.get_search_fields(), data=self.request.GET)
             else:
                 form = self.get_simple_search_form()(data=self.request.GET)
-            try:
-                qs = qs.filter(form.get_search_filter())
-            except AttributeError as e:
+
+            if not hasattr(form, 'get_search_filter'):
                 raise AttributeError('simple_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
 
         self.object_list = qs
 
