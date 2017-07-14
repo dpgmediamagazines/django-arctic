@@ -135,7 +135,15 @@ label {
         max-width: 70%;
         margin: auto;
         padding: 0;
+        &--80 {
+            max-width: 80%;
+        }
     }
+}
+
+.form-size-full {
+    width: 100%;
+    padding: 12px;
 }
 
 //help-text
