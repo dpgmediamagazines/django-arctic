@@ -3,15 +3,22 @@ from django.forms.widgets import (DateInput, DateTimeInput, Select,
 
 
 class Selectize(Select):
-    pass
+    def __init__(self, attrs, choices):
+        super(Selectize, self).__init__(attrs, choices)
+        attrs['js-selectize'] = True
 
 
 class SelectizeMultiple(SelectMultiple):
-    pass
+    def __init__(self, attrs, choices):
+        super(SelectizeMultiple, self).__init__(attrs, choices)
+        attrs['js-selectize-multiple'] = True
 
 
 class SelectizeAutoComplete(Select):
-    pass
+    def __init__(self, attrs, choices, url):
+        super(SelectizeMultiple, self).__init__(attrs, choices)
+        attrs['js-selectize-autocomplete'] = True
+        attrs['data-url'] = url
 
 
 class DateTimePickerInput(DateTimeInput):

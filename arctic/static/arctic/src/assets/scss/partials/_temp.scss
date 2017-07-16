@@ -14,14 +14,18 @@
         a {
             color: $gray-medium;
             padding-right: 1.5em;
+            white-space: nowrap;
         }
     }
 }
 
 .table-responsive {
-  @include media-breakpoint-down(md) {
-      display: table; //bootstraap sets the display to block and that causes problems it will be fixed in a version update
-  }
+    overflow-x: auto; //turn overflow on on all screen resolutions
+}
+
+label {
+    display: block;
+    margin: 0;
 }
 
 //Global block wrapper for every page_title
@@ -38,6 +42,7 @@
     border-radius: $border-radius;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
     background-color: white;
+    overflow-x: auto;
 
     &__header {
         padding: 12px;
@@ -47,9 +52,16 @@
         position: absolute;
         width: calc(100% - 24px);
         left: 12px;
-        padding: 0;
-        padding-bottom: 5px;
-        border-bottom: 1px solid $input-border-color;
+
+        & .arctic-card__title {
+            border-bottom: 1px solid $input-border-color;
+            padding-bottom: 5px;
+        }
+
+        & .arctic-card__subtitle {
+            position: relative;
+            top: 5px;
+        }
     }
 
     &__title {
@@ -59,13 +71,12 @@
     }
 
     &__subtitle {
-        color: $gray-dark;
+        color: $gray-medium;
         font-size: 13px;
         margin-bottom: 0px;
     }
 
     &__placeholder {
-
         width: 100%;
         &--small {
             height: 42px
@@ -74,6 +85,12 @@
             height: 68px
         }
     }
+}
+
+//forms
+.fieldset-default {
+    position: relative;
+    padding: 24px 0;
 }
 
 .form-block {
@@ -90,9 +107,28 @@
     }
 }
 
+//help-text
+.help-text {
+    margin-top: -.4rem;
+    margin-bottom: 0.6rem;
+    font-size: .7rem;
+    font-style: italic;
+    opacity: 0.55;
+}
 
-//forms
-.fieldset-default {
-    position: relative;
-    padding: 24px 0;
+
+.collapse-control {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -2px;
+    right: 6px;
+    padding-left: 6px;
+    cursor: pointer;
+
+    &.collapsed {
+        .fa {
+            transform: rotate(90deg);
+        }
+    }
 }

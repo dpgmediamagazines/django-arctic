@@ -20,16 +20,14 @@ Role = get_role_model()
 UserRole = get_user_role_model()
 
 try:
-    ARCTIC_WIDGETS = settings.ARCTIC_WIDGETS
+    ARCTIC_WIDGET_OVERLOADS = settings.ARCTIC_WIDGET_OVERLOADS
 except AttributeError:
-    ARCTIC_WIDGETS = {
-        'DateField': 'arctic.widgets.DatePickerInput',
-        'DateTimeField': 'arctic.widgets.DatePickerInput',
-        'TimeField': 'arctic.widgets.TimePickerInput',
-        'ChoiceField': 'arctic.widgets.Selectize',
-        'TypedChoiceField': 'arctic.widgets.Selectize',
+    ARCTIC_WIDGET_OVERLOADS = {
+        'DateInput': 'arctic.widgets.DatePickerInput',
+        'DateTimeInput': 'arctic.widgets.DatePickerInput',
+        'TimeInput': 'arctic.widgets.TimePickerInput',
+        'Select': 'arctic.widgets.Selectize',
         'MultipleChoiceField': 'arctic.widgets.Selectize',
-        'TypedMultipleChoiceField': 'arctic.widgets.Selectize',
     }
 
 
@@ -91,6 +89,7 @@ class LayoutMixin(object):
           |-->  Rows
                   |--> Fields
     """
+    use_widget_overloads = True
     layout = None
     _fields = []
     readonly_fields = None
@@ -273,6 +272,7 @@ class LayoutMixin(object):
             return None
 
     def update_form_fields(self, form):
+        widgets_to_be_overloaded = ARCTIC_WIDGET_OVERLOADS.keys()
         for field in form.fields:
             field_class_name = form.fields[field].__class__.__name__
             if field_class_name == 'ModelChoiceField':
@@ -290,10 +290,10 @@ class LayoutMixin(object):
                         form.fields[field].widget = SelectizeAutoComplete(
                             attrs={'data-autocomplete-url': url},
                             choices=choices)
-            # elif field_class_name == 'DateTimeField':
-            #     form.fields[field].widget = PopupDateTimeInput(
-            #         attrs={'data-autocomplete-url': url},
-            #         choices=choices)
+            # if self.use_widget_overloads:
+            #     widget_class = form.fields[field].widget.__class__.__name__
+            #     if widget_class in widgets_to_be_overloaded:
+                    
 
             if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True

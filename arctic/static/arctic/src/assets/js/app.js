@@ -1,8 +1,14 @@
+//Mobile menu controlss
 $('#menu-button').click(function (e) {
     $(this).toggleClass('is-active');
     $('.row-offcanvas').toggleClass('active');
     e.preventDefault();
 });
+
+//Turn on Tooltips
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
