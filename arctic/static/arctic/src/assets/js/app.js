@@ -60,21 +60,17 @@ function django2datepicker(django_format) {
 }
 
 function set_input_widgets() {
-    var s = $('.js-selectize');
-    if ( s.length ) {
-        s.selectize(
-            {
-                allowEmptyOption: true,
-                highlight: false,
-                plugins: ['remove_button']
-            }
-        );
-    }
+    $('[js-selectize]').each(function(index) {
+        $(this).selectize({
+            allowEmptyOption: true,
+            highlight: false,
+            plugins: ['remove_button']
+        });
+    });
 
 
-    var s_tags = $('.js-selectize-tags');
-    if (s_tags.length) {
-        s_tags.selectize({
+    $('[js-selectize-multiple]').each(function(index) {
+        $(this).selectize({
             delimiter: ',',
             persist: false,
             plugins: ['remove_button'],
@@ -85,10 +81,10 @@ function set_input_widgets() {
                 }
             }
         });
-    }
+    });
 
-    $('.js-selectize-autocomplete').each(function(index) {
-        var url = $(this).attr('url');
+    $('[js-selectize-autocomplete]').each(function(index) {
+        var url = $(this).attr('data-url');
         $(this).selectize({
             valueField: 'value',
             labelField: 'label',
@@ -110,30 +106,30 @@ function set_input_widgets() {
         });
     });
 
-    $('.js-datepicker').each(function(index) {
+    $('[js-datepicker]').each(function(index) {
         $(this).datepicker({
             todayButton: true,
             language: 'en',
-            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+            startDate: $(this).attr("data-date") == '' ? new Date() : new Date($(this).attr("data-date")),
         	dateFormat: django2datepicker(DATE_FORMAT)
         });
     });
 
-    $('.js-timepicker').each(function(index) {
+    $('[js-timepicker]').each(function(index) {
         $(this).datepicker({
             onlyTimepicker: true,
             language: 'en',
-            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+            startDate: $(this).attr("data-time") == '' ? new Date() : new Date($(this).attr("data-time")),
         	timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
         });
     });
 
-    $('.js-datetimepicker').each(function(index) {
+    $('[js-datetimepicker]').each(function(index) {
         $(this).datepicker({
             language: 'en',
             todayButton: true,
-            startDate: $(this).attr("date") == '' ? new Date() : new Date($(this).attr("date")),
+            startDate: $(this).attr("data-datetime") == '' ? new Date() : new Date($(this).attr("data-datetime")),
         	dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true

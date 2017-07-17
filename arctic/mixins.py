@@ -2,7 +2,7 @@
 Basic mixins for generic class based views.
 """
 
-from __future__ import (absolute_import, unicode_literals)
+import importlib
 
 from django.conf import settings
 from django.contrib import messages
@@ -14,10 +14,21 @@ from collections import OrderedDict
 
 from arctic.loading import (get_role_model, get_user_role_model)
 from arctic.utils import view_from_url
-from arctic.widgets import SelectAutoComplete
+from arctic.widgets import SelectizeAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
+
+try:
+    ARCTIC_WIDGET_OVERLOADS = settings.ARCTIC_WIDGET_OVERLOADS
+except AttributeError:
+    ARCTIC_WIDGET_OVERLOADS = {
+        'DateInput': 'arctic.widgets.DatePickerInput',
+        'DateTimeInput': 'arctic.widgets.DateTimePickerInput',
+        'TimeInput': 'arctic.widgets.TimePickerInput',
+        'Select': 'arctic.widgets.Selectize',
+        'MultipleChoiceField': 'arctic.widgets.Selectize',
+    }
 
 
 class SuccessMessageMixin(object):
@@ -78,6 +89,7 @@ class LayoutMixin(object):
           |-->  Rows
                   |--> Fields
     """
+    use_widget_overloads = True
     layout = None
     _fields = []
     readonly_fields = None
@@ -201,8 +213,7 @@ class LayoutMixin(object):
                 raise ImproperlyConfigured('The fieldset name does not '
                                            'support more than one | sign. '
                                            'It\'s meant to separate a '
-                                           'fieldset from its '
-                                           'description.')
+                                           'fieldset from its description.')
 
             title = fieldset
             if fieldset and fieldset[0] == '-':
@@ -261,8 +272,10 @@ class LayoutMixin(object):
             return None
 
     def update_form_fields(self, form):
+        widgets_to_be_overloaded = ARCTIC_WIDGET_OVERLOADS.keys()
         for field in form.fields:
-            if form.fields[field].__class__.__name__ == 'ModelChoiceField':
+            field_class_name = form.fields[field].__class__.__name__
+            if field_class_name == 'ModelChoiceField':
                 for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
                     field_cls = '.'.join(values[0].lower().split('.')[-2:])
                     if field_cls == str(form.fields[field].queryset.
@@ -274,10 +287,35 @@ class LayoutMixin(object):
                                                '_id')
                             field_value = getattr(form.instance, field)
                             choices = ((field_id, field_value),)
-                        form.fields[field].widget = SelectAutoComplete(
-                            attrs={'url': url,
-                                   'class': 'js-selectize-autocomplete'},
-                            choices=choices)
+                        form.fields[field].widget = SelectizeAutoComplete(
+                            attrs=form.fields[field].widget.attrs,
+                            choices=choices,
+                            url=url)
+            if self.use_widget_overloads:
+                widget_class = form.fields[field].widget.__class__.__name__
+                if widget_class in widgets_to_be_overloaded:
+                    module, wdgt = ARCTIC_WIDGET_OVERLOADS[widget_class].\
+                        rsplit('.', 1)
+                    new_widget_module = importlib.import_module(module)
+                    new_widget_class = getattr(new_widget_module, wdgt)
+                    new_widget = None
+                    if widget_class in ('Select', 'ToggleSelectWidget',
+                                        'LazySelect'):
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs,
+                            form.fields[field].widget.choices)
+                    elif widget_class in ('DateInput', 'DateTimeInput',
+                                          'TimeInput'):
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs,
+                            form.fields[field].widget.format)
+                        new_widget.supports_microseconds = \
+                            form.fields[field].widget.supports_microseconds
+                    else:
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs)
+                    form.fields[field].widget = new_widget
+
             if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True
         return form

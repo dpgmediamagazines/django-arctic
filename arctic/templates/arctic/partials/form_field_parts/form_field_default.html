@@ -1,21 +1,13 @@
-{% load widget_tweaks %}
-    {% if field|widget_type == 'checkboxinput' or field|widget_type == 'radioselect'%}
-        <label for="{{ field.auto_id }}" class="form-check-label {% if field.field.required %}required{% endif %}">
-            {% include "arctic/partials/form_field_parts/render_field.html" %}
-            {% include "arctic/partials/form_field_parts/field_label.html" %}
-        </label>
-    {% elif field|widget_type == 'textarea' %}
-        <div class="form-group float-label">
-            {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
-            <label for="{{ field.auto_id }}">
-                {% include "arctic/partials/form_field_parts/field_label.html" %}
-            </label>
-        </div>
-    {% else %}
+{% if field.widget.attrs.type == 'checkboxinput' or field.widget.attrs.type == 'radioselect' %}
+    <label for="{{ field.auto_id }}" class="form-check-label {% if field.field.required %}required{% endif %}">
+        {% include "arctic/partials/form_field_parts/render_field.html" %}
+        {% include "arctic/partials/form_field_parts/field_label.html" %}
+    </label>
+{% else %}
     <div class="form-group float-label">
-        {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
+        {{ field }}
         <label for="{{ field.auto_id }}">
-            {% include "arctic/partials/form_field_parts/field_label.html" %}
+            {{ field.label|safe }}
         </label>
     </div>
-    {% endif %}
+{% endif %}

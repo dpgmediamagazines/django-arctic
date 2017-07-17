@@ -1,24 +1,23 @@
-{% load widget_tweaks %}
-    {% if field|widget_type == 'checkboxinput' or field|widget_type == 'radioselect'%}
-            <div class="row">
-                <div class="{% if size %}col-sm-{{size}}{% else %}col-sm-2{% endif %} col">
-                    {% include "arctic/partials/form_field_parts/field_label.html" %}
-                </div>
-                <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
-                    <label for="{{ field.auto_id }}">
-                        {% include "arctic/partials/form_field_parts/render_field.html" %}
-                    </label>
-                </div>
-            </div>
-    {% else %}
-        <div class="row">
-            <div class="{% if size %}sm-{{size}}{% else %}sm-2{% endif %} col">
-                <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-                    {% include "arctic/partials/form_field_parts/field_label.html" %}
-                </label>
-            </div>
-            <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
-                {% include "arctic/partials/form_field_parts/checkbox_select_multiple.html" %}
-            </div>
+{% if field.widget.attrs.type == 'checkboxinput' or field.widget.attrs.type == 'radioselect' %}
+    <div class="row">
+        <div class="{% if size %}col-sm-{{size}}{% else %}col-sm-2{% endif %} col">
+            {{ field.label|safe }}
         </div>
-    {% endif %}
+        <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
+            <label for="{{ field.auto_id }}">
+                {{ field }}
+            </label>
+        </div>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="{% if size %}sm-{{size}}{% else %}sm-2{% endif %} col">
+            <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+                {{ field.label|safe }}
+            </label>
+        </div>
+        <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
+            {{ field }}
+        </div>
+    </div>
+{% endif %}
