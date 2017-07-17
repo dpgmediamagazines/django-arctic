@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
                                   SelectMultiple, TimeInput)
 
@@ -29,9 +31,10 @@ class DateTimePickerInput(DateTimeInput):
     def get_context(self, name, value, attrs):
         context = super(DateTimePickerInput, self).get_context(name, value,
                                                                attrs)
-        if value:
-            context['widget']['attrs']['data-datetime'] =\
-                value.strftime('%m/%d/%Y %I:%M %p')
+        if not value:
+            value = datetime.now()
+        context['widget']['attrs']['data-datetime'] =\
+            value.strftime('%m/%d/%Y %I:%M %p')
         return context
 
 
@@ -42,9 +45,10 @@ class DatePickerInput(DateInput):
 
     def get_context(self, name, value, attrs):
         context = super(DatePickerInput, self).get_context(name, value, attrs)
-        if value:
-            context['widget']['attrs']['data-date'] =\
-                value.strftime('%m/%d/%Y')
+        if not value:
+            value = datetime.now()
+        context['widget']['attrs']['data-date'] =\
+            value.strftime('%m/%d/%Y')
         return context
 
 
@@ -55,7 +59,8 @@ class TimePickerInput(TimeInput):
 
     def get_context(self, name, value, attrs):
         context = super(TimePickerInput, self).get_context(name, value, attrs)
-        if value:
-            context['widget']['attrs']['data-time'] =\
-                value.strftime('%I:%M %p')
+        if not value:
+            value = datetime.now()
+        context['widget']['attrs']['data-time'] =\
+            value.strftime('%I:%M %p')
         return context
