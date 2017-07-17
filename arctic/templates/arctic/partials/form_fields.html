@@ -41,9 +41,5 @@
             {% endfor %}
         {% else %}
             {# TODO Move this section to it's own template file #}
-            <div class="form-block">
-                {% for field in form %}
-                    {% include 'arctic/partials/form_field.html' with field=field%}
-                {% endfor %}
-            </div>
+            <div class="form-block">{% for field in form %}{% include 'arctic/partials/form_field.html' with field=field %}{% endfor %}</div>
         {% endif %}

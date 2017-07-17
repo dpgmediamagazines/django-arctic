@@ -42,7 +42,7 @@ PATHS:
 
     # Arctic JS deps
     - "node_modules/selectize/dist/js/standalone/selectize.js"
-    #- "node_modules/sortablejs/Sortable.js"
+    - "node_modules/sortablejs/Sortable.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"

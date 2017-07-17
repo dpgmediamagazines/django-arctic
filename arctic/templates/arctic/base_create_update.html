@@ -30,12 +30,16 @@
             {% block inlines %}
             {% if inlines %}
                 {% for formset in inlines %}
-                    {% if formset.verbose_name %}
-                        <h4>{{ formset.verbose_name }}</h4>
-                    {% endif %}
-                    {{ formset.management_form }}
-                    {{ formset.non_form_errors }}
-
+                    {% block inlines_title %}
+                        {% if formset.verbose_name %}
+                            <div class="arctic-card__form-header">
+                                <h4 class="arctic-card__title">{{ formset.verbose_name }}</h4>
+                            </div>
+                            <div class="arctic-card__placeholder arctic-card__placeholder--small"></div>
+                        {% endif %}
+                    {% endblock %}
+                        {{ formset.management_form }}
+                        {{ formset.non_form_errors }}
                     {% for form in formset %}
                         {% block inlines_form_fields %}
                             {% include "arctic/partials/form_field_inline.html" with form=form %}

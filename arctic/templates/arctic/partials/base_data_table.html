@@ -39,7 +39,7 @@
             <div class="col {% if simple_search_form or advanced_search_form %}col-auto{% endif %}">
                 <div class="form-group">
                 {% if tool_links|length > 1 %}
-                    <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
+                    <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
                         <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
                             <ul>
                                 {% for link in tool_links %}
@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     {% block pagination %}
         {% with page_obj=page_obj paginator=page_obj.paginator %}
             {% include "arctic/partials/pagination.html" %}
