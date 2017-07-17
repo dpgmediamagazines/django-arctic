@@ -32,6 +32,10 @@ a:not([href]):not([tabindex]) {
     }
 }
 
+.form-block:empty {
+    margin-bottom: 0; //remove margin if form is empty;
+}
+
 .clickable-cell {
     a {
         display: block;
@@ -110,10 +114,10 @@ label {
     &__placeholder {
         width: 100%;
         &--small {
-            height: 42px
+            height: 56px
         }
         &--big {
-            height: 68px
+            height: 72px
         }
     }
 }
