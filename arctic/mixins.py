@@ -27,6 +27,7 @@ except AttributeError:
         'DateTimeInput': 'arctic.widgets.DateTimePickerInput',
         'TimeInput': 'arctic.widgets.TimePickerInput',
         'Select': 'arctic.widgets.Selectize',
+        'SelectMultiple': 'arctic.widgets.SelectizeMultiple',
         'MultipleChoiceField': 'arctic.widgets.Selectize',
     }
 
@@ -299,8 +300,8 @@ class LayoutMixin(object):
                     new_widget_module = importlib.import_module(module)
                     new_widget_class = getattr(new_widget_module, wdgt)
                     new_widget = None
-                    if widget_class in ('Select', 'ToggleSelectWidget',
-                                        'LazySelect'):
+                    if widget_class in ('Select', 'SelectMultiple',
+                                        'ToggleSelectWidget', 'LazySelect'):
                         new_widget = new_widget_class(
                             form.fields[field].widget.attrs,
                             form.fields[field].widget.choices)
