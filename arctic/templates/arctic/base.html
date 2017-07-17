@@ -66,7 +66,7 @@
                         {% endif %}
                     {% endblock %}
 
-<!--                    {# page page description #}
+                    {# page page description #}
                     {% if page_description %}
                         <div class="row">
                             <small>{{ page_description }}</small>
@@ -76,19 +76,21 @@
                     {# tabs #}
                     {% if tabs %}
                         <div class="row">
-                            <div class="small-12 columns">
-                                <ul class="tabs" id="table-tabs">
+                            <div class="col-sm-12 col">
+                                <ul class="nav nav-tabs" id="table-tabs" role="tablist">
                                     {% for name, url in tabs %}
-                                        {% if object.pk %}
-                                            {% arctic_url url object.pk as url %}
-                                        {% else %}
-                                            {% arctic_url url as url %}
-                                        {% endif %}
-                                        {% if request.path == url %}
-                                            <li class="tabs-title is-active"><a href="javascript:">{{ name }}</a></li>
-                                        {% else %}
-                                            <li class="tabs-title"><a href="{{ url }}">{{ name }}</a></li>
-                                        {% endif %}
+                                        <li class="nav-item">
+                                            {% if object.pk %}
+                                                {% arctic_url url object.pk as url %}
+                                            {% else %}
+                                                {% arctic_url url as url %}
+                                            {% endif %}
+                                            {% if request.path == url %}
+                                                <a class="nav-link active" href="javascript:">{{ name }}</a></li>
+                                            {% else %}
+                                                <a class="nav-link" href="{{ url }}">{{ name }}</a></li>
+                                            {% endif %}
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -99,7 +101,7 @@
                     {% if messages %}
                         {% for message in messages %}
                         <div class="row">
-                            <div class="column">
+                            <div class="col">
                             <div class="callout {{ message.tags }}" data-closable>
                                 {{ message }}
                                 <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
@@ -110,7 +112,6 @@
                         </div>
                         {% endfor %}
                     {% endif %}
->>>>>>> b7dab0d53be67e4c3dd010567e67252ec13dfc8c -->
                         {% block content %}content here{% endblock %}
                     </div>
                 </div>

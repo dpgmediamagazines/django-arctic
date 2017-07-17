@@ -8,6 +8,7 @@
 @import "partials/offcanvas";
 @import "partials/burger";
 @import "partials/header";
+@import "partials/_float-label";
 @import "partials/_temp";
 
 //pages
@@ -15,6 +16,8 @@
 
 //vendor
 @import "components/selectize/_selectize";
+
+@import "partials/temp";
 
 // Datepicker
 @import "components/air-datepicker/cell";

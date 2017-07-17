@@ -1,0 +1,38 @@
+.form-control {
+    padding: $input-btn-padding-y $input-btn-padding-x;
+}
+
+.float-label {
+    position: relative;
+
+    input,
+    textarea {
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        outline: 0;
+
+        &:focus,
+        &:valid {
+            padding-top: 1.2rem;
+            padding-bottom: .4rem;
+        }
+    }
+
+    label {
+        position: absolute;
+        top: .75rem;
+        left: .75rem;
+        transition: all 0.2s;
+        width: 100%;
+        z-index: 2;
+    }
+
+    input:focus + label,
+    input:valid + label,
+    textarea:focus + label,
+    textarea:valid + label {
+        top: .3rem;
+        font-size: 75%;
+    }
+}

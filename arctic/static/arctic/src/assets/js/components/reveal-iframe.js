@@ -59,7 +59,7 @@
             });
 
             // reset iframe when foundation when closing from outside the dialog
-            dialog.element.on( 'closed.zf.reveal', function() {
+            dialog.element.on( 'hidden.bs.modal', function() {
                 dialog.close();
             });
         }
@@ -138,7 +138,7 @@
             // auto close
             var autoClose = $body.data( 'auto-close' );
             if ( autoClose ) {
-                self.dialog.foundation( 'close' );
+                self.dialog.modal( 'close' );
             };
 
             // close on click
@@ -158,13 +158,13 @@
 
                 // else close dialog..
                 event.preventDefault();
-                self.dialog.foundation( 'close' );
+                self.dialog.modal( 'close' );
                 buttons.off('click');
             });
             var closeButton = $body.find( '[data-close-dialog]' );
             closeButton.on( 'click' , function ( event ) {
                 event.preventDefault();
-                self.dialog.foundation( 'close' );
+                self.dialog.modal( 'close' );
                 closeButton.off('click');
             });
         }
@@ -185,6 +185,7 @@
                 self.dialog = self.element;
                 $( 'body' ).find( self.dialog );
                 new Foundation.Reveal( self.dialog );
+                //TODO switch to a bootstrap method
             }
         },
 
@@ -245,10 +246,10 @@
             self.repositionIframe(iframe);
             $( window ).trigger( 'resize' );
         },
-        
+
         repositionIframe: function (iframe) {
             var frameHeight = iframe.height();
-            var windowHeight = window.innerHeight; 
+            var windowHeight = window.innerHeight;
             var top = (windowHeight - frameHeight)/2;
             iframe.parent().css( 'top', top );
         },
@@ -306,8 +307,8 @@
             self.dialog.remove();
 
             // disable listeners
-            self.dialog.off( 'open.zf.reveal' );
-            self.dialog.off( 'close.zf.reveal' );
+            self.dialog.off( 'shown.zf.reveal' );
+            self.dialog.off( 'hidden.zf.reveal' );
 
             if ( $triggers.length ) {
 
@@ -326,7 +327,7 @@
     window.arctic.utils.revealInIframe = {
         open: function( url, size ) {
             dialog.open( url, size );
-            dialog.element.foundation( 'open' );
+            dialog.element.modal( 'open' );
         },
         close: function() {
             dialog.close();

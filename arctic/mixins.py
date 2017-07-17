@@ -2,7 +2,7 @@
 Basic mixins for generic class based views.
 """
 
-from __future__ import (absolute_import, unicode_literals)
+import importlib
 
 from django.conf import settings
 from django.contrib import messages
@@ -24,7 +24,7 @@ try:
 except AttributeError:
     ARCTIC_WIDGET_OVERLOADS = {
         'DateInput': 'arctic.widgets.DatePickerInput',
-        'DateTimeInput': 'arctic.widgets.DatePickerInput',
+        'DateTimeInput': 'arctic.widgets.DateTimePickerInput',
         'TimeInput': 'arctic.widgets.TimePickerInput',
         'Select': 'arctic.widgets.Selectize',
         'MultipleChoiceField': 'arctic.widgets.Selectize',
@@ -288,12 +288,33 @@ class LayoutMixin(object):
                             field_value = getattr(form.instance, field)
                             choices = ((field_id, field_value),)
                         form.fields[field].widget = SelectizeAutoComplete(
-                            attrs={'data-autocomplete-url': url},
-                            choices=choices)
-            # if self.use_widget_overloads:
-            #     widget_class = form.fields[field].widget.__class__.__name__
-            #     if widget_class in widgets_to_be_overloaded:
-                    
+                            attrs=form.fields[field].widget.attrs,
+                            choices=choices,
+                            url=url)
+            if self.use_widget_overloads:
+                widget_class = form.fields[field].widget.__class__.__name__
+                if widget_class in widgets_to_be_overloaded:
+                    module, wdgt = ARCTIC_WIDGET_OVERLOADS[widget_class].\
+                        rsplit('.', 1)
+                    new_widget_module = importlib.import_module(module)
+                    new_widget_class = getattr(new_widget_module, wdgt)
+                    new_widget = None
+                    if widget_class in ('Select', 'ToggleSelectWidget',
+                                        'LazySelect'):
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs,
+                            form.fields[field].widget.choices)
+                    elif widget_class in ('DateInput', 'DateTimeInput',
+                                          'TimeInput'):
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs,
+                            form.fields[field].widget.format)
+                        new_widget.supports_microseconds = \
+                            form.fields[field].widget.supports_microseconds
+                    else:
+                        new_widget = new_widget_class(
+                            form.fields[field].widget.attrs)
+                    form.fields[field].widget = new_widget
 
             if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True

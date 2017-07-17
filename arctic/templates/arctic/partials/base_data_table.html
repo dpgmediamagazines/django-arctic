@@ -3,22 +3,40 @@
 {% load i18n staticfiles arctic_tags %}
 
     <div class="row">
-        {% if has_filter %}
+        {% if simple_search_form or advanced_search_form %}
             <form action="" method="GET" class="col">
-                <fieldset type="get">
+                {% block search_form %}
+                <fieldset type="get" id="arctic_search_form">
                     <div class="page-filters row">
-                        {% include "arctic/partials/form_fields_inline.html" with form=filter.form hide_label=True %}
-                        <div class="col col-auto">
-                            <button type="submit" class="btn btn-secondary">
-                                <i class="fa fa-search"></i>
-                            </button>
+                        <div class="col">
+                            <label class="sr-only" for="search">Search</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon">&#128269;</div>
+                                <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
+                                {% if advanced_search_form %}
+                                    <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">&equiv;</a>
+                                {% endif %}
+                            </div>
+                            {% if advanced_search_form %}
+                                {% block advanced_search_form %}
+                                    <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
+                                        {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
+                                        <div class="form-block">
+                                            <div class="col">
+                                                <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endblock %}
+                            {% endif %}
                         </div>
                     </div>
                 </fieldset>
+                {% endblock %}
             </form>
         {% endif %}
         {% if tool_links %}
-            <div class="col {% if has_filter %}col-auto{% endif %}">
+            <div class="col {% if simple_search_form or advanced_search_form %}col-auto{% endif %}">
                 <div class="form-group">
                 {% if tool_links|length > 1 %}
                     <button class="button secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
@@ -76,8 +94,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {# TODO remove test for #}
-                            {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
                             {% for row in list_items %}
                                 <tr>
                                     {% for column in row %}
@@ -114,13 +130,12 @@
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
-                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div> {# small-12 columns #}
-    </div> {# row #}
+        </div>
+    </div> 
     {% block pagination %}
         {% with page_obj=page_obj paginator=page_obj.paginator %}
             {% include "arctic/partials/pagination.html" %}
