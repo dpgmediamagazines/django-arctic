@@ -1,0 +1,36 @@
+{% for field in form %}
+
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+        <div class="col">
+            <div class="form-group">
+                {% if not hide_label %}
+                    {{ field.label_tag }}
+                {% endif %}
+                {% if field|widget_type == 'searchinput' %}
+                    {% render_field field placeholder="Search.." class+='form-control' %}
+                {% elif field|widget_type == 'daterangeinput' %}
+                    <div class="field__date">
+                        {% render_field field class+='js-datepicker' placeholder="Date.." %}
+                    </div>
+                {% elif field|widget_type == 'select' and not disable_chosen %}
+                    {% render_field field class+='js-selectize' data-placeholder=field.label %}
+                {% elif field|widget_type == 'toggleselectwidget' and not disable_chosen %}
+                    {% render_field field class+='js-selectize' data-placeholder=field.label %}
+                {% elif field|widget_type == 'selectmultiple' and not disable_chosen %}
+                    {% render_field field class+='js-selectize' data-placeholder=field.label %}
+                {% else %}
+                    {% render_field field class+='form-control' %}
+                {% endif %}
+
+                {% for error in field.errors %}
+                <ul class="error-block">
+                    <li>{{ error }}</li>
+                </ul>
+                {% endfor %}
+            {# No help text as it wraps #}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
