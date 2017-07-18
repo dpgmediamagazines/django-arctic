@@ -30,14 +30,16 @@ input[type='url'],
 input[type='tel'],
 input[type='password'],
 input[type='number'],
-input[type='color']
+input[type='color'],
+textarea
  {
     @extend .form-control
 }
 
 select {
-    @extend .custom-select 
+    @extend .custom-select
 }
+
 
 li {
     list-style: none;

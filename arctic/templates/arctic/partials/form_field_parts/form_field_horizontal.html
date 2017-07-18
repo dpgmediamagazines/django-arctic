@@ -1,7 +1,7 @@
 {% if field.widget.attrs.type == 'checkboxinput' or field.widget.attrs.type == 'radioselect' %}
     <div class="row">
         <div class="{% if size %}col-sm-{{size}}{% else %}col-sm-2{% endif %} col">
-            {{ field.label|safe }}
+            {% include 'arctic/partials/form_field_parts/field_label.html' %}
         </div>
         <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
             <label for="{{ field.auto_id }}">
@@ -11,12 +11,12 @@
     </div>
 {% else %}
     <div class="row">
-        <div class="{% if size %}sm-{{size}}{% else %}sm-2{% endif %} col">
+        <div class="col-sm-12 {% if size %}col-md-{{size}} col-lg-{{size}}{% else %}col-md-2 col-lg-2{% endif %}">
             <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
-                {{ field.label|safe }}
+                {% include 'arctic/partials/form_field_parts/field_label.html' %}
             </label>
         </div>
-        <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
+        <div class="col-sm-12 {% if size %}col-md{{-12|add:size}} col-lg{{-12|add:size}}{% else %}col-md-10 col-lg-10{% endif %}">
             {{ field }}
         </div>
     </div>

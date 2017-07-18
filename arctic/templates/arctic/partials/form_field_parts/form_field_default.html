@@ -7,7 +7,7 @@
     <div class="form-group float-label">
         {{ field }}
         <label for="{{ field.auto_id }}">
-            {{ field.label|safe }}
+            {% include 'arctic/partials/form_field_parts/field_label.html' %}
         </label>
     </div>
 {% endif %}
