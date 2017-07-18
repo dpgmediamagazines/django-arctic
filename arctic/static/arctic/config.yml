@@ -50,5 +50,6 @@ PATHS:
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/reveal-iframe.js"
     - "src/assets/js/components/toggle_form.js"
+    - "src/assets/js/components/widgets.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
