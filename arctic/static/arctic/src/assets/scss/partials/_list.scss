@@ -12,3 +12,13 @@
     font-size: $font-size-xs;
     opacity: .8;
 }
+
+.list-actions {
+
+    > a {
+        float: right;
+        font-size: $font-size-xs;
+        padding: 0.1em 0.4em;
+        opacity: 0.8;
+    }
+}
