@@ -23,6 +23,22 @@
     overflow-x: auto; //turn overflow on on all screen resolutions
 }
 
+input[type='text'],
+input[type='search'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='password'],
+input[type='number'],
+input[type='color']
+ {
+    @extend .form-control
+}
+
+li {
+    list-style: none;
+}
+
 //bootstrap overwrite
 a:not([href]):not([tabindex]) {
     color: $link-color;
