@@ -80,6 +80,11 @@ label {
     padding: .45rem 0;
 }
 
+.nav-tabs .nav-link {
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
 .hide {
     display: none !important;
 }
@@ -158,12 +163,9 @@ label {
     max-width: 100%;
     padding: 0 12px;
     @include media-breakpoint-up(md) {
-        max-width: 70%;
+        max-width: 75%;
         margin: auto;
         padding: 0;
-        &--80 {
-            max-width: 80%;
-        }
     }
 }
 
