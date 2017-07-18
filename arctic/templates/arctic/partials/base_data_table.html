@@ -132,11 +132,11 @@
                     </table>
                 </div>
             </div>
-        </div>
-        {% block pagination %}
-            {% with page_obj=page_obj paginator=page_obj.paginator %}
-                {% include "arctic/partials/pagination.html" %}
-            {% endwith %}
-        {% endblock %}
+            {% block pagination %}
+                {% with page_obj=page_obj paginator=page_obj.paginator %}
+                    {% include "arctic/partials/pagination.html" %}
+                {% endwith %}
+            {% endblock %}
     {% endif %}
+    </div>
 </div>

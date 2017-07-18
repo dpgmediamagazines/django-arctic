@@ -5,17 +5,17 @@
 @import "bootstrap";
 
 //partials
-@import "partials/offcanvas";
 @import "partials/burger";
+@import "partials/float-label";
 @import "partials/header";
-@import "partials/_float-label";
-@import "partials/_temp";
+@import "partials/list";
+@import "partials/offcanvas";
 
 //pages
-@import "pages/_login";
+@import "pages/login";
 
 //vendor
-@import "components/selectize/_selectize";
+@import "components/selectize/selectize";
 
 @import "partials/temp";
 
