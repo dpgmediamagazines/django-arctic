@@ -104,7 +104,7 @@
                                                     {{ column.value|default_if_none:"" }}
                                                 {% else %}
                                                     {% for item in column.value %}
-                                                        <span class="badge highlight-background">{{ item }}</span>
+                                                        <span class="list-tag">{{ item }}</span>
                                                     {% endfor %}
                                                 {% endif %}
                                                 {% if column.url %}

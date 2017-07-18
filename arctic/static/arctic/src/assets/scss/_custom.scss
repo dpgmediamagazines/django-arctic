@@ -81,8 +81,8 @@ $brand-inverse:             $gray-dark !default;
 $gray-medium:          #9A9A9A;
 $sidebar-background:   var(--sidebar-background, #6EB5C0);
 $sidebar-color:        var(--sidebar-color, $gray-lighter);
-$highlight-background: var(--highlight-background, #C1C1D1);
-$highlight-color:      var(--highlight-color, #FFFFFF);
+$highlight-background: var(--highlight-background, #dfdff2);
+$highlight-color:      var(--highlight-color, $gray-dark);
 
 
 // Options
