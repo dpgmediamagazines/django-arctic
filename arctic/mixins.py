@@ -203,7 +203,7 @@ class LayoutMixin(object):
         1) No fieldset, which is represented as an integer
         2) A fieldset
         """
-        collapsible = False
+        collapsible = None
         description = None
         try:
             # Make sure strings with numbers work as well, do this
@@ -217,11 +217,14 @@ class LayoutMixin(object):
                                            'fieldset from its description.')
 
             title = fieldset
-            if fieldset and fieldset[0] == '-':
-                collapsible = True
-                title = fieldset[1:]
             if '|' in fieldset:
                 title, description = fieldset.split('|')
+            if fieldset and (fieldset[0] in '-+'):
+                if fieldset[0] == '-':
+                    collapsible = 'closed'
+                else:
+                    collapsible = 'open'
+                title = title[1:]
 
         return {'title': title,
                 'description': description,

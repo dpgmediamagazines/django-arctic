@@ -5,10 +5,12 @@
             {% for index, layout_item in layout.items %}
                 <div class="form-block">
                     {% if layout_item.fieldset.title or layout_item.fieldset.description %}
-                        <div class="arctic-card__form-header {% if layout_item.fieldset.collapsible %} js--collapse-toggle{% endif %}">
-                            <span class="collapse-control {% if layout_item.fieldset.collapsible %} collapsed {% endif %}" data-toggle="collapse" data-target="#js--collapse-form-{{forloop.counter}}" aria-expanded="false" aria-controls="js--collapse-form">
+                        <div class="arctic-card__form-header {% if layout_item.fieldset.collapsible == 'closed' %} js--collapse-toggle{% endif %}">
+                        {% if layout_item.fieldset.collapsible %}
+                            <span class="collapse-control {% if layout_item.fieldset.collapsible == 'closed'%} collapsed {% endif %}" data-toggle="collapse" data-target="#js--collapse-form-{{forloop.counter}}" aria-expanded="false" aria-controls="js--collapse-form">
                                 <i class="fa fa-angle-down"></i>
                             </span>
+                        {% endif %}
                     {% endif %}
                         {% if layout_item.fieldset.title %}
                             <h6 class="arctic-card__title">{{ layout_item.fieldset.title }}</h6>
@@ -24,7 +26,7 @@
                         arctic-card__placeholder--small
                         {% endif %}"></div>
                     {% endif %}
-                    <div id="js--collapse-form-{{forloop.counter}}" class="{% if layout_item.fieldset.collapsible %} collapse {% else %} show {% endif %}">
+                    <div id="js--collapse-form-{{forloop.counter}}" class="{% if layout_item.fieldset.collapsible == 'closed' %} collapse {% else %} show {% endif %}">
                         {% for row in layout_item.rows %}
                             <div class="row{% if field.errors %} error {% endif %}">
                                 {% if row|typename == 'dict' %}

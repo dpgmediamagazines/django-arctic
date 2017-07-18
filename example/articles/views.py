@@ -63,7 +63,7 @@ class ArticleUpdateView(UpdateView):
     ]
     layout = OrderedDict([
                         ('',
-                         ['title|10', ['category', 'tags|5']]),
+                         ['title', ['category', 'tags|5']]),
                         ('Body|Extra Information for this fieldset',
                          ['description']),
                         ('Extended Details',
@@ -93,7 +93,7 @@ class ArticleCreateView(CreateView):
     layout = OrderedDict([
                         ('-Basic Details',
                          ['title|10', ['category', 'tags|5']]),
-                        ('Body|Extra Information for this fieldset',
+                        ('+Body|Extra Information for this fieldset',
                          ['description']),
                         ('Extended Details',
                          [['published|4', 'updated_at']])])
