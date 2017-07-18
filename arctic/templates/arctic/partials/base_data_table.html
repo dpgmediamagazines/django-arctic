@@ -1,18 +1,38 @@
 {% load i18n staticfiles arctic_tags %}
 
 <div class="row">
+    {% if tool_links %}
+        <div class="col">
+            <div class="form-group">
+            {% if tool_links|length > 1 %}
+                <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
+                    <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
+                        <ul>
+                            {% for link in tool_links %}
+                                <li><a href="{% url link.url %}">{{ link.label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            {% else %}
+                <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
+            {% endif %}
+            </div>
+        </div>
+    {% endif %}
     {% if simple_search_form or advanced_search_form %}
-        <form action="" method="GET" class="col">
+        <form action="" method="GET" class="col-12 col-md-6 push-right">
             {% block search_form %}
             <fieldset type="get" id="arctic_search_form">
                 <div class="page-filters row">
                     <div class="col">
                         <label class="sr-only" for="search">Search</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon">&#128269;</div>
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
                             <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
                             {% if advanced_search_form %}
-                                <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">&equiv;</a>
+                                <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                                    <i class="fa fa-sliders"></i>
+                                </a>
                             {% endif %}
                         </div>
                         {% if advanced_search_form %}
@@ -32,24 +52,6 @@
             </fieldset>
             {% endblock %}
         </form>
-    {% endif %}
-    {% if tool_links %}
-        <div class="col {% if simple_search_form or advanced_search_form %}col-auto{% endif %}">
-            <div class="form-group">
-            {% if tool_links|length > 1 %}
-                <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
-                    <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
-                        <ul>
-                            {% for link in tool_links %}
-                                <li><a href="{% url link.url %}">{{ link.label }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-            {% else %}
-                <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
-            {% endif %}
-            </div>
-        </div>
     {% endif %}
 </div>
 
@@ -78,7 +80,7 @@
                                                 {% elif item.order_direction == 'asc' %}
                                                     <i class="fa fa-sort-asc"></i>
                                                 {% else %}
-                                                    <i class="fa fa-sort"></i>
+                                                    <i class="fa fa-sort show-on-hover"></i>
                                                 {% endif %}</a>
                                         {% else %}
                                             {{ item.label }}
@@ -87,7 +89,7 @@
                                 {% endfor %}
 
                                 {% if has_action_links %}
-                                    <th>{% trans "Actions" %}</th>
+                                    <th>&nbsp;</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -104,7 +106,7 @@
                                                     {{ column.value|default_if_none:"" }}
                                                 {% else %}
                                                     {% for item in column.value %}
-                                                        <span class="badge highlight-background">{{ item }}</span>
+                                                        <span class="list-tag">{{ item }}</span>
                                                     {% endfor %}
                                                 {% endif %}
                                                 {% if column.url %}
@@ -112,16 +114,15 @@
                                                 {% endif %}
                                             </td>
                                         {% elif column.type == 'actions' %}
-                                            <td class="actions">
+                                            <td class="list-actions">
                                                 {% for link in column.actions %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }}" title="{{ link.label|capfirst }}">
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
                                                         {% if link.icon %}
                                                             <i class="fa {{ link.icon }} fa-lg"></i>
                                                         {% else %}
                                                             {{ link.label|capfirst }}
                                                         {% endif %}
                                                     </a>
-                                                    &nbsp;
                                                 {% endfor %}
                                             </td>
                                         {% endif %}

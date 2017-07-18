@@ -1,3 +1,34 @@
 .paginator-block {
     float: right;
 }
+
+.list-tag {
+    color: $highlight-color;
+    background-color: $highlight-background;
+    padding: .05em .2em;
+    border-radius: $border-radius-sm;
+    margin: .20em;
+    float: left;
+    font-size: $font-size-xs;
+    opacity: .8;
+}
+
+.list-actions {
+
+    > a {
+        float: right;
+        font-size: $font-size-xs;
+        padding: 0.1em 0.4em;
+        opacity: 0.8;
+    }
+}
+
+.table {
+    tr .show-on-hover {
+        visibility: hidden;
+    }
+
+    tr:hover .show-on-hover {
+        visibility: visible;
+    }
+}
