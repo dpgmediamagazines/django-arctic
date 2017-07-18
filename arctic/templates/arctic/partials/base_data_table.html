@@ -80,7 +80,7 @@
                                                 {% elif item.order_direction == 'asc' %}
                                                     <i class="fa fa-sort-asc"></i>
                                                 {% else %}
-                                                    <i class="fa fa-sort"></i>
+                                                    <i class="fa fa-sort show-on-hover"></i>
                                                 {% endif %}</a>
                                         {% else %}
                                             {{ item.label }}
@@ -89,7 +89,7 @@
                                 {% endfor %}
 
                                 {% if has_action_links %}
-                                    <th>{% trans "Actions" %}</th>
+                                    <th>&nbsp;</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -116,7 +116,7 @@
                                         {% elif column.type == 'actions' %}
                                             <td class="list-actions">
                                                 {% for link in column.actions %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm" title="{{ link.label|capfirst }}">
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
                                                         {% if link.icon %}
                                                             <i class="fa {{ link.icon }} fa-lg"></i>
                                                         {% else %}

@@ -22,3 +22,13 @@
         opacity: 0.8;
     }
 }
+
+.table {
+    tr .show-on-hover {
+        visibility: hidden;
+    }
+
+    tr:hover .show-on-hover {
+        visibility: visible;
+    }
+}
