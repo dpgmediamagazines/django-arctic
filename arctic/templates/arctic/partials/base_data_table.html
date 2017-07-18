@@ -2,7 +2,7 @@
 
 <div class="row">
     {% if tool_links %}
-        <div class="col {% if simple_search_form or advanced_search_form %}col-auto{% endif %}">
+        <div class="col">
             <div class="form-group">
             {% if tool_links|length > 1 %}
                 <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
@@ -20,7 +20,7 @@
         </div>
     {% endif %}
     {% if simple_search_form or advanced_search_form %}
-        <form action="" method="GET" class="col">
+        <form action="" method="GET" class="col-12 col-md-6 push-right">
             {% block search_form %}
             <fieldset type="get" id="arctic_search_form">
                 <div class="page-filters row">
