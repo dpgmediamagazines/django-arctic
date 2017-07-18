@@ -35,6 +35,10 @@ input[type='color']
     @extend .form-control
 }
 
+select {
+    @extend .custom-select 
+}
+
 li {
     list-style: none;
 }
