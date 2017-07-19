@@ -73,29 +73,31 @@
     <h4>Selectize</h4>
     <div class="row">
         <div class="col-md-4 col">
-            <label>
-                Tags
+            <div class="form-group float-label float-label--static">
+                <label>Tags</label>
                 <input type="text" class="js-selectize-tags" placeholder="Selectize tags" value="tags,test,arctic">
-            </label>
+            </div>
         </div>
         <div class="col-md-4 col">
-            <label for="select-gear">Option groups</label>
-            <select id="select-gear" class="js-selectize" multiple placeholder="Select gear...">
-                <option value="">Select gear...</option>
-                <optgroup label="Climbing">
-                    <option value="pitons">Pitons</option>
-                    <option value="cams">Cams</option>
-                    <option value="nuts">Nuts</option>
-                    <option value="bolts">Bolts</option>
-                    <option value="stoppers">Stoppers</option>
-                    <option value="sling">Sling</option>
-                </optgroup>
-                <optgroup label="Skiing">
-                    <option value="skis">Skis</option>
-                    <option value="skins">Skins</option>
-                    <option value="poles">Poles</option>
-                </optgroup>
-            </select>
+            <div class="form-group float-label float-label--static">
+                <label for="select-gear">Option groups</label>
+                <select id="select-gear" placeholder="Select gear...">
+                    <option value="">Select gear...</option>
+                    <optgroup label="Climbing">
+                        <option value="pitons">Pitons</option>
+                        <option value="cams">Cams</option>
+                        <option value="nuts">Nuts</option>
+                        <option value="bolts">Bolts</option>
+                        <option value="stoppers">Stoppers</option>
+                        <option value="sling">Sling</option>
+                    </optgroup>
+                    <optgroup label="Skiing">
+                        <option value="skis">Skis</option>
+                        <option value="skins">Skins</option>
+                        <option value="poles">Poles</option>
+                    </optgroup>
+                </select>
+            </div>
         </div>
     </div>
 

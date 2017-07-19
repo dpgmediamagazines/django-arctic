@@ -12,7 +12,8 @@
     input[type=password],
     input[type=date],
     input[type=number],
-    textarea {
+    textarea,
+    select {
         width: 100%;
         position: relative;
         z-index: 1;
@@ -39,5 +40,18 @@
         transition: all 0.2s;
         width: 100%;
         z-index: 2;
+        white-space: nowrap;
     }
 }
+
+.float-label--static {
+    @extend .float-label;
+
+    label {
+        pointer-events: none;
+        user-select: none;
+        top: .3rem;
+        font-size: 75%;
+    }
+}
+
