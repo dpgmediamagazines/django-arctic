@@ -4,7 +4,6 @@
 
 .float-label {
     position: relative;
-    overflow: hidden;
 
     input[type=text],
     input[type=password],
@@ -43,19 +42,16 @@
         z-index: 2;
         white-space: nowrap;
     }
-
-    select + label {
-        border: 1px solid blue;
-
-            top: .3rem !important;
-            font-size: 75% !important;
-    }
 }
 
 .float-label--static {
+    @extend .float-label;
 
     label {
+        pointer-events: none;
+        user-select: none;
         top: .3rem;
         font-size: 75%;
     }
 }
+
