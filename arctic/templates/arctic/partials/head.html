@@ -18,5 +18,19 @@
 
 {% block arctic_extra_head_includes %}{% endblock %}
 <style>
+    :root {
+        {% if SIDEBAR_BACKGROUND %}
+            --sidebar-background: ;
+        {% endif %}
+        {% if SIDEBAR_COLOR %}
+            --sidebar-color: ;
+        {% endif %}
+        {% if HIGHLIGHT_BACKGROUND %}
+            --highlight-background: ;
+        {% endif %}
+        {% if HIGHLIGHT_COLOR %}
+            --highlight-color: ;
+        {% endif %}
+    }
     {% block arctic__extra_styles %}{% endblock %}
 </style>
