@@ -17,7 +17,7 @@
     // template and state
     var dialog = {};
     dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
-                    '<div class="modal-dialog" style="top:25%" role="document">' +
+                    '<div class="modal-dialog" style="top:10%" role="document">' +
                     '<div class="modal-content">' +
                     '<iframe frameborder="0" allowfullscreen></iframe>' +
                     '</div></div></div>';
@@ -26,7 +26,7 @@
     dialog.size = null;
     dialog.url = null;
     dialog.ready = false;
-    dialog.extraScrollHeight = 20;
+    dialog.extraScrollHeight = 44;
 
 
     // dialog methods
@@ -140,7 +140,7 @@
             // auto close
             var autoClose = $body.data( 'auto-close' );
             if ( autoClose ) {
-                self.dialog.modal( 'close' );
+                self.dialog.modal('hide');
             };
 
             // close on click
@@ -160,7 +160,7 @@
 
                 // else close dialog..
                 event.preventDefault();
-                self.dialog.modal( 'close' );
+                self.dialog.modal('hide');
                 buttons.off('click');
             });
             var closeButton = $body.find( '[data-close-dialog]' );
@@ -202,14 +202,12 @@
         },
 
 
-        // set dialog size with as default tiny
+        // set dialog size
         setDialogSize: function ( size ) {
             var self = this;
 
             if ( size !== undefined && size.length ) {
-                self.dialog.addClass( size );
-            } else {
-                self.dialog.addClass( 'tiny' ); // set default size when there's null..
+                self.dialog.addClass(size);
             }
         },
 
@@ -237,8 +235,10 @@
                 iframe.css( 'height', minHeight );
             } else {
                 // container with overflow scroll
-                var $wrapper = iframe.contents().find( ".js--block-wrapper" );
+                var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
+                console.log($wrapper);
                 var scrollHeight = $wrapper[0].scrollHeight;
+                console.log(scrollHeight);
 
                 // set height
                 iframe.css( 'height', scrollHeight + self.extraScrollHeight );
