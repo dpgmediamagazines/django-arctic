@@ -116,7 +116,7 @@
                                         {% elif column.type == 'actions' %}
                                             <td class="list-actions">
                                                 {% for link in column.actions %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm" title="{{ link.label|capfirst }}">
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
                                                         {% if link.icon %}
                                                             <i class="fa {{ link.icon }} fa-lg"></i>
                                                         {% else %}
