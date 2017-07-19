@@ -72,7 +72,9 @@ class View(RoleAuthentication, base.View):
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_TITLE'] = self.get_site_title()
         context['SITE_LOGO'] = self.get_site_logo()
-        context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
+        context['SIDEBAR_BACKGROUND'] = self.get_sidebar_background()
+        context['SIDEBAR_COLOR'] = self.get_sidebar_color()
+        context['HIGHLIGHT_BACKGROUND'] = self.get_highlight_background()
         context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         context['DATETIME_FORMATS'] = self.get_datetime_formats()
         context['LOGIN_URL'] = self.get_login_url()
@@ -152,11 +154,17 @@ class View(RoleAuthentication, base.View):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
                        self.get_site_name())
 
-    def get_topbar_background_color(self):
-        return getattr(settings, 'ARCTIC_TOPBAR_BACKGROUND_COLOR', None)
+    def get_sidebar_color(self):
+        return getattr(settings, 'ARCTIC_SIDEBAR_COLOR', None)
+
+    def get_sidebar_background(self):
+        return getattr(settings, 'ARCTIC_SIDEBAR_BACKGROUND', None)
 
     def get_highlight_color(self):
         return getattr(settings, 'ARCTIC_HIGHLIGHT_COLOR', None)
+
+    def get_highlight_background(self):
+        return getattr(settings, 'ARCTIC_HIGHLIGHT_BACKGROUND', None)
 
     def get_index_url(self):
         try:
