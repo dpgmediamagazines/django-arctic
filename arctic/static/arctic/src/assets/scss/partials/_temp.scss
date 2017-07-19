@@ -36,7 +36,8 @@ input[type='password'],
 input[type='number'],
 input[type='color'],
 textarea,
-select {
+select,
+select:not([size]):not([multiple]) {
     @extend .form-control;
     @extend .custom-select;
     height: 45px;
