@@ -37,7 +37,8 @@ textarea
 }
 
 select {
-    @extend .custom-select
+    @extend .custom-select;
+    height: 45px;
 }
 
 
