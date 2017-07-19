@@ -18,9 +18,8 @@
     var dialog = {};
     dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
                     '<div class="modal-dialog" style="top:10%" role="document">' +
-                    '<div class="modal-content">' +
                     '<iframe frameborder="0" allowfullscreen></iframe>' +
-                    '</div></div></div>';
+                    '</div></div>';
     dialog.element = $( dialog.element );
     dialog.parameter = 'dialog=1';
     dialog.size = null;
@@ -252,7 +251,7 @@
             var frameHeight = iframe.height();
             var windowHeight = window.innerHeight;
             var top = (windowHeight - frameHeight)/2;
-            iframe.parent().parent().css( 'top', top );
+            iframe.parent().css( 'top', top );
         },
 
         // close dialog

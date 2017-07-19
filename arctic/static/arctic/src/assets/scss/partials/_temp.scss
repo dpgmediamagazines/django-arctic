@@ -101,7 +101,7 @@ label {
 //arctic card css
 .arctic-card {
     border-radius: $border-radius;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+    border: 1px solid $input-border-color;
     background-color: white;
     overflow-x: auto;
     margin-bottom: 1rem;
@@ -255,4 +255,12 @@ label {
 
 .modal-dialog {
     margin: 0 auto;
+
+    iframe {
+        max-height: 80vh;
+        width: 100%;
+        border: 0;
+        border-radius: $border-radius;
+        border-color: $input-border-color;
+    }
 }
