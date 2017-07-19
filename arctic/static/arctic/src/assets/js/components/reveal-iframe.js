@@ -26,7 +26,6 @@
     dialog.size = null;
     dialog.url = null;
     dialog.ready = false;
-    dialog.extraScrollHeight = 44;
 
 
     // dialog methods
@@ -233,18 +232,19 @@
 
             if (minHeight) {
                 iframe.css( 'height', minHeight );
+                self.repositionIframe(iframe);
             } else {
                 // container with overflow scroll
-                var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
-                console.log($wrapper);
-                var scrollHeight = $wrapper[0].scrollHeight;
-                console.log(scrollHeight);
+                setTimeout(function(){
+                    var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
+                    var scrollHeight = $wrapper[0].scrollHeight;
 
-                // set height
-                iframe.css( 'height', scrollHeight + self.extraScrollHeight );
+                    // set height
+                    iframe.css( 'height', scrollHeight);
+                    self.repositionIframe(iframe);
+                }, 0);
             }
             // trigger resize for positioning
-            self.repositionIframe(iframe);
             $( window ).trigger( 'resize' );
         },
 

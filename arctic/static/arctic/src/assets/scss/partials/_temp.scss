@@ -35,13 +35,9 @@ input[type='tel'],
 input[type='password'],
 input[type='number'],
 input[type='color'],
-textarea
- {
-    @extend .form-control
-}
-
+textarea,
 select {
-    @extend .custom-select
+    @extend .form-control;
 }
 
 
@@ -252,6 +248,11 @@ label {
     max-width: 75rem;
 }
 
+.modal.medium .modal-dialog{
+    width: 60%;
+    max-width: 75rem;
+}
+
 .modal-dialog {
-    margin: 0 auto; 
+    margin: 0 auto;
 }
