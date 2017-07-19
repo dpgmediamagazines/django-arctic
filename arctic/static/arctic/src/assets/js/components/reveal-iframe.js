@@ -18,7 +18,11 @@
 
     // template and state
     var dialog = {};
-    dialog.element = '<section id="reveal-iframe" class="reveal external" data-reveal><iframe frameborder="0" allowfullscreen></iframe></section>';
+    dialog.element = '<div class="modal fade" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
+                    '<div class="modal-dialog" role="document">' +
+                    '<div class="modal-content">' +
+                    '<iframe frameborder="0" allowfullscreen></iframe>' +
+                    '</div></div></div>';
     dialog.element = $( dialog.element );
     dialog.parameter = 'dialog=1';
     dialog.size = null;
@@ -32,6 +36,7 @@
 
         init( $triggers ) {
             var self = this;
+            console.log('trigers');
 
             if ( !$triggers instanceof jQuery ) {
                 throw new Error( '$triggers is not a jQuery object' );
@@ -130,9 +135,9 @@
 
             // find dialog..
             if ( window.parent === window ) {
-                self.dialog = $( 'body' ).find( '.reveal' );
+                self.dialog = $( 'body' ).find( '.modal' );
             } else {
-                self.dialog = window.parent.$( window.parent.document ).find( '.reveal' );
+                self.dialog = window.parent.$( window.parent.document ).find( '.modal' );
             }
 
             // auto close
@@ -164,7 +169,7 @@
             var closeButton = $body.find( '[data-close-dialog]' );
             closeButton.on( 'click' , function ( event ) {
                 event.preventDefault();
-                self.dialog.modal( 'close' );
+                self.dialog.modal( 'hide' );
                 closeButton.off('click');
             });
         }
@@ -184,7 +189,8 @@
             if ( hasDialog == 0 ) {
                 self.dialog = self.element;
                 $( 'body' ).find( self.dialog );
-                new Foundation.Reveal( self.dialog );
+                self.dialog.modal('show')
+                // new Foundation.Reveal( self.dialog );
                 //TODO switch to a bootstrap method
             }
         },
@@ -218,13 +224,19 @@
             var self = this;
 
             var iframe = self.dialog.find( 'iframe' );
-
-            iframe.load( function() {
+            iframe.on("load", function() {
                 if ( !dialog.ready ) {
                     dialog.ready = true;
                     callback(self, minHeight)
                 }
-            }).attr( "src", url );
+            });
+            iframe.attr( "src", url );
+            // iframe.load( function() {
+            //     if ( !dialog.ready ) {
+            //         dialog.ready = true;
+            //         callback(self, minHeight)
+            //     }
+            // }).attr( "src", url );
         },
 
 
@@ -236,7 +248,7 @@
                 iframe.css( 'height', minHeight );
             } else {
                 // container with overflow scroll
-                var $wrapper = iframe.contents().find( ".block-wrapper" );
+                var $wrapper = iframe.contents().find( ".js--block-wrapper" );
                 var scrollHeight = $wrapper[0].scrollHeight;
 
                 // set height
@@ -337,8 +349,9 @@
 
     // init module
     $( document ).ready( function() {
+        console.log('in');
         var $body = $( 'body.dialog' );
-        var $triggers = $( '[data-open][data-url]' );
+        var $triggers = $( '[data-target][data-url]' );
 
         if ( $triggers.length ) {
             isDialog.init( $triggers );
