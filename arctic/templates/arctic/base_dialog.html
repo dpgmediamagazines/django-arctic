@@ -18,20 +18,20 @@
 
     <body class="dialog {% block body_class %}{% endblock %}" {% if auto_close %} data-auto-close="1"{% endif %}{% if refresh_parent %} data-refresh-parent="1"{% endif %}>
         {% block header %}
-            <header class="topbar-background">
-                <h3>
+            <div class="dialog-header">
+                <div class="dialog-header__page-title">
                     {% block title %}{{ page_title }}{% endblock %}
-                </h3>
+                </div>
 
                 {% block close %}
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-close-dialog>
+                <button type="button" class="close dialog-header__close" data-dismiss="modal" aria-label="Close" data-close-dialog>
                     <span aria-hidden="true">&times;</span>
                 </button>
                 {% endblock %}
-            </header>
+            </div>
         {% endblock %}
 
-        <div class="block-wrapper">
+        <div class="dialog-body">
             {% block content %}{% endblock %}
         </div>
 
