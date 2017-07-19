@@ -1,8 +1,8 @@
 {% load i18n staticfiles arctic_tags %}
 
 <div class="row">
-    {% if tool_links %}
-        <div class="col">
+    <div class="col">
+        {% if tool_links %}
             <div class="form-group">
             {% if tool_links|length > 1 %}
                 <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
@@ -17,10 +17,10 @@
                 <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i title="{{ tool_links.0.label }}" class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
             {% endif %}
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
     {% if simple_search_form or advanced_search_form %}
-        <form action="" method="GET" class="col-12 col-md-6 push-right">
+        <form action="" method="GET" class="col-12 col-md-6 push-right list-inline-search">
             {% block search_form %}
             <fieldset type="get" id="arctic_search_form">
                 <div class="page-filters row">

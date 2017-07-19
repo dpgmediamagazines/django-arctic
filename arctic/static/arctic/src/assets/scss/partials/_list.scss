@@ -53,7 +53,7 @@
 }
 
 
-tbody tr{
+tbody tr {
     .list-actions-placeholder {
         background-color: $table-bg;
     }
@@ -62,4 +62,8 @@ tbody tr{
             background-color: $table-accent-bg;
         }
     }
+}
+
+.list-inline-search {
+    margin-bottom: $form-group-margin-bottom;
 }

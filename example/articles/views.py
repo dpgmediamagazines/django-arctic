@@ -155,6 +155,7 @@ class CategoryArticlesListView(ArticleListView):
 class CategoryUpdateView(UpdateView):
     page_title = _("Edit Category")
     model = Category
+    fields = '__all__'
     success_url = reverse_lazy('articles:category-list')
     tabs = [
         ('Detail', 'articles:category-detail'),
@@ -201,6 +202,7 @@ class TagListView(ListView):
 class TagUpdateView(UpdateView):
     page_title = _("Edit Tag")
     model = Tag
+    fields = '__all__'
     success_url = reverse_lazy('articles:tag-list')
     permission_required = 'change_tag'
 
