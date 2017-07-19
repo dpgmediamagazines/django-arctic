@@ -5,5 +5,6 @@
 {% block content %}
     {% block list_content %}
         {% include "arctic/partials/base_data_table.html" %}
+        {% block extra_data %}{% endblock %}
     {% endblock %}
 {% endblock %}

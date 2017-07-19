@@ -20,16 +20,16 @@
 <style>
     :root {
         {% if SIDEBAR_BACKGROUND %}
-            --sidebar-background: ;
+            --sidebar-background: {{SIDEBAR_BACKGROUND}};
         {% endif %}
         {% if SIDEBAR_COLOR %}
-            --sidebar-color: ;
+            --sidebar-color: {{SIDEBAR_COLOR}};
         {% endif %}
         {% if HIGHLIGHT_BACKGROUND %}
-            --highlight-background: ;
+            --highlight-background: {{HIGHLIGHT_BACKGROUND}};
         {% endif %}
         {% if HIGHLIGHT_COLOR %}
-            --highlight-color: ;
+            --highlight-color: {{HIGHLIGHT_COLOR}};
         {% endif %}
     }
     {% block arctic__extra_styles %}{% endblock %}
