@@ -3,12 +3,16 @@
 @import "font-awesome";
 @import "custom";
 @import "bootstrap";
+@import "globals";
 
 //partials
+@import "partials/arctic-card";
 @import "partials/burger";
 @import "partials/float-label";
+@import "partials/forms";
 @import "partials/header";
 @import "partials/list";
+@import "partials/modal";
 @import "partials/offcanvas";
 
 //pages
@@ -16,8 +20,6 @@
 
 //vendor
 @import "components/selectize/selectize";
-
-@import "partials/temp";
 
 // Datepicker
 @import "components/air-datepicker/cell";

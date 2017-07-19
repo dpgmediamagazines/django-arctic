@@ -1,5 +1,61 @@
-.paginator-block {
-    float: right;
+.table {
+    border-radius: $border-radius;
+    thead th,
+    tbody th {
+        border-top: none;
+        font-weight: normal;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: $gray-medium;
+        a {
+            color: $gray-medium;
+            padding-right: 1.5em;
+            white-space: nowrap;
+        }
+    }
+
+    thead tr {
+        .show-on-hover {
+            visibility: hidden;
+        }
+        &:hover {
+            .show-on-hover {
+                visibility: visible;
+            }
+        }
+    }
+
+    tbody tr {
+        .list-actions-placeholder {
+            background-color: $table-bg;
+        }
+        &:nth-child(odd) {
+            .list-actions-placeholder {
+                background-color: $table-accent-bg;
+            }
+        }
+        &:hover {
+            .list-actions .list-actions-placeholder {
+                    display: none;
+                }
+        }
+    }
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto; //turn overflow on on all screen resolutions
+}
+
+.clickable-cell {
+    a {
+        display: block;
+        padding: $table-cell-padding;
+        margin: #{-$table-cell-padding};
+    }
 }
 
 .list-tag {
@@ -25,20 +81,6 @@
     }
 }
 
-.table {
-    thead tr .show-on-hover {
-        visibility: hidden;
-    }
-
-    thead tr:hover .show-on-hover {
-        visibility: visible;
-    }
-
-    tr:hover .list-actions .list-actions-placeholder {
-        display: none;
-    }
-}
-
 .list-actions-placeholder {
     display: none;
     position: absolute;
@@ -52,18 +94,24 @@
     }
 }
 
-
-tbody tr {
-    .list-actions-placeholder {
-        background-color: $table-bg;
-    }
-    &:nth-child(odd) {
-        .list-actions-placeholder {
-            background-color: $table-accent-bg;
-        }
-    }
-}
-
 .list-inline-search {
     margin-bottom: $form-group-margin-bottom;
+}
+
+.paginator-block {
+    float: right;
+}
+
+.pagination-info {
+    margin-bottom: 1rem;
+    padding: .45rem 0;
+}
+
+.nav-tabs {
+    margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    text-transform: uppercase;
+    font-size: 12px;
 }

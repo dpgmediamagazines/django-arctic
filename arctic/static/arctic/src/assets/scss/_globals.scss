@@ -1,0 +1,24 @@
+li {
+    list-style: none;
+}
+
+//bootstrap overwrite
+a:not([href]):not([tabindex]) {
+    color: $link-color;
+    cursor: pointer;
+    &:hover {
+        color: $link-hover-color
+    }
+}
+
+.hide {
+    display: none !important;
+}
+
+//Global block wrapper for every page_title
+.content-wrapper {
+    padding: 12px;
+    max-width: $site-max-width;
+    margin-left: auto;
+    margin-right: auto;
+}
