@@ -56,10 +56,17 @@ $marginMedium: 10px;
     }
 
     .item {
-        padding: .25rem .5rem;
-        font-size: 0.8rem;
+        align-self: flex-end;
+        height: 22px;
+        line-height: 20px;
+        color: $white;
+        margin: .155rem 0 .155rem .2rem;
+        padding: 0 .5rem;
+        font-size: 75%;
         font-weight: normal;
+        background-color: $link-color;
         border-radius: $border-radius-sm;
+        border: 1px solid transparent;
     }
 
     .remove {
@@ -68,18 +75,15 @@ $marginMedium: 10px;
     }
 }
 
+.input-active {
+    border: 1px solid $custom-select-focus-border-color;
+}
+
 .selectize-control.multi {
     .selectize-input {
         .item {
-            margin: .155rem .2rem .155rem 0;
-            color: $white;
-            background-color: grey;
             cursor: pointer;
             border: 1px solid transparent;
-
-            &.active {
-                border-color: rgba(0,0,0,0.3)
-            }
         }
     }
 }
