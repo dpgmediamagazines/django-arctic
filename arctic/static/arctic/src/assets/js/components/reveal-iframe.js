@@ -1,7 +1,5 @@
 /*
 
-    Reveal.js extends foundation reveal()
-
     When triggering a dialog
     <element data-url />  = is url which need to be opened with iframe
     <element data-size /> = size of dialog
@@ -18,8 +16,8 @@
 
     // template and state
     var dialog = {};
-    dialog.element = '<div class="modal fade" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">' +
-                    '<div class="modal-dialog" role="document">' +
+    dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
+                    '<div class="modal-dialog" style="top:25%" role="document">' +
                     '<div class="modal-content">' +
                     '<iframe frameborder="0" allowfullscreen></iframe>' +
                     '</div></div></div>';
@@ -36,7 +34,6 @@
 
         init( $triggers ) {
             var self = this;
-            console.log('trigers');
 
             if ( !$triggers instanceof jQuery ) {
                 throw new Error( '$triggers is not a jQuery object' );
@@ -57,13 +54,13 @@
                 dialog.size = trigger.data( 'size' );
                 dialog.minHeight = trigger.data( 'min-height' );
 
-                // foundation opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
+                // bootstarp opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
 
                 // setup iframe
                 dialog.open(dialog.url, dialog.size, dialog.minHeight);
             });
 
-            // reset iframe when foundation when closing from outside the dialog
+            // reset iframe when bootstarp when closing from outside the dialog
             dialog.element.on( 'hidden.bs.modal', function() {
                 dialog.close();
             });
@@ -189,14 +186,12 @@
             if ( hasDialog == 0 ) {
                 self.dialog = self.element;
                 $( 'body' ).find( self.dialog );
-                self.dialog.modal('show')
-                // new Foundation.Reveal( self.dialog );
-                //TODO switch to a bootstrap method
+                //needs the timeout if the open animation is off
+                setTimeout(function(){ self.dialog.modal('show'); }, 0);
             }
         },
 
         // open dialog
-        // * foundation opens dialog
         open: function(url, size, minHeight) {
             var self = this;
 
@@ -231,12 +226,6 @@
                 }
             });
             iframe.attr( "src", url );
-            // iframe.load( function() {
-            //     if ( !dialog.ready ) {
-            //         dialog.ready = true;
-            //         callback(self, minHeight)
-            //     }
-            // }).attr( "src", url );
         },
 
 
@@ -263,11 +252,11 @@
             var frameHeight = iframe.height();
             var windowHeight = window.innerHeight;
             var top = (windowHeight - frameHeight)/2;
-            iframe.parent().css( 'top', top );
+            iframe.parent().parent().css( 'top', top );
         },
 
         // close dialog
-        // * foundation closes dialog
+        // * bootstarp closes dialog
         close: function() {
             var self = this;
             self.disableAreYouSure();
@@ -349,7 +338,6 @@
 
     // init module
     $( document ).ready( function() {
-        console.log('in');
         var $body = $( 'body.dialog' );
         var $triggers = $( '[data-target][data-url]' );
 
