@@ -40,13 +40,13 @@
     padding-top: 60px;
 }
 
-.modal{
-    .large .modal-dialog {
+.modal {
+    &.large .modal-dialog {
         width: 90%;
         max-width: 75rem;
     }
 
-    .medium .modal-dialog {
+    &.medium .modal-dialog {
         width: 60%;
         max-width: 75rem;
     }
