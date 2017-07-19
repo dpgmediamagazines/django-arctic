@@ -1,7 +1,5 @@
 /*
 
-    Reveal.js extends foundation reveal()
-
     When triggering a dialog
     <element data-url />  = is url which need to be opened with iframe
     <element data-size /> = size of dialog
