@@ -1,0 +1,70 @@
+input[type='text'],
+input[type='search'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='password'],
+input[type='number'],
+input[type='color'],
+textarea,
+select,
+select:not([size]):not([multiple]) {
+    @extend .form-control;
+    @extend .custom-select;
+    height: 45px;
+}
+
+label {
+    display: block;
+    margin: 0;
+}
+
+.fieldset-default {
+    position: relative;
+    padding: 24px 0;
+}
+
+.form-block {
+    margin-bottom: 1rem;
+}
+
+.form-size {
+    max-width: 100%;
+    padding: 0 12px;
+    @include media-breakpoint-up(md) {
+        max-width: 75%;
+        margin: auto;
+        padding: 0;
+    }
+}
+
+.form-size-full {
+    width: 100%;
+    padding: 12px;
+}
+
+//help-text
+.help-text {
+    margin-top: -.4rem;
+    margin-bottom: 0.6rem;
+    font-size: .7rem;
+    font-style: italic;
+    opacity: 0.55;
+}
+
+
+.collapse-control {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -2px;
+    right: 6px;
+    padding-left: 6px;
+    cursor: pointer;
+
+    &.collapsed {
+        .fa {
+            transform: rotate(90deg);
+        }
+    }
+}

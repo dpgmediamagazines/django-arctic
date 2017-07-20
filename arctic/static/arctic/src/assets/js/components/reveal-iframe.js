@@ -18,15 +18,13 @@
     var dialog = {};
     dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
                     '<div class="modal-dialog" style="top:10%" role="document">' +
-                    '<div class="modal-content">' +
                     '<iframe frameborder="0" allowfullscreen></iframe>' +
-                    '</div></div></div>';
+                    '</div></div>';
     dialog.element = $( dialog.element );
     dialog.parameter = 'dialog=1';
     dialog.size = null;
     dialog.url = null;
     dialog.ready = false;
-    dialog.extraScrollHeight = 44;
 
 
     // dialog methods
@@ -233,18 +231,19 @@
 
             if (minHeight) {
                 iframe.css( 'height', minHeight );
+                self.repositionIframe(iframe);
             } else {
                 // container with overflow scroll
-                var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
-                console.log($wrapper);
-                var scrollHeight = $wrapper[0].scrollHeight;
-                console.log(scrollHeight);
+                setTimeout(function(){
+                    var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
+                    var scrollHeight = $wrapper[0].scrollHeight;
 
-                // set height
-                iframe.css( 'height', scrollHeight + self.extraScrollHeight );
+                    // set height
+                    iframe.css( 'height', scrollHeight);
+                    self.repositionIframe(iframe);
+                }, 0);
             }
             // trigger resize for positioning
-            self.repositionIframe(iframe);
             $( window ).trigger( 'resize' );
         },
 
@@ -252,7 +251,7 @@
             var frameHeight = iframe.height();
             var windowHeight = window.innerHeight;
             var top = (windowHeight - frameHeight)/2;
-            iframe.parent().parent().css( 'top', top );
+            iframe.parent().css( 'top', top );
         },
 
         // close dialog

@@ -62,7 +62,7 @@ function sass() {
     // Comment in the pipe below to run UnCSS in production
     // .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
     .pipe($.if(PRODUCTION, $.cssnano()))
-    .pipe($.sourcemaps.write())
+    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(PATHS.dist + '/assets/css'))
 }
 
