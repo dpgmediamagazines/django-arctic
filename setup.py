@@ -1,6 +1,5 @@
 from setuptools import (find_packages, setup)
 
-
 __VERSION__ = '0.9.7'
 
 
@@ -41,6 +40,10 @@ setup(
     install_requires=REQUIREMENTS,
     packages=find_packages(),
     include_package_data=True,
+    entry_points={
+        'console_scripts': [
+            'arctic = arctic.bin.arctic:main',
+        ]},
     license='MIT',
     url='https://github.com/sanoma/django-arctic',
     author='Sanoma Netherlands',

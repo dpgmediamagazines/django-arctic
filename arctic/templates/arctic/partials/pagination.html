@@ -2,40 +2,44 @@
 {% load i18n %}
 
 {% if paginator.num_pages > 1 or paginator.num_pages == -1 %}
-    <div class="row align-middle align-justify">
-        <ul class="pagination column" role="navigation" aria-label="Pagination">
-            {% if page_obj.has_previous %}
-                <li>
-                    <a href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous page">
-                        {% trans "Previous page" %}
-                    </a>
-                </li>
-            {% else %}
-                <li class="disabled">
-                    {% trans "Previous page" %}
-                </li>
-            {% endif %}
-
-            {% if page_obj.has_next %}
-                <li>
-                    <a href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" aria-label="Next page">
-                        {% trans "Next page" %}
-                    </a>
-                </li>
-            {% else %}
-                <li class="disabled">
-                    {% trans "Next page" %}
-                </li>
-            {% endif %}
-
-        </ul>
-
-        <div class="column">
+    <div class="row paginator-block">
+        <div class="col col-auto">
             <div class="pagination-info">
-            {% with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
-                {{ start }} — {{ end }}{% if count != -1 %} {% trans "of" %} {{ count }} {% endif %}
-            {% endwith %}
+                {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
+                    {{ start }} &ndash; {{ end }} of {{ count }}
+                {% endblocktrans %}
             </div>
+        </div>
+        <div class="col col-auto">
+            <ul class="pagination" role="navigation" aria-label="Pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" aria-label="Previous page">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">
+                            <i class="fa fa-arrow-left"></i>
+                        </spam>
+                    </li>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" aria-label="Next page">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        </span class="page-link">
+                            <i class="fa fa-arrow-right"></i>
+                        </span>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 {% endif %}

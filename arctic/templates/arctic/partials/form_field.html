@@ -1,6 +1,3 @@
-{% load widget_tweaks %}
-
-
 {% if field.is_hidden %}
     {{ field }}
 {% else %}
@@ -11,25 +8,22 @@
     {% block control_group %}
 
         {% if not layout %}
-            <div class="row align-center {% if field.errors %}error{% endif %}">
+            <div class="row {% if field.errors %}error{% endif %}">
         {% endif %}
         {% block controls %}
-            <div class="{%if column %}small-12 medium-{{column}}{% endif %} columns">
-                <div {% if field|widget_type == 'checkboxinput' %}class="checkbox"{% endif %}>
-
+            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
+                <div class="form-group float-label">
                     {% block widget %}
-                        <!-- {{ field|widget_type }} -->
                         {# checkbox or radio #}
-                        {% if style == 'vertical' %}
-                            {% include "arctic/partials/form_field_parts/form_field_default.html" %}
-                        {% elif style == 'horizontal' %}
+                        <div class="form-check">
+                        {% if style == 'horizontal' %}
                             {% include "arctic/partials/form_field_parts/form_field_horizontal.html" %}
                         {% else %}
-                            {# deafault #}
+                            {# default #}
                             {% include "arctic/partials/form_field_parts/form_field_default.html" %}
                         {% endif %}
+                        </div>
                     {% endblock %}
-
 
                     {% block errors %}
                         {% for error in field.errors %}
@@ -40,7 +34,6 @@
                         {% endfor %}
                     {% endblock %}
 
-
                     {% block help_text %}
                         {% if field.help_text %}
                             <div class='help-text'>
@@ -49,14 +42,12 @@
                             </div>
                         {% endif %}
                     {% endblock %}
-
-                    </div>
                 </div>
+            </div>
             {% endblock %}
 
             {% if not layout %}
                     </div>
             {% endif %}
         {% endblock %}
-
 {% endif %}

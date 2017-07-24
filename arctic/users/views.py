@@ -23,7 +23,6 @@ class UserListView(ListView):
                        'role__name', 'user__last_login']
 
     search_fields = ['user__{}'.format(username_field)]
-    filter_fields = ['user__is_active']
     # action_links = [
     #     ('delete', 'users:delete', 'fa-trash'),
     # ]

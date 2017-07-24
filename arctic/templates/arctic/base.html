@@ -12,131 +12,113 @@
 
         {% block body %}
 
-            {# page header #}
-            <header class="primary-header row align-middle align-justify topbar-background">
-                <div class="columns shrink">
-                    <a href="#" class="menu-button hide-for-large" id="menu-button" data-toggle="offCanvas">
-                        <span class="burger-icon"></span>
-                    </a>
-                    <a href="{{ index_url }}" class="logo">
-                        <img src="{% static SITE_LOGO %}" />
-                        <span class="hide-for-small-only">{{ SITE_NAME }}</span>
-                    </a>
-                </div>
-                {% block topbar_menu %}
-                <div class="columns shrink">
-                    <ul class="dropdown menu" data-dropdown-menu data-options="disableHover:true;clickOpen:true;">
-                        {% if not request.user.is_anonymous %}
-                        {% if LOGOUT_URL %}
-                        <li>
-                            <a href="#" class="user">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
-                            <ul class="menu">
-                                <li id="menu-logout">
-                                	<a href="{{ LOGOUT_URL }}">Logout</a>
-                                </li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                        {% else %}
-                        {% if LOGIN_URL %}
-                            <li id="menu-login">
-                                <a href="{{ LOGIN_URL }}">Login</a>
-                            </li>
-                        {% endif %}
-                        {% endif %}
-                    </ul>
-                </div>
-                {% endblock %}
-            </header>
-
-            <div class="off-canvas-wrapper">
-                <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-
-                    {# sidebar #}
-                    <div class="off-canvas position-left reveal-for-large" id="offCanvas" data-off-canvas>
-
+        <div class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-left flex-nowrap">
+                <div class="col sidebar-offcanvas" id="sidebar">
                     {% include "arctic/partials/menu.html" %}
                 </div>
-
-                    {# page content #}
-                    <div class="off-canvas-content" data-off-canvas-content>
-
-                        {% block outer_content %}
-                            <div class="block-wrapper">
-                            {% if breadcrumbs %}
-                                <nav aria-label="You are here:" role="navigation">
-                                    <ul class="breadcrumbs">
-                                        {% for name, url in breadcrumbs %}
-                                            {% if forloop.last %}
-                                                <li><span class="show-for-sr">Current: </span>{{ name }}</li>
-                                            {% else %}
-                                                <li><a href="{% url url %}">{{ name }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </nav>
+                <div class="col content-offcanvas">
+                    {% block header %}
+                    <header class="col-sm-12">
+                        <h3 class="header__title">
+                            <span class="hidden-lg-up">
+                                <a href="#" class="menu-button" id="menu-button">
+                                    <span class="burger-icon"></span>
+                                </a>
+                            </span>
+                            {{ page_title }}
+                        </h3>
+                        <nav class="nav dropdown header__menu">
+                            {% if not request.user.is_anonymous %}
+                                {% if LOGOUT_URL %}
+                                    <a href="#" class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
+                                        <div class="dropdown-menu" aria-labelledby="user-dropdown">
+                                                <a class="dropdown-item" href="{{ LOGOUT_URL }}">{% trans "Logout" %}</a>
+                                            </li>
+                                        </ul>
+                                {% endif %}
+                            {% else %}
+                                {% if LOGIN_URL %}
+                                    <li id="menu-login">
+                                        <a href="{{ LOGIN_URL }}">Login</a>
+                                    </li>
+                                {% endif %}
                             {% endif %}
+                        </ul>
+                    </header>
+                    {% endblock %}
+                    <div class="content-wrapper">
+                    {% block breadcrumbs%}
+                        {% if breadcrumbs %}
+                            <nav class="breadcrumb">
+                                {% for name, url in breadcrumbs %}
+                                    {% if forloop.last %}
+                                        <span class="breadcrumb-item active">
+                                            {{ name }}
+                                        </span>
+                                    {% else %}
+                                        <a class="breadcrumb-item" href="{% url url %}">
+                                            {{ name }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </nav>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    {% endblock %}
 
-                                {# page page header #}
-                                <div class="row">
-                                    <h3 class="columns">
-                                        {{ page_title }}
-                                    </h3>
-                                </div>
+                    {# page page description #}
+                    {% if page_description %}
+                        <div class="row">
+                            <small>{{ page_description }}</small>
+                        </div>
+                    {% endif %}
 
-                                {# page page description #}
-                                {% if page_description %}
-                                    <div class="row">
-                                        <small>{{ page_description }}</small>
-                                    </div>
-                                {% endif %}
-
-                                {# tabs #}
-                                {% if tabs %}
-                                    <div class="row">
-                                        <div class="small-12 columns">
-                                            <ul class="tabs" id="table-tabs">
-                                                {% for name, url in tabs %}
-                                                    {% if object.pk %}
-                                                        {% arctic_url url object.pk as url %}
-                                                    {% else %}
-                                                        {% arctic_url url as url %}
-                                                    {% endif %}
-                                                    {% if request.path == url %}
-                                                        <li class="tabs-title is-active"><a href="javascript:">{{ name }}</a></li>
-                                                    {% else %}
-                                                        <li class="tabs-title"><a href="{{ url }}">{{ name }}</a></li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                {# page messages #}
-                                {% if messages %}
-                                    {% for message in messages %}
-                                    <div class="row">
-                                        <div class="column">
-                                        <div class="callout {{ message.tags }}" data-closable>
-                                            {{ message }}
-                                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        </div>
-                                    </div>
+                    {# tabs #}
+                    {% if tabs %}
+                        <div class="row">
+                            <div class="col-sm-12 col">
+                                <ul class="nav nav-tabs" id="table-tabs" role="tablist">
+                                    {% for name, url in tabs %}
+                                        <li class="nav-item">
+                                            {% if object.pk %}
+                                                {% arctic_url url object.pk as url %}
+                                            {% else %}
+                                                {% arctic_url url as url %}
+                                            {% endif %}
+                                            {% if request.path == url %}
+                                                <a class="nav-link active" href="javascript:">{{ name }}</a></li>
+                                            {% else %}
+                                                <a class="nav-link" href="{{ url }}">{{ name }}</a></li>
+                                            {% endif %}
+                                        </li>
                                     {% endfor %}
-                                {% endif %}
-
-                                {# content #}
-                                {% block content %}content here{% endblock %}
+                                </ul>
                             </div>
-                        {% endblock %}
-                    </div>
+                        </div>
+                    {% endif %}
 
+                    {# page messages #}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="row">
+                            <div class="col">
+                            <div class="callout {{ message.tags }}" data-closable>
+                                {{ message }}
+                                <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                        {% block content %}content here{% endblock %}
+                    </div>
                 </div>
             </div>
+        </div>
         {% endblock %}
 
         {% block scripts_bottom %}

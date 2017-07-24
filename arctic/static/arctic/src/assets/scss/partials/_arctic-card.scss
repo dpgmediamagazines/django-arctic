@@ -1,0 +1,49 @@
+.arctic-card {
+    border-radius: $border-radius;
+    border: 1px solid $input-border-color;
+    background-color: white;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+
+    &__header {
+        padding: 12px;
+    }
+
+    &__form-header {
+        position: absolute;
+        width: calc(100% - 24px);
+        left: 12px;
+
+        & .arctic-card__title {
+            border-bottom: 1px solid $input-border-color;
+            padding-bottom: 5px;
+        }
+
+        & .arctic-card__subtitle {
+            position: relative;
+            top: 5px;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        color: $gray-dark;
+        font-weight: 300;
+    }
+
+    &__subtitle {
+        color: $gray-medium;
+        font-size: 13px;
+        margin-bottom: 0px;
+    }
+
+    &__placeholder {
+        width: 100%;
+        &--small {
+            height: 50px
+        }
+        &--big {
+            height: 70px
+        }
+    }
+}

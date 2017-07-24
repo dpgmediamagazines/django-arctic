@@ -19,13 +19,11 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-from arctic.mixins import FormMediaMixin
-from .filters import filterset_factory
-from .mixins import (LayoutMixin, LinksMixin, ListMixin, RoleAuthentication,
-                     SuccessMessageMixin)
-from .paginator import IndefinitePaginator
-from .utils import (find_attribute, find_field_meta, get_attribute,
-                    get_field_class, menu, view_from_url)
+from arctic.mixins import (FormMediaMixin, LayoutMixin, LinksMixin, ListMixin,
+                           RoleAuthentication, SuccessMessageMixin)
+from arctic.paginator import IndefinitePaginator
+from arctic.utils import (find_attribute, find_field_meta, get_attribute,
+                          get_field_class, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -76,7 +74,9 @@ class View(RoleAuthentication, base.View):
         context['SITE_NAME'] = self.get_site_name()
         context['SITE_TITLE'] = self.get_site_title()
         context['SITE_LOGO'] = self.get_site_logo()
-        context['TOPBAR_BACKGROUND_COLOR'] = self.get_topbar_background_color()
+        context['SIDEBAR_BACKGROUND'] = self.get_sidebar_background()
+        context['SIDEBAR_COLOR'] = self.get_sidebar_color()
+        context['HIGHLIGHT_BACKGROUND'] = self.get_highlight_background()
         context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         context['DATETIME_FORMATS'] = self.get_datetime_formats()
         context['LOGIN_URL'] = self.get_login_url()
@@ -156,11 +156,17 @@ class View(RoleAuthentication, base.View):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
                        self.get_site_name())
 
-    def get_topbar_background_color(self):
-        return getattr(settings, 'ARCTIC_TOPBAR_BACKGROUND_COLOR', None)
+    def get_sidebar_color(self):
+        return getattr(settings, 'ARCTIC_SIDEBAR_COLOR', None)
+
+    def get_sidebar_background(self):
+        return getattr(settings, 'ARCTIC_SIDEBAR_BACKGROUND', None)
 
     def get_highlight_color(self):
         return getattr(settings, 'ARCTIC_HIGHLIGHT_COLOR', None)
+
+    def get_highlight_background(self):
+        return getattr(settings, 'ARCTIC_HIGHLIGHT_BACKGROUND', None)
 
     def get_index_url(self):
         try:
@@ -265,8 +271,16 @@ class ListView(View, ListMixin, base.ListView):
     """
     Custom listview. Adding filter, sorting and display logic.
     """
-    filter_fields = []  # One on one maping to django-filter fields meta option
+    template_name = 'arctic/base_list.html'
+    fields = None  # Which fields should be shown in listing
     search_fields = []
+    simple_search_form = None  # Simple search form if search_fields is defined
+    advanced_search_form = None  # Custom form for advanced search
+    ordering_fields = []  # Fields with ordering (subset of fields)
+    default_ordering = []  # Default ordering, e.g. ['title', '-brand']
+    action_links = []  # "Action" links on item level. For example "Edit"
+    field_links = {}
+    field_classes = {}
     tool_links_icon = 'fa-wrench'
     prefix = ''  # Prefix for embedding multiple list views in detail view
     max_embeded_list_items = 10  # when displaying a list in a column
@@ -279,12 +293,30 @@ class ListView(View, ListMixin, base.ListView):
         return self.render_to_response(context)
 
     def get_object_list(self):
-        if self.get_filter_fields() or self.get_search_fields():
-            filterset_class = self.get_filterset_class()
-            self.filterset = self.get_filterset(filterset_class)
-            self.object_list = self.filterset.qs
-        else:
-            self.object_list = self.get_queryset()
+        qs = self.get_queryset()
+
+        if self.get_advanced_search_form():
+            form = self.get_advanced_search_form()(data=self.request.GET)
+            if not hasattr(form, 'get_search_filter'):
+                raise AttributeError(
+                    'advanced_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
+
+        if self.get_simple_search_form():
+            if self.get_search_fields():
+                form = self.get_simple_search_form()(
+                    search_fields=self.get_search_fields(),
+                    data=self.request.GET
+                )
+            else:
+                form = self.get_simple_search_form()(data=self.request.GET)
+
+            if not hasattr(form, 'get_search_filter'):
+                raise AttributeError(
+                    'simple_search_form must implement get_search_filter()')
+            qs = qs.filter(form.get_search_filter())
+
+        self.object_list = qs
 
         return self.object_list
 
@@ -451,40 +483,6 @@ class ListView(View, ListMixin, base.ListView):
         return [f for f in fields if f.lstrip('-')
                 in self.get_ordering_fields()]
 
-    def get_filterset_class(self):
-        if not self.get_filter_fields() and not self.get_search_fields():
-            return None
-
-        return filterset_factory(
-            model=self.model or self.queryset.model,
-            fields=self.get_filter_fields(),
-            search_fields=self.get_search_fields()
-        )
-
-    def get_filterset(self, filterset_class):
-        """
-        Returns an instance of the filterset to be used in this view.
-        """
-        kwargs = self.get_filterset_kwargs(filterset_class)
-        return filterset_class(**kwargs)
-
-    def get_filterset_kwargs(self, filterset_class):
-        """
-        Returns the keyword arguments for instantiating the filterset.
-        """
-        data = self.request.GET.copy()
-        for key in self.request.GET:
-            if not data[key]:
-                data.pop(key)
-
-        kwargs = {
-            'data': data,
-            'queryset': self.get_queryset(),
-        }
-        if self.prefix:
-            kwargs['prefix'] = self.prefix
-        return kwargs
-
     def get_page_title(self):
         if not self.page_title:
             return capfirst(self.object_list.model._meta.verbose_name_plural)
@@ -499,9 +497,12 @@ class ListView(View, ListMixin, base.ListView):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_filter_fields() or self.get_search_fields():
-            context['has_filter'] = True
-            context['filter'] = self.filterset
+        if self.get_simple_search_form():
+            context['simple_search_form'] = \
+                self.get_simple_search_form()(data=self.request.GET)
+        if self.get_advanced_search_form():
+            context['advanced_search_form'] = \
+                self.get_advanced_search_form()(data=self.request.GET)
         return context
 
 

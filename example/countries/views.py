@@ -32,8 +32,9 @@ class CountryListView(DataListView):
     search_fields = ['name']
     breadcrumbs = (('Home', 'index'), ('Country List', None))
     filter_fields = ['published']
+    page_title = 'Countries'
     permission_required = 'country_view'
 
     def get_flag_field(self, obj):
-        return mark_safe('<div style="width: 3em;"><img src="{}" /></div>'.
-                         format(obj['flag']))
+        return mark_safe('<img style="max-width: 2rem" src="{}" />'
+                         .format(obj['flag']))

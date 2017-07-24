@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
-    'widget_tweaks',
     'dashboard',
     'articles',
     'arctic',

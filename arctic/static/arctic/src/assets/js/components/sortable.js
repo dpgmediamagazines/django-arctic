@@ -34,19 +34,19 @@
         var self = this;
 
         // is there a sortable element, if so gather information about setup
-        if ( self.element.size() ) {
+        if ( self.element.length ) {
             self.rowClass = self.element.data( 'row' );
             self.row = self.element.find( self.rowClass );
 
             // error handling, is there something to sort?
-            if ( !self.row.size() ) {
+            if ( !self.row.length ) {
                 console.log( 'Sortable: data-to-sort not valid or empty' );
                 return
             }
 
             // check if there's a delete button, if so listen to it
             self.deleteHandle = self.row.find( self.element.data( 'delete-handle' ) );
-            if ( self.deleteHandle.size() ) {
+            if ( self.deleteHandle.length ) {
 
                 self.deleteHandle.on( 'click', function ( event ) {
                     self.remove( this, self );
@@ -100,12 +100,12 @@
             // find placeholder within row if not exist check outside row
             placeholder = element.find( placeholder );
 
-            if ( !( placeholder.size() )) {
+            if ( !( placeholder.length )) {
                 placeholder = $( self.sortPlaceholder );
             }
 
             // is there something to save to?
-            if ( placeholder.size() ) {
+            if ( placeholder.length ) {
                 placeholder.val( index );
             }
         });
@@ -121,7 +121,7 @@
         self.deletePlaceholderClass = self.element.data( 'delete-placeholder' );
         self.deletePlaceholder = rule.find( self.deletePlaceholderClass );
 
-        if ( self.deletePlaceholder.size() ){
+        if ( self.deletePlaceholder.length ){
             self.deletePlaceholder.prop( "checked", true );
         }
 

@@ -1,7 +1,5 @@
 /*
 
-    Reveal.js extends foundation reveal()
-
     When triggering a dialog
     <element data-url />  = is url which need to be opened with iframe
     <element data-size /> = size of dialog
@@ -18,13 +16,15 @@
 
     // template and state
     var dialog = {};
-    dialog.element = '<section id="reveal-iframe" class="reveal external" data-reveal><iframe frameborder="0" allowfullscreen></iframe></section>';
+    dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
+                    '<div class="modal-dialog" style="top:10%" role="document">' +
+                    '<iframe frameborder="0" allowfullscreen></iframe>' +
+                    '</div></div>';
     dialog.element = $( dialog.element );
     dialog.parameter = 'dialog=1';
     dialog.size = null;
     dialog.url = null;
     dialog.ready = false;
-    dialog.extraScrollHeight = 20;
 
 
     // dialog methods
@@ -52,14 +52,14 @@
                 dialog.size = trigger.data( 'size' );
                 dialog.minHeight = trigger.data( 'min-height' );
 
-                // foundation opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
+                // bootstarp opens dialog cause 'data-open' attr, which triggers 'open.zf.reveal'
 
                 // setup iframe
                 dialog.open(dialog.url, dialog.size, dialog.minHeight);
             });
 
-            // reset iframe when foundation when closing from outside the dialog
-            dialog.element.on( 'closed.zf.reveal', function() {
+            // reset iframe when bootstarp when closing from outside the dialog
+            dialog.element.on( 'hidden.bs.modal', function() {
                 dialog.close();
             });
         }
@@ -130,15 +130,15 @@
 
             // find dialog..
             if ( window.parent === window ) {
-                self.dialog = $( 'body' ).find( '.reveal' );
+                self.dialog = $( 'body' ).find( '.modal' );
             } else {
-                self.dialog = window.parent.$( window.parent.document ).find( '.reveal' );
+                self.dialog = window.parent.$( window.parent.document ).find( '.modal' );
             }
 
             // auto close
             var autoClose = $body.data( 'auto-close' );
             if ( autoClose ) {
-                self.dialog.foundation( 'close' );
+                self.dialog.modal('hide');
             };
 
             // close on click
@@ -158,13 +158,13 @@
 
                 // else close dialog..
                 event.preventDefault();
-                self.dialog.foundation( 'close' );
+                self.dialog.modal('hide');
                 buttons.off('click');
             });
             var closeButton = $body.find( '[data-close-dialog]' );
             closeButton.on( 'click' , function ( event ) {
                 event.preventDefault();
-                self.dialog.foundation( 'close' );
+                self.dialog.modal( 'hide' );
                 closeButton.off('click');
             });
         }
@@ -184,12 +184,12 @@
             if ( hasDialog == 0 ) {
                 self.dialog = self.element;
                 $( 'body' ).find( self.dialog );
-                new Foundation.Reveal( self.dialog );
+                //needs the timeout if the open animation is off
+                setTimeout(function(){ self.dialog.modal('show'); }, 0);
             }
         },
 
         // open dialog
-        // * foundation opens dialog
         open: function(url, size, minHeight) {
             var self = this;
 
@@ -200,14 +200,12 @@
         },
 
 
-        // set dialog size with as default tiny
+        // set dialog size
         setDialogSize: function ( size ) {
             var self = this;
 
             if ( size !== undefined && size.length ) {
-                self.dialog.addClass( size );
-            } else {
-                self.dialog.addClass( 'tiny' ); // set default size when there's null..
+                self.dialog.addClass(size);
             }
         },
 
@@ -217,13 +215,13 @@
             var self = this;
 
             var iframe = self.dialog.find( 'iframe' );
-
-            iframe.load( function() {
+            iframe.on("load", function() {
                 if ( !dialog.ready ) {
                     dialog.ready = true;
                     callback(self, minHeight)
                 }
-            }).attr( "src", url );
+            });
+            iframe.attr( "src", url );
         },
 
 
@@ -233,28 +231,31 @@
 
             if (minHeight) {
                 iframe.css( 'height', minHeight );
+                self.repositionIframe(iframe);
             } else {
                 // container with overflow scroll
-                var $wrapper = iframe.contents().find( ".block-wrapper" );
-                var scrollHeight = $wrapper[0].scrollHeight;
+                setTimeout(function(){
+                    var $wrapper = iframe.contents().find( ".js--dialog-scrol-size" );
+                    var scrollHeight = $wrapper[0].scrollHeight;
 
-                // set height
-                iframe.css( 'height', scrollHeight + self.extraScrollHeight );
+                    // set height
+                    iframe.css( 'height', scrollHeight);
+                    self.repositionIframe(iframe);
+                }, 0);
             }
             // trigger resize for positioning
-            self.repositionIframe(iframe);
             $( window ).trigger( 'resize' );
         },
-        
+
         repositionIframe: function (iframe) {
             var frameHeight = iframe.height();
-            var windowHeight = window.innerHeight; 
+            var windowHeight = window.innerHeight;
             var top = (windowHeight - frameHeight)/2;
             iframe.parent().css( 'top', top );
         },
 
         // close dialog
-        // * foundation closes dialog
+        // * bootstarp closes dialog
         close: function() {
             var self = this;
             self.disableAreYouSure();
@@ -306,8 +307,8 @@
             self.dialog.remove();
 
             // disable listeners
-            self.dialog.off( 'open.zf.reveal' );
-            self.dialog.off( 'close.zf.reveal' );
+            self.dialog.off( 'shown.zf.reveal' );
+            self.dialog.off( 'hidden.zf.reveal' );
 
             if ( $triggers.length ) {
 
@@ -326,7 +327,7 @@
     window.arctic.utils.revealInIframe = {
         open: function( url, size ) {
             dialog.open( url, size );
-            dialog.element.foundation( 'open' );
+            dialog.element.modal( 'open' );
         },
         close: function() {
             dialog.close();
@@ -337,7 +338,7 @@
     // init module
     $( document ).ready( function() {
         var $body = $( 'body.dialog' );
-        var $triggers = $( '[data-open][data-url]' );
+        var $triggers = $( '[data-target][data-url]' );
 
         if ( $triggers.length ) {
             isDialog.init( $triggers );
