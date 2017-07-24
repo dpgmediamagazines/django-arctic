@@ -1,11 +1,10 @@
 {% load arctic_tags %}
-
 <div class="row align-center">
-    <div class="small-12 medium-8 columns">
-        <fieldset class="fieldset-default">
-        {% for field in form %}
-            {% include 'arctic/partials/form_field.html' with field=field%}
-        {% endfor %}
-        </fieldset>
+    <div class="col-sm-12 col-md-8 col">
+        <div class="form-group">
+            {% for field in form %}
+                {% include 'arctic/partials/form_field.html' with field=field%}
+            {% endfor %}
+        </div>
     </div>
 </div>

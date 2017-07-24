@@ -1,0 +1,145 @@
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+
+$sidebar-width: 200px;
+
+
+@each $bp in map-keys($grid-breakpoints) {
+  .hidden-#{$bp}-up {
+    @include media-breakpoint-up($bp) {
+      display: none !important;
+    }
+  }
+  .hidden-#{$bp}-down {
+    @include media-breakpoint-down($bp) {
+      display: none !important;
+    }
+  }
+}
+.row-offcanvas {
+    &.active {
+        #sidebar {
+            transform:translateX($sidebar-width);
+        }
+
+        .content-offcanvas {
+            transform:translateX($sidebar-width);
+        }
+    }
+}
+
+#sidebar {
+    position: fixed;
+    max-width: $sidebar-width;
+    min-height: 100vh;
+    background-color: $sidebar-background;
+    color: $sidebar-color;
+    left: #{-$sidebar-width};
+    transition: transform .4s ease;
+
+    @include media-breakpoint-up(lg) {
+        left: 0;
+    }
+}
+
+@mixin active-menu-item {
+    position: relative;
+    color: rgba(0, 0, 0, 0.5);
+
+    > :after {
+        border-right: 0.8rem solid $body-bg;
+        border-top: 0.8rem solid transparent;
+        border-bottom: 0.8rem solid transparent;
+        content: "";
+        display: inline-block;
+        position: absolute;
+        right: -0.95rem;
+        top: 0px;
+    }
+
+}
+
+.sidebar__menu {
+    list-style: none;
+    padding-left: 0;
+
+    >li a {
+        color: $sidebar-color;
+        display: block;
+        padding: .25rem;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.07);
+        }
+
+        &.no-sub.active {
+            @include active-menu-item;
+        }
+
+        >.menu__arrow {
+            float: right;
+            padding-top: 2%;
+        }
+
+    }
+}
+
+.sidebar__submenu {
+    list-style: none;
+    padding-left: 0;
+    display: none;
+
+    >li a {
+        padding: .25rem .25rem .25rem 1.25rem;
+
+        &.active {
+            @include active-menu-item;
+        }
+    }
+
+    &.active {
+        display: block;
+    }
+}
+
+.sidebar__icon {
+    display: inline-block;
+    width: 1.2rem;
+}
+
+.sidebar__header {
+    text-align: center;
+    padding: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 1em;
+
+    img {
+        max-width: 100%;
+        max-height: 3em;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    a {
+        color: $sidebar-color;
+    }
+
+    h1 {
+        font-size: $font-size-lg;
+        font-weight: normal;
+        padding-top: 0.5em;
+    }
+}
+
+.content-offcanvas {
+    min-height: 100vh;
+    transition: transform .4s ease;
+
+    @include media-breakpoint-up(lg) {
+        margin-left: $sidebar-width;
+        width: calc(100% - 200px);
+    }
+}

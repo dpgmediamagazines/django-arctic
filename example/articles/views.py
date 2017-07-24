@@ -7,7 +7,7 @@ from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
 from collections import OrderedDict
 
-from .forms import ArticleForm
+from .forms import ArticleForm, AdvancedArticleSearchForm
 from .inlines import TagsInline
 from .models import (Article, Category, Tag)
 
@@ -23,12 +23,12 @@ class DashboardView(TemplateView):
 
 
 class ArticleListView(ListView):
-    template_name = 'arctic/article_list.html'
     paginate_by = 2
     model = Article
     fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
+    advanced_search_form = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
         ('delete', 'articles:delete', 'fa-trash'),
@@ -45,7 +45,6 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
 
-    filter_fields = ['published']
     permission_required = "view_article"
 
     def get_category_field(self, row):
@@ -64,7 +63,7 @@ class ArticleUpdateView(UpdateView):
     ]
     layout = OrderedDict([
                         ('',
-                         ['title|10', ['category', 'tags|5']]),
+                         ['title', ['category', 'tags|5']]),
                         ('Body|Extra Information for this fieldset',
                          ['description']),
                         ('Extended Details',
@@ -94,7 +93,7 @@ class ArticleCreateView(CreateView):
     layout = OrderedDict([
                         ('-Basic Details',
                          ['title|10', ['category', 'tags|5']]),
-                        ('Body|Extra Information for this fieldset',
+                        ('+Body|Extra Information for this fieldset',
                          ['description']),
                         ('Extended Details',
                          [['published|4', 'updated_at']])])
@@ -120,6 +119,7 @@ class CategoryListView(ListView):
         (_('Create Category'), 'articles:category-create'),
     ]
     permission_required = 'view_category'
+    search_fields = ('name',)
 
 
 class CategoryArticlesListView(ArticleListView):
@@ -155,6 +155,7 @@ class CategoryArticlesListView(ArticleListView):
 class CategoryUpdateView(UpdateView):
     page_title = _("Edit Category")
     model = Category
+    fields = '__all__'
     success_url = reverse_lazy('articles:category-list')
     tabs = [
         ('Detail', 'articles:category-detail'),
@@ -201,6 +202,7 @@ class TagListView(ListView):
 class TagUpdateView(UpdateView):
     page_title = _("Edit Tag")
     model = Tag
+    fields = '__all__'
     success_url = reverse_lazy('articles:tag-list')
     permission_required = 'change_tag'
 

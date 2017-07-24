@@ -80,3 +80,38 @@ class TestListView(object):
 
         assert 'tool_links' in response.context_data
         assert len(response.context_data['tool_links']) == 0
+
+    def test_simple_search_form(self, admin_client):
+        """
+        Test simple search form
+        """
+        ArticleFactory(title='title1')
+        ArticleFactory(title='title2')
+
+        # empty search, return all
+        response = admin_client.get(reverse('articles:list'), {'search': ''})
+        assert len(response.context_data['list_items']) == 2
+
+        # search filled, filter content
+        response = admin_client.get(reverse('articles:list'),
+                                    {'search': 'le1'})
+        assert len(response.context_data['list_items']) == 1
+        assert response.context_data['list_items'][0][0]['value'] == 'title1'
+
+    def test_advanced_search_form(self, admin_client):
+        """
+        Test simple search form
+        """
+        ArticleFactory(title='title1', description='description1')
+        ArticleFactory(title='title2', description='description2')
+
+        # empty search, return all
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': ''})
+        assert len(response.context_data['list_items']) == 2
+
+        # search filled, filter content
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': 'tion2'})
+        assert len(response.context_data['list_items']) == 1
+        assert response.context_data['list_items'][0][0]['value'] == 'title2'

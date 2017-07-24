@@ -1,0 +1,117 @@
+.table {
+    border-radius: $border-radius;
+    thead th,
+    tbody th {
+        border-top: none;
+        font-weight: normal;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: $gray-medium;
+        a {
+            color: $gray-medium;
+            padding-right: 1.5em;
+            white-space: nowrap;
+        }
+    }
+
+    thead tr {
+        .show-on-hover {
+            visibility: hidden;
+        }
+        &:hover {
+            .show-on-hover {
+                visibility: visible;
+            }
+        }
+    }
+
+    tbody tr {
+        .list-actions-placeholder {
+            background-color: $table-bg;
+        }
+        &:nth-child(odd) {
+            .list-actions-placeholder {
+                background-color: $table-accent-bg;
+            }
+        }
+        &:hover {
+            .list-actions .list-actions-placeholder {
+                    display: none;
+                }
+        }
+    }
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto; //turn overflow on on all screen resolutions
+}
+
+.clickable-cell {
+    a {
+        display: block;
+        padding: $table-cell-padding;
+        margin: #{-$table-cell-padding};
+    }
+}
+
+.list-tag {
+    color: $highlight-color;
+    background-color: $highlight-background;
+    padding: .05em .2em;
+    border-radius: $border-radius-sm;
+    margin: .20em;
+    float: left;
+    font-size: $font-size-xs;
+    opacity: .8;
+}
+
+.list-actions {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    > a {
+        font-size: $font-size-xs;
+        padding: 0.1em 0.4em;
+        opacity: 0.6;
+        margin: 0 1px;
+    }
+}
+
+.list-actions-placeholder {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    @include media-breakpoint-up(lg) {
+        display: block;
+    }
+}
+
+.list-inline-search {
+    margin-bottom: $form-group-margin-bottom;
+}
+
+.paginator-block {
+    float: right;
+}
+
+.pagination-info {
+    margin-bottom: 1rem;
+    padding: .45rem 0;
+}
+
+.nav-tabs {
+    margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    text-transform: uppercase;
+    font-size: 12px;
+}

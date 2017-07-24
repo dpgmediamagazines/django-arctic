@@ -32,10 +32,13 @@ Example configuration is:
         'js': ('common1.js', )
     }
 
+## `ARCTIC_HIGHLIGHT_BACKGROUND`
+
+String representing the highlight background color used in tags and other elements, if none given a default will be used.
+
 ## `ARCTIC_HIGHLIGHT_COLOR`
 
-String representing the highlight color used in table headers, the side menu,
-and tag item backgrounds, if none given a default will be used.
+String representing the highlight foreground color used in tags and other elements, if none given a default will be used.
 
 ## `ARCTIC_INDEX_URL`
 Name of the site index url. Default is "index". If no match found request redirect
@@ -58,6 +61,16 @@ The 'admin' role is reserved and cannot be defined in settings. It gives full
 rights to all views and can also be created with the `createsuperuser`
 command.
 
+## `ARCTIC_SIDEBAR_BACKGROUND`
+
+String representing the background color of the sidebar, for example '#cccccc',
+if not provided, a default color will be used.
+
+## `ARCTIC_SIDEBAR_COLOR`
+
+String representing the foreground color of the sidebar, for example '#ffffff',
+if not provided, a default color will be used.
+
 ## `ARCTIC_SITE_LOGO`
 
 The url of the logo to be displayed on every page, it will also be the link to
@@ -71,11 +84,6 @@ Name of the site.
 
 Title of the site to be used in the title tag. If not set it will use
 `ARCTIC_SITE_NAME`
-
-## `ARCTIC_TOPBAR_BACKGROUND_COLOR`
-
-String representing the background color of the topbar, for example '#cccccc',
-if not provided, a default color will be used.
 
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display

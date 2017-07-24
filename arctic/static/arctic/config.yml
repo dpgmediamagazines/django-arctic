@@ -24,61 +24,33 @@ PATHS:
     - "!src/assets/{img,js,scss}/**/*"
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
-    - "node_modules/foundation-sites/scss"
-    - "node_modules/motion-ui/src"
     - "node_modules/font-awesome/scss"
     - "node_modules/"
     - "src/assets/scss/"
+    - "node_modules/bootstrap/scss/"
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
-    # Libraries requried by Foundation
-    - "node_modules/jquery/dist/jquery.js"
-    - "src/assets/js/components/what-input.js"
+    # Libraries required by Bootstrap
+    - "node_modules/jquery/dist/jquery.min.js"
+    - "node_modules/popper.js/dist/umd/popper.js"
+    - "node_modules/bootstrap/dist/js/bootstrap.js"
 
     # Custom addons
     - "src/assets/js/components/jquery.are-you-sure.js"
     - "node_modules/air-datepicker/dist/js/datepicker.js"
     - "node_modules/air-datepicker/dist/js/i18n/datepicker.en.js"
-    # Core Foundation files
-    - "node_modules/foundation-sites/js/foundation.core.js"
-    - "node_modules/foundation-sites/js/foundation.util.*.js"
-    # Individual Foundation components
-    # If you aren't using a component, just remove it from the list
-    - "node_modules/foundation-sites/js/foundation.abide.js"
-    - "node_modules/foundation-sites/js/foundation.accordion.js"
-    - "node_modules/foundation-sites/js/foundation.accordionMenu.js"
-    - "node_modules/foundation-sites/js/foundation.drilldown.js"
-    - "node_modules/foundation-sites/js/foundation.dropdown.js"
-    - "node_modules/foundation-sites/js/foundation.dropdownMenu.js"
-    - "node_modules/foundation-sites/js/foundation.equalizer.js"
-    - "node_modules/foundation-sites/js/foundation.interchange.js"
-    - "node_modules/foundation-sites/js/foundation.magellan.js"
-    - "node_modules/foundation-sites/js/foundation.offcanvas.js"
-    - "node_modules/foundation-sites/js/foundation.orbit.js"
-    - "node_modules/foundation-sites/js/foundation.responsiveMenu.js"
-    - "node_modules/foundation-sites/js/foundation.responsiveToggle.js"
-    - "node_modules/foundation-sites/js/foundation.reveal.js"
-    - "node_modules/foundation-sites/js/foundation.slider.js"
-    - "node_modules/foundation-sites/js/foundation.sticky.js"
-    - "node_modules/foundation-sites/js/foundation.tabs.js"
-    - "node_modules/foundation-sites/js/foundation.toggler.js"
-    - "node_modules/foundation-sites/js/foundation.tooltip.js"
 
     # Arctic JS deps
-    - "node_modules/jQuery-QueryBuilder/dist/js/query-builder.standalone.js"
     - "node_modules/selectize/dist/js/standalone/selectize.js"
-    - "node_modules/sortablejs/Sortable.min.js"
+    - "node_modules/sortablejs/Sortable.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
-    - "src/assets/js/utils/csrf.js"
     - "src/assets/js/components/conditional-field.js"
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/reveal-iframe.js"
+    - "src/assets/js/components/toggle_form.js"
+    - "src/assets/js/components/widgets.js"
     - "src/assets/js/components/sortable.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
-    - "src/assets/js/components/query-builder.js"
-    # TODO: fix conflict within jstree.min.js
-    - "node_modules/jstree/dist/jstree.min.js"
-    - "src/assets/js/components/tree.js"

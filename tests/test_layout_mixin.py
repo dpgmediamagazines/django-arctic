@@ -30,7 +30,7 @@ def test_layout_example_1(layout):
 
     assert layout[0]['fieldset']['title'] is None
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['fieldset']['collapsible'] is None
     assert layout[0]['rows'][0]['name'] == 'title'
     assert layout[0]['rows'][0]['column'] == '8'
 
@@ -41,7 +41,7 @@ def test_layout_example_2(layout):
 
     assert layout[0]['fieldset']['title'] is None
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['fieldset']['collapsible'] is None
     assert layout[0]['rows'][0][0]['name'] == 'title'
     assert layout[0]['rows'][0][0]['column'] == '3'
     assert layout[0]['rows'][0][1]['name'] == 'title'
@@ -56,7 +56,7 @@ def test_layout_example_3a(layout):
 
     assert layout[0]['fieldset']['title'] is None
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['fieldset']['collapsible'] is None
     assert layout[0]['rows'][0][0]['name'] == 'title'
     assert layout[0]['rows'][0][0]['column'] == '3'
     assert layout[0]['rows'][0][1]['name'] == 'title'
@@ -75,7 +75,7 @@ def test_layout_example_3b(layout):
 
     assert layout[0]['fieldset']['title'] is None
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is False
+    assert layout[0]['fieldset']['collapsible'] is None
     assert layout[0]['rows'][0]['name'] == 'title'
     assert layout[0]['rows'][0]['column'] == '3'
     assert layout[0]['rows'][1]['name'] == 'title'
@@ -95,13 +95,13 @@ def test_layout_example_4(layout):
                                    ['category', 'updated_at|4']]),
                                 ('fieldset2|test description',
                                  [['title|7', 'category']]),
-                                ('fieldset3',
+                                ('+fieldset3',
                                  ['published'])])
     layout = layout.get_layout()
 
     assert layout[0]['fieldset']['title'] == 'fieldset'
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is True
+    assert layout[0]['fieldset']['collapsible'] is 'closed'
     assert layout[0]['rows'][0]['name'] == 'title'
     assert layout[0]['rows'][0]['column'] is None
     assert layout[0]['rows'][1]['name'] == 'title'
@@ -113,7 +113,7 @@ def test_layout_example_4(layout):
 
     assert layout[1]['fieldset']['title'] == 'fieldset2'
     assert layout[1]['fieldset']['description'] == 'test description'
-    assert layout[1]['fieldset']['collapsible'] is False
+    assert layout[1]['fieldset']['collapsible'] is None
     assert layout[1]['rows'][0][0]['name'] == 'title'
     assert layout[1]['rows'][0][0]['column'] == '7'
     assert layout[1]['rows'][0][1]['name'] == 'category'
@@ -121,6 +121,6 @@ def test_layout_example_4(layout):
 
     assert layout[2]['fieldset']['title'] == 'fieldset3'
     assert layout[2]['fieldset']['description'] is None
-    assert layout[2]['fieldset']['collapsible'] is False
+    assert layout[2]['fieldset']['collapsible'] is 'open'
     assert layout[2]['rows'][0]['name'] == 'published'
     assert layout[2]['rows'][0]['column'] is None

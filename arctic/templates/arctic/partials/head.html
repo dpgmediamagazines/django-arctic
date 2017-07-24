@@ -1,8 +1,7 @@
 {% load i18n staticfiles  %}
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -12,36 +11,26 @@
     {% endblock %}
 </title>
 
-<link href="{% static "arctic/dist/assets/css/app.css" %}" rel="stylesheet">
+{% block arctic_head_includes %}
+<link href="{% static "arctic/dist/assets/css/arctic.css" %}" rel="stylesheet">
 {{ media.css }}
+{% endblock %}
 
+{% block arctic_extra_head_includes %}{% endblock %}
 <style>
-    {% if TOPBAR_BACKGROUND_COLOR %}
-        .topbar-background { background-color: {{ TOPBAR_BACKGROUND_COLOR }}; }
-    {% endif %}
-    {% if HIGHLIGHT_COLOR %}
-        .highlight-background,
-        table tfoot, table thead,
-        .accordion-item.is-active, .accordion-item:hover,
-        .accordion-title:focus, .accordion-title:hover,
-        .off-canvas .side-menu>li.sub--collapsed ul.active:before,
-        .off-canvas .side-menu>li>a.active:before,
-        .selectize-control.multi .selectize-input .item,
-        .label {
-            background-color: {{ HIGHLIGHT_COLOR }};
-        }
-
-        table thead {
-            border-color: {{ HIGHLIGHT_COLOR }};
-        }
-
-        .primary-color,
-        .highlight-color,
-        .tabs .tabs-title.is-active a,
-        .off-canvas .side-menu>li>a.active,
-        .off-canvas .side-menu ul>li>a.active
-         {
-            color: {{ HIGHLIGHT_COLOR }};
-        }
-    {% endif %}
+    :root {
+        {% if SIDEBAR_BACKGROUND %}
+            --sidebar-background: {{SIDEBAR_BACKGROUND}};
+        {% endif %}
+        {% if SIDEBAR_COLOR %}
+            --sidebar-color: {{SIDEBAR_COLOR}};
+        {% endif %}
+        {% if HIGHLIGHT_BACKGROUND %}
+            --highlight-background: {{HIGHLIGHT_BACKGROUND}};
+        {% endif %}
+        {% if HIGHLIGHT_COLOR %}
+            --highlight-color: {{HIGHLIGHT_COLOR}};
+        {% endif %}
+    }
+    {% block arctic__extra_styles %}{% endblock %}
 </style>

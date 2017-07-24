@@ -1,0 +1,65 @@
+.dialog-header {
+    position: absolute;
+    background-color: $highlight-color;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    height: 44px;
+    padding: .5rem 1rem;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+
+    &__page-title {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+    &__close {
+        position: absolute;
+        opacity: 1;
+        font-weight: normal;
+        color: white;
+        right: 1rem;
+        top: .05rem;
+        font-size: 2.5em;
+        line-height: 1;
+        cursor: pointer;
+        text-shadow: none;
+
+        &:hover {
+            color: $gray-medium;
+            opacity: 1;
+        }
+    }
+}
+
+.dialog-body {
+    height: 100vh;
+    overflow: auto;
+    padding: 30px 15px;
+    padding-top: 60px;
+}
+
+.modal {
+    &.large .modal-dialog {
+        width: 90%;
+        max-width: 75rem;
+    }
+
+    &.medium .modal-dialog {
+        width: 60%;
+        max-width: 75rem;
+    }
+}
+
+.modal-dialog {
+    margin: 0 auto;
+
+    iframe {
+        max-height: 80vh;
+        width: 100%;
+        border: 0;
+        border-radius: $border-radius;
+        border-color: $input-border-color;
+    }
+}
