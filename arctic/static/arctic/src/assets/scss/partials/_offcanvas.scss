@@ -3,7 +3,7 @@
  * --------------------------------------------------
  */
 
-$sidebar-width: 200px;
+$sidebar-width: 220px;
 
 
 @each $bp in map-keys($grid-breakpoints) {
@@ -19,13 +19,16 @@ $sidebar-width: 200px;
   }
 }
 .row-offcanvas {
+    overflow-x: hidden;
     &.active {
-        #sidebar {
-            transform:translateX($sidebar-width);
-        }
+        @include media-breakpoint-down(md) {
+            #sidebar {
+                transform:translateX($sidebar-width);
+            }
 
-        .content-offcanvas {
-            transform:translateX($sidebar-width);
+            .content-offcanvas {
+                transform:translateX($sidebar-width);
+            }
         }
     }
 }
@@ -140,6 +143,6 @@ $sidebar-width: 200px;
 
     @include media-breakpoint-up(lg) {
         margin-left: $sidebar-width;
-        width: calc(100% - 200px);
+        width: calc(100% - #{$sidebar-width});
     }
 }
