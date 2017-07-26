@@ -16,8 +16,7 @@ from articles.views import (ArticleCreateView, ArticleDeleteView,
                             CategoryDeleteView, CategoryListView,
                             CategoryUpdateView, TagCreateView, TagDeleteView,
                             TagListView, TagUpdateView)
-from countries.views import CountryListView
-from companies.views import CompanyListView
+from countries.views import (CountryAPIView, CountryListView)
 from dashboard.views import DashboardView
 
 
@@ -48,7 +47,7 @@ urlpatterns = [
     url(r'^articles/', include(article_patterns, namespace='articles')),
     url(r'^users/', include(user_patterns, namespace='users')),
     url(r'^countries/$', CountryListView.as_view(), name='countries-list'),
-    url(r'^companies/$', CompanyListView.as_view(), name='companies-list'),
+    url(r'^countries-api/$', CountryAPIView.as_view(), name='countries-api'),
     autocomplete_url,
 ]
 

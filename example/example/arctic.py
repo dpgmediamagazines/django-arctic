@@ -23,7 +23,6 @@ ARCTIC_MENU = (
     ('Countries', 'countries-list', 'fa-globe', (
         ('List', 'countries-list'),
     )),
-    ('Companies', 'companies-list', 'fa-globe',),
 )
 
 ARCTIC_USER_ROLE_MODEL = 'arctic.UserRole'
