@@ -80,7 +80,7 @@ class CountriesDataSet(RemoteDataSet):
 
 
 class CountryListView(DataListView):
-    paginate_by = 11
+    paginate_by = 13
     dataset = CountriesDataSet()
     fields = ['name', 'capital', 'flag']
     ordering_fields = ['name']
@@ -91,7 +91,7 @@ class CountryListView(DataListView):
     permission_required = 'country_view'
 
     def get_context_data(self, **kwargs):
-        # small hack to setup the localhost in the url of the local API
+        # small hack to setup the current host in the url of the local API
         if not self.dataset.url_template.startswith('http'):
             self.dataset.url_template = '{}://{}/{}'.format(
                 self.request.scheme,

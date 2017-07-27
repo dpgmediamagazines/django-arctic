@@ -5,9 +5,9 @@
     <div class="row paginator-block">
         <div class="col col-auto">
             <div class="pagination-info">
-                {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
-                    {{ start }} &ndash; {{ end }} of {{ count }}
-                {% endblocktrans %}
+                {% with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
+                    {{ start }} &ndash; {{ end }}{% if count != -1 %} {% trans 'of' %} {{ count }}{% endif %}
+                {% endwith %}
             </div>
         </div>
         <div class="col col-auto">

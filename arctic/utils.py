@@ -253,4 +253,4 @@ class RemoteDataSet():
         return self.count
 
     def __getitem__(self, slice):
-        return self.get(1, 10)
+        return self.get(slice.start, slice.stop)

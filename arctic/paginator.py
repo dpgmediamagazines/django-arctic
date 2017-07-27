@@ -18,6 +18,12 @@ class IndefinitePaginator(Paginator):
             return -1
         return super(IndefinitePaginator, self).num_pages
 
+    def page(self, number):
+        number = self.validate_number(number)
+        bottom = (number - 1) * self.per_page
+        top = bottom + self.per_page
+        return self._get_page(self.object_list[bottom:top], number, self)
+
     def _get_page(self, *args, **kwargs):
         return IndefinitePage(*args, **kwargs)
 
