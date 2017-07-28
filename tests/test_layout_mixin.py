@@ -1,7 +1,7 @@
 import pytest
 from collections import OrderedDict
 
-from arctic.mixins import LayoutMixin
+from arctic.mixins import FormMixin
 from articles.forms import ArticleForm
 
 from tests.conftest import get_form
@@ -10,7 +10,7 @@ from tests.factories import ArticleFactory
 
 @pytest.fixture
 def layout():
-    class Layout(LayoutMixin):
+    class Layout(FormMixin):
         layout = None
 
         def __init__(self):
