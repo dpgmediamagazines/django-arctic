@@ -5,8 +5,10 @@ import importlib
 
 from django.conf import settings
 from django.core import urlresolvers
-from django.core.exceptions import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.core.urlresolvers import NoReverseMatch
+
+from . import defaults
 
 
 def is_active(path, path_to_check):
@@ -202,3 +204,19 @@ def get_field_class(qs, field_name):
     # while annotating, it's possible that field does not exists.
     except FieldDoesNotExist:
         return None
+
+
+def arctic_setting(setting_name, valid_options=None):
+    """
+    Tries to get a setting from the django settings, if not available defaults
+    to the one defined in defaults.py
+    """
+    try:
+        value = getattr(settings, setting_name)
+        if valid_options and value not in valid_options:
+            error_message = 'Invalid value for {}, must be one of: {}'.format(
+                setting_name, str(valid_options))
+            raise ImproperlyConfigured(error_message)
+    except AttributeError:
+        pass
+    return getattr(settings, setting_name, getattr(defaults, setting_name))

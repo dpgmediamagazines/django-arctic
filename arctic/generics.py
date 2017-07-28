@@ -16,12 +16,11 @@ from django.utils.text import capfirst
 from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
-from arctic.forms import SimpleSearchForm
-from arctic.mixins import FormMediaMixin
-from .mixins import (LinksMixin, RoleAuthentication, SuccessMessageMixin,
-                     LayoutMixin)
-from .utils import (find_attribute, get_field_class, find_field_meta,
-                    get_attribute, menu, view_from_url)
+from .forms import SimpleSearchForm
+from .mixins import (FormMediaMixin, FormMixin, LinksMixin, RoleAuthentication,
+                     SuccessMessageMixin)
+from .utils import (arctic_setting, find_attribute, get_field_class,
+                    find_field_meta, get_attribute, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -38,6 +37,7 @@ class View(RoleAuthentication, base.View):
     tabs = None
     requires_login = True
     urls = {}
+    form_diplay = None
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -143,12 +143,10 @@ class View(RoleAuthentication, base.View):
         return self.page_description
 
     def get_site_logo(self):
-        return getattr(settings, 'ARCTIC_SITE_LOGO',
-                       'arctic/dist/assets/img/arctic_logo.svg')
+        return arctic_setting('ARCTIC_SITE_LOGO')
 
     def get_site_name(self):
-        return getattr(settings, 'ARCTIC_SITE_NAME',
-                       'Arctic Site Name')
+        return arctic_setting('ARCTIC_SITE_NAME')
 
     def get_site_title(self):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
@@ -627,7 +625,7 @@ class ListView(View, base.ListView):
 
 
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,
-                 LayoutMixin, extra_views.CreateWithInlinesView):
+                 FormMixin, extra_views.CreateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -642,7 +640,7 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
         return context
 
 
-class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
+class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
                  LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
@@ -662,7 +660,7 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
         return context
 
 
-class FormView(FormMediaMixin, View, SuccessMessageMixin, LayoutMixin,
+class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
                base.FormView):
     template_name = 'arctic/base_create_update.html'
 
