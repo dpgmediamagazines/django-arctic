@@ -12,10 +12,9 @@ from django.utils import six
 
 from collections import OrderedDict
 
-from arctic.forms import SimpleSearchForm
-from arctic.loading import (get_role_model, get_user_role_model)
-from arctic.utils import view_from_url
-from arctic.widgets import SelectizeAutoComplete
+from .loading import (get_role_model, get_user_role_model)
+from .utils import arctic_setting, view_from_url
+from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
@@ -81,7 +80,7 @@ class LinksMixin(object):
             return allowed_links
 
 
-class LayoutMixin(object):
+class FormMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
@@ -92,6 +91,7 @@ class LayoutMixin(object):
                   |--> Fields
     """
     use_widget_overloads = True
+    form_display = None
     layout = None
     _fields = []
     readonly_fields = None
@@ -326,7 +326,7 @@ class LayoutMixin(object):
         return form
 
     def get_form(self, form_class=None):
-        form = super(LayoutMixin, self).get_form(form_class=None)
+        form = super(FormMixin, self).get_form(form_class=None)
         try:
             form = self.update_form_fields(form)
         except AttributeError:
@@ -334,7 +334,8 @@ class LayoutMixin(object):
         return form
 
     def get_context_data(self, **kwargs):
-        context = super(LayoutMixin, self).get_context_data(**kwargs)
+        context = super(FormMixin, self).get_context_data(**kwargs)
+        context['form_display'] = self.get_form_display()
         try:
             i = 0
             for formset in context['inlines']:
@@ -351,146 +352,15 @@ class LayoutMixin(object):
             pass
         return context
 
-
-class ListMixin(object):
-    template_name = 'arctic/base_list.html'
-    fields = None  # Which fields should be shown in listing
-    ordering_fields = []  # Fields with ordering (subset of fields)
-    field_links = {}
-    field_classes = {}
-    action_links = []  # "Action" links on item level. For example "Edit"
-    tool_links = []   # Global links. For Example "Add object"
-    default_ordering = []  # Default ordering, e.g. ['title', '-brand']
-
-    def ordering_url(self, field):
-        """
-        Creates a url link for sorting the given field.
-
-        The direction of sorting will be either ascending, if the field is not
-        yet sorted, or the opposite of the current sorting if sorted.
-        """
-        path = self.request.path
-        direction = ''
-        query_params = self.request.GET.copy()
-        ordering = self.request.GET.get('order', '').split(',')
-        if not ordering:
-            ordering = self.get_default_ordering()
-        merged_ordering = list(ordering)  # copy the list
-
-        for ordering_field in self.get_ordering_fields():
-            if (ordering_field.lstrip('-') not in ordering) and \
-               (('-' + ordering_field.lstrip('-')) not in ordering):
-                merged_ordering.append(ordering_field)
-
-        new_ordering = []
-        for item in merged_ordering:
-            if item.lstrip('-') == field.lstrip('-'):
-                if (item[0] == '-') or not (item in ordering):
-                    if item in ordering:
-                        direction = 'desc'
-                    new_ordering.insert(0, item.lstrip('-'))
-                else:
-                    direction = 'asc'
-                    new_ordering.insert(0, '-' + item)
-
-        query_params['order'] = ','.join(new_ordering)
-
-        return (path + '?' + query_params.urlencode(safe=','), direction)
-
-    def get_fields(self):
-        """
-        Hook to dynamically change the fields that will be displayed
-        """
-        return self.fields
-
-    def get_ordering_fields(self):
-        """
-        Hook to dynamically change the fields that can be ordered
-        """
-        return self.ordering_fields
-
-    def get_filter_fields(self):
-        """
-        Hook to dynamically change the fields that can be filtered
-        """
-        return self.filter_fields
-
-    def get_search_fields(self):
-        """
-        Hook to dynamically change the fields that can be searched
-        """
-        return self.search_fields
-
-    def get_field_links(self):
-        if not self.field_links:
-            return {}
-        else:
-            allowed_field_links = {}
-            for field, url in self.field_links.items():
-                # check permission based on named_url
-                if not view_from_url(url).has_permission(self.request.user):
-                    continue
-                allowed_field_links[field] = url
-            return allowed_field_links
-
-    def get_field_classes(self):
-        return self.field_classes
-
-    def get_action_links(self):
-        if not self.action_links:
-            return []
-        else:
-            allowed_action_links = []
-            for link in self.action_links:
-                url = named_url = link[1]
-                if type(url) in (list, tuple):
-                    named_url = url[0]
-                # check permission based on named_url
-                if not view_from_url(named_url).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_action_links.append({'label': link[0],
-                                             'url': url,
-                                             'icon': icon})
-            return allowed_action_links
-
-    def get_tool_links(self):
-        if not self.tool_links:
-            return []
-        else:
-            allowed_tool_links = []
-            for link in self.tool_links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_tool_links.append({'label': link[0],
-                                           'url': link[1],
-                                           'icon': icon})
-            return allowed_tool_links
-
-    def get_simple_search_form(self):
-        """
-        Hook to dynamically change the simple search form
-        """
-        if not self.simple_search_form and self.get_search_fields():
-            return SimpleSearchForm
-        return self.simple_search_form
-
-    def get_advanced_search_form(self):
-        """
-        Hook to dynamically change the advanced search form
-        """
-        return self.advanced_search_form
+    def get_form_display(self):
+        valid_options = ['stacked', 'tabular', 'float-label']
+        if self.form_display:
+            if self.form_display in valid_options:
+                return self.form_display
+            raise ImproperlyConfigured(
+                'form_display property needs to be one of {}'.format(
+                    valid_options))
+        return arctic_setting('ARCTIC_FORM_DISPLAY', valid_options)
 
 
 class RoleAuthentication(object):

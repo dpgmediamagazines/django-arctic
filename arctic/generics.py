@@ -6,24 +6,21 @@ import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
-from django.core.paginator import InvalidPage
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
-from django.http import Http404
 from django.shortcuts import (redirect, render, resolve_url)
 from django.utils.formats import get_format
-from django.utils.http import (is_safe_url, quote)
+from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
-from django.utils.translation import ugettext as _
-from django.utils.translation import get_language
+from django.utils.translation import (get_language, ugettext as _)
 from django.views import generic as base
 
-from arctic.mixins import (FormMediaMixin, LayoutMixin, LinksMixin, ListMixin,
-                           RoleAuthentication, SuccessMessageMixin)
-from arctic.paginator import IndefinitePaginator
-from arctic.utils import (find_attribute, find_field_meta, get_attribute,
-                          get_field_class, menu, view_from_url)
+from .forms import SimpleSearchForm
+from .mixins import (FormMediaMixin, FormMixin, LinksMixin, RoleAuthentication,
+                     SuccessMessageMixin)
+from .utils import (arctic_setting, find_attribute, get_field_class,
+                    find_field_meta, get_attribute, menu, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -40,6 +37,7 @@ class View(RoleAuthentication, base.View):
     tabs = None
     requires_login = True
     urls = {}
+    form_diplay = None
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -145,12 +143,10 @@ class View(RoleAuthentication, base.View):
         return self.page_description
 
     def get_site_logo(self):
-        return getattr(settings, 'ARCTIC_SITE_LOGO',
-                       'arctic/dist/assets/img/arctic_logo.svg')
+        return arctic_setting('ARCTIC_SITE_LOGO')
 
     def get_site_name(self):
-        return getattr(settings, 'ARCTIC_SITE_NAME',
-                       'Arctic Site Name')
+        return arctic_setting('ARCTIC_SITE_NAME')
 
     def get_site_title(self):
         return getattr(settings, 'ARCTIC_SITE_TITLE',
@@ -267,7 +263,7 @@ class DetailView(View, LinksMixin, base.DetailView):
         return context
 
 
-class ListView(View, ListMixin, base.ListView):
+class ListView(View, base.ListView):
     """
     Custom listview. Adding filter, sorting and display logic.
     """
@@ -282,6 +278,7 @@ class ListView(View, ListMixin, base.ListView):
     field_links = {}
     field_classes = {}
     tool_links_icon = 'fa-wrench'
+    tool_links = []   # Global links. For Example "Add object"
     prefix = ''  # Prefix for embedding multiple list views in detail view
     max_embeded_list_items = 10  # when displaying a list in a column
     primary_key = 'pk'
@@ -320,6 +317,85 @@ class ListView(View, ListMixin, base.ListView):
 
         return self.object_list
 
+    def ordering_url(self, field):
+        """
+        Creates a url link for sorting the given field.
+
+        The direction of sorting will be either ascending, if the field is not
+        yet sorted, or the opposite of the current sorting if sorted.
+        """
+        path = self.request.path
+        direction = ''
+        query_params = self.request.GET.copy()
+        ordering = self.request.GET.get('order', '').split(',')
+        if not ordering:
+            ordering = self.get_default_ordering()
+        merged_ordering = list(ordering)  # copy the list
+
+        for ordering_field in self.get_ordering_fields():
+            if (ordering_field.lstrip('-') not in ordering) and \
+               (('-' + ordering_field.lstrip('-')) not in ordering):
+                merged_ordering.append(ordering_field)
+
+        new_ordering = []
+        for item in merged_ordering:
+            if item.lstrip('-') == field.lstrip('-'):
+                if (item[0] == '-') or not (item in ordering):
+                    if item in ordering:
+                        direction = 'desc'
+                    new_ordering.insert(0, item.lstrip('-'))
+                else:
+                    direction = 'asc'
+                    new_ordering.insert(0, '-' + item)
+
+        query_params['order'] = ','.join(new_ordering)
+
+        return (path + '?' + query_params.urlencode(safe=','), direction)
+
+    def get_fields(self):
+        """
+        Hook to dynamically change the fields that will be displayed
+        """
+        return self.fields
+
+    def get_ordering_fields(self):
+        """
+        Hook to dynamically change the fields that can be ordered
+        """
+        return self.ordering_fields
+
+    def get_simple_search_form(self):
+        """
+        Hook to dynamically change the simple search form
+        """
+        if not self.simple_search_form and self.get_search_fields():
+            return SimpleSearchForm
+        return self.simple_search_form
+
+    def get_advanced_search_form(self):
+        """
+        Hook to dynamically change the advanced search form
+        """
+        return self.advanced_search_form
+
+    def get_search_fields(self):
+        """
+        Hook to dynamically change the fields that can be searched
+        """
+        return self.search_fields
+
+    def get_field_links(self):
+        if not self.field_links:
+            return {}
+        else:
+            allowed_field_links = {}
+            for field, url in self.field_links.items():
+                # check permission based on named_url
+                if not view_from_url(url).has_permission(self.request.user):
+                    continue
+                allowed_field_links[field] = url
+            return allowed_field_links
+
     def _reverse_field_link(self, url, obj):
         if type(url) in (list, tuple):
             named_url = url[0]
@@ -337,6 +413,9 @@ class ListView(View, ListMixin, base.ListView):
             return ""
 
         return reverse(named_url, args=args)
+
+    def get_field_classes(self):
+        return self.field_classes
 
     def get_list_header(self):
         """
@@ -372,6 +451,9 @@ class ListView(View, ListMixin, base.ListView):
                         else:
                             # title-case the field name (issue #80)
                             item['label'] = field_meta.verbose_name.title()
+
+                        # item['label'] = model._meta.get_field(field_name).\
+                        #     verbose_name
                     except FieldDoesNotExist:
                         item['label'] = field_name
                     except AttributeError:
@@ -383,18 +465,6 @@ class ListView(View, ListMixin, base.ListView):
                 result.append(item)
 
         return result
-
-    def _get_field_actions(self, obj):
-        field_actions = self.get_action_links()
-        if field_actions:
-            actions = []
-            for field_action in field_actions:
-                actions.append({'label': field_action['label'],
-                                'icon': field_action['icon'],
-                                'url': self._reverse_field_link(
-                                    field_action['url'], obj)})
-            return {'type': 'actions', 'actions': actions}
-        return None
 
     def get_list_items(self, objects):
         self.has_action_links = False
@@ -409,6 +479,7 @@ class ListView(View, ListMixin, base.ListView):
         fields = []
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
+        field_actions = self.get_action_links()
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
@@ -437,9 +508,14 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
-            actions = self._get_field_actions(obj)
-            if actions:
-                row.append(actions)
+            if field_actions:
+                actions = []
+                for field_action in field_actions:
+                    actions.append({'label': field_action['label'],
+                                    'icon': field_action['icon'],
+                                    'url': self._reverse_field_link(
+                                        field_action['url'], obj)})
+                row.append({'type': 'actions', 'actions': actions})
                 self.has_action_links = True
             items.append(row)
         return items
@@ -460,6 +536,48 @@ class ListView(View, ListMixin, base.ListView):
         except (AttributeError, TypeError):
             # finally get field's value
             return find_attribute(obj, field_name)
+
+    def get_action_links(self):
+        if not self.action_links:
+            return []
+        else:
+            allowed_action_links = []
+            for link in self.action_links:
+                url = named_url = link[1]
+                if type(url) in (list, tuple):
+                    named_url = url[0]
+                # check permission based on named_url
+                if not view_from_url(named_url).\
+                        has_permission(self.request.user):
+                    continue
+
+                icon = None
+                if len(link) == 3:  # if an icon class is given
+                    icon = link[2]
+                allowed_action_links.append({'label': link[0],
+                                             'url': url,
+                                             'icon': icon})
+            return allowed_action_links
+
+    def get_tool_links(self):
+        if not self.tool_links:
+            return []
+        else:
+            allowed_tool_links = []
+            for link in self.tool_links:
+
+                # check permission based on named_url
+                if not view_from_url(link[1]).\
+                        has_permission(self.request.user):
+                    continue
+
+                icon = None
+                if len(link) == 3:  # if an icon class is given
+                    icon = link[2]
+                allowed_tool_links.append({'label': link[0],
+                                           'url': link[1],
+                                           'icon': icon})
+            return allowed_tool_links
 
     def get_tool_links_icon(self):
         return self.tool_links_icon
@@ -506,135 +624,8 @@ class ListView(View, ListMixin, base.ListView):
         return context
 
 
-class DataListView(TemplateView, ListMixin):
-    dataset = None
-    template_name = 'arctic/base_list.html'
-    page_kwarg = 'page'
-
-    def get_context_data(self, **kwargs):
-        context = super(DataListView, self).get_context_data(**kwargs)
-        dataset = self.dataset
-        page_size = self.get_paginate_by(dataset)
-        page_context = {
-            'paginator': None,
-            'page_obj': None,
-            'is_paginated': False,
-            'object_list': dataset
-        }
-        if page_size:
-            paginator, page, dataset, is_paginated = self.paginate_dataset(
-                dataset, page_size)
-            page_context = {
-                'paginator': paginator,
-                'page_obj': page,
-                'is_paginated': is_paginated,
-                'object_list': dataset
-            }
-        context.update(page_context)
-        context['list_header'] = self.get_list_header()
-        context['list_items'] = self.get_list_items()
-        context['action_links'] = self.get_action_links()
-        context['tool_links'] = self.get_tool_links()
-
-        return context
-
-    def get_paginate_by(self, dataset):
-        return self.paginate_by
-
-    def get_list_header(self):
-        """
-        Creates a list of dictionaries with the field names, labels,
-        field links, field css classes, order_url and order_direction,
-        this simplifies the creation of a table in a template.
-        """
-        result = []
-        for field_name in self.get_fields():
-            item = {}
-            if isinstance(field_name, tuple):
-                # custom property that is not a field of the model
-                item['name'] = field_name[0]
-                item['label'] = field_name[1]
-            else:
-                item['name'] = field_name
-                item['label'] = field_name.title()
-            if item['name'] in self.get_ordering_fields():
-                item['order_url'], item['order_direction'] = \
-                    self.ordering_url(item['name'])
-            result.append(item)
-
-        return result
-
-    def get_objects(self):
-        try:
-            page = int(self.request.GET.get(self.page_kwarg))
-        except TypeError:
-            page = 1
-        return self.dataset.get(page, self.paginate_by)
-
-    def get_list_items(self):
-        objects = self.get_objects()
-        items = []
-        fields = []
-        field_links = self.get_field_links()
-        field_classes = self.get_field_classes()
-        for field in self.get_fields():
-            fields.append(field[0] if type(field) in (list, tuple)
-                          else field)
-        for obj in objects:
-            row = []
-            for field_name in fields:
-                field = {'field': field_name, 'type': 'field'}
-                field['value'] = self.get_field_value(field_name, obj)
-                if field_name in field_links.keys():
-                    field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj)
-                if field_name in field_classes:
-                    field['class'] = field_classes[field_name]
-                row.append(field)
-            items.append(row)
-        return items
-
-    def get_field_value(self, field_name, obj):
-        try:  # first try to find a virtual field
-            virtual_field_name = "get_{}_field".format(field_name)
-            return getattr(self, virtual_field_name)(obj)
-        except AttributeError:
-            return obj[field_name]
-
-    def get_paginator(self, dataset, per_page, orphans=0,
-                      allow_empty_first_page=True, **kwargs):
-        """Return an instance of the paginator for this view."""
-        return IndefinitePaginator(
-            dataset, per_page, orphans=orphans,
-            allow_empty_first_page=allow_empty_first_page, **kwargs)
-
-    def paginate_dataset(self, dataset, page_size):
-        paginator = self.get_paginator(
-            dataset, page_size, orphans=0,
-            allow_empty_first_page=True)
-        page_kwarg = self.page_kwarg
-        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg)\
-            or 1
-        try:
-            page_number = int(page)
-        except ValueError:
-            if page == 'last':
-                page_number = paginator.num_pages
-            else:
-                raise Http404(_("Page is not 'last', nor can it be converted "
-                                "to an int."))
-        try:
-            page = paginator.page(page_number)
-            return (paginator, page, page.object_list, page.has_other_pages())
-        except InvalidPage as e:
-            raise Http404(_('Invalid page (%(page_number)s): %(message)s') % {
-                'page_number': page_number,
-                'message': str(e)
-            })
-
-
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,
-                 LayoutMixin, extra_views.CreateWithInlinesView):
+                 FormMixin, extra_views.CreateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was created successfully')
 
@@ -649,7 +640,7 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
         return context
 
 
-class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
+class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
                  LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
@@ -669,7 +660,7 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, LayoutMixin, View,
         return context
 
 
-class FormView(FormMediaMixin, View, SuccessMessageMixin, LayoutMixin,
+class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
                base.FormView):
     template_name = 'arctic/base_create_update.html'
 

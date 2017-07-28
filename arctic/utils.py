@@ -5,8 +5,10 @@ import importlib
 
 from django.conf import settings
 from django.core import urlresolvers
-from django.core.exceptions import FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.core.urlresolvers import NoReverseMatch
+
+from . import defaults
 
 
 def is_active(path, path_to_check):
@@ -204,53 +206,17 @@ def get_field_class(qs, field_name):
         return None
 
 
-class RemoteDataSet():
-    url_template = '{filters}{fields}{order}{paginate}'
-    paginate_template = '&offset={}&limit={}'
-    order_separator = ','
-    order_template = '&order={}'
-    fields_separator = ','
-    fields_template = '&fields={}'
-    filters_template = '{}'
-    filters_template_kv = '&{key}={value}'
-    count = -1
-    _options = {'fields': '',
-                'order': '',
-                'filters': '',
-                'paginate': ''}
-    page_size = None
-
-    def fields(self, fields):
-        if fields:
-            fields_str = self.fields_separator.join(fields)
-            self._options['fields'] = self.fields_template.format(fields_str)
-        return self
-
-    def order_by(self, order):
-        if order:
-            order_str = self.order_separator.join(order)
-            self._options['order'] = self.order_template.format(order_str)
-        return self
-
-    def filter(self, **kwargs):
-        if kwargs:
-            filters = ''
-            for key, value in kwargs.items():
-                filters += self.filters_template_kv.format(
-                    key=key,
-                    value=value)
-            self._options['filters'] = self.filters_template.format(filters)
-        return self
-
-    def get_url(self, page, page_size):
-        url = self.url_template.format(**self._options)
-        return url.replace('?&', '?')
-
-    def get(self, page, page_size):
+def arctic_setting(setting_name, valid_options=None):
+    """
+    Tries to get a setting from the django settings, if not available defaults
+    to the one defined in defaults.py
+    """
+    try:
+        value = getattr(settings, setting_name)
+        if valid_options and value not in valid_options:
+            error_message = 'Invalid value for {}, must be one of: {}'.format(
+                setting_name, str(valid_options))
+            raise ImproperlyConfigured(error_message)
+    except AttributeError:
         pass
-
-    def __len__(self):
-        return self.count
-
-    def __getitem__(self, slice):
-        return self.get(slice.start, slice.stop)
+    return getattr(settings, setting_name, getattr(defaults, setting_name))
