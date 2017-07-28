@@ -12,10 +12,10 @@ from django.utils import six
 
 from collections import OrderedDict
 
-from arctic.forms import SimpleSearchForm
-from arctic.loading import (get_role_model, get_user_role_model)
-from arctic.utils import view_from_url
-from arctic.widgets import SelectizeAutoComplete
+from .forms import SimpleSearchForm
+from .loading import (get_role_model, get_user_role_model)
+from .utils import arctic_setting, view_from_url
+from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
 UserRole = get_user_role_model()
@@ -81,7 +81,7 @@ class LinksMixin(object):
             return allowed_links
 
 
-class LayoutMixin(object):
+class FormMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
@@ -92,6 +92,7 @@ class LayoutMixin(object):
                   |--> Fields
     """
     use_widget_overloads = True
+    form_display = None
     layout = None
     _fields = []
     readonly_fields = None
@@ -326,7 +327,7 @@ class LayoutMixin(object):
         return form
 
     def get_form(self, form_class=None):
-        form = super(LayoutMixin, self).get_form(form_class=None)
+        form = super(FormMixin, self).get_form(form_class=None)
         try:
             form = self.update_form_fields(form)
         except AttributeError:
@@ -334,7 +335,8 @@ class LayoutMixin(object):
         return form
 
     def get_context_data(self, **kwargs):
-        context = super(LayoutMixin, self).get_context_data(**kwargs)
+        context = super(FormMixin, self).get_context_data(**kwargs)
+        context['form_display'] = self.get_form_display()
         try:
             i = 0
             for formset in context['inlines']:
@@ -350,6 +352,16 @@ class LayoutMixin(object):
         except KeyError:
             pass
         return context
+
+    def get_form_display(self):
+        valid_options = ['stacked', 'tabular', 'float-label']
+        if self.form_display:
+            if self.form_display in valid_options:
+                return self.form_display
+            raise ImproperlyConfigured(
+                'form_display property needs to be one of {}'.format(
+                    valid_options))
+        return arctic_setting('ARCTIC_FORM_DISPLAY', valid_options)
 
 
 class ListMixin(object):
