@@ -12,6 +12,10 @@ select:not([size]):not([multiple]) {
     @extend .form-control;
 }
 
+input[type='checkbox'] {
+    margin-right: 5px;
+}
+
 textarea {
     height: auto;
 }
