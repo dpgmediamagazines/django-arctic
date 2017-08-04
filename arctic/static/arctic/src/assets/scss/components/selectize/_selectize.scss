@@ -56,13 +56,12 @@ $marginMedium: 10px;
     }
 
     .item {
-        align-self: flex-end;
-        height: 22px;
-        line-height: 20px;
+        align-self: center;
+        height: 34px;
+        line-height: 17px;
         color: $white;
-        margin: .155rem 0 .155rem .2rem;
-        padding: 0 .5rem;
-        font-size: 75%;
+        margin: 2px;
+        padding: .5rem .5rem;
         font-weight: normal;
         background-color: $link-color;
         border-radius: $border-radius-sm;

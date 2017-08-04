@@ -10,20 +10,6 @@ textarea,
 select,
 select:not([size]):not([multiple]) {
     @extend .form-control;
-    @extend .custom-select;
-}
-
-input[type='text'],
-input[type='search'],
-input[type='email'],
-input[type='url'],
-input[type='tel'],
-input[type='password'],
-input[type='number'],
-input[type='color'],
-select,
-select:not([size]):not([multiple]) {
-    height: 45px;
 }
 
 textarea {
