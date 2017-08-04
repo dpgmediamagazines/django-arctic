@@ -10,8 +10,14 @@ textarea,
 select,
 select:not([size]):not([multiple]) {
     @extend .form-control;
-    @extend .custom-select;
-    height: 45px;
+}
+
+input[type='checkbox'] {
+    margin-right: 5px;
+}
+
+textarea {
+    height: auto;
 }
 
 label {

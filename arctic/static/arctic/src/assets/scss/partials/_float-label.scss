@@ -3,51 +3,82 @@
 }
 
 .float-label {
-    position: relative;
 
-    input[type=text],
-    input[type=password],
-    input[type=email],
-    input[type=search],
-    input[type=password],
-    input[type=date],
-    input[type=number],
-    textarea,
-    select {
-        width: 100%;
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='url'],
+    input[type='tel'],
+    input[type='password'],
+    input[type='number'],
+    input[type='color'],
+    select,
+    select:not([size]):not([multiple]) {
+        height: 45px;
+    }
+
+    .form-group {
         position: relative;
-        z-index: 1;
-        outline: 0;
-        padding: .8rem .75rem;
 
-        &:focus,
-        &:valid {
-            padding-top: 1.2rem;
-            padding-bottom: .4rem;
+        input[type=text],
+        input[type=password],
+        input[type=email],
+        input[type=search],
+        input[type=password],
+        input[type=date],
+        input[type=number],
+        textarea,
+        select {
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            outline: 0;
+            padding: .8rem .75rem;
+
+            &:focus,
+            &:valid {
+                padding-top: 1.2rem;
+                padding-bottom: .4rem;
+            }
+
+            &:focus + label,
+            &:valid + label {
+                top: .3rem;
+                font-size: 75%;
+            }
         }
 
-        &:focus + label,
-        &:valid + label {
-            top: .3rem;
-            font-size: 75%;
+        label {
+            position: absolute;
+            top: .75rem;
+            left: .75rem;
+            transition: all 0.2s;
+            width: 100%;
+            z-index: 2;
+            white-space: nowrap;
         }
     }
 
-    label {
-        position: absolute;
-        top: .75rem;
-        left: .75rem;
-        transition: all 0.2s;
-        width: 100%;
-        z-index: 2;
-        white-space: nowrap;
+    .selectize-control {
+
+        .selectize-input {
+            padding-top: 14px;
+            min-height: 45px;
+
+            .item {
+                align-self: flex-end;
+                margin: 3px;
+                padding: 1px 8px;
+                font-size: 12px;
+            }
+
+            input[type=text] {
+                height: 1px;
+            }
+        }
     }
-}
 
-.float-label--static {
-    @extend .float-label;
-
-    label {
+    .selectize-control ~ label {
         pointer-events: none;
         user-select: none;
         top: .3rem;
