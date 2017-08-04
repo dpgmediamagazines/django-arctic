@@ -66,7 +66,7 @@ class CountryAPIView(TemplateView):
 
 
 class CountriesDataSet(RemoteDataSet):
-    url_template = 'countries-api/{filters}'
+    url_template = 'countries-api/{filters}{fields}{order}{paginate}'
 
     def get(self, page, paginate_by):
         r = urllib.request.urlopen((self.get_url(page, paginate_by)))

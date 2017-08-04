@@ -1,6 +1,6 @@
 from __future__ import (division, unicode_literals)
-
 from collections import OrderedDict
+import six
 
 import extra_views
 from django.conf import settings
@@ -424,7 +424,7 @@ class ListView(View, ListMixin, base.ListView):
                     #  capped to max_embeded_list_items, an ellipsis is
                     #  added if there are more items than the max.
                     m2mfield = getattr(obj, base_field_name)
-                    embeded_list = list(str(l) for l in
+                    embeded_list = list(six.u(l) for l in
                                         m2mfield.all()
                                         [:self.max_embeded_list_items + 1])
                     if len(embeded_list) > self.max_embeded_list_items:
@@ -564,11 +564,14 @@ class DataListView(TemplateView, ListMixin):
         return result
 
     def get_objects(self):
-        try:
-            page = int(self.request.GET.get(self.page_kwarg))
-        except TypeError:
-            page = 1
-        return self.dataset.get(page, self.paginate_by)
+        objects = getattr(self, '_objects', None)
+        if not objects:
+            try:
+                page = int(self.request.GET.get(self.page_kwarg))
+            except TypeError:
+                page = 1
+            return self.dataset.get(page, self.paginate_by)
+        return objects
 
     def get_list_items(self):
         objects = self.get_objects()
@@ -598,7 +601,11 @@ class DataListView(TemplateView, ListMixin):
             virtual_field_name = "get_{}_field".format(field_name)
             return getattr(self, virtual_field_name)(obj)
         except AttributeError:
-            return obj[field_name]
+            try:
+                return obj[field_name]
+            except KeyError:
+                raise ImproperlyConfigured(
+                    'Field "{}" is not available'.format(field_name))
 
     def get_paginator(self, dataset, per_page, orphans=0,
                       allow_empty_first_page=True, **kwargs):
