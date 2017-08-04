@@ -62,8 +62,19 @@
     .selectize-control {
 
         .selectize-input {
-            padding-top: 20px;
-            min-height: 66px;
+            padding-top: 14px;
+            min-height: 45px;
+
+            .item {
+                align-self: flex-end;
+                margin: 3px;
+                padding: 1px 8px;
+                font-size: 12px;
+            }
+
+            input[type=text] {
+                height: 1px;
+            }
         }
     }
 

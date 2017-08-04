@@ -4,6 +4,8 @@ $marginMedium: 10px;
 .selectize-control {
     position: relative;
     margin: 0 0 .05rem; //small margin to fix rendering bug
+    background-color: white;
+    min-height: 1rem;
 }
 
 .selectize-dropdown {
@@ -26,9 +28,9 @@ $marginMedium: 10px;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: center;
-    min-height: 2.79rem;
+    min-height: 45px;
     width: 100%;
-    padding: 0 .21875rem 0 .21875rem;
+    padding: 0 2px 0 2px;
     border: 1px solid $input-border-color;
     border-radius: $border-radius-sm;
     line-height: 1rem;
@@ -57,11 +59,10 @@ $marginMedium: 10px;
 
     .item {
         align-self: center;
-        height: 34px;
         line-height: 17px;
         color: $white;
-        margin: 2px;
-        padding: .5rem .5rem;
+        margin: 4px 2px;
+        padding: .3rem .5rem;
         font-weight: normal;
         background-color: $link-color;
         border-radius: $border-radius-sm;
