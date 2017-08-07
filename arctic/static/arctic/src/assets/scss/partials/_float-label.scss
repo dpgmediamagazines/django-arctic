@@ -57,23 +57,31 @@
             z-index: 2;
             white-space: nowrap;
         }
+
+        .form-check-label {
+            position: relative;
+            top: 12px;
+            left: 0;
+        }
     }
 
     .selectize-control {
 
         .selectize-input {
-            padding-top: 14px;
+            padding: 17px $input-btn-padding-x 0;
             min-height: 45px;
 
             .item {
                 align-self: flex-end;
-                margin: 3px;
+                margin: 0 3px 3px 0;
                 padding: 1px 8px;
                 font-size: 12px;
             }
 
             input[type=text] {
                 height: 1px;
+                padding: .8rem 0 .4rem;
+                font-size: 12px;
             }
         }
     }
@@ -84,5 +92,14 @@
         top: .3rem;
         font-size: 75%;
     }
+
+    .selectize-control.single {
+
+        .item {
+            padding-bottom: .2rem;
+        }
+    }
+
 }
+
 

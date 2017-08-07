@@ -28,11 +28,12 @@ $marginMedium: 10px;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: center;
-    min-height: 45px;
+    min-height: 37px;
     width: 100%;
-    padding: 0 2px 0 2px;
+    padding: 0 6px;
     border: 1px solid $input-border-color;
     border-radius: $border-radius-sm;
+    background-color: $white;
     line-height: 1rem;
 
     input {
@@ -61,7 +62,7 @@ $marginMedium: 10px;
         align-self: center;
         line-height: 17px;
         color: $white;
-        margin: 4px 2px;
+        margin: 2px 4px 2px 0;
         padding: .3rem .5rem;
         font-weight: normal;
         background-color: $link-color;
@@ -156,6 +157,17 @@ $marginMedium: 10px;
 
     .create {
         color: $orange;
+    }
+}
+
+.selectize-control.single {
+
+    .item {
+        font-size: .875rem !important;
+        padding-left: 0 !important;
+        background-color: $white;
+        color: #292b2c;
+        border: none;
     }
 }
 
