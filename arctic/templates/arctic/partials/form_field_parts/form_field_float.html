@@ -1,5 +1,4 @@
 {% load arctic_tags %}
-
 {% if field.field.widget|typename == 'CheckboxInput' or field.field.widget|typename == 'RadioSelect' %}
     <label for="{{ field.auto_id }}" class="form-check-label {% if field.field.required %}required{% endif %}">
         {{ field }}
@@ -7,16 +6,16 @@
     </label>
 {% elif field.field.widget|typename == 'SelectizeMultiple' or field.field.widget|typename == 'SelectizeAutoComplete' %}
     <div class="form-group">
+        {{ field }}
         <label for="{{ field.auto_id }}">
             {% include 'arctic/partials/form_field_parts/field_label.html' %}
         </label>
-        {{ field }}
     </div>
 {% else %}
     <div class="form-group">
+        {{ field }}
         <label for="{{ field.auto_id }}">
             {% include 'arctic/partials/form_field_parts/field_label.html' %}
         </label>
-        {{ field }}
     </div>
 {% endif %}

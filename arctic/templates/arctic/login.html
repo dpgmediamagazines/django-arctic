@@ -32,12 +32,12 @@
                         <h4 class="text-center">{{ SITE_NAME }} Login</h4>
                         <br />
                         {% block form_fields %}
-                        <div class="form-group float-label">
-                            <input type="text" class="form-control" value="{{ username }}" name="username" id="username" required>
+                        <div class="form-group">
                             <label for="username">Username</label>
+                            <input type="text" class="form-control" value="{{ username }}" name="username" id="username" required>
                         </div>
 
-                        <div class="form-group float-label">
+                        <div class="form-group">
                             <input type="password" class="form-control" name="password" type="password" id="password" required>
                             <label for="password">Password</label>
                         </div>

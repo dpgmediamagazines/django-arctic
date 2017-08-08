@@ -64,8 +64,9 @@
                     {% endif %}
                 </div>
                 <div class="col-sm-6 col text-right">
-                    {% block form_actions_buttons %}{% endblock %}
-                    <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
+                    {% block form_actions_buttons %}
+                        <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
+                    {% endblock %}
                 </div>
             </div>
             {% endblock form_actions %}

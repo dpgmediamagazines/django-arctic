@@ -30,6 +30,7 @@ except AttributeError:
         'Select': 'arctic.widgets.Selectize',
         'SelectMultiple': 'arctic.widgets.SelectizeMultiple',
         'MultipleChoiceField': 'arctic.widgets.Selectize',
+        'Textarea': 'arctic.widgets.Textarea'
     }
 
 

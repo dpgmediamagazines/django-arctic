@@ -1,13 +1,19 @@
 from datetime import datetime
 
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TimeInput)
+                                  SelectMultiple, TimeInput, Textarea)
 
 
 class Selectize(Select):
     def __init__(self, attrs, choices):
         attrs['js-selectize'] = True
         super(Selectize, self).__init__(attrs, choices)
+
+
+class Textarea(Textarea):
+    def __init__(self, attrs):
+        attrs['required'] = True
+        super(Textarea, self).__init__(attrs)
 
 
 class SelectizeMultiple(SelectMultiple):
