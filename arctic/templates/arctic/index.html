@@ -9,53 +9,74 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="name" type="text" required />
+                    <div class="form-group">
                         <label for="name">Name</label>
+                        <input class="form-control" id="name" type="text" required />
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="surname" type="text" required />
+                    <div class="form-group">
                         <label for="surname">Surname</label>
+                        <input class="form-control" id="surname" type="text" required />
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="password" type="password" required />
+                    <div class="form-group">
                         <label for="password">Password</label>
+                        <input class="form-control" id="password" type="password" required />
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="repeat-password" type="password" required />
+                    <div class="form-group">
                         <label for="repeat-password">Repeat Password</label>
+                        <input class="form-control" id="repeat-password" type="password" required />
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-12 col-md-6 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="street" type="text" required />
+                    <div class="form-group">
                         <label for="street">Street</label>
+                        <input class="form-control" id="street" type="text" required />
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-3 col">
-                    <div class="float-label form-group">
-                        <input class="form-control" id="house-number" type="number" required />
+                    <div class="form-group">
                         <label for="house-number">House Number</label>
+                        <input class="form-control" id="house-number" type="number" required />
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-3 col">
-                   <div class="float-label form-group">
-                        <input class="form-control" id="extension" type="text" required />
+                   <div class="form-group">
                         <label for="extension">House Number Extension</label>
+                        <input class="form-control" id="extension" type="text" required />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col">
+                    <div class="form-group styled-select">
+                        <label for="select-gear">Option groups</label>
+                        <select id="select-gear" placeholder="Select gear...">
+                            <option value="">Select gear...</option>
+                            <optgroup label="Climbing">
+                                <option value="pitons">Pitons</option>
+                                <option value="cams">Cams</option>
+                                <option value="nuts">Nuts</option>
+                                <option value="bolts">Bolts</option>
+                                <option value="stoppers">Stoppers</option>
+                                <option value="sling">Sling</option>
+                            </optgroup>
+                            <optgroup label="Skiing">
+                                <option value="skis">Skis</option>
+                                <option value="skins">Skins</option>
+                                <option value="poles">Poles</option>
+                            </optgroup>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -73,15 +94,15 @@
     <h4>Selectize</h4>
     <div class="row">
         <div class="col-md-4 col">
-            <div class="form-group float-label float-label--static">
+            <div class="form-group">
                 <label>Tags</label>
-                <input type="text" class="js-selectize-tags" placeholder="Selectize tags" value="tags,test,arctic">
+                <input type="text" js-selectize placeholder="Selectize tags" value="tags,test,arctic">
             </div>
         </div>
         <div class="col-md-4 col">
-            <div class="form-group float-label float-label--static">
+            <div class="form-group">
                 <label for="select-gear">Option groups</label>
-                <select id="select-gear" placeholder="Select gear...">
+                <select id="select-gear" js-selectize placeholder="Select gear...">
                     <option value="">Select gear...</option>
                     <optgroup label="Climbing">
                         <option value="pitons">Pitons</option>

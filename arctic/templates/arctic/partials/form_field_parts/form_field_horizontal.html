@@ -1,13 +1,11 @@
-{% if field.widget.attrs.type == 'checkboxinput' or field.widget.attrs.type == 'radioselect' %}
+{% load arctic_tags %}
+
+{% if field.field.widget|typename == 'CheckboxInput' or field.field.widget|typename == 'RadioSelect' %}
     <div class="row">
-        <div class="{% if size %}col-sm-{{size}}{% else %}col-sm-2{% endif %} col">
-            {% include 'arctic/partials/form_field_parts/field_label.html' %}
-        </div>
-        <div class="{% if size %}col-sm{{-12|add:size}}{% else %}col-sm-10{% endif %} col">
-            <label for="{{ field.auto_id }}">
-                {{ field }}
-            </label>
-        </div>
+        <label for="{{ field.auto_id }}" class="form-check-label {% if field.field.required %}required{% endif %}">
+            {{ field }}
+            {% include "arctic/partials/form_field_parts/field_label.html" %}
+        </label>
     </div>
 {% else %}
     <div class="row">
