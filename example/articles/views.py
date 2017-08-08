@@ -85,15 +85,16 @@ class ArticleUpdateView(UpdateView):
 
 
 class ArticleCreateView(CreateView):
+    form_display = 'float-label'
     page_title = _("Create Article")
     # fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
     form_class = ArticleForm
     permission_required = "add_article"
     layout = OrderedDict([
-                        ('-Basic Details',
-                         ['title|10', ['category', 'tags|5']]),
-                        ('+Body|Extra Information for this fieldset',
+                        ('+Basic Details',
+                         ['title', ['category|4', 'tags']]),
+                        ('-Body|Extra Information for this fieldset',
                          ['description']),
                         ('Extended Details',
                          [['published|4', 'updated_at']])])

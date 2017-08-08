@@ -25,7 +25,7 @@ class TagFactory(DjangoModelFactory):
 class ArticleFactory(DjangoModelFactory):
     title = Sequence(lambda n: 'Article {}'.format(n))
     category = SubFactory(CategoryFactory)
-    updated_at = fuzzy.FuzzyNaiveDateTime(datetime.datetime(2016, 1, 1))
+    updated_at = fuzzy.FuzzyDateTime(datetime.datetime(2016, 1, 1))
 
     class Meta:
         model = Article
