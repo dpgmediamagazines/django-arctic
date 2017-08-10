@@ -1,19 +1,20 @@
 from datetime import datetime
 
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TimeInput, Textarea)
+                                  SelectMultiple, TimeInput)
+from django.utils.safestring import mark_safe
+
+
+class StyledSelect(Select):
+    def render(self, name, value, attrs=None, renderer=None):
+        return mark_safe('<div class="styled-select">{}</div>'.format(
+            super(StyledSelect, self).render(name, value, attrs, renderer)))
 
 
 class Selectize(Select):
     def __init__(self, attrs, choices):
         attrs['js-selectize'] = True
         super(Selectize, self).__init__(attrs, choices)
-
-
-class Textarea(Textarea):
-    def __init__(self, attrs):
-        attrs['required'] = True
-        super(Textarea, self).__init__(attrs)
 
 
 class SelectizeMultiple(SelectMultiple):

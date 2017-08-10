@@ -20,19 +20,6 @@ from .widgets import SelectizeAutoComplete
 Role = get_role_model()
 UserRole = get_user_role_model()
 
-try:
-    ARCTIC_WIDGET_OVERLOADS = settings.ARCTIC_WIDGET_OVERLOADS
-except AttributeError:
-    ARCTIC_WIDGET_OVERLOADS = {
-        'DateInput': 'arctic.widgets.DatePickerInput',
-        'DateTimeInput': 'arctic.widgets.DateTimePickerInput',
-        'TimeInput': 'arctic.widgets.TimePickerInput',
-        'Select': 'arctic.widgets.Selectize',
-        'SelectMultiple': 'arctic.widgets.SelectizeMultiple',
-        'MultipleChoiceField': 'arctic.widgets.Selectize',
-        'Textarea': 'arctic.widgets.Textarea'
-    }
-
 
 class SuccessMessageMixin(object):
     """
@@ -279,7 +266,8 @@ class FormMixin(object):
             return None
 
     def update_form_fields(self, form):
-        widgets_to_be_overloaded = ARCTIC_WIDGET_OVERLOADS.keys()
+        widget_overloads = arctic_setting('ARCTIC_WIDGET_OVERLOADS')
+        widgets_to_be_overloaded = widget_overloads.keys()
         for field in form.fields:
             field_class_name = form.fields[field].__class__.__name__
             if field_class_name == 'ModelChoiceField':
@@ -301,7 +289,7 @@ class FormMixin(object):
             if self.use_widget_overloads:
                 widget_class = form.fields[field].widget.__class__.__name__
                 if widget_class in widgets_to_be_overloaded:
-                    module, wdgt = ARCTIC_WIDGET_OVERLOADS[widget_class].\
+                    module, wdgt = widget_overloads[widget_class].\
                         rsplit('.', 1)
                     new_widget_module = importlib.import_module(module)
                     new_widget_class = getattr(new_widget_module, wdgt)

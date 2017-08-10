@@ -61,17 +61,17 @@ $marginMedium: 10px;
     .item {
         align-self: center;
         line-height: 17px;
-        color: $white;
-        margin: 2px 4px 2px 0;
-        padding: .3rem .5rem;
+        color: $highlight-color;
+        margin: 2px 3px 2px 0;
+        padding: 2px 4px;
         font-weight: normal;
-        background-color: $link-color;
+        background-color: $highlight-background;
         border-radius: $border-radius-sm;
         border: 1px solid transparent;
     }
 
     .remove {
-        color: $white;
+        color: $highlight-color;
         padding-left: .4rem;
     }
 }

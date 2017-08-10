@@ -5,13 +5,6 @@
         {{ field }}
         {% include "arctic/partials/form_field_parts/field_label.html" %}
     </label>
-{% elif field.field.widget|typename == 'SelectizeMultiple' or field.field.widget|typename == 'SelectizeAutoComplete' %}
-    <div class="form-group">
-        <label for="{{ field.auto_id }}">
-            {% include 'arctic/partials/form_field_parts/field_label.html' %}
-        </label>
-        {{ field }}
-    </div>
 {% else %}
     <div class="form-group">
         <label for="{{ field.auto_id }}">
