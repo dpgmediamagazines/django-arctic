@@ -16,7 +16,7 @@ def test_article_list(admin_client, article):
 
         item_dict[field] = value
 
-    assert str(item_dict['tags']) == '[<Tag: Tag 0>]'
+    assert item_dict['tags'][0].term == 'Tag 0'
     assert item_dict['category'] == 'Category 0'
     assert item_dict['title'] == 'Article 0'
     assert item_dict['published'] is False
