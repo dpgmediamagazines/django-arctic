@@ -52,6 +52,7 @@ class ArticleListView(ListView):
 
 
 class ArticleUpdateView(UpdateView):
+    form_display = 'float-label'
     page_title = _("Edit Article")
     permission_required = "change_article"
     model = Article
