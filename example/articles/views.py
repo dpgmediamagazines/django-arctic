@@ -122,6 +122,18 @@ class CategoryListView(ListView):
     ]
     permission_required = 'view_category'
     search_fields = ('name',)
+    action_links = [
+        ('delete', 'articles:category-delete', 'fa-trash'),
+    ]
+    confirm_links = {
+        'articles:category-delete': {
+            'message': _('Are you sure you want to delete this?'),
+            'yes': _('Yes'),
+            'cancel': _('No')},
+        'articles:category-detail': {
+            'message': _('Are you sure you want to proceed'),
+            'yes': _('Yes'),
+            'cancel': _('No')}}
 
 
 class CategoryArticlesListView(ArticleListView):
