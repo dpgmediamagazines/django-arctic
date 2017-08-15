@@ -45,6 +45,24 @@ $(document).ready(function() {
             delimiter: ',',
             persist: false,
             plugins: ['remove_button'],
+            onDropdownOpen: function($dropdown) {
+                if ( $('form').hasClass('float-label') ) {
+                    $dropdown.parent().next('label').css({
+                        top: '.3rem',
+                        fontSize: '75%'
+                    });
+                }
+            },
+            onDropdownClose: function($dropdown) {
+                if ( $('form').hasClass('float-label') ) {
+                    if ( $('.float-label .selectize-input').find('.item').length == 0 ) {
+                        $dropdown.parent().next('label').css({
+                            top: '.75rem',
+                            fontSize: '100%'
+                        });
+                    }
+                }
+            },
             create: function(input) {
                 return {
                     value: input,
@@ -73,7 +91,21 @@ $(document).ready(function() {
                         callback(res.options);
                     }
                 });
-            }
+            },
+            onDropdownOpen: function($dropdown) {
+                $dropdown.parent().next('label').css({
+                    top: '.3rem',
+                    fontSize: '75%'
+                });
+            },
+            onDropdownClose: function($dropdown) {
+                if ( $('.float-label .selectize-input').find('.item').length == 0 ) {
+                    $dropdown.parent().next('label').css({
+                        top: '.75rem',
+                        fontSize: '100%'
+                    });
+                }
+            },
         });
     });
 
