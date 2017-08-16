@@ -404,12 +404,9 @@ class ListView(View, ListMixin, base.ListView):
 
         # remove all tuples in the field list, no need for the verbose
         # field name here
-        fields = []
+        fields = self.get_fields(strip_labels=True)
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
-        for field in self.get_fields():
-            fields.append(field[0] if type(field) in (list, tuple)
-                          else field)
         for obj in objects:
             row = []
 
@@ -511,7 +508,7 @@ class DataListView(TemplateView, ListMixin):
 
     def get_context_data(self, **kwargs):
         context = super(DataListView, self).get_context_data(**kwargs)
-        dataset = self.dataset
+        object_list = self.dataset.filter()
         page_size = self.get_paginate_by(dataset)
         page_context = {
             'paginator': None,

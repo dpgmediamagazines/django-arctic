@@ -398,10 +398,13 @@ class ListMixin(object):
 
         return (path + '?' + query_params.urlencode(safe=','), direction)
 
-    def get_fields(self):
+    def get_fields(self, strip_labels=False):
         """
         Hook to dynamically change the fields that will be displayed
         """
+        if strip_labels:
+            return [f[0] if type(f) in (tuple, list) else f
+                    for f in self.fields]
         return self.fields
 
     def get_ordering_fields(self):
