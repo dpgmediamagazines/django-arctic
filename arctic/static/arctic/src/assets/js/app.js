@@ -16,6 +16,14 @@ $(document).ready(function() {
     // Stepper input
     var $stepperInput = $('.stepper-input input');
 
+    // Check if flaot label input has items, if so then add some CSS
+    if ( $('.float-label .selectize-input').find('.item').length > 0 ) {
+        $('.selectize-input').parent().next('label').css({
+            top: '.3rem',
+            fontSize: '75%'
+        });
+    };
+
     function incrementStepperInput(amount) {
         $stepperInput.val((parseInt($stepperInput.val()) || 0) + amount);
     }

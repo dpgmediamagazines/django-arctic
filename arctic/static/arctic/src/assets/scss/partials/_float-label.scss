@@ -62,7 +62,8 @@
         }
     }
 
-    .styled-select label {
+    .styled-select label,
+    .styled-select + label {
         top: .3rem;
         font-size: 75%;
     }
