@@ -38,6 +38,12 @@ class IndefinitePaginator(Paginator):
 
 class IndefinitePage(Page):
 
+    def __init__(self, object_list, number, paginator):
+        print(object_list)
+        self.object_list = object_list
+        self.number = number
+        self.paginator = paginator
+
     def has_next(self):
         return self.number < self.paginator.num_pages or \
             self.paginator.num_pages == -1

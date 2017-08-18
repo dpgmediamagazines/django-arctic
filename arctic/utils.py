@@ -223,7 +223,7 @@ def arctic_setting(setting_name, valid_options=None):
 
 
 class RemoteDataSet():
-    url_template = '{filters}{fields}{order}{paginate}'
+    url_template = '?{filters}{fields}{order}{paginate}'
     paginate_template = '&offset={}&limit={}'
     order_separator = ','
     order_template = '&order={}'
@@ -271,4 +271,5 @@ class RemoteDataSet():
         return self.count
 
     def __getitem__(self, slice):
+        print ('getitem' + str(slice))
         return self.get(slice.start, slice.stop)

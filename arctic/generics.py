@@ -506,24 +506,29 @@ class DataListView(TemplateView, ListMixin):
     template_name = 'arctic/base_list.html'
     page_kwarg = 'page'
 
+    def get_ordering(self):
+        return self.request.GET.get('order', '').split(',')
+
     def get_context_data(self, **kwargs):
         context = super(DataListView, self).get_context_data(**kwargs)
-        object_list = self.dataset.filter()
-        page_size = self.get_paginate_by(dataset)
+        object_list = self.dataset.fields(self.get_fields(strip_labels=False))\
+            .order_by(self.get_ordering())
+        print(object_list)
+        page_size = self.get_paginate_by()
         page_context = {
             'paginator': None,
             'page_obj': None,
             'is_paginated': False,
-            'object_list': dataset
+            'object_list': object_list
         }
         if page_size:
-            paginator, page, dataset, is_paginated = self.paginate_dataset(
-                dataset, page_size)
+            paginator, page, object_list, is_paginated = self.paginate_dataset(
+                object_list, page_size)
             page_context = {
                 'paginator': paginator,
                 'page_obj': page,
                 'is_paginated': is_paginated,
-                'object_list': dataset
+                'object_list': object_list
             }
         context.update(page_context)
         context['list_header'] = self.get_list_header()
@@ -533,7 +538,7 @@ class DataListView(TemplateView, ListMixin):
 
         return context
 
-    def get_paginate_by(self, dataset):
+    def get_paginate_by(self):
         return self.paginate_by
 
     def get_list_header(self):
@@ -620,11 +625,7 @@ class DataListView(TemplateView, ListMixin):
         try:
             page_number = int(page)
         except ValueError:
-            if page == 'last':
-                page_number = paginator.num_pages
-            else:
-                raise Http404(_("Page is not 'last', nor can it be converted "
-                                "to an int."))
+            raise Http404(_('Page cannot be converted to an int.'))
         try:
             page = paginator.page(page_number)
             return (paginator, page, page.object_list, page.has_other_pages())
