@@ -9,7 +9,7 @@
     {% for key, value in menu.items %}
         {% if value.submenu %}
             <li class="has-sub">
-                <a {% if value.active %}class="active" data-stay-open=true {% endif %} {% if value.collapse %}js--collapse-menu{% endif %} href="{% url value.url %}">
+                <a {% if value.active %}class="active" data-stay-open=true {% endif %} {% if not value.url %}js--collapse-menu{% endif %} href="{% if value.url %}{% url value.url %}{% endif %}">
                     <i class="sidebar__icon fa {{ value.icon }}"></i>
                     <span>{% trans key %}</span>
                     <i class="fa {% if not value.active %}fa-angle-left{% else %}fa-angle-down{% endif %} menu__arrow" js--collapse-menu-arrow></i>
