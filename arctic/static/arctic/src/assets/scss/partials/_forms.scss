@@ -22,9 +22,8 @@ textarea {
 
 .tabular {
     label {
-        padding-left: 0px;
         @include media-breakpoint-up(md) {
-        padding-left: 2px;
+        padding-left: 0;
         }
     }
 }
