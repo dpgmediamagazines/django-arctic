@@ -46,18 +46,13 @@ def menu(menu_config=None, **kwargs):
                 path = urlresolvers.reverse(menu_entry[1])
             # icons and collapse are optional
             icon = None
-            collapse = False
             if (len(menu_entry) >= 3) and \
                (not type(menu_entry[2]) in (list, tuple)):
                 icon = menu_entry[2]
-            if (len(menu_entry) >= 4) and \
-               (not type(menu_entry[3]) in (list, tuple)):
-                collapse = True
             active_weight = len(path) if path else 0
             menu_dict[menu_entry[0]] = {
                 'url': menu_entry[1],
                 'icon': icon,
-                'collapse': collapse,
                 'submenu': None,
                 'active': is_active(request.path, path),
                 'active_weight': active_weight
