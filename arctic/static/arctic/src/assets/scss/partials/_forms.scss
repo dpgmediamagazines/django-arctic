@@ -73,6 +73,10 @@ label {
     .input {
         opacity: 1;
     }
+
+    &--inline {
+        top: -6px;;
+    }
 }
 
 .fieldset-default {

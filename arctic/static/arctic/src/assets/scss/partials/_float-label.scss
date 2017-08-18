@@ -59,6 +59,10 @@
             position: relative;
             top: 12px;
             left: 0;
+
+            &--inline {
+                top: -6px;;
+            }
         }
     }
 
@@ -102,5 +106,3 @@
     }
 
 }
-
-
