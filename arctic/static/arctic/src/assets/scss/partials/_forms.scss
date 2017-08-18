@@ -35,6 +35,12 @@ label {
     padding-left: 2px;
 }
 
+.form-check {
+    ul {
+        padding-left: 0;
+    }
+}
+
 .form-control {
     padding: $input-btn-padding-y $input-btn-padding-x;
 }
