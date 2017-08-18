@@ -118,6 +118,12 @@ label {
     margin-top: -10px;
 }
 
+.tabular {
+    .invalid-feedback {
+        margin-top: 0;
+    }
+}
+
 
 .collapse-control {
     position: absolute;
