@@ -20,6 +20,15 @@ textarea {
     height: auto;
 }
 
+.tabular {
+    label {
+        padding-left: 0px;
+        @include media-breakpoint-up(md) {
+        padding-left: 2px;
+        }
+    }
+}
+
 label {
     display: block;
     margin: 0;
