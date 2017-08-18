@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+##1.0.0-beta1 (unreleased)
+
+##Added
+
+- `DataListView`, a `ListView` that uses APIs as source of data - [#172][172] 
+- Float Labels option for form displays - [#221][221]
+
+##Changed
+
+- Moved from Foundation 6 to Bootstrap 4 - [#184][184]
+- Improved tables look and feel - [#216][216]
+
+### Removed
+
+- `django-filter` dependency - [#213][213]
+- `django-widget-tweaks` dependency
+
+[172]: //github.com/sanoma/django-arctic/issues/172
+[184]: //github.com/sanoma/django-arctic/issues/184
+[213]: //github.com/sanoma/django-arctic/issues/213
+[216]: //github.com/sanoma/django-arctic/issues/216
+[221]: //github.com/sanoma/django-arctic/issues/221
+
+
 ##0.9.7 (2017-06-13)
 
 ###Fixed

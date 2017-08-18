@@ -25,7 +25,6 @@ label {
     margin: 0;
     opacity: .75;
     padding-left: 2px;
-}
 
 .form-control {
     padding: $input-btn-padding-y $input-btn-padding-x;
@@ -35,6 +34,10 @@ label {
     position: relative;
     top: 27px;
     left: 0;
+
+    .input {
+        opacity: 1;
+    }
 }
 
 .fieldset-default {
