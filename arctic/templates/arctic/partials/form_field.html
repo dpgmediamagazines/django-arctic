@@ -8,7 +8,7 @@
     {% block control_group %}
 
         {% if not layout %}
-            <div class="row {% if field.errors %}error{% endif %}">
+            <div class="row {% if field.errors %}invalid-form-field{% endif %}">
         {% endif %}
         {% block controls %}
             <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
@@ -29,7 +29,7 @@
 
                     {% block errors %}
                         {% for error in field.errors %}
-                            <span class="form-error is-visible">
+                            <span class="invalid-feedback">
                                 <i class="icon-exclamation-sign"></i>
                                 {{ error }}
                             </span>

@@ -12,6 +12,26 @@ select:not([size]):not([multiple]) {
     @extend .form-control;
 }
 
+.invalid-form-field {
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='url'],
+    input[type='tel'],
+    input[type='password'],
+    input[type='number'],
+    input[type='color'],
+    textarea,
+    select,
+    select:not([size]):not([multiple]) {
+        @extend .is-invalid;
+    }
+
+    label {
+        color: $red;
+    }
+}
+
 input[type='checkbox'] {
     margin-right: 5px;
 }
@@ -86,6 +106,11 @@ label {
     font-size: .7rem;
     font-style: italic;
     opacity: 0.55;
+}
+
+//overwrite display none from bootstraap
+.invalid-feedback {
+    display: block;
 }
 
 
