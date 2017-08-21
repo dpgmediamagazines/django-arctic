@@ -7,8 +7,15 @@ from django.utils.safestring import mark_safe
 
 class StyledSelect(Select):
     def render(self, name, value, attrs=None, renderer=None):
+        try:
+            select_render = super(StyledSelect, self).render(
+                name, value, attrs, renderer)
+        except TypeError:  # versions older than Django 1.11
+            select_render = super(StyledSelect, self).render(
+                name, value, attrs)
+
         return mark_safe('<div class="styled-select">{}</div>'.format(
-            super(StyledSelect, self).render(name, value, attrs, renderer)))
+            select_render))
 
 
 class Selectize(Select):

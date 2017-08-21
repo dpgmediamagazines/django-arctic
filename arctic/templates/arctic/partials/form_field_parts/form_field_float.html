@@ -1,6 +1,6 @@
 {% load arctic_tags %}
 {% if field.field.widget|typename == 'CheckboxInput' or field.field.widget|typename == 'RadioSelect' %}
-    <label for="{{ field.auto_id }}" class="form-check-label {% if field.field.required %}required{% endif %}">
+    <label for="{{ field.auto_id }}" class="form-check-label {% if inline or not layout %}form-check-label--inline{% endif %}{% if field.field.required %}required{% endif %}">
         {{ field }}
         {% include "arctic/partials/form_field_parts/field_label.html" %}
     </label>

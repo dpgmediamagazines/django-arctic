@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="col-sm-12 {% if size %}col-md-{{size}} col-lg-{{size}}{% else %}col-md-2 col-lg-2{% endif %}">
+        <label for="{{ field.auto_id }}" class="{% if field.field.required %}required{% endif %}">
+            {% include 'arctic/partials/form_field_parts/field_label.html' %}
+        </label>
+    </div>
+    <div class="col-sm-12 {% if size %}col-md{{-12|add:size}} col-lg{{-12|add:size}}{% else %}col-md-10 col-lg-10{% endif %}">
+        {{ field }}
+    </div>
+</div>

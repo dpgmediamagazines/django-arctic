@@ -268,6 +268,20 @@ class FormMixin(object):
     def update_form_fields(self, form):
         widget_overloads = arctic_setting('ARCTIC_WIDGET_OVERLOADS')
         widgets_to_be_overloaded = widget_overloads.keys()
+        if hasattr(form, 'form_classes'):
+            form_names = form.form_classes.keys()
+            for form_name in form_names:
+                new_form = self._update_form_fields(
+                    form[form_name], widget_overloads,
+                    widgets_to_be_overloaded)
+                setattr(form, form_name, new_form)
+            return form
+
+        return self._update_form_fields(form, widget_overloads,
+                                        widgets_to_be_overloaded)
+
+    def _update_form_fields(self, form, widget_overloads,
+                            widgets_to_be_overloaded):
         for field in form.fields:
             field_class_name = form.fields[field].__class__.__name__
             if field_class_name == 'ModelChoiceField':

@@ -1,7 +1,3 @@
-.form-control {
-    padding: $input-btn-padding-y $input-btn-padding-x;
-}
-
 .float-label {
 
     input[type='text'],
@@ -63,7 +59,17 @@
             position: relative;
             top: 12px;
             left: 0;
+
+            &--inline {
+                top: -6px;;
+            }
         }
+    }
+
+    .styled-select label,
+    .styled-select + label {
+        top: .3rem;
+        font-size: 75%;
     }
 
     .selectize-control {
@@ -90,8 +96,6 @@
     .selectize-control ~ label {
         pointer-events: none;
         user-select: none;
-        top: .3rem;
-        font-size: 75%;
     }
 
     .selectize-control.single {
@@ -102,5 +106,3 @@
     }
 
 }
-
-
