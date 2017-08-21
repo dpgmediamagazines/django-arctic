@@ -16,13 +16,11 @@ ARCTIC_MENU = (
         ('List', 'articles:tag-list'),
         ('Create', 'articles:tag-create'),
     )),
-    ('Users', 'users:list', 'fa-user', (
+    ('Users', None, 'fa-user', (
         ('List', 'users:list'),
         ('Create', 'users:create'),
     )),
-    ('Countries', 'countries-list', 'fa-globe', (
-        ('List', 'countries-list'),
-    )),
+    ('Countries', 'countries-list', 'fa-globe'),
 )
 
 ARCTIC_USER_ROLE_MODEL = 'arctic.UserRole'

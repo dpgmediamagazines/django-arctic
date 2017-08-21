@@ -28,7 +28,7 @@
         {% elif value.url %}
             <li id="menu-{{ value.url|slugify }}">
                 <a {% if value.active %} class="no-sub active"{% endif %} href="{% url value.url %}">
-                    <i class="fa {{ value.icon }}"></i>
+                    <i class="sidebar__icon fa {{ value.icon }}"></i>
                     <span>{% trans key %}</span>
                 </a>
             </li>

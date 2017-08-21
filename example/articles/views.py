@@ -52,7 +52,6 @@ class ArticleListView(ListView):
 
 
 class ArticleUpdateView(UpdateView):
-    form_display = 'float-label'
     page_title = _("Edit Article")
     permission_required = "change_article"
     model = Article
@@ -86,7 +85,6 @@ class ArticleUpdateView(UpdateView):
 
 
 class ArticleCreateView(CreateView):
-    form_display = 'float-label'
     page_title = _("Create Article")
     # fields = ['title', 'description', 'tags', 'category', 'published']
     model = Article
