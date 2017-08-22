@@ -384,6 +384,7 @@ class ListView(View, ListMixin, base.ListView):
 
     def _get_field_actions(self, obj):
         field_actions = self.get_action_links()
+        has_confirm_links = hasattr(self, 'confirm_links')
         if field_actions:
             actions = []
             for field_action in field_actions:
@@ -391,6 +392,10 @@ class ListView(View, ListMixin, base.ListView):
                                 'icon': field_action['icon'],
                                 'url': self._reverse_field_link(
                                     field_action['url'], obj)})
+                field_url_name = field_action['url']
+                if has_confirm_links and field_url_name in self.confirm_links:
+                    actions[0].update({'confirm':
+                                      self.confirm_links[field_url_name]})
             return {'type': 'actions', 'actions': actions}
         return None
 
@@ -410,9 +415,9 @@ class ListView(View, ListMixin, base.ListView):
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
+        has_confirm_links = hasattr(self, 'confirm_links')
         for obj in objects:
             row = []
-
             for field_name in fields:
                 field = {'type': 'field', 'field': field_name}
                 base_field_name = field_name.split('__')[0]
@@ -432,6 +437,8 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
                         field_links[field_name], obj)
+                    self.add_confirm_link(has_confirm_links, field,
+                                          field_links[field_name])
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
@@ -441,6 +448,10 @@ class ListView(View, ListMixin, base.ListView):
                 self.has_action_links = True
             items.append(row)
         return items
+
+    def add_confirm_link(self, has_confirm_link, field, field_url_name):
+        if has_confirm_link and field_url_name in self.confirm_links:
+            field['confirm'] = self.confirm_links[field_url_name]
 
     def get_field_value(self, field_name, obj):
         # first try to find a virtual field
