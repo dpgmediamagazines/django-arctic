@@ -3,6 +3,7 @@ from django.utils.functional import cached_property
 
 
 class IndefinitePaginator(Paginator):
+    has_next = False
 
     @cached_property
     def count(self):
@@ -22,7 +23,13 @@ class IndefinitePaginator(Paginator):
         number = self.validate_number(number)
         bottom = (number - 1) * self.per_page
         top = bottom + self.per_page
-        return self._get_page(self.object_list[bottom:top], number, self)
+        # we don't know the total amount of items, so we ask for one extra item
+        # if it exists then there's a next page
+        object_list = self.object_list[bottom:top + 1]
+        if (len(object_list) > self.per_page):
+            self.has_next = True
+            object_list = object_list[:-1]
+        return self._get_page(object_list, number, self)
 
     def _get_page(self, *args, **kwargs):
         return IndefinitePage(*args, **kwargs)
@@ -39,11 +46,12 @@ class IndefinitePaginator(Paginator):
 class IndefinitePage(Page):
 
     def __init__(self, object_list, number, paginator):
-        print(object_list)
         self.object_list = object_list
         self.number = number
         self.paginator = paginator
 
     def has_next(self):
-        return self.number < self.paginator.num_pages or \
-            self.paginator.num_pages == -1
+        return self.paginator.has_next
+
+    def end_index(self):
+        return self.start_index() + len(self.object_list) - 1

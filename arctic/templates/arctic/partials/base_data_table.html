@@ -117,7 +117,8 @@
                                                 {% endif %}
                                             </td>
                                         {% elif column.type == 'actions' %}
-                                            <td class="list-actions">
+                                            <td>
+                                            <div class="list-actions">
                                                 {% for link in column.actions %}
                                                     <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
                                                         {% if link.icon %}
@@ -128,6 +129,7 @@
                                                     </a>
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
+                                            </div>
                                             </td>
                                         {% endif %}
                                     {% endfor %}

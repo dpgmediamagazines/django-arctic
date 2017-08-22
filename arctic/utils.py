@@ -265,16 +265,27 @@ class RemoteDataSet():
             self._options['filters'] = self.filters_template.format(filters)
         return self
 
-    def get_url(self, page, page_size):
+    def get_url(self, start, stop):
+        self._options['paginate'] = self.paginate_template.format(start, stop)
         url = self.url_template.format(**self._options)
         return url.replace('?&', '?')
 
-    def get(self, page, page_size):
+    def get(self, start, stop):
         pass
 
     def __len__(self):
         return self.count
 
     def __getitem__(self, slice):
-        print ('getitem' + str(slice))
         return self.get(slice.start, slice.stop)
+
+
+def offset_limit(func):
+    """
+    Decorator that converts python slicing to offset and limit
+    """
+    def func_wrapper(self, start, stop):
+        offset = start
+        limit = stop - start
+        return func(self, offset, limit)
+    return func_wrapper

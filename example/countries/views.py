@@ -9,7 +9,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 
 from arctic.generics import DataListView
-from arctic.utils import RemoteDataSet
+from arctic.utils import RemoteDataSet, offset_limit
 
 
 class CountryAPIView(TemplateView):
@@ -69,25 +69,20 @@ class CountriesDataSet(RemoteDataSet):
     url_template = 'countries-api/?{filters}{fields}{order}{paginate}'
     order_template = '&order_by={}'
 
-    def get(self, page, paginate_by):
-        r = urllib.request.urlopen((self.get_url(page, paginate_by)))
-        offset = (page - 1) * paginate_by
-        limit = offset + paginate_by
+    @offset_limit
+    def get(self, offset, limit):
+        r = urllib.request.urlopen((self.get_url(offset, limit)))
         data = r.read().decode("utf-8")
-        return json.loads(data)[offset:limit]
-
-    # def __len__(self):
-    #     return len(self.get(1, -1))
+        return json.loads(data)
 
 
 class CountryListView(DataListView):
-    paginate_by = 13
+    paginate_by = 10
     dataset = CountriesDataSet()
     fields = ['name', 'capital', 'flag']
-    ordering_fields = ['name']
+    ordering_fields = ['name', 'capital']
     search_fields = ['name']
     breadcrumbs = (('Home', 'index'), ('Country List', None))
-    filter_fields = ['published']
     page_title = 'Countries'
     permission_required = 'country_view'
 

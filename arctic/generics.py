@@ -4,7 +4,8 @@ from collections import OrderedDict
 import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
-from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured)
+from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
+                                    ValidationError)
 from django.core.paginator import InvalidPage
 from django.core.urlresolvers import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
@@ -269,20 +270,7 @@ class ListView(View, ListMixin, base.ListView):
     """
     Custom listview. Adding filter, sorting and display logic.
     """
-    template_name = 'arctic/base_list.html'
-    fields = None  # Which fields should be shown in listing
-    search_fields = []
-    simple_search_form = None  # Simple search form if search_fields is defined
-    advanced_search_form = None  # Custom form for advanced search
-    ordering_fields = []  # Fields with ordering (subset of fields)
-    default_ordering = []  # Default ordering, e.g. ['title', '-brand']
-    action_links = []  # "Action" links on item level. For example "Edit"
-    field_links = {}
-    field_classes = {}
-    tool_links_icon = 'fa-wrench'
     prefix = ''  # Prefix for embedding multiple list views in detail view
-    max_embeded_list_items = 10  # when displaying a list in a column
-    primary_key = 'pk'
 
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
@@ -332,7 +320,7 @@ class ListView(View, ListMixin, base.ListView):
         # its more desirable, for field_links in listviews
         # to just ignore the link.
         if None in args:
-            return ""
+            return ''
 
         return reverse(named_url, args=args)
 
@@ -381,18 +369,6 @@ class ListView(View, ListMixin, base.ListView):
                 result.append(item)
 
         return result
-
-    def _get_field_actions(self, obj):
-        field_actions = self.get_action_links()
-        if field_actions:
-            actions = []
-            for field_action in field_actions:
-                actions.append({'label': field_action['label'],
-                                'icon': field_action['icon'],
-                                'url': self._reverse_field_link(
-                                    field_action['url'], obj)})
-            return {'type': 'actions', 'actions': actions}
-        return None
 
     def get_list_items(self, objects):
         self.has_action_links = False
@@ -456,9 +432,6 @@ class ListView(View, ListMixin, base.ListView):
             # finally get field's value
             return find_attribute(obj, field_name)
 
-    def get_tool_links_icon(self):
-        return self.tool_links_icon
-
     def get_prefix(self):
         return self.prefix + '-' if self.prefix else ''
 
@@ -511,10 +484,9 @@ class DataListView(TemplateView, ListMixin):
 
     def get_context_data(self, **kwargs):
         context = super(DataListView, self).get_context_data(**kwargs)
-        object_list = self.dataset.fields(self.get_fields(strip_labels=False))\
-            .order_by(self.get_ordering())
-        print(object_list)
         page_size = self.get_paginate_by()
+        self.dataset.page_size = page_size
+        object_list = self.get_objects()
         page_context = {
             'paginator': None,
             'page_obj': None,
@@ -532,9 +504,18 @@ class DataListView(TemplateView, ListMixin):
             }
         context.update(page_context)
         context['list_header'] = self.get_list_header()
-        context['list_items'] = self.get_list_items()
+        context['list_items'] = self.get_list_items(object_list)
         context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
+        # self.has_action_links is set in get_list_items
+        context['has_action_links'] = self.has_action_links
+        context['tool_links_icon'] = self.get_tool_links_icon()
+        if self.get_simple_search_form():
+            context['simple_search_form'] = \
+                self.get_simple_search_form()(data=self.request.GET)
+        if self.get_advanced_search_form():
+            context['advanced_search_form'] = \
+                self.get_advanced_search_form()(data=self.request.GET)
 
         return context
 
@@ -565,17 +546,25 @@ class DataListView(TemplateView, ListMixin):
         return result
 
     def get_objects(self):
-        objects = getattr(self, '_objects', None)
-        if not objects:
-            try:
-                page = int(self.request.GET.get(self.page_kwarg))
-            except TypeError:
-                page = 1
-            return self.dataset.get(page, self.paginate_by)
+        objects = (self.dataset
+                   .fields(self.get_fields(strip_labels=False))
+                   .order_by(self.get_ordering()))
+        search_fields = self.get_search_fields()
+        if search_fields:
+            if len(search_fields) > 1:
+                raise ValidationError('search_fields in DataListView currently'
+                                      ' only accepts one field')
+            search = {}
+            for search_field in search_fields:
+                value = self.request.GET.get('search')
+                if value:
+                    search[search_field] = value
+            if search:
+                objects = objects.filter(**search)
         return objects
 
-    def get_list_items(self):
-        objects = self.get_objects()
+    def get_list_items(self, objects):
+        self.has_action_links = False
         items = []
         fields = []
         field_links = self.get_field_links()
@@ -595,6 +584,10 @@ class DataListView(TemplateView, ListMixin):
                     field['class'] = field_classes[field_name]
                 row.append(field)
             items.append(row)
+            actions = self._get_field_actions(obj)
+            if actions:
+                row.append(actions)
+                self.has_action_links = True
         return items
 
     def get_field_value(self, field_name, obj):
@@ -605,7 +598,7 @@ class DataListView(TemplateView, ListMixin):
             try:
                 return obj[field_name]
             except KeyError:
-                raise ImproperlyConfigured(
+                raise FieldDoesNotExist(
                     'Field "{}" is not available'.format(field_name))
 
     def get_paginator(self, dataset, per_page, orphans=0,
@@ -634,6 +627,24 @@ class DataListView(TemplateView, ListMixin):
                 'page_number': page_number,
                 'message': str(e)
             })
+
+    def _reverse_field_link(self, url, obj):
+        if type(url) in (list, tuple):
+            named_url = url[0]
+            args = []
+            for arg in url[1:]:
+                args.append(obj[arg])
+        else:
+            named_url = url
+            args = [obj[self.primary_key]]
+
+        # Instead of giving NoReverseMatch exception
+        # its more desirable, for field_links in listviews
+        # to just ignore the link.
+        if None in args:
+            return ''
+
+        return reverse(named_url, args=args)
 
 
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,

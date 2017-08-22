@@ -38,9 +38,6 @@ class ArticleListView(ListView):
         'published': 'articles:detail',
         'category': ('articles:category-detail', 'category_id'),
     }
-    field_classes = {
-        'published': 'inline-widgetboolean-circle',
-    }
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]

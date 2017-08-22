@@ -73,6 +73,7 @@
     position: relative;
     display: flex;
     flex-wrap: nowrap;
+    float: right;
     > a {
         font-size: $font-size-xs;
         padding: 0.1em 0.4em;
