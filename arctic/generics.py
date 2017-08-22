@@ -556,9 +556,8 @@ class DataListView(TemplateView, ListMixin):
                                       ' only accepts one field')
             search = {}
             for search_field in search_fields:
-                value = self.request.GET.get('search')
-                if value:
-                    search[search_field] = value
+                value = self.request.GET.get('search', '')
+                search[search_field] = value
             if search:
                 objects = objects.filter(**search)
         return objects

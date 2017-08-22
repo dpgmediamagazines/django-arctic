@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
 from collections import OrderedDict
+from copy import deepcopy
 import importlib
 
 from django.conf import settings
@@ -247,13 +248,13 @@ class RemoteDataSet():
         if fields:
             fields_str = self.fields_separator.join(fields)
             self._options['fields'] = self.fields_template.format(fields_str)
-        return self
+        return deepcopy(self)
 
     def order_by(self, order):
         if order:
             order_str = self.order_separator.join(order)
             self._options['order'] = self.order_template.format(order_str)
-        return self
+        return deepcopy(self)
 
     def filter(self, **kwargs):
         if kwargs:
@@ -263,7 +264,7 @@ class RemoteDataSet():
                     key=key,
                     value=value)
             self._options['filters'] = self.filters_template.format(filters)
-        return self
+        return deepcopy(self)
 
     def get_url(self, start, stop):
         self._options['paginate'] = self.paginate_template.format(start, stop)
