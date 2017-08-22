@@ -4,25 +4,23 @@ ARCTIC_SITE_NAME = 'Arctic Example'
 # (('menu label', 'named url', 'optional icon class', (optional submenu)))
 ARCTIC_MENU = (
     ('Dashboard', 'index', 'fa-dashboard'),
-    ('Articles', 'articles:list', 'fa-file-text-o', (
+    ('Articles', None, 'fa-file-text-o', (
         ('List', 'articles:list'),
         ('Create', 'articles:create'),
     )),
-    ('Categories', 'articles:category-list', 'fa-sitemap', (
+    ('Categories', None, 'fa-sitemap', (
         ('List', 'articles:category-list'),
         ('Create', 'articles:category-create'),
     )),
-    ('Tags', 'articles:tag-list', 'fa-tags', (
+    ('Tags', None, 'fa-tags', (
         ('List', 'articles:tag-list'),
         ('Create', 'articles:tag-create'),
     )),
-    ('Users', 'users:list', 'fa-user', (
+    ('Users', None, 'fa-user', (
         ('List', 'users:list'),
         ('Create', 'users:create'),
     )),
-    ('Countries', 'countries-list', 'fa-globe', (
-        ('List', 'countries-list'),
-    )),
+    ('Countries', 'countries-list', 'fa-globe'),
 )
 
 ARCTIC_USER_ROLE_MODEL = 'arctic.UserRole'

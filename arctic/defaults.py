@@ -1,5 +1,5 @@
 # options are 'float-label', 'stacked' or 'tabular'
-ARCTIC_FORM_DISPLAY = 'stacked'
+ARCTIC_FORM_DISPLAY = 'float-label'
 
 ARCTIC_SITE_LOGO = 'arctic/dist/assets/img/arctic_logo.svg'
 

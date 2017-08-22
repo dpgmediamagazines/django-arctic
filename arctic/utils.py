@@ -12,7 +12,9 @@ from . import defaults
 
 
 def is_active(path, path_to_check):
-    return path.startswith(path_to_check)
+    if not path_to_check:
+        return False
+    return path == path_to_check
 
 # TODO: menu needs to hide entries not available to a certain user role
 # by getting the view class from the named url we can check which permissions
@@ -36,21 +38,24 @@ def menu(menu_config=None, **kwargs):
         if type(menu_entry) in (list, tuple):
 
             # check permission based on named_url
-            if not view_from_url(menu_entry[1]).has_permission(user):
-                continue
+            path = None
+            if menu_entry[1]:
+                if not view_from_url(menu_entry[1]).has_permission(user):
+                    continue
 
-            path = urlresolvers.reverse(menu_entry[1])
-            # icons are optional
+                path = urlresolvers.reverse(menu_entry[1])
+            # icons and collapse are optional
             icon = None
             if (len(menu_entry) >= 3) and \
                (not type(menu_entry[2]) in (list, tuple)):
                 icon = menu_entry[2]
+            active_weight = len(path) if path else 0
             menu_dict[menu_entry[0]] = {
                 'url': menu_entry[1],
                 'icon': icon,
                 'submenu': None,
                 'active': is_active(request.path, path),
-                'active_weight': len(path)
+                'active_weight': active_weight
             }
 
             # check if the last item in a menu entry is a submenu

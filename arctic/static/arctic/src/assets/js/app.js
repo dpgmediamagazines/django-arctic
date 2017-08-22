@@ -1,3 +1,4 @@
+!(function(w, $) {
 //Mobile menu controls
 $('#menu-button').click(function (e) {
     $(this).toggleClass('is-active');
@@ -5,6 +6,29 @@ $('#menu-button').click(function (e) {
     e.preventDefault();
 });
 
+let collapseButton = document.querySelectorAll('[js--collapse-menu]');
+
+for (var i = 0; i < collapseButton.length; i++) {
+    collapseButton[i].addEventListener('click', function(event) {
+        event.preventDefault();
+        if (this.getAttribute('data-stay-open')) {
+            return false;
+        }
+        let el = this.querySelector('[js--collapse-menu-arrow]');
+
+        this.classList.toggle('active');
+        if (el.classList.contains('fa-angle-down')) {
+            el.classList.remove('fa-angle-down');
+            el.classList.add('fa-angle-left');
+        } else {
+            el.classList.add('fa-angle-down');
+            el.classList.remove('fa-angle-left');
+        }
+        this.nextSibling.nextSibling.classList.toggle('active');
+    });
+}
+
+})(window, $);
 //Turn on Tooltips
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()

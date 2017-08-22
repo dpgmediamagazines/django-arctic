@@ -42,12 +42,12 @@
 
                     <div id="js--collapse-form-{{forloop.counter}}" class="{% if layout_item.fieldset.collapsible == 'closed' %} collapse {% else %} show {% endif %}">
                         {% for row in layout_item.rows %}
-                            <div class="row{% if field.errors %} error {% endif %}">
+                            <div class="row {% if row.field.errors %} invalid-form-field{% endif %}">
                                 {% if row|typename == 'dict' %}
-                                    {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column %}
+                                    {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column layout=True %}
                                 {% else %}
                                     {% for field in row %}
-                                        {% include 'arctic/partials/form_field.html' with field=field.field style=style column=field.column %}
+                                        {% include 'arctic/partials/form_field.html' with field=field.field style=style column=field.column layout=True %}
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -57,5 +57,5 @@
             {% endfor %}
         {% else %}
             {# TODO Move this section to it's own template file #}
-            <div class="form-block">{% for field in form %}{% include 'arctic/partials/form_field.html' with field=field %}{% endfor %}</div>
+            <div class="form-block">{% for field in form %}{% include 'arctic/partials/form_field.html' %}{% endfor %}</div>
         {% endif %}

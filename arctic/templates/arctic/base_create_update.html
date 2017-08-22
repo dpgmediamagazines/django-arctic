@@ -8,10 +8,12 @@
 
 {% block content %}
     <div class="row">
-        <div class="form-size">
-        {% block form_validation %}
-            {% include "arctic/partials/form_validation.html" with form=form %}
-        {% endblock %}
+        <div class="col">
+            <div class="form-size">
+            {% block form_validation %}
+                {% include "arctic/partials/form_validation.html" with form=form %}
+            {% endblock %}
+            </div>
         </div>
     </div>
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check {{ form_display }}" data-abide novalidate>

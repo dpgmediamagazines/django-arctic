@@ -12,6 +12,26 @@ select:not([size]):not([multiple]) {
     @extend .form-control;
 }
 
+.invalid-form-field {
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='url'],
+    input[type='tel'],
+    input[type='password'],
+    input[type='number'],
+    input[type='color'],
+    textarea,
+    select,
+    select:not([size]):not([multiple]) {
+        @extend .is-invalid;
+    }
+
+    label {
+        color: $red;
+    }
+}
+
 input[type='checkbox'] {
     margin-right: 5px;
 }
@@ -20,11 +40,25 @@ textarea {
     height: auto;
 }
 
+.tabular {
+    label {
+        @include media-breakpoint-up(md) {
+        padding-left: 0;
+        }
+    }
+}
+
 label {
     display: block;
     margin: 0;
     opacity: .75;
     padding-left: 2px;
+}
+
+.form-check {
+    ul {
+        padding-left: 0;
+    }
 }
 
 .form-control {
@@ -38,6 +72,10 @@ label {
 
     .input {
         opacity: 1;
+    }
+
+    &--inline {
+        top: -6px;;
     }
 }
 
@@ -72,6 +110,18 @@ label {
     font-size: .7rem;
     font-style: italic;
     opacity: 0.55;
+}
+
+//overwrite display none from bootstraap
+.invalid-feedback {
+    display: block;
+    margin-top: -10px;
+}
+
+.tabular {
+    .invalid-feedback {
+        margin-top: 0;
+    }
 }
 
 
