@@ -34,13 +34,29 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
+$( '.float-label input' ).keyup(function() {
+    // Check if float label input is not empty, if so then add some CSS
+    if ( $(this).val().length > 0 ) {
+
+        $(this).css({
+            paddingTop: '1.2rem',
+            paddingBottom: '.4rem'
+        });
+
+        $(this).next('label').css({
+            top: '.3rem',
+            fontSize: '75%'
+        });
+
+    };
+});
 
 // jquery stuff goes here
 $(document).ready(function() {
     // Stepper input
     var $stepperInput = $('.stepper-input input');
 
-    // Check if flaot label input has items, if so then add some CSS
+    // Check if float label input has items, if so then add some CSS
     if ( $('.float-label .selectize-input').find('.item').length > 0 ) {
         $('.selectize-input').parent().next('label').css({
             top: '.3rem',
