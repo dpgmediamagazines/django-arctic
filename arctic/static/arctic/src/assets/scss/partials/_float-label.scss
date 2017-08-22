@@ -66,6 +66,10 @@
         }
     }
 
+    .styled-select select {
+        padding-top: 1.2rem !important;
+    }
+
     .styled-select label,
     .styled-select + label {
         top: .3rem;
