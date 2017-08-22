@@ -203,6 +203,7 @@ template and is able to do filtering, sorting, pagination and linking.
 **Extends**
 
 * `arctic.generics.View`
+* `arctic.mixins.ListMixin`
 * `django.views.generic.ListView`
 
 **Properties**
@@ -272,7 +273,61 @@ list of links with the format `('name', 'url')`, not connected to the table data
 
 ### `tool_links_icon`
 
-default is fa-wrench. an icon displayed for the dropdown of multiple tool links or, if only one tool link set, it would be use as default icon.
+default is fa-wrench. an icon displayed for the dropdown of multiple tool 
+links or, if only one tool link set, it would be use as default icon.
+
+
+## DataListView
+
+`class arctic.generics.DataListView`
+
+This view is similar in features to ListView but displays tabular data from an 
+API source instead of a django model, it includes a default template and is 
+able to do filtering, sorting, pagination and linking.
+The biggest difference here is that DataListView requires a RemoteDataSet 
+instance instead of a model.
+
+A `RemoteDataSet` is a `QuerySet`-like object that acts as a gateway between 
+the `DataListView` and an API at the very least it needs to implement the 
+following:
+
+- `url_template` property with optional `{filters}`, `{fields}`, `{order}` or
+  `{paginate}` format paramenters, which in turn can be customized with their 
+  own templates.
+
+- `get()` method which accepts two parameters, by default `start` and `stop` or,
+if using the `offset_limit` decorator then `offset` and `limit`. This method is
+responsible to connect to the API with the `url_template` and fetch the data
+needed to populate the list.
+
+Example:
+
+    from arctic.utils import RemoteDataSet, offset_limit
+
+    class CountriesDataSet(RemoteDataSet):
+        url_template = 'http://example.com/countries-api/?{filters}{fields}{order}{paginate}'
+        order_template = '&order_by={}'
+
+        @offset_limit
+        def get(self, offset, limit):
+            r = urllib.request.urlopen((self.get_url(offset, limit)))
+            data = r.read().decode("utf-8")
+            return json.loads(data)
+
+    class CountryListView(DataListView):
+        dataset = CountriesDataSet()
+        ...
+
+**Extends**
+
+* `arctic.generics.TemplateView`
+* `arctic.mixins.ListMixin`
+
+**Properties**
+
+### `fields`
+
+
 
 ## FormView
 
@@ -396,7 +451,7 @@ will check if it returns `True` or `False`. Note that on multiple
 permissions, only one permission is needed to validate a user's role.
 
 
-## LayoutMixin
+## FormMixin
 
 ### `layout`
 
