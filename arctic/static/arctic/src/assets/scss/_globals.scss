@@ -11,6 +11,19 @@ a:not([href]):not([tabindex]) {
     }
 }
 
+//Change only secondary color
+
+.btn-secondary {
+    color: $btn-secondary-color;
+    background-color: $btn-secondary-bg;
+    border-color: $btn-secondary-border-color;
+
+    &:hover {
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+}
+
 .hide {
     display: none !important;
 }
