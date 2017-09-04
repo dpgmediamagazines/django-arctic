@@ -1,5 +1,5 @@
 {% load arctic_tags %}
-{# This template makes it easier to overwrite all the lables for the diferent form types #}
+{# This template makes it easier to overwrite all the labels for the different form types #}
 {{ field.label|safe }}
 {% if field.field.widget|typename != 'CheckboxInput' and field.field.widget|typename != 'RadioSelect' %}
     {% if not field.field.required %}

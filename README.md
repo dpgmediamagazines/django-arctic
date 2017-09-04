@@ -14,19 +14,19 @@ lists and forms.
   custom columns and data sources not only from databases but also from APIs
 - The FormViews have enhanced widgets for DateTime, AutoComplete and 
   MultiSelect and also support custom layouts without having to create extra 
-  templates. Forms can also have `tabular`, `stacked` or `float label` displays.
+  templates.
 
 ![arctic screenshot](docs/img/arctic_screenshot.png)
 
 ## Why
 
 There are a lot of content management systems in the market that are a good fit 
-for the implementation of many web sites.
-Most CMS systems make assumptions about the data model for posts, 
-authentication and the administration interface.
+for the creation of many web sites.
+Most CMS's make assumptions about the data model for posts, authentication and 
+the administration interface.
 
-There is however a tipping point, where the customization of a CMS product
-is great enough that it ends up being better to use some lower level framework.
+There is however a tipping point, where customizing a CMS product
+is so extensive that it ends up being better to use some lower level framework.
 
 This is the case that Arctic wants to solve, creation of a CMS with a high 
 degree of customization.

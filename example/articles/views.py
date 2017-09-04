@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
 from django.core.urlresolvers import (reverse, reverse_lazy)
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
@@ -35,7 +36,6 @@ class ArticleListView(ListView):
     ]
     field_links = {
         'title': 'articles:detail',
-        'published': 'articles:detail',
         'category': ('articles:category-detail', 'category_id'),
     }
     tool_links = [
@@ -46,6 +46,10 @@ class ArticleListView(ListView):
 
     def get_category_field(self, row):
         return row.category.name
+
+    def get_published_field(self, row):
+        symbol = 'fa-check' if row.published else 'fa-minus'
+        return mark_safe('<i class="fa {}"></i>'.format(symbol))
 
 
 class ArticleUpdateView(UpdateView):

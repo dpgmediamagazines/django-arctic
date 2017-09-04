@@ -4,6 +4,7 @@ from collections import OrderedDict
 import extra_views
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, logout)
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
                                     ValidationError)
 from django.core.paginator import InvalidPage
@@ -686,6 +687,11 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
                base.FormView):
     template_name = 'arctic/base_create_update.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(FormView, self).get_context_data(**kwargs)
+        context['layout'] = self.get_layout()
+        return context
+
 
 class DeleteView(SuccessMessageMixin, View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
@@ -714,13 +720,14 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
         return self.render_to_response(context)
 
 
-class LoginView(TemplateView):
+class LoginView(FormView):
     template_name = 'arctic/login.html'
     page_title = 'Login'
     requires_login = False
+    form_class = AuthenticationForm
 
     def __init__(self, *args, **kwargs):
-        super(TemplateView, self).__init__(*args, **kwargs)
+        super(LoginView, self).__init__(*args, **kwargs)
         # thread-safe definition of messages.
         self.messages = []
 

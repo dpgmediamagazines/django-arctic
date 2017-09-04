@@ -32,6 +32,18 @@ Example configuration is:
         'js': ('common1.js', )
     }
 
+## `ARCTIC_FORM_DISPLAY`
+
+Defines how the forms should be displayed, options are:
+
+- `float-field` - this is the default option, it shows a label in the form 
+  field that 'floats' up when the field is filled.
+
+- `stacked` - the labels are shown on top of the fields.
+
+- `tabular` - the form will be displayed with labels next to the fields, this
+  option does not support layouts.
+
 ## `ARCTIC_HIGHLIGHT_BACKGROUND`
 
 String representing the highlight background color used in tags and other elements, if none given a default will be used.
@@ -452,6 +464,21 @@ permissions, only one permission is needed to validate a user's role.
 
 
 ## FormMixin
+
+### `form_display`
+
+Defines how a form will be displayed, the options are:
+
+- `float-field` - this is the default option, it shows a label in the form 
+  field that 'floats' up when the field is filled.
+
+- `stacked` - the labels are shown on top of the fields.
+
+- `tabular` - the form will be displayed with labels next to the fields, this
+  option does not support layouts.
+
+This option can be changed globally with the setting `ARCTIC_FORM_DISPLAY`.
+
 
 ### `layout`
 
