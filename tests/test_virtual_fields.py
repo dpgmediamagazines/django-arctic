@@ -30,7 +30,6 @@ class TestVirtualFields(object):
         item = response.context_data['list_items'][0]
         assert item[0]['value'] == article.title
         assert item[1]['value'] == article.description
-        assert item[2]['value'] == article.published
         assert item[3]['value'] == article.category.name
 
     def test_missing_virtual_field(self, admin_client):
