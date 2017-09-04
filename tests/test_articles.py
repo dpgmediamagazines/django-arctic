@@ -19,5 +19,4 @@ def test_article_list(admin_client, article):
     assert item_dict['tags'][0] == 'Tag 0'
     assert item_dict['category'] == 'Category 0'
     assert item_dict['title'] == 'Article 0'
-    assert item_dict['published'] is False
     assert item_dict['description'] == ''
