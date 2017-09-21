@@ -29,13 +29,13 @@
                     <div class="col">
                         <label class="sr-only" for="search">Search</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                            <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
                             {% if advanced_search_form %}
-                                <a class="input-group-addon arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                                <a class="input-group-addon arctic_toggle_form_button" tabindex="0" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
                                     <i class="fa fa-sliders"></i>
                                 </a>
                             {% endif %}
+                            <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
                         </div>
                         {% if advanced_search_form %}
                             {% block advanced_search_form %}
@@ -88,7 +88,7 @@
                                         {% else %}
                                             {{ item.label }}
                                         {% endif %}
-                                        {% block extra_table_header_icon %}{% endblock %}
+                                        {% block extra_table_header_data %}{% endblock %}
                                     </th>
                                 {% endfor %}
 
