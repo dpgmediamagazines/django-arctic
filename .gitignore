@@ -135,3 +135,4 @@ demo/media
 # frontend stuff
 npm-debug.log
 node_modules
+!arctic/static/dist/assets/fonts
