@@ -6,7 +6,7 @@
                 <div class="form-block">
 
                     {% if layout_item.fieldset.title or layout_item.fieldset.description %}
-                        <div class="arctic-card__form-header {% if layout_item.fieldset.collapsible == 'closed' %} js--collapse-toggle{% endif %}">
+                        <div class="arctic-card__form-header">
                         {% if layout_item.fieldset.collapsible %}
                             <span class="collapse-control {% if layout_item.fieldset.collapsible == 'closed'%} collapsed {% endif %}" data-toggle="collapse" data-target="#js--collapse-form-{{forloop.counter}}" aria-expanded="false" aria-controls="js--collapse-form">
                                 <i class="fa fa-angle-down"></i>

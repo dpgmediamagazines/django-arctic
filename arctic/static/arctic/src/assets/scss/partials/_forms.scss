@@ -124,15 +124,18 @@ label {
     }
 }
 
-
 .collapse-control {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    top: -2px;
-    right: 6px;
-    padding-left: 6px;
+    width: 100%;
+    height: 25px;
     cursor: pointer;
+
+    .fa {
+        float: right;
+        position: relative;
+        right: 6px;
+        top: 4px;
+    }
 
     &.collapsed {
         .fa {
