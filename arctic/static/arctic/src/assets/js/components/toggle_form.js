@@ -13,6 +13,13 @@
         html: true
     });
 
+    var checkIfDatepicker = function ($target) {
+        if ($target.attr('class').indexOf('datepicker') > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     var dismissOnClick = function () {
         $('body').on('click.popover', function(e) {
@@ -22,8 +29,11 @@
                 !$(target).is('.arctic_toggle_form_button') &&
                 !$(target).parents().is('.arctic_toggle_form_button')
                 ) {
-                $('body').off('click.popover');
-                $('.arctic_toggle_form_button').popover('hide');
+                    //check if it's a datepicker container
+                if (!checkIfDatepicker($(target))) {
+                    $('body').off('click.popover');
+                    $('.arctic_toggle_form_button').popover('hide');
+                }
             }
         });
     }

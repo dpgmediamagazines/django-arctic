@@ -46,3 +46,7 @@ a:not([href]):not([tabindex]) {
     margin-left: auto;
     margin-right: auto;
 }
+
+.datepicker {
+    z-index: 10000;
+}
