@@ -172,3 +172,13 @@ label {
     -moz-appearance: none;
     appearance: none;
 }
+
+//Advanced search from
+
+.popover {
+    max-width: none; //remove max width from bootstrap
+    width: 100%; // 80% from default search form
+    @include media-breakpoint-up(md) {
+        width: 80%;
+    }
+}
