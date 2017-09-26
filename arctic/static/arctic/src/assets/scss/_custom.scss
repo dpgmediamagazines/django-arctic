@@ -376,7 +376,7 @@ $input-focus-border-color:       lighten($brand-primary, 25%) !default;
 $input-focus-box-shadow:         $input-box-shadow, $btn-focus-box-shadow !default;
 $input-focus-color:              $input-color !default;
 
-$input-placeholder-color:        $gray-dark;
+$input-placeholder-color:        lighten($gray-dark, 25%);
 
 $input-height-border:           $input-btn-border-width * 2 !default;
 
