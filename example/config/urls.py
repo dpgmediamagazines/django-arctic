@@ -16,7 +16,7 @@ from dashboard.views import DashboardView
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='index'),
     url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^articles/', include('articles.urls')),
+    url(r'^articles/', include('articles.urls', 'articles')),
     url(r'^users/', include(user_patterns, namespace='users')),
     url(r'^countries/$', CountryListView.as_view(), name='countries-list'),
     url(r'^countries-api/$', CountryAPIView.as_view(), name='countries-api'),
