@@ -61,6 +61,7 @@ def create_project(parser, options, args):
           '- Finally run the project: {0}/manage.py runserver.\n'
           .format(project_name))
 
+
 COMMANDS = {
     'start': create_project,
 }
