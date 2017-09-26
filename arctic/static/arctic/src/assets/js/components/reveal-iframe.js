@@ -16,7 +16,7 @@
 
     // template and state
     var dialog = {};
-    dialog.element ='<div class="modal" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
+    dialog.element ='<div class="modal fade" id="revealModal" tabindex="-1" role="dialog" aria-labelledby="revealModalLabel" aria-hidden="true">' +
                     '<div class="modal-dialog" style="top:10%" role="document">' +
                     '<iframe frameborder="0" allowfullscreen></iframe>' +
                     '</div></div>';
@@ -307,8 +307,8 @@
             self.dialog.remove();
 
             // disable listeners
-            self.dialog.off( 'shown.zf.reveal' );
-            self.dialog.off( 'hidden.zf.reveal' );
+            self.dialog.off( 'shown.bs.modal' );
+            self.dialog.off( 'hidden.bs.modal' );
 
             if ( $triggers.length ) {
 
@@ -327,7 +327,7 @@
     window.arctic.utils.revealInIframe = {
         open: function( url, size ) {
             dialog.open( url, size );
-            dialog.element.modal( 'open' );
+            dialog.element.modal( 'show' );
         },
         close: function() {
             dialog.close();

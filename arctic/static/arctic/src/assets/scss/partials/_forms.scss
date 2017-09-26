@@ -51,7 +51,6 @@ textarea {
 label {
     display: block;
     margin: 0;
-    opacity: .75;
     padding-left: 2px;
 }
 
@@ -124,15 +123,18 @@ label {
     }
 }
 
-
 .collapse-control {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    top: -2px;
-    right: 6px;
-    padding-left: 6px;
+    width: 100%;
+    height: 25px;
     cursor: pointer;
+
+    .fa {
+        float: right;
+        position: relative;
+        right: 6px;
+        top: 4px;
+    }
 
     &.collapsed {
         .fa {
@@ -168,4 +170,14 @@ label {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+//Advanced search from
+
+.popover {
+    max-width: none; //remove max width from bootstrap
+    width: 100%; // 80% from default search form
+    @include media-breakpoint-up(md) {
+        width: 80%;
+    }
 }

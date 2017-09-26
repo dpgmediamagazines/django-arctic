@@ -10,7 +10,6 @@
         color: $gray-medium;
         a {
             color: $gray-medium;
-            padding-right: 1.5em;
             white-space: nowrap;
         }
     }
@@ -116,4 +115,8 @@
 .nav-tabs .nav-link {
     text-transform: uppercase;
     font-size: 12px;
+}
+
+.input-group-addon {
+    background-color: white;
 }
