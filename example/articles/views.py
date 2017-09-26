@@ -15,7 +15,7 @@ from .models import (Article, Category, Tag)
 
 class DashboardView(TemplateView):
     template_name = 'arctic/index.html'
-    page_title = "Dashboard"
+    page_title = 'Dashboard'
     permission_required = 'view_dashboard'
 
     def get_context_data(self, **kwargs):

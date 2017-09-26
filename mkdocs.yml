@@ -2,5 +2,6 @@ site_name: Django Arctic
 theme: readthedocs
 pages:
 - Home: index.md
+- Lists: lists.md
 - Reference: reference.md
 - Frontend: frontend.md

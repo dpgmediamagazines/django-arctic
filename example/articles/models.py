@@ -16,6 +16,9 @@ class Article(models.Model):
     def __str__(self):
         return 'Article "' + self.title + '"'
 
+    class Meta:
+        ordering = ['id']
+
 
 class Category(models.Model):
     name = models.CharField('Name', max_length=255, null=False, blank=False,
