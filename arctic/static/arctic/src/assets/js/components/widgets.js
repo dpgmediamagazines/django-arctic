@@ -110,29 +110,32 @@ $(document).ready(function() {
     });
 
     $('[js-datepicker]').each(function(index) {
+        var date = new Date($(this).attr("data-date")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-date"))
         $(this).datepicker({
             todayButton: true,
             language: 'en',
-            startDate: new Date($(this).attr("data-date")),
+            startDate: date,
             dateFormat: django2datepicker(DATE_FORMAT)
         });
     });
 
     $('[js-timepicker]').each(function(index) {
+        var date = new Date($(this).attr("data-time")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-date"))
         $(this).datepicker({
             onlyTimepicker: true,
             language: 'en',
-            startDate: new Date($(this).attr("data-time")),
+            startDate: date,
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
         });
     });
 
     $('[js-datetimepicker]').each(function(index) {
+        var date = new Date($(this).attr("data-datetime")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-date"))
         $(this).datepicker({
             language: 'en',
             todayButton: true,
-            startDate: new Date($(this).attr("data-datetime")),
+            startDate: date,
             dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
