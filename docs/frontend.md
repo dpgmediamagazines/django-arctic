@@ -1,56 +1,31 @@
 # Frontend
 
-Arctic base theme has been build with Zurb Foundation for sites, documentation of the Foundation framework is available at http://foundation.zurb.com/sites/docs/
+The Arctic User Interface is based on 
+[Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) 
+and includes extra UI elements such as a responsive sidebar, float label fields
+and customizable colors with CSS properties.
 
-## Notices:
-- NodeJS is required to develop in frontend code
-- Frontend dependencies should be installed with bower
+The Arctic build already includes precompiled frontend assets, so the frontend
+tooling mentioned in this document is only needed if you want to do frontend 
+development for the Django Arctic project or need to create a custom UI based 
+on a copy of the Arctic setup and bypass the default setup on your own project.
 
-### Workflow:
- - Develop in src folder
- - Gulp watch and build task updates build folder
- - Changed in build folder needs to be committed into he repo
 
-### SCSS:
+## Requirements
 
- - The default grid with floats is disabled, the flexbox version is enabled since this gives easier and more powerful alignment options etc. Make sure the default grid system keeps disabled since it uses the same variables as the flex grid system and they don't work nice together.
- - Inside the scss folder there are 2 setting files, the _settings.scss file contains the default variables of the Foundation framework. To make sure settings aren't overwritten when updating the Foundation framework an _project-settings.scss file is created. Default values can be overwritten here. To keep things simple and prevent cluttering the base variables like margins, fonts etc are defined here also.
- - There are multiple folders inside the scss base folder named modules, pages, partials and vendor. Explanation for each folder below
+- [npm](https://www.npmjs.com) to manage dependencies
+- [gulp](https://gulpjs.com) for automation
 
- `Modules: Contain everything that doesn't output css by itself. Mixins, functions etc can be placed here`
+## Setup
 
- `Partials: Basic and global styling can be placed inside this folder.`
+In the terminal:
 
- `Pages: Page specific overrides can be placed here, overrides should be based on the body class to prevent large class arrays`
+- In the Arctic project go to `arctic/static/arctic`
+- Install all dependencies: `npm install`
+- Set gulp to watch all file changes `gulp`
 
-## Development installation:
 
-Development installation is pretty straight forward, make sure npm (nodejs) is installed (don't run it as root) and following commands should get everything up and running.
+## File structure
 
- 1. if not already installed, install nodejs: https://nodejs.org/en/
- 2. cd into `cd arctic/static/arctic`
- 3. run `npm i` (don't run it as root)
- 4. run `gulp` (starts the default gulp task that is a watcher and compiles scss to css)
-
-## Frontend deployment
-
-If the frontend needs to be build on deploy (for in example with Bamboo), fire the following commands subscribed below 'development installation' and add the following command.
-
- 5. npm run clean:tools (Removes node modules that were required to build static's)
-
-## Troubleshooting:
-Most of the times when this happens, there's a corrupt node module.
-
- 1. cd into `cd arctic/static/arctic`
- 2. run `npm run clean` (this removes all develop dependencies and compiled files)
- 3. run `npm i` (fresh install of develop dependencies and new compiled files)
-
-If the problem still occurs check error log: /arctic/static/arctic/npm-debug.log
-
-## Something to think about:
-Don't install anything that isn't absolutely necessary with NPM or Bower. Foundation gives an good base with more than enough options. If additional components are installed make sure there is documentation and it doesn't break anything when somebody is doing an fresh install.
-
-## Docs:
-Foundation docs: http://foundation.zurb.com/sites/docs/ (base framework)
-Motion UI docs: https://github.com/zurb/motion-ui/blob/master/docs/animations.md (Foundation animation library)
-Abide: http://foundation.zurb.com/sites/docs/abide.html (Used for form validation, default foundation library)
+All development should be done in the `src` folder, do not edit files in `dist`
+or add any dependencies by hand in `node_modules`!
