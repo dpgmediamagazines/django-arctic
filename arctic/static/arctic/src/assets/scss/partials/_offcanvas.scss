@@ -49,7 +49,7 @@ $sidebar-width: 220px;
 
 @mixin active-menu-item {
     position: relative;
-    color: rgba(0, 0, 0, 0.5);
+    color: $sidebar-alt-color;
 
     > :after {
         border-right: 0.8rem solid $body-bg;

@@ -78,6 +78,7 @@ class View(RoleAuthentication, base.View):
         context['SITE_LOGO'] = self.get_site_logo()
         context['SIDEBAR_BACKGROUND'] = self.get_sidebar_background()
         context['SIDEBAR_COLOR'] = self.get_sidebar_color()
+        context['SIDEBAR_ALT_COLOR'] = self.get_sidebar_alt_color()
         context['HIGHLIGHT_BACKGROUND'] = self.get_highlight_background()
         context['HIGHLIGHT_COLOR'] = self.get_highlight_color()
         context['DATETIME_FORMATS'] = self.get_datetime_formats()
@@ -158,6 +159,9 @@ class View(RoleAuthentication, base.View):
 
     def get_sidebar_color(self):
         return getattr(settings, 'ARCTIC_SIDEBAR_COLOR', None)
+
+    def get_sidebar_alt_color(self):
+        return getattr(settings, 'ARCTIC_SIDEBAR_ALT_COLOR', None)
 
     def get_sidebar_background(self):
         return getattr(settings, 'ARCTIC_SIDEBAR_BACKGROUND', None)
