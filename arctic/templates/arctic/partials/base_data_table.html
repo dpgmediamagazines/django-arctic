@@ -35,7 +35,7 @@
                                 </a>
                             {% endif %}
                             <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
-                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <div class="input-group-addon" js-search-submit><i class="fa fa-search"></i></div>
                         </div>
                         {% if advanced_search_form %}
                             {% block advanced_search_form %}
