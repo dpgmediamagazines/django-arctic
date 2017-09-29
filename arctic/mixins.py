@@ -80,7 +80,6 @@ class FormMixin(object):
                   |--> Fields
     """
     use_widget_overloads = True
-    form_display = None
     layout = None
     _fields = []
     readonly_fields = None
@@ -339,7 +338,6 @@ class FormMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(FormMixin, self).get_context_data(**kwargs)
-        context['form_display'] = self.get_form_display()
         try:
             i = 0
             for formset in context['inlines']:
@@ -355,16 +353,6 @@ class FormMixin(object):
         except KeyError:
             pass
         return context
-
-    def get_form_display(self):
-        valid_options = ['stacked', 'tabular', 'float-label']
-        if self.form_display:
-            if self.form_display in valid_options:
-                return self.form_display
-            raise ImproperlyConfigured(
-                'form_display property needs to be one of {}'.format(
-                    valid_options))
-        return arctic_setting('ARCTIC_FORM_DISPLAY', valid_options)
 
 
 class ListMixin(object):

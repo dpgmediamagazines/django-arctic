@@ -41,7 +41,7 @@ class View(RoleAuthentication, base.View):
     tabs = None
     requires_login = True
     urls = {}
-    form_diplay = None
+    form_display = None
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -85,6 +85,7 @@ class View(RoleAuthentication, base.View):
         context['LOGIN_URL'] = self.get_login_url()
         context['LOGOUT_URL'] = self.get_logout_url()
         context['media'] = self.media
+        context['form_display'] = self.get_form_display()
         return context
 
     def get_urls(self):
@@ -237,6 +238,16 @@ class View(RoleAuthentication, base.View):
         except AttributeError:
             pass
         return media
+
+    def get_form_display(self):
+        valid_options = ['stacked', 'tabular', 'float-label']
+        if self.form_display:
+            if self.form_display in valid_options:
+                return self.form_display
+            raise ImproperlyConfigured(
+                'form_display property needs to be one of {}'.format(
+                    valid_options))
+        return arctic_setting('ARCTIC_FORM_DISPLAY', valid_options)
 
 
 class TemplateView(View, base.TemplateView):
