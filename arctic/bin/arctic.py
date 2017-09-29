@@ -55,7 +55,7 @@ def create_project(parser, options, args):
     utility.execute()
 
     # add execute permission to manage.py, somehow it gets lost on the way
-    manage_py = os.path.join(dest_dir, project_name, 'manage.py')
+    manage_py = os.path.join(dest_dir or project_name, 'manage.py')
     st = os.stat(manage_py)
     os.chmod(manage_py,
              st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
