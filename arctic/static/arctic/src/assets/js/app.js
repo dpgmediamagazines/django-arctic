@@ -92,4 +92,11 @@ $(document).ready(function() {
             document.title = document.title.slice(2);
         });
     }
+
+
+    // Search input by clicking on Icon
+    var $searchIcon = $('[js-search-submit]');
+    $searchIcon.on('click',  function (){
+        $('form').submit();
+    })
 });
