@@ -2,6 +2,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import os
+import stat
 from optparse import OptionParser
 
 from django.core.management import ManagementUtility
@@ -18,7 +19,7 @@ def create_project(parser, options, args):
     try:
         dest_dir = args[2]
     except IndexError:
-        dest_dir = None
+        dest_dir = ''
 
     # Make sure given name is not already in use by another
     # python package/module.
@@ -52,6 +53,12 @@ def create_project(parser, options, args):
 
     utility = ManagementUtility(utility_args)
     utility.execute()
+
+    # add execute permission to manage.py, somehow it gets lost on the way
+    manage_py = os.path.join(dest_dir, project_name, 'manage.py')
+    st = os.stat(manage_py)
+    os.chmod(manage_py,
+             st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
 
     print('Congratulations! {0} has been created.\n'
           'The next steps are:\n'
