@@ -167,7 +167,9 @@ the `published` field with some [Font Awesome icons](http://fontawesome.io/icons
             symbol = 'fa-check' if row.published else 'fa-minus'
             return mark_safe('<i class="fa {}"></i>'.format(symbol))
 
-If there's need for more extensive HTML in a field, consider using an external 
+If there's a need for more extensive HTML in a field, consider using an external 
 template file instead of embedding markup in a string.
 
+
+### Links
 

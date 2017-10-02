@@ -1,6 +1,9 @@
+import os
+import shutil
+import sys
 from setuptools import (find_packages, setup)
 
-__VERSION__ = '0.9.7'
+__VERSION__ = '1.0.0b1'
 
 
 def read_md(f):
@@ -16,11 +19,22 @@ try:
 except:
     REQUIREMENTS = None
 
+if sys.argv[-1] == 'publish':
+    if os.system("pip freeze | grep twine"):
+        print("twine not installed.\nUse `pip install twine`.\nExiting.")
+        sys.exit()
+    os.system("python setup.py sdist bdist_wheel")
+    os.system("twine upload dist/*")
+    shutil.rmtree('build')
+    shutil.rmtree('dist')
+    sys.exit()
+
+
 setup(
     name='django-arctic',
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',
