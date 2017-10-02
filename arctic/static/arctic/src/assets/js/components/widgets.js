@@ -135,7 +135,7 @@ $(document).ready(function() {
         $(this).datepicker({
             language: 'en',
             todayButton: true,
-            startDate: new Date(test),
+            startDate: date,
             dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
