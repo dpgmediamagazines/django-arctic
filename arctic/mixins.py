@@ -282,23 +282,6 @@ class FormMixin(object):
     def _update_form_fields(self, form, widget_overloads,
                             widgets_to_be_overloaded):
         for field in form.fields:
-            field_class_name = form.fields[field].__class__.__name__
-            if field_class_name == 'ModelChoiceField':
-                for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
-                    field_cls = '.'.join(values[0].lower().split('.')[-2:])
-                    if field_cls == str(form.fields[field].queryset.
-                                        model._meta):
-                        url = reverse('autocomplete', args=[key, ''])
-                        choices = ()
-                        if form.instance.pk:
-                            field_id = getattr(form.instance, field +
-                                               '_id')
-                            field_value = getattr(form.instance, field)
-                            choices = ((field_id, field_value),)
-                        form.fields[field].widget = SelectizeAutoComplete(
-                            attrs=form.fields[field].widget.attrs,
-                            choices=choices,
-                            url=url)
             if self.use_widget_overloads:
                 widget_class = form.fields[field].widget.__class__.__name__
                 if widget_class in widgets_to_be_overloaded:
@@ -323,6 +306,25 @@ class FormMixin(object):
                         new_widget = new_widget_class(
                             form.fields[field].widget.attrs)
                     form.fields[field].widget = new_widget
+
+            field_class_name = form.fields[field].__class__.__name__
+            if field_class_name == 'ModelChoiceField' and \
+               hasattr(settings, 'ARCTIC_AUTOCOMPLETE'):
+                for key, values in settings.ARCTIC_AUTOCOMPLETE.items():
+                    field_cls = '.'.join(values[0].lower().split('.')[-2:])
+                    if field_cls == str(form.fields[field].queryset.
+                                        model._meta):
+                        url = reverse('autocomplete', args=[key, ''])
+                        choices = ()
+                        if form.instance.pk:
+                            field_id = getattr(form.instance, field +
+                                               '_id')
+                            field_value = getattr(form.instance, field)
+                            choices = ((field_id, field_value),)
+                        form.fields[field].widget = SelectizeAutoComplete(
+                            attrs=form.fields[field].widget.attrs,
+                            choices=choices,
+                            url=url)
 
             if self.readonly_fields and field in self.readonly_fields:
                 form.fields[field].widget.attrs['readonly'] = True
