@@ -281,7 +281,8 @@ can transform the field data into a graphic representation.
 
 ### `tool_links`
 
-list of links with the format `('name', 'url')`, not connected to the table data.
+list of links with the format `('name', 'url', 'icon')`, not connected to the 
+table data.
 
 ### `tool_links_icon`
 

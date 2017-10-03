@@ -167,9 +167,69 @@ the `published` field with some [Font Awesome icons](http://fontawesome.io/icons
             symbol = 'fa-check' if row.published else 'fa-minus'
             return mark_safe('<i class="fa {}"></i>'.format(symbol))
 
-If there's a need for more extensive HTML in a field, consider using an external 
+If there's a need for more extensive HTML in a field, consider using a 
 template file instead of embedding markup in a string.
 
 
 ### Links
+
+The ListView supports 3 types of links:
+
+- `tool_links` - these links are displayed on top right side of the table and
+  are links that are not connected to the data in the table.
+- `field_links` - these are linked to a column and turn the specified field 
+  into a link.
+- `action_links` - similar to field links, but instead of turning a field into a 
+  link, they are added at the end of a row.
+
+![arctic screenshot](../img/lists-2.png)
+
+#### Tool Links
+
+First let's create a tool link, this link will go to the dashboard, so in 
+`articles/views.py` add the following property to `ArticleListView`:
+
+    tool_links = [
+        ('Dashboard', 'index', 'fa-dashboard'),
+    ]
+
+The `tool_links` format is a list of `('label', 'named url', 'icon')` if more
+than one is given they will be displayed in a dropdown, otherwise it will be a 
+button.
+
+#### Field Links
+
+Next we'll create a field link to a form, so the first step is to setup a basic 
+form in `articles/views.py`:
+
+    from arctic.generics import ListView, UpdateView
+
+    ...
+
+    class ArticleUpdateView(UpdateView):
+        model = models.Article
+        fields = '__all__'
+        permission_required = 'change_articles'
+
+Then expose the form on `articles/urls.py`:
+
+    urlpatterns = [
+        ...
+        url(r'^update/(?P<pk>\d+)$', views.ArticleUpdateView.as_view(),
+            name='update'),
+    ]
+
+Now it's ready to be used, back in `articles/views.py` add the `action_links` 
+property to `ArticleListView`:
+
+    field_links = {
+        'title': 'articles:update',
+    }
+
+The `field_links` property is a dictionary of `'field': 'named url'`. 
+
+By default the value of the field `pk` will be added to the named url, this 
+usually represents the primary key for each row. If other fields need to be
+used with the named url, then a list of `('named url', 'field1', 'field2', ...)`
+can be used instead of the string with the named url.
 
