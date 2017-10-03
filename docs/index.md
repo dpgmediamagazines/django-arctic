@@ -64,6 +64,7 @@ The syntax is:
  
     arctic start <project_name> [<optional project directory>]
 
+Skip to 'Next Steps' to finish the setup.
 
 ### From scratch
 
@@ -126,7 +127,10 @@ In `settings.py`:
 
         LOGIN_URL = LOGOUT_URL = 'login'
 
-* Change the database settings if needed.
+
+### Next steps 
+
+Change the database settings if needed.
 
 Back in the terminal:
 

@@ -2,7 +2,7 @@
 
 Arctic has ListViews that greatly extend the ones provided by Django, this 
 tutorial will explore all its features.
-It is recomended to use the project created in the [Getting Started](../#getting-started) chapter as a starting point.
+It is recomended to use the project created in the [Getting Started](index.md#getting-started) chapter as a starting point.
 
 ## Database backed ListView
 
@@ -111,7 +111,7 @@ Finally add an entry to `ARCTIC_MENU` in `config/settings.py`:
 Go to the browser and check your newly created list.
 It should look something like this:
 
-![arctic screenshot](../img/lists-1.png)
+![arctic screenshot](img/lists-1.png)
 
 
 ### Displaying Foreign Keys in a List
@@ -182,7 +182,7 @@ The ListView supports 3 types of links:
 - `action_links` - similar to field links, but instead of turning a field into a 
   link, they are added at the end of a row.
 
-![arctic screenshot](../img/lists-2.png)
+![arctic screenshot](img/lists-2.png)
 
 #### Tool Links
 
@@ -228,8 +228,12 @@ property to `ArticleListView`:
 
 The `field_links` property is a dictionary of `'field': 'named url'`. 
 
-By default the value of the field `pk` will be added to the named url, this 
+By default the value of the `pk` field is added to the named url, this 
 usually represents the primary key for each row. If other fields need to be
-used with the named url, then a list of `('named url', 'field1', 'field2', ...)`
-can be used instead of the string with the named url.
+coupled with the named url, then a list of `('named url', 'field1', 'field2', ...)`
+can be used instead of just `'named url'`.
+
+#### Action Links
+
+
 
