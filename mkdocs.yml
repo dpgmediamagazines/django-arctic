@@ -1,7 +1,9 @@
 site_name: Django Arctic
 theme: readthedocs
+repo_url: https://github.com/sanoma/django-arctic/
 pages:
 - Home: index.md
 - Lists: lists.md
+- Forms: forms.md
 - Reference: reference.md
 - Frontend: frontend.md

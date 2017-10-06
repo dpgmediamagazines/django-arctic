@@ -20,11 +20,11 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-from .mixins import (FormMediaMixin, FormMixin, LinksMixin, ListMixin,
-                     RoleAuthentication, SuccessMessageMixin)
+from .mixins import (FormMediaMixin, FormMixin, ListMixin, RoleAuthentication,
+                     SuccessMessageMixin)
 from .paginator import IndefinitePaginator
 from .utils import (arctic_setting, find_attribute, get_field_class,
-                    find_field_meta, get_attribute, menu, view_from_url)
+                    find_field_meta, menu, reverse_url, view_from_url)
 
 
 class View(RoleAuthentication, base.View):
@@ -254,7 +254,7 @@ class TemplateView(View, base.TemplateView):
     pass
 
 
-class DetailView(View, LinksMixin, base.DetailView):
+class DetailView(View, base.DetailView):
     """
     Custom detail view.
     """
@@ -278,7 +278,6 @@ class DetailView(View, LinksMixin, base.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         context['fields'] = self.get_fields(context['object'])
-        context['links'] = self.get_links()
         return context
 
 
@@ -321,24 +320,6 @@ class ListView(View, ListMixin, base.ListView):
         self.object_list = qs
 
         return self.object_list
-
-    def _reverse_field_link(self, url, obj):
-        if type(url) in (list, tuple):
-            named_url = url[0]
-            args = []
-            for arg in url[1:]:
-                args.append(find_attribute(obj, arg))
-        else:
-            named_url = url
-            args = [get_attribute(obj, self.primary_key)]
-
-        # Instead of giving NoReverseMatch exception
-        # its more desirable, for field_links in listviews
-        # to just ignore the link.
-        if None in args:
-            return ''
-
-        return reverse(named_url, args=args)
 
     def get_list_header(self):
         """
@@ -419,8 +400,8 @@ class ListView(View, ListMixin, base.ListView):
                         embeded_list = embeded_list[:-1] + ['...']
                     field['value'] = embeded_list
                 if field_name in field_links.keys():
-                    field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj)
+                    field['url'] = reverse_url(
+                        field_links[field_name], obj, self.primary_key)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
@@ -593,8 +574,8 @@ class DataListView(TemplateView, ListMixin):
                 field = {'field': field_name, 'type': 'field'}
                 field['value'] = self.get_field_value(field_name, obj)
                 if field_name in field_links.keys():
-                    field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj)
+                    field['url'] = reverse_url(
+                        field_links[field_name], obj, self.primary_key)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
@@ -643,24 +624,6 @@ class DataListView(TemplateView, ListMixin):
                 'message': str(e)
             })
 
-    def _reverse_field_link(self, url, obj):
-        if type(url) in (list, tuple):
-            named_url = url[0]
-            args = []
-            for arg in url[1:]:
-                args.append(obj[arg])
-        else:
-            named_url = url
-            args = [obj[self.primary_key]]
-
-        # Instead of giving NoReverseMatch exception
-        # its more desirable, for field_links in listviews
-        # to just ignore the link.
-        if None in args:
-            return ''
-
-        return reverse(named_url, args=args)
-
 
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,
                  FormMixin, extra_views.CreateWithInlinesView):
@@ -674,17 +637,15 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
 
     def get_context_data(self, **kwargs):
         context = super(CreateView, self).get_context_data(**kwargs)
+        context['links'] = self.get_links()
         context['layout'] = self.get_layout()
         return context
 
 
 class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
-                 LinksMixin, extra_views.UpdateWithInlinesView):
+                 extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('%(object)s was updated successfully')
-
-    links = None             # Optional links such as list of linked items
-    readonly_fields = None   # Optional list of readonly fields
 
     def get_page_title(self):
         if not self.page_title:
@@ -704,6 +665,7 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
 
     def get_context_data(self, **kwargs):
         context = super(FormView, self).get_context_data(**kwargs)
+        context['links'] = self.get_links()
         context['layout'] = self.get_layout()
         return context
 

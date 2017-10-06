@@ -69,7 +69,6 @@ class ArticleUpdateView(UpdateView):
                          ['description']),
                         ('Extended Details',
                          [['published|4', 'updated_at']])])
-    # layout = ['title|3', 'title', 'title', ['category', 'category']]
 
     # tabs = [
     #     ('Detail', 'articles:detail'),

@@ -7,7 +7,7 @@ It is recomended to use the project created in the [Getting Started](index.md#ge
 ## Database backed ListView
 
 In this tutorial we're going to explore Arctic's ListView features, to start
-we're going first create a new Django app. In the terminal, inside your project's 
+we'll first create a new Django app. In the terminal, inside your project's 
 directory:
 
     ./manage.py startapp articles
@@ -235,5 +235,35 @@ can be used instead of just `'named url'`.
 
 #### Action Links
 
+The delete function will be an action link, so first let's create an 
+`ArticleDeleteView` in `articles/views.py`:
 
+    from django.core.urlresolvers import reverse_lazy
+    from arctic.generics import DeleteView, ListView, UpdateView
 
+    ...
+
+    class ArticleDeleteView(DeleteView):
+        model = models.Article
+        success_url = reverse_lazy('articles:list')
+        permission_required = 'delete_article'
+
+Expose the `ArticleDeleteView` on `articles/urls.py`:
+
+    urlpatterns = [
+        ...
+        url(r'^delete/(?P<pk>\d+)$', views.ArticleDeleteView.as_view(),
+            name='delete'),
+    ]
+
+Add the `action_links` property to `ArticleListView`:
+
+    action_links = [
+        ('delete', 'articles:delete', 'fa-trash'),
+    ]
+
+The `action_links` is a list of `('action name', 'named url', 'icon')`.
+
+Like field links it will use by default `pk` together with the named_url, 
+this can be changed by replacing the `'named url'` string with a list of 
+`('named url', 'field1', 'field2', ...)`.

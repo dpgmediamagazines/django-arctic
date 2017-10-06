@@ -14,7 +14,7 @@ from collections import OrderedDict
 
 from .forms import SimpleSearchForm
 from .loading import (get_role_model, get_user_role_model)
-from .utils import (arctic_setting, view_from_url)
+from .utils import (arctic_setting, reverse_url, view_from_url)
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -49,26 +49,6 @@ class SuccessMessageMixin(object):
         )
 
 
-class LinksMixin(object):
-    """
-    Adding links to view, to be resolved with 'arctic_url' template tag
-    """
-    def get_links(self):
-        if not self.links:
-            return None
-        else:
-            allowed_links = []
-            for link in self.links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                allowed_links.append(link)
-            return allowed_links
-
-
 class FormMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
@@ -82,8 +62,25 @@ class FormMixin(object):
     use_widget_overloads = True
     layout = None
     _fields = []
+    links = None             # Optional links such as list of linked items
     readonly_fields = None
-    ALLOWED_COLUMNS = 12        # There are 12 columns available
+    ALLOWED_COLUMNS = 12     # There are 12 columns available
+
+    def get_links(self):
+        if not self.links:
+            return None
+
+        allowed_links = []
+        for link in self.links:
+
+            # check permission based on named_url
+            if not view_from_url(link[1]).has_permission(self.request.user):
+                continue
+
+            allowed_links.append({
+                'label': link[0],
+                'url': reverse_url(link[1], self.get_object())})
+        return allowed_links
 
     def get_layout(self):
         if not self.layout:
@@ -460,8 +457,8 @@ class ListMixin(object):
             for field_action in field_actions:
                 actions.append({'label': field_action['label'],
                                 'icon': field_action['icon'],
-                                'url': self._reverse_field_link(
-                                    field_action['url'], obj)})
+                                'url': reverse_url(field_action['url'],
+                                                   obj, self.primary_key)})
             return {'type': 'actions', 'actions': actions}
         return None
 

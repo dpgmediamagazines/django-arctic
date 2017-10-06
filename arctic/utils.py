@@ -7,7 +7,7 @@ import importlib
 from django.conf import settings
 from django.core import urlresolvers
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
-from django.core.urlresolvers import NoReverseMatch
+from django.core.urlresolvers import (NoReverseMatch, reverse)
 
 from . import defaults
 
@@ -210,6 +210,38 @@ def get_field_class(qs, field_name):
     # while annotating, it's possible that field does not exists.
     except FieldDoesNotExist:
         return None
+
+
+def reverse_url(url, obj, fallback_field=None):
+    """
+    Reverses a named url, in addition to the standard django reverse, it also
+    accepts a list of ('named url', 'field1', 'field2', ...) and will use the
+    value of the supplied fields as arguments.
+    When a fallback field is given it will use it as an argument if none other
+    are given.
+    """
+    args = []
+    if type(url) in (list, tuple):
+        named_url = url[0]
+        for arg in url[1:]:
+            if type(obj) is dict:
+                args.append(obj[arg])
+            else:
+                args.append(find_attribute(obj, arg))
+    else:
+        named_url = url
+        if fallback_field:
+            if type(obj) is dict:
+                args = [obj[fallback_field]]
+            else:
+                args = [get_attribute(obj, fallback_field)]
+
+    # Instead of giving NoReverseMatch exception it's more desirable,
+    # for field_links in listviews to just ignore the link.
+    if fallback_field and not args:
+        return ''
+
+    return reverse(named_url, args=args)
 
 
 def arctic_setting(setting_name, valid_options=None):

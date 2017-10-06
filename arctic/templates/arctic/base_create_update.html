@@ -55,12 +55,8 @@
                 <div class="col-sm-6 col">
                     {% if links %}
                         {% for link in links %}
-                            {% if object.pk %}
-                                <a class="btn btn-secondary" href="{% arctic_url link.1 object.pk %}">
-                            {% else %}
-                                <a class="btn btn-secondary" href="{% arctic_url link.1 %}">
-                            {% endif %}
-                                {{ link.0 }}
+                            <a class="btn btn-secondary" href="{{ link.url }}">
+                                {{ link.label }}
                             </a>
                         {% endfor %}
                     {% endif %}
