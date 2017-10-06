@@ -3,15 +3,15 @@
     function ConditionalField( element ) {
 
         if ( element instanceof jQuery || element.attr('id') == 'id' ) {
-            this.form = element.closest( 'form' )
-            this.state = 0
-            this.element = element
-            this.id = element.attr( 'id' )
-            this.value = element.val()
-            this.checkbox = $( '<input type="checkbox" id="' + this.id + '_toggler" />' )
+            this.form = element.closest( 'form' );
+            this.state = 0;
+            this.element = element;
+            this.id = element.attr( 'id' );
+            this.value = element.val();
+            this.checkbox = $( '<input type="checkbox" id="' + this.id + '_toggler" />' );
 
-            this.setup()
-            this.init()
+            this.setup();
+            this.init();
 
         } else {
             throw new Error ( 'Expecting a jQuery object with an ID attribute' )
@@ -21,10 +21,12 @@
 
     ConditionalField.prototype.setup = function ( ) {
         this.element.parent().addClass( 'is-conditional-field' )
-
-        if ( this.value ) {
+        if ( this.value && this.value.length ) {
             this.state = 1
             this.checkbox = this.checkbox.attr( 'checked', 'checked' )
+        } else {
+            setTimeout(function(){ this.hidden(); }.bind(this), 0);
+            //wait for selectize if exists
         }
 
         this.element.before( this.checkbox )
@@ -77,7 +79,6 @@
 
     ConditionalField.prototype.empty = function ( self ) {
         self.element.val( "" )
-        console.log( 'emptied selectbox' );
     }
 
 
