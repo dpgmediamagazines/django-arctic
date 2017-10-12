@@ -108,6 +108,14 @@
     padding: .45rem 0;
 }
 
+a.page-link, a.page-link:hover {
+    color: $body-color;
+}
+
+.page-item.disabled .page-link {
+    opacity: 0.60;
+}
+
 .nav-tabs {
     margin-bottom: 1.5rem;
 }
