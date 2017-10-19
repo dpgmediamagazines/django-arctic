@@ -109,4 +109,18 @@
         }
     }
 
+    
+    // support for SimpleMDE editor with float labels
+    .form-group div.editor-statusbar+label {
+        font-size: 75%;
+        top: .25rem;
+    }
+
+    .editor-toolbar {
+        padding: 9px 10px 0 10px;
+    }
+
+    .editor-toolbar:after {
+        margin-top: 5px;
+    }
 }
