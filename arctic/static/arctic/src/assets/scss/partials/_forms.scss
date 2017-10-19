@@ -181,3 +181,24 @@ label {
         width: 80%;
     }
 }
+
+// Restore default list and quote stylings in form-group to display correct
+// styling when using rich text editors.
+
+.form-block {
+    ol, ul {
+        padding-left: 20px;
+    }
+
+    ol li {
+        list-style: decimal;
+    }
+
+    ul li {
+        list-style: disc;
+    }
+
+    blockquote {
+        padding-left: 1rem;
+    }
+} 

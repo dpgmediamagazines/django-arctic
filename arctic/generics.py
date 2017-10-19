@@ -400,8 +400,11 @@ class ListView(View, ListMixin, base.ListView):
                         embeded_list = embeded_list[:-1] + ['...']
                     field['value'] = embeded_list
                 if field_name in field_links.keys():
-                    field['url'] = reverse_url(
-                        field_links[field_name], obj, self.primary_key)
+                    try:
+                        field['url'] = reverse_url(
+                            field_links[field_name], obj, self.primary_key)
+                    except NoReverseMatch:
+                        pass
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
