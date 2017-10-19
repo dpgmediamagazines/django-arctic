@@ -574,8 +574,11 @@ class DataListView(TemplateView, ListMixin):
                 field = {'field': field_name, 'type': 'field'}
                 field['value'] = self.get_field_value(field_name, obj)
                 if field_name in field_links.keys():
-                    field['url'] = reverse_url(
-                        field_links[field_name], obj, self.primary_key)
+                    try:
+                        field['url'] = reverse_url(
+                            field_links[field_name], obj, self.primary_key)
+                    except NoReverseMatch:
+                        pass
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
