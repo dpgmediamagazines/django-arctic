@@ -14,6 +14,6 @@ class ArcticConfig(AppConfig):
             RoleAuthentication.sync()
         except ImproperlyConfigured:
             raise
-        except:
+        except Exception:
             pass
         import arctic.signals  # noqa

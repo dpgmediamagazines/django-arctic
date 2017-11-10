@@ -81,7 +81,7 @@ def get_all_fields(obj):
         else:
             try:
                 value = getattr(obj, fname)
-            except:
+            except Exception:
                 value = None
 
         if isinstance(value, list):
@@ -174,7 +174,7 @@ def arctic_url(context, link, *args, **kwargs):
                 try:
                     arg = getattr(context['v'], arg.split('.')[-1])
                 # if not found fallback to row pk, which is always first column
-                except:
+                except Exception:
                     arg = context['item'][0]
             mutated_url_args.append(arg)
         return reverse(link, args=mutated_url_args, kwargs=None)

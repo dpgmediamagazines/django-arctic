@@ -16,7 +16,7 @@ def read_md(f):
 
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
-except:
+except Exception:
     REQUIREMENTS = None
 
 if sys.argv[-1] == 'publish':
