@@ -1,8 +1,11 @@
 from django.conf.urls import url
 
-from arctic.views import AutoCompleteView
+from arctic.views import AutoCompleteView, OrderView
 
 
-autocomplete_url = \
+urlpatterns = [
     url(r'^autocomplete/(?P<resource>[\w_]+)/(?P<search>[^/]*)$',
-        AutoCompleteView.as_view(), name='autocomplete')
+        AutoCompleteView.as_view(), name='autocomplete'),
+    url(r'^order/(?P<resource>[\w_\.]+)$',
+        OrderView.as_view(), name='order'),
+]

@@ -72,6 +72,9 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
+                                {% if sortable_url %}
+                                    <th class="drag-cell">&nbsp;</th>
+                                {% endif %}
                                 {% for item in list_header %}
                                     <th>
                                         {% if item.order_url %}
@@ -95,7 +98,7 @@
                                 {% endif %}
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody {% if list_items.0.0.type == 'order' %}data-sortable-url="{{ sortable_url }}"{% endif %}>
                             {% for row in list_items %}
                                 <tr>
                                     {% for column in row %}
@@ -129,6 +132,12 @@
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
                                             </div>
+                                            </td>
+                                        {% elif column.type == 'order' %}
+                                            <td class="drag-cell">
+                                                <div class="list-actions drag-handle show-on-hover">
+                                                    <i data-order-key="{{ column.id }}" data-order-value="{{ column.order }}" class="fa fa-bars"></i>
+                                                </div>
                                             </td>
                                         {% endif %}
                                     {% endfor %}

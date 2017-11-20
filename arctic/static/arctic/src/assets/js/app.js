@@ -78,7 +78,7 @@ $(document).ready(function() {
 
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
-            if (tab && tab.text[0] != '●') {
+            if (tab && tab.text[0] != '●') { 
                 tab.text = '● ' + tab.text;
             }
             document.title = '● ' + document.title;
@@ -92,6 +92,34 @@ $(document).ready(function() {
             document.title = document.title.slice(2);
         });
     }
+
+
+    $('[data-sortable-url]').each(function(index) {
+        var url = $(this).attr('data-sortable-url');
+        var updated_items = new Object();
+        Sortable.create(this, {
+            handle: '.drag-handle',
+            onUpdate: function (/**Event*/evt) {
+                var base_order_value = 1;
+                $(evt.to).find('.drag-handle i').each(function(index) {
+                    var key = $(this).attr('data-order-key');
+                    var value = $(this).attr('data-order-value');
+                    if (parseInt(value) != base_order_value) {
+                        updated_items[key] = base_order_value;
+                        $(this).attr('data-order-value', base_order_value);
+                    }
+                    base_order_value += 1;
+                });
+                $.post(url, JSON.stringify(updated_items))
+                .done(function() {
+                    // keep this empty for now
+                })
+                .fail(function() {
+                    console.error('Unable to post reordering to backend')
+                })
+            }
+        });
+    });
 
 
     // Search input by clicking on Icon

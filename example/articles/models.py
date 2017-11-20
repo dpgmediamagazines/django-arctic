@@ -7,11 +7,12 @@ from django.db import models
 class Article(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField()
-    title = models.CharField("Title", max_length=255, null=False)
-    description = models.TextField("Description", blank=True, null=False)
-    published = models.BooleanField("Published", default=False)
+    title = models.CharField('Title', max_length=255, null=False)
+    description = models.TextField('Description', blank=True, null=False)
+    published = models.BooleanField('Published', default=False)
     category = models.ForeignKey('articles.Category', verbose_name="Category")
     tags = models.ManyToManyField('articles.Tag')
+    order = models.IntegerField('Order', blank=True, null=True)
 
     def __str__(self):
         return 'Article "' + self.title + '"'

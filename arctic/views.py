@@ -1,8 +1,11 @@
 import importlib
+import json
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View as BaseView
 
 from arctic.generics import TemplateView
@@ -73,6 +76,23 @@ class AutoCompleteView(BaseView):
 
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(context, safe=False)
+
+
+class OrderView(BaseView):
+    http_method_names = ['post']
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(OrderView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, resource):
+        if settings.DEBUG or request.is_ajax():
+            m, v = resource.rsplit('.', 1)
+            module = importlib.import_module(m)
+            view = getattr(module, v)
+            view.reorder(json.loads(request.body))
+            return HttpResponse(status=201)
+        raise PermissionDenied
 
 
 handler400 = BadRequestView.as_view()

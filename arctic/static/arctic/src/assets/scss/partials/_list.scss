@@ -14,7 +14,7 @@
         }
     }
 
-    thead tr {
+    tr {
         .show-on-hover {
             visibility: hidden;
         }
@@ -42,8 +42,16 @@
     }
 
     td {
-        vertical-align: middle;
+        vertical-align: top;
     }
+
+    td.drag-cell, th.drag-cell {
+        padding: 1rem 0 .75rem .5rem;
+    }
+}
+
+.drag-handle {
+    cursor:grab;
 }
 
 .table-responsive {
@@ -74,10 +82,10 @@
     display: flex;
     flex-wrap: nowrap;
     float: right;
+    opacity: 0.6;
     > a {
         font-size: $font-size-xs;
         padding: 0.1em 0.4em;
-        opacity: 0.6;
         margin: 0 1px;
     }
 }

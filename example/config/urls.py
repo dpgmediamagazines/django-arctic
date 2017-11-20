@@ -6,7 +6,6 @@ from django.conf.urls import (include, url)
 from django.conf.urls.static import static
 
 from arctic.generics import LoginView
-from arctic.urls import autocomplete_url
 from arctic.users.urls import user_patterns
 from arctic.views import (handler400, handler403, handler404, handler500)  # noqa
 
@@ -20,7 +19,7 @@ urlpatterns = [
     url(r'^users/', include(user_patterns, namespace='users')),
     url(r'^countries/$', CountryListView.as_view(), name='countries-list'),
     url(r'^countries-api/$', CountryAPIView.as_view(), name='countries-api'),
-    autocomplete_url,
+    url(r'^arctic/', include('arctic.urls', namespace='arctic')),
 ]
 
 
