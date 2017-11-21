@@ -307,8 +307,8 @@ class ListView(View, ListMixin, base.ListView):
             if any(sorting_field_excludes):
                 raise ImproperlyConfigured(
                     'sorting_field cannot be used in combination with any of '
-                    'the following fields: ordering_fields, search_fields, '
-                    'default_ordering, advanced_search_form, paginate_by')
+                    'the following properties: ordering_fields, search_fields,'
+                    ' default_ordering, advanced_search_form, paginate_by')
 
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
@@ -390,7 +390,7 @@ class ListView(View, ListMixin, base.ListView):
 
         return result
 
-    def get_list_items(self, objects):
+    def get_list_items(self, objects):  # noqa: C901
         self.has_action_links = False
         items = []
         if not self.get_fields():
