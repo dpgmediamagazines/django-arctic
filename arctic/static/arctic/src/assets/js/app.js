@@ -47,9 +47,6 @@ $('.float-label input').keyup(function() {
 
 // jquery stuff goes here
 $(document).ready(function() {
-    // Stepper input
-    var $stepperInput = $('.stepper-input input');
-
     // Check if float label input has items, if so then add some CSS
     if ($('.float-label .selectize-input').find('.item').length > 0) {
         $('.selectize-input').parent().next('label').css({
@@ -57,20 +54,6 @@ $(document).ready(function() {
             fontSize: '75%'
         });
     }
-
-    function incrementStepperInput(amount) {
-        $stepperInput.val((parseInt($stepperInput.val()) || 0) + amount);
-    }
-
-    var stepperInputDecrement = $('.stepper-input button')[0];
-    $(stepperInputDecrement).click(function() {
-        incrementStepperInput(-1);
-    });
-
-    var stepperInputIncrement = $('.stepper-input button')[1];
-    $(stepperInputIncrement).click(function() {
-        incrementStepperInput(1);
-    });
 
     var dirty_check = $('form.dirty-check');
     if (dirty_check.length && !window.parent != window) {
@@ -92,35 +75,6 @@ $(document).ready(function() {
             document.title = document.title.slice(2);
         });
     }
-
-
-    $('[data-sortable-url]').each(function(index) {
-        var url = $(this).attr('data-sortable-url');
-        var updated_items = new Object();
-        Sortable.create(this, {
-            handle: '.drag-handle',
-            onUpdate: function (/**Event*/evt) {
-                var base_order_value = 1;
-                $(evt.to).find('.drag-handle i').each(function(index) {
-                    var key = $(this).attr('data-order-key');
-                    var value = $(this).attr('data-order-value');
-                    if (parseInt(value) != base_order_value) {
-                        updated_items[key] = base_order_value;
-                        $(this).attr('data-order-value', base_order_value);
-                    }
-                    base_order_value += 1;
-                });
-                $.post(url, JSON.stringify(updated_items))
-                .done(function() {
-                    // keep this empty for now
-                })
-                .fail(function() {
-                    console.error('Unable to post reordering to backend')
-                })
-            }
-        });
-    });
-
 
     // Search input by clicking on Icon
     var $searchIcon = $('[js-search-submit]');

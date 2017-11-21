@@ -141,4 +141,33 @@ $(document).ready(function() {
             timepicker: true
         });
     });
+
+    // sortable ListViews
+    $('[data-sorting-url]').each(function(index) {
+        var url = $(this).attr('data-sorting-url');
+        var updated_items = new Object();
+        Sortable.create(this, {
+            handle: '.drag-handle',
+            onUpdate: function (/**Event*/evt) {
+                var base_sorting_value = 1;
+                $(evt.to).find('.drag-handle i').each(function(index) {
+                    var key = $(this).attr('data-sorting-key');
+                    var value = $(this).attr('data-sorting-value');
+                    if (parseInt(value) != base_sorting_value) {
+                        updated_items[key] = base_sorting_value;
+                        $(this).attr('data-sorting-value', base_sorting_value);
+                    }
+                    base_sorting_value += 1;
+                });
+                $.post(url, JSON.stringify(updated_items))
+                .done(function() {
+                    // keep this empty for now
+                })
+                .fail(function() {
+                    console.error('Unable to post reordering to backend')
+                })
+            }
+        });
+    });
 });
+

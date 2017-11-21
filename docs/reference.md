@@ -3,7 +3,7 @@
 ## `ARCTIC_AUTOCOMPLETE`
 
 Dictionary of models that when used as a foreign key should be lazy loaded when displayed in a form.
-The dictionary has as key a slug, which will be used in the callback url,
+The dictionary has a key as slug, which will be used in the callback url,
 and a list with the model path and the search field. For example:
 
     ARCTIC_AUTOCOMPLETE = {
@@ -12,11 +12,9 @@ and a list with the model path and the search field. For example:
 
 The callback url also needs to be setup in `urls.py`:
 
-    from arctic.urls import autocomplete_url
-    ...
     urlpatterns = [
         ...
-        autocomplete_url,
+        url(r'^arctic/', include('arctic.urls', namespace='arctic')),
     ]
 
 ## `ARCTIC_COMMON_MEDIA_ASSETS`
@@ -253,6 +251,21 @@ list of fields that are to be searched.
 ### `ordering_fields`
 
 list of fields that can be ordered by clicking on the field's header column.
+
+### `sorting_field`
+
+setting this property with a numberic database field will enable drag and drop 
+sorting of rows in a `ListView`. Arctic urls need to be included for the 
+callback urls; in the project's urls.py ensure the following is present:
+
+    urlpatterns = [
+        ...
+        url(r'^arctic/', include('arctic.urls', namespace='arctic')),
+    ]
+
+When `sorting_field` is set, the following properties cannot be used: 
+`ordering_fields`, `search_fields`, `default_ordering`, `advanced_search_form`
+or `paginate_by`.
 
 ### `default_ordering`
 

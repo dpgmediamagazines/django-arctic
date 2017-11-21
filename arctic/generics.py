@@ -287,6 +287,29 @@ class ListView(View, ListMixin, base.ListView):
     """
     prefix = ''  # Prefix for embedding multiple list views in detail view
 
+    def __init__(self, **kwargs):
+        super(ListView, self).__init__(**kwargs)
+        if self.sorting_field:
+            resource = '{0}.{1}'.format(self.__class__.__module__,
+                                        self.__class__.__name__)
+            try:
+                self.sorting_url = reverse('arctic:order', args=(resource,))
+            except NoReverseMatch:
+                raise ImproperlyConfigured(
+                    'This project needs to include Arctic URLs in order to use'
+                    ' sorting.')
+
+            sorting_field_excludes = (
+                self.ordering_fields, self.search_fields,
+                self.default_ordering, self.advanced_search_form,
+                self.paginate_by,
+            )
+            if any(sorting_field_excludes):
+                raise ImproperlyConfigured(
+                    'sorting_field cannot be used in combination with any of '
+                    'the following fields: ordering_fields, search_fields, '
+                    'default_ordering, advanced_search_form, paginate_by')
+
     def get(self, request, *args, **kwargs):
         objects = self.get_object_list()
         context = self.get_context_data(object_list=objects)
@@ -381,27 +404,6 @@ class ListView(View, ListMixin, base.ListView):
         field_links = self.get_field_links()
         field_classes = self.get_field_classes()
 
-        if self.order_field:
-            resource = '{0}.{1}'.format(self.__class__.__module__,
-                                        self.__class__.__name__)
-            try:
-                self.sortable_url = reverse('arctic:order', args=(resource,))
-            except NoReverseMatch:
-                raise ImproperlyConfigured(
-                    'This project needs to include Arctic URLs in order to use'
-                    ' ordering.')
-
-            order_field_excludes = (
-                self.ordering_fields, self.search_fields,
-                self.default_ordering, self.advanced_search_form,
-                self.paginate_by,
-            )
-            if any(order_field_excludes):
-                raise ImproperlyConfigured(
-                    'order_field cannot be used in combination with any of '
-                    'the following fields: ordering_fields, search_fields, '
-                    'default_ordering, advanced_search_form, paginate_by')
-
         for obj in objects:
             row = []
 
@@ -434,11 +436,11 @@ class ListView(View, ListMixin, base.ListView):
             if actions:
                 row.append(actions)
                 self.has_action_links = True
-            if self.order_field:
-                order = {'type': 'order',
-                         'id': getattr(obj, self.primary_key),
-                         'order': getattr(obj, self.order_field)}
-                row.insert(0, order)
+            if self.sorting_field:
+                sort = {'type': 'sorting',
+                        'id': getattr(obj, self.primary_key),
+                        'value': getattr(obj, self.sorting_field)}
+                row.insert(0, sort)
             items.append(row)
         return items
 
@@ -471,8 +473,8 @@ class ListView(View, ListMixin, base.ListView):
 
     def get_ordering(self):
         """Ordering used for queryset filtering (should not contain prefix)."""
-        if self.order_field:
-            return [self.order_field]
+        if self.sorting_field:
+            return [self.sorting_field]
         prefix = self.get_prefix()
         fields = self.get_ordering_with_prefix()
         if self.prefix:
@@ -493,8 +495,7 @@ class ListView(View, ListMixin, base.ListView):
         context['tool_links'] = self.get_tool_links()
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
-        # self.sortable_url is set in get_list_items
-        context['sortable_url'] = self.sortable_url
+        context['sorting_url'] = self.sorting_url
         context['tool_links_icon'] = self.get_tool_links_icon()
         if self.get_simple_search_form():
             context['simple_search_form'] = \
@@ -508,8 +509,8 @@ class ListView(View, ListMixin, base.ListView):
     def reorder(cls, rows):
         for key, value in rows.items():
             kv = {cls.primary_key: key,
-                  cls.order_field: value}
-            cls.model(**kv).save(update_fields=[cls.order_field])
+                  cls.sorting_field: value}
+            cls.model(**kv).save(update_fields=[cls.sorting_field])
 
 
 class DataListView(TemplateView, ListMixin):

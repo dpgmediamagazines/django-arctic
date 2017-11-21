@@ -24,6 +24,7 @@ class Article(models.Model):
 class Category(models.Model):
     name = models.CharField('Name', max_length=255, null=False, blank=False,
                             unique=True)
+    order = models.IntegerField('Order', blank=True, null=True)
 
     def __str__(self):
         return self.name

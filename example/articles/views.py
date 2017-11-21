@@ -24,12 +24,12 @@ class DashboardView(TemplateView):
 
 
 class ArticleListView(ListView):
-    # paginate_by = 10
+    paginate_by = 10
     model = Article
     fields = ['title', 'description', 'published', 'category', 'tags']
-    # ordering_fields = ['title', 'description', 'published']
-    # search_fields = ['title']
-    # advanced_search_form = AdvancedArticleSearchForm
+    ordering_fields = ['title', 'description', 'published']
+    search_fields = ['title']
+    advanced_search_form = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
         ('delete', 'articles:delete', 'fa-trash'),
@@ -41,7 +41,6 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
-    order_field = 'order'
 
     permission_required = "view_article"
 
@@ -120,7 +119,7 @@ class CategoryListView(ListView):
         (_('Create Category'), 'articles:category-create'),
     ]
     permission_required = 'view_category'
-    search_fields = ('name',)
+    sorting_field = 'order'
 
 
 class CategoryArticlesListView(ArticleListView):

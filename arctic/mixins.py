@@ -369,8 +369,8 @@ class ListMixin(object):
     tool_links_icon = 'fa-wrench'
     max_embeded_list_items = 10  # when displaying a list in a column
     primary_key = 'pk'
-    order_field = None
-    sortable_url = None
+    sorting_field = None
+    sorting_url = None
 
     def ordering_url(self, field):
         """
