@@ -35,12 +35,12 @@ class TestListView(object):
         """
         Paginated List view
         """
-        [ArticleFactory() for i in range(10)]
+        [ArticleFactory() for i in range(30)]
 
         response = self._request(admin_client)
-        self._assert_list_items_len(response, 2)
+        self._assert_list_items_len(response, 10)
 
-        assert response.context_data['page_obj'].paginator.num_pages == 5
+        assert response.context_data['page_obj'].paginator.num_pages == 3
 
     def test_no_items(self, admin_client):
         """
