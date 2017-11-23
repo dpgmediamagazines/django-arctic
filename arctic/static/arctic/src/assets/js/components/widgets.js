@@ -148,6 +148,7 @@ $(document).ready(function() {
         var updated_items = new Object();
         Sortable.create(this, {
             handle: '.drag-handle',
+            animation: 100,
             onUpdate: function (/**Event*/evt) {
                 var base_sorting_value = 1;
                 $(evt.to).find('.drag-handle i').each(function(index) {
@@ -170,4 +171,3 @@ $(document).ready(function() {
         });
     });
 });
-

@@ -105,7 +105,7 @@
                                         {% if column.type == 'field' %}
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                                 {% if column.url %}
-                                                    <a href="{{ column.url }}">
+                                                    <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}>
                                                 {% endif %}
                                                 {% if column.value|typename != 'list' %}
                                                     {{ column.value|default_if_none:"" }}
