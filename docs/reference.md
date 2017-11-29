@@ -290,6 +290,37 @@ default is fa-wrench. an icon displayed for the dropdown of multiple tool
 links or, if only one tool link set, it would be use as default icon.
 
 
+### `advanced_search_form`
+
+arctic provides a search endpoint via `advanced_search_form` which accepts a regular `django.forms.Form`.
+A basic implementation of an advanced search form must implement the `get_search_filter()`.
+Example:
+
+    class ExampleListView(ListView):
+        ...
+        advanced_search_form = AdvancedSearchForm
+        ...
+    .
+    .
+    from django.db.models import `
+    class AdvancedSearchForm(Form):
+        """
+        Basic implementation of arctic's advanced search form class
+        """
+        modified_on = forms.DateTimeField(required=False,
+                                          widget=forms.DateInput(attrs={'js-datepicker': ''}))
+                                      
+        def __init__(self, data):
+            # Reset data, but store for get_search_filter
+            self.stored_data = data
+    
+        def get_search_filter(self):
+            conditions = Q()
+            value = self.stored_data.get('modified_on')
+            if value:
+                conditions &= Q(modified_on__gte=value)
+            return conditions
+
 ## DataListView
 
 `class arctic.generics.DataListView`
