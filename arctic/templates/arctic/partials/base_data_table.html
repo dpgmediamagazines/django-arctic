@@ -99,9 +99,32 @@
                             {% for row in list_items %}
                                 <tr>
                                     {% for column in row %}
+                                        {% if column.confirm %}
+                                            <div class="modal fade" id="modal{{ column.value }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ column.value }}Label" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel">Confirm your action</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ column.confirm|lookup:'message' }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ column.confirm|lookup:'cancel' }}</button>
+                                                            <a class="btn btn-primary" href="{{ column.url }}" onclick="$('#modal{{ column.value }}').modal('hide')">{{ column.confirm|lookup:'yes' }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                         {% if column.type == 'field' %}
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
-                                                {% if column.url %}
+                                                {% if column.confirm %}
+                                                    <a data-toggle="modal" data-target="#modal{{ column.value }}">
+                                                {% elif column.url %}
                                                     <a href="{{ column.url }}">
                                                 {% endif %}
                                                 {% if column.value|typename != 'list' %}
@@ -119,7 +142,30 @@
                                             <td>
                                             <div class="list-actions">
                                                 {% for link in column.actions %}
+                                                {% if link.confirm %}
+                                                        <div class="modal fade" id="modal{{ link.label }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ link.label }}Label" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Confirm your action</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        {{ link.confirm|lookup:'message' }}
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ link.confirm|lookup:'cancel' }}</button>
+                                                                        <a class="btn btn-primary" href="{{ link.url }}" onclick="$('#modal{{ link.value }}').modal('hide')">{{ link.confirm|lookup:'yes' }}</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <a data-toggle="modal" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" data-target="#modal{{ link.label }}" title=" 2{{ link.label|capfirst }}">
+                                                        {% elif not link.confirm %}
                                                     <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
+                                                        {% endif %}
                                                         {% if link.icon %}
                                                             <i class="fa {{ link.icon }} fa-lg"></i>
                                                         {% else %}
