@@ -472,6 +472,7 @@ class ListMixin(object):
 
     def _get_field_actions(self, obj):
         field_actions = self.get_action_links()
+        has_confirm_links = hasattr(self, 'confirm_links')
         if field_actions:
             actions = []
             for field_action in field_actions:

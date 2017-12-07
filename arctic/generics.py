@@ -423,7 +423,7 @@ class ListView(View, ListMixin, base.ListView):
                     field['url'] = self._reverse_field_link(
                         field_links[field_name], obj)
                     self.add_confirm_link(has_confirm_links, field,
-                        field_links[field_name])
+                                          field_links[field_name])
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
