@@ -302,23 +302,25 @@ Example:
         ...
     .
     .
-    from django.db.models import `
+    from django.db.models import Q
+    
     class AdvancedSearchForm(Form):
         """
         Basic implementation of arctic's advanced search form class
         """
         modified_on = forms.DateTimeField(required=False,
                                           widget=forms.DateInput(attrs={'js-datepicker': ''}))
+        created_on = forms.DateTimeField(required=False,
+                                          widget=forms.DateInput(attrs={'js-datepicker': ''}))
                                       
-        def __init__(self, data):
-            # Reset data, but store for get_search_filter
-            self.stored_data = data
-    
         def get_search_filter(self):
             conditions = Q()
-            value = self.stored_data.get('modified_on')
-            if value:
-                conditions &= Q(modified_on__gte=value)
+            modified_on_value = self.stored_data.get('modified_on')
+            if modified_on_value:
+                conditions &= Q(modified_on__gte=modified_on_value)
+            created_on_value = self.stored_data.get('created_on')
+            if created_on_value:
+                conditions &= Q(created_on__gte=created_on_value)
             return conditions
 
 ## DataListView
