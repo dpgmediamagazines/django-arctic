@@ -49,26 +49,6 @@ class SuccessMessageMixin(object):
         )
 
 
-class LinksMixin(object):
-    """
-    Adding links to view, to be resolved with 'arctic_url' template tag
-    """
-    def get_links(self):
-        if not self.links:
-            return None
-        else:
-            allowed_links = []
-            for link in self.links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                allowed_links.append(link)
-            return allowed_links
-
-
 class FormMixin(object):
     """
     Adding customizable fields to view. Using the 12-grid system, you
@@ -472,18 +452,13 @@ class ListMixin(object):
 
     def _get_field_actions(self, obj):
         field_actions = self.get_action_links()
-        has_confirm_links = hasattr(self, 'confirm_links')
         if field_actions:
             actions = []
             for field_action in field_actions:
                 actions.append({'label': field_action['label'],
                                 'icon': field_action['icon'],
-                                'url': self._reverse_field_link(
-                                    field_action['url'], obj)})
-                field_url_name = field_action['url']
-                if has_confirm_links and field_url_name in self.confirm_links:
-                    actions[0].update({'confirm':
-                                      self.confirm_links[field_url_name]})
+                                'url': reverse_url(field_action['url'],
+                                                   obj, self.primary_key)})
             return {'type': 'actions', 'actions': actions}
         return None
 
