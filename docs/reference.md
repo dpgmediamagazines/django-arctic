@@ -302,6 +302,42 @@ table data.
 default is fa-wrench. an icon displayed for the dropdown of multiple tool 
 links or, if only one tool link set, it would be use as default icon.
 
+### `confirm_links`
+
+dictionary as `{'url_field': {'message': 'Would you like to continue?', 'yes': 'Yes', 'cancel': 'No'}}'` which wraps every `url_field` displayed on a `ListView` with a confirmation dialog.  
+
+### `advanced_search_form`
+
+arctic provides a search endpoint via `advanced_search_form` which accepts a regular `django.forms.Form`.
+A basic implementation of an advanced search form must implement the `get_search_filter()`.
+Example:
+
+    class ExampleListView(ListView):
+        ...
+        advanced_search_form = AdvancedSearchForm
+        ...
+    .
+    .
+    from django.db.models import Q
+    
+    class AdvancedSearchForm(Form):
+        """
+        Basic implementation of arctic's advanced search form class
+        """
+        modified_on = forms.DateTimeField(required=False,
+                                          widget=forms.DateInput(attrs={'js-datepicker': ''}))
+        created_on = forms.DateTimeField(required=False,
+                                          widget=forms.DateInput(attrs={'js-datepicker': ''}))
+                                      
+        def get_search_filter(self):
+            conditions = Q()
+            modified_on_value = self.stored_data.get('modified_on')
+            if modified_on_value:
+                conditions &= Q(modified_on__gte=modified_on_value)
+            created_on_value = self.stored_data.get('created_on')
+            if created_on_value:
+                conditions &= Q(created_on__gte=created_on_value)
+            return conditions
 
 ## DataListView
 
