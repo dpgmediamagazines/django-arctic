@@ -228,10 +228,3 @@ def get_item(dictionary, key):
 @register.filter()
 def get_attr(obj, item, default=None):
     return getattr(obj, item, default)
-
-
-@register.filter
-def float_label_hack(obj):
-    new_obj = copy.deepcopy(obj)
-    new_obj.field.required = True
-    return new_obj

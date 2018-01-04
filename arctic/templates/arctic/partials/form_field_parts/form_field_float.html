@@ -6,7 +6,7 @@
     </label>
 {% else %}
     <div class="form-group">
-        {{ field|float_label_hack }}
+        {{ field }}
         <label for="{{ field.auto_id }}">
             {% include 'arctic/partials/form_field_parts/field_label.html' %}
         </label>
