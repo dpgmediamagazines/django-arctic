@@ -7,6 +7,8 @@ from articles.views import (ArticleCreateView, ArticleDeleteView,
                             CategoryUpdateView, TagCreateView, TagDeleteView,
                             TagListView, TagUpdateView)
 
+app_name = 'articles'
+
 urlpatterns = [
     url(r'^$', ArticleListView.as_view(), name='list'),
     url(r'^create/$', ArticleCreateView.as_view(), name='create'),
