@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
                                     ValidationError)
 from django.core.paginator import InvalidPage
-from django.core.urlresolvers import (NoReverseMatch, reverse)
+from django.urls import (NoReverseMatch, reverse)
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
 from django.http import Http404
@@ -57,7 +57,7 @@ class View(RoleAuthentication, base.View):
                     'has to be defined if requires_login is True'
                 )
 
-            if not request.user.is_authenticated():
+            if not request.user.is_authenticated:
                 return redirect('%s?next=%s' % (
                     resolve_url(settings.LOGIN_URL),
                     quote(request.get_full_path())))

@@ -5,9 +5,9 @@ from copy import deepcopy
 import importlib
 
 from django.conf import settings
-from django.core import urlresolvers
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
-from django.core.urlresolvers import (NoReverseMatch, reverse)
+from django.urls import (get_ns_resolver, get_resolver, get_urlconf,
+                         NoReverseMatch, reverse)
 
 from . import defaults
 
@@ -44,7 +44,7 @@ def menu(menu_config=None, **kwargs):
                 if not view_from_url(menu_entry[1]).has_permission(user):
                     continue
 
-                path = urlresolvers.reverse(menu_entry[1])
+                path = reverse(menu_entry[1])
             # icons and collapse are optional
             icon = None
             if (len(menu_entry) >= 3) and \
@@ -101,7 +101,7 @@ def view_from_url(named_url):  # noqa
     Finds and returns the view class from a named url
     """
     # code below is `stolen` from django's reverse method
-    resolver = urlresolvers.get_resolver(urlresolvers.get_urlconf())
+    resolver = get_resolver(get_urlconf())
 
     if type(named_url) in (list, tuple):
         named_url = named_url[0]
@@ -149,7 +149,7 @@ def view_from_url(named_url):  # noqa
                 raise NoReverseMatch("%s is not a registered namespace" %
                                      key)
     if ns_pattern:
-        resolver = urlresolvers.get_ns_resolver(ns_pattern, resolver)
+        resolver = get_ns_resolver(ns_pattern, resolver)
 
     # custom code, get view from reverse_dict
     reverse_dict = resolver.reverse_dict.dict()

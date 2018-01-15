@@ -35,4 +35,4 @@ Instead of being a ready-to-use CMS, Arctic is a framework that facilitates the 
 ## Compatibility
 
 * Python 2.7, 3.5, 3.6
-* Django 1.8, 1.10, 1.11
+* Django 1.10, 1.11, 2.0

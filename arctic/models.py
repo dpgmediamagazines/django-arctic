@@ -3,8 +3,10 @@ from django.db import models
 
 
 class UserRole(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='urole')
-    role = models.ForeignKey('arctic.Role')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                related_name='urole',
+                                on_delete=models.CASCADE)
+    role = models.ForeignKey('arctic.Role', on_delete=models.CASCADE)
 
     class Meta:
         swappable = 'ARCTIC_USER_ROLE_MODEL'

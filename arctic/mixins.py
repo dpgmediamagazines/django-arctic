@@ -7,7 +7,7 @@ import importlib
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import six
 
 from collections import OrderedDict
@@ -636,7 +636,7 @@ class RoleAuthentication(object):
             return True
 
         # if user is somehow not logged in
-        if not user.is_authenticated():
+        if not user.is_authenticated:
             return False
 
         # attribute permission_required is mandatory, returns tuple
