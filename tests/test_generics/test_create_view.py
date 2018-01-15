@@ -1,6 +1,6 @@
 import pytest
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from articles.models import Article, Category, Tag
 from tests.factories import CategoryFactory, TagFactory
 

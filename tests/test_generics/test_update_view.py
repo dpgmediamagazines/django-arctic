@@ -1,5 +1,5 @@
 import pytest
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from articles.views import ArticleUpdateView
 from tests.factories import ArticleFactory

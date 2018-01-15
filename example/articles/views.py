@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, unicode_literals)
 
-from django.core.urlresolvers import (reverse, reverse_lazy)
+from django.urls import (reverse, reverse_lazy)
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 

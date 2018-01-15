@@ -1,5 +1,5 @@
 from collections import OrderedDict
-# import django.core.urlresolvers
+# import django.urls
 # from django.http import HttpRequest
 #
 # from arctic import utils
@@ -46,7 +46,7 @@ class TestMenu:
     #     request.path = '/'
     #     kwargs = {'request': request}
     #
-    #     monkeypatch.setattr(django.core.urlresolvers, 'reverse',
+    #     monkeypatch.setattr(django.urls, 'reverse',
     #                         lambda url: url)
     #     menu = utils.menu(menu_config=self.MENU, **kwargs)
     #

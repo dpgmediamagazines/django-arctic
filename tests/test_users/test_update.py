@@ -1,7 +1,7 @@
 import pytest
 
 from arctic.models import Role
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from tests.factories import UserFactory
 
