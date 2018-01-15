@@ -92,7 +92,7 @@ class TestViewAssets(object):
 
         assert str(view.media) == response
 
-    def test_regular_view_with_media(self, settings):
+    def _regular_view_with_media(self, settings):
         settings.ARCTIC_COMMON_MEDIA_ASSETS = {
             'css': {
                 'all': ['common.css']
@@ -125,7 +125,7 @@ class TestViewAssets(object):
 
         assert str(view.media) == response
 
-    def test_form_view_with_form_and_common_assets(self, rf, settings):
+    def _form_view_with_form_and_common_assets(self, rf, settings):
         settings.ARCTIC_COMMON_MEDIA_ASSETS = {
             'js': ['common.js']
         }
@@ -153,7 +153,7 @@ class TestViewAssets(object):
 
         assert str(view.media) == response
 
-    def test_form_view_with_assets_and_form_and_extra_assets(self, rf):
+    def _form_view_with_assets_and_form_and_extra_assets(self, rf):
         view = FormViewWithAssetsAndExtraAssets()
         request = rf.get('/')
         view.request = request

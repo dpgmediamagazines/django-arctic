@@ -21,3 +21,4 @@ class Role(models.Model):
 
     class Meta:
         swappable = 'ARCTIC_ROLE_MODEL'
+        ordering = ['name']
