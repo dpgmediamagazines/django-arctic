@@ -1,5 +1,5 @@
 import pytest
-from django.urls import PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.test import Client
 
 
