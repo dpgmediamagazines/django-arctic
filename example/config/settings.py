@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,7 +126,7 @@ LOGIN_URL = LOGOUT_URL = 'login'
 
 try:
     import debug_toolbar
-    MIDDLEWARE_CLASSES.append(
+    MIDDLEWARE.append(
         'debug_toolbar.middleware.DebugToolbarMiddleware')
     INSTALLED_APPS.append('debug_toolbar')
 except ImportError:
