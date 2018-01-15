@@ -10,7 +10,8 @@ class Article(models.Model):
     title = models.CharField('Title', max_length=255, null=False)
     description = models.TextField('Description', blank=True, null=False)
     published = models.BooleanField('Published', default=False)
-    category = models.ForeignKey('articles.Category', verbose_name="Category")
+    category = models.ForeignKey('articles.Category', verbose_name='Category',
+                                 on_delete=models.CASCADE)
     tags = models.ManyToManyField('articles.Tag')
     order = models.IntegerField('Order', blank=True, null=True)
 
