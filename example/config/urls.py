@@ -6,7 +6,6 @@ from django.conf.urls import (include, url)
 from django.conf.urls.static import static
 
 from arctic.generics import LoginView
-from arctic.users.urls import user_patterns
 from arctic.views import (handler400, handler403, handler404, handler500)  # noqa
 
 from countries.views import (CountryAPIView, CountryListView)
@@ -16,7 +15,7 @@ urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='index'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^articles/', include('articles.urls', 'articles')),
-    url(r'^users/', include(user_patterns, namespace='users')),
+    url(r'^users/', include('arctic.users.urls', namespace='users')),
     url(r'^countries/$', CountryListView.as_view(), name='countries-list'),
     url(r'^countries-api/$', CountryAPIView.as_view(), name='countries-api'),
     url(r'^arctic/', include('arctic.urls', namespace='arctic')),
