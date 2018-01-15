@@ -69,7 +69,7 @@ class FormViewWithAssetsAndExtraAssets(FormView, View):
 
     def get_media_assets(self):
         media = Media()
-        media.add_js(['extra.js'])
+        media.js = ['extra.js']
         return media
 
 

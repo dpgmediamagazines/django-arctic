@@ -213,9 +213,9 @@ class View(RoleAuthentication, base.View):
         config = getattr(settings, 'ARCTIC_COMMON_MEDIA_ASSETS', [])
         media = Media()
         if 'css' in config:
-            media.add_css(config['css'])
+            media.css = config['css']
         if 'js' in config:
-            media.add_js(config['js'])
+            media.js = config['js']
         return media
 
     def get_media_assets(self):
