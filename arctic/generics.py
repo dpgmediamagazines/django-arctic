@@ -210,12 +210,10 @@ class View(RoleAuthentication, base.View):
         return media
 
     def _get_common_media(self):
-        config = getattr(settings, 'ARCTIC_COMMON_MEDIA_ASSETS', [])
-        media = Media()
-        if 'css' in config:
-            media.css = config['css']
-        if 'js' in config:
-            media.js = config['js']
+        config = getattr(settings, 'ARCTIC_COMMON_MEDIA_ASSETS', {})
+        css = config['css'] if 'css' in config else {}
+        js = config['js'] if 'js' in config else []
+        media = Media(css=css, js=js)
         return media
 
     def get_media_assets(self):
@@ -228,16 +226,15 @@ class View(RoleAuthentication, base.View):
         """
         Gather view-level media assets
         """
-        media = Media()
         try:
-            media.add_css(self.Media.css)
+            css = self.Media.css
         except AttributeError:
-            pass
+            css = {}
         try:
-            media.add_js(self.Media.js)
+            js = self.Media.js
         except AttributeError:
-            pass
-        return media
+            js = []
+        return Media(css=css, js=js)
 
     def get_form_display(self):
         valid_options = ['stacked', 'tabular', 'float-label']

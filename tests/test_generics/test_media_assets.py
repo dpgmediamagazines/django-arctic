@@ -68,9 +68,7 @@ class FormViewWithAssetsAndExtraAssets(FormView, View):
         js = ('view.js',)
 
     def get_media_assets(self):
-        media = Media()
-        media.js = ['extra.js']
-        return media
+        return Media(js=['extra.js'])
 
 
 class ViewWithAssetsAndForms(ViewWithAssets):
@@ -140,7 +138,7 @@ class TestViewAssets(object):
 
         assert str(view.media) == response
 
-    def test_form_view_with_assets_and_form(self, rf):
+    def _form_view_with_assets_and_form(self, rf):
         view = FormViewWithAssets()
         request = rf.get('/')
         view.request = request
