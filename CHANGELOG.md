@@ -7,8 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##1.0.0-beta2
 
-##1.0.0-beta1 (unreleased)
+##Added
+
+- Django 2.0 compatibility
+
+## Removed
+
+- Django 1.8 support
+
+
+##1.0.0-beta1
 
 ##Added
 
