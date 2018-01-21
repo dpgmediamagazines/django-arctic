@@ -97,9 +97,13 @@ class FormMixin(object):
             if not view_from_url(link[1]).has_permission(self.request.user):
                 continue
 
+            try:
+                obj = self.get_object()
+            except AttributeError:
+                obj = None
             allowed_links.append({
                 'label': link[0],
-                'url': reverse_url(link[1], self.get_object())})
+                'url': reverse_url(link[1], obj)})
         return allowed_links
 
     def get_layout(self):
