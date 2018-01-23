@@ -1,10 +1,1 @@
-{% load arctic_tags %}
-<div class="row align-center">
-    <div class="col-sm-12 col-md-12 col-lg-12 col">
-        <div class="form-group">
-            {% for field in form %}
-                {% include 'arctic/partials/form_field.html' with field=field inline=True %}
-            {% endfor %}
-        </div>
-    </div>
-</div>
+{{ field }}
