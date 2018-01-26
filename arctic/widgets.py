@@ -45,14 +45,16 @@ class PickerFormatMixin(Input):
         display_format(str): string that will
         be used to format input value before render
 
-        widget_attribute_key(str): represents attribute name to which formatted input
-        value will be assigned
+        widget_attribute_key(str): represents attribute name
+        to which formatted input value will be assigned
     """
     display_format = None
     widget_attribute_key = None
 
     def get_context(self, name, value, attrs):
-        context = super(PickerFormatMixin, self).get_context(name, value, attrs)
+        context = super(PickerFormatMixin, self).get_context(
+            name, value, attrs
+        )
         if not value:
             value = datetime.now().strftime(self.display_format)
         elif isinstance(value, datetime):
