@@ -116,7 +116,7 @@ $(document).ready(function() {
             language: 'en',
             startDate: date,
             dateFormat: django2datepicker(DATE_FORMAT)
-        });
+        }).data('datepicker').selectDate(date);
     });
 
     $('[js-timepicker]').each(function(index) {
@@ -127,7 +127,7 @@ $(document).ready(function() {
             startDate: date,
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
-        });
+        }).data('datepicker').selectDate(date);
     });
 
     $('[js-datetimepicker]').each(function(index) {
@@ -139,7 +139,7 @@ $(document).ready(function() {
             dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true
-        });
+        }).data('datepicker').selectDate(date);
     });
 
     // sortable ListViews
