@@ -388,13 +388,23 @@ class ListMixin(object):
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
-    simple_search_form = None  # Simple search form if search_fields is defined
-    advanced_search_form = None  # Custom form for advanced search
+    simple_search_form_class = SimpleSearchForm  # Simple search form if search_fields is defined
+    advanced_search_form_class = None  # Simple search form if search_fields is defined
+    _simple_search_form = None
+    _advanced_search_form = None
     tool_links_icon = 'fa-wrench'
     max_embeded_list_items = 10  # when displaying a list in a column
     primary_key = 'pk'
     sorting_field = None
     sorting_url = None
+
+    @property
+    def simple_search_form(self):
+        return self._simple_search_form
+
+    @property
+    def advanced_search_form(self):
+        return self._advanced_search_form
 
     def ordering_url(self, field):
         """
@@ -448,12 +458,6 @@ class ListMixin(object):
 
     def get_tool_links_icon(self):
         return self.tool_links_icon
-
-    def get_filter_fields(self):
-        """
-        Hook to dynamically change the fields that can be filtered
-        """
-        return self.filter_fields
 
     def get_search_fields(self):
         """
@@ -535,19 +539,37 @@ class ListMixin(object):
                                            'icon': icon})
             return allowed_tool_links
 
-    def get_simple_search_form(self):
+    def get_simple_search_form_class(self):
         """
         Hook to dynamically change the simple search form
         """
-        if not self.simple_search_form and self.get_search_fields():
+        if not self.simple_search_form_class and self.get_search_fields():
             return SimpleSearchForm
-        return self.simple_search_form
+        return self.simple_search_form_class
 
-    def get_advanced_search_form(self):
+    def get_advanced_search_form_class(self):
         """
         Hook to dynamically change the advanced search form
         """
-        return self.advanced_search_form
+        return self.advanced_search_form_class
+
+    def get_simple_search_form(self, data):
+        if self.get_search_fields():
+            self._simple_search_form = self.get_simple_search_form_class()(
+                search_fields=self.get_search_fields(),
+                data=data
+            )
+        else:
+            self._simple_search_form = self.get_simple_search_form_class()(data=data)
+        return self._simple_search_form
+
+    def get_advanced_search_form(self, data):
+        """
+        Hook to dynamically change the advanced search form
+        """
+        if self.get_advanced_search_form_class():
+            self._advanced_search_form = self.get_advanced_search_form_class()(data=data)
+            return self._advanced_search_form
 
 
 class RoleAuthentication(object):

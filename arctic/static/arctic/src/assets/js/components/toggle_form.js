@@ -19,7 +19,7 @@
         } else {
             return false;
         }
-    }
+    };
 
     var dismissOnClick = function () {
         $('body').on('click.popover', function(e) {
@@ -36,6 +36,12 @@
                 }
             }
         });
-    }
+    };
     $('.arctic_toggle_form_button').on('show.bs.popover', dismissOnClick);
+
+    // Make popover visible in case advanced search form errors
+    var hasAdvancedSearchErrors = $('#arctic_advanced_search').find('.invalid-form-field, .invalid-feedback').length > 0;
+    if (hasAdvancedSearchErrors) {
+        $('#arctic_toggle_advanced_search_form_button').click();
+    }
 })(jQuery);
