@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##1.0.1-beta1 (unreleased)
+
+###Fixed
+
+- Search forms and related widgets - [#242][242]
+
+## Changed
+
+- renamed `_search_form` `ListView` attrs, dropped compatibility with previous naming
+
+[242]: //github.com/sanoma/django-arctic/issues/242
+
+
 ##1.0.0-beta2
 
 ##Added

@@ -388,8 +388,9 @@ class ListMixin(object):
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
-    simple_search_form_class = SimpleSearchForm  # Simple search form if search_fields is defined
-    advanced_search_form_class = None  # Simple search form if search_fields is defined
+    # Simple search form if search_fields is defined
+    simple_search_form_class = SimpleSearchForm
+    advanced_search_form_class = None  # Custom form for advanced search
     _simple_search_form = None
     _advanced_search_form = None
     tool_links_icon = 'fa-wrench'
@@ -560,7 +561,8 @@ class ListMixin(object):
                 data=data
             )
         else:
-            self._simple_search_form = self.get_simple_search_form_class()(data=data)
+            self._simple_search_form = self.get_simple_search_form_class()(
+                data=data)
         return self._simple_search_form
 
     def get_advanced_search_form(self, data):
@@ -568,7 +570,8 @@ class ListMixin(object):
         Hook to dynamically change the advanced search form
         """
         if self.get_advanced_search_form_class():
-            self._advanced_search_form = self.get_advanced_search_form_class()(data=data)
+            self._advanced_search_form = self.get_advanced_search_form_class()(
+                data=data)
             return self._advanced_search_form
 
 
