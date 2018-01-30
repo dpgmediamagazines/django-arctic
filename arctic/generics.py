@@ -331,7 +331,8 @@ class ListView(View, ListMixin, base.ListView):
             if form.is_valid():
                 if not hasattr(form, 'get_search_filter'):
                     raise AttributeError(
-                        'simple_search_form must implement get_search_filter()')
+                        'simple_search_form '
+                        'must implement get_search_filter()')
                 qs = qs.filter(form.get_search_filter())
 
         self.object_list = qs
