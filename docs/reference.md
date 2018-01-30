@@ -264,7 +264,7 @@ callback urls; in the project's urls.py ensure the following is present:
     ]
 
 When `sorting_field` is set, the following properties cannot be used: 
-`ordering_fields`, `search_fields`, `default_ordering`, `advanced_search_form`
+`ordering_fields`, `search_fields`, `default_ordering`, `advanced_search_form_class`
 or `paginate_by`.
 
 ### `default_ordering`
@@ -306,15 +306,15 @@ links or, if only one tool link set, it would be use as default icon.
 
 dictionary as `{'url_field': {'message': 'Would you like to continue?', 'yes': 'Yes', 'cancel': 'No'}}'` which wraps every `url_field` displayed on a `ListView` with a confirmation dialog.  
 
-### `advanced_search_form`
+### `advanced_search_form_class`
 
-arctic provides a search endpoint via `advanced_search_form` which accepts a regular `django.forms.Form`.
+arctic provides a search endpoint via `advanced_search_form_class` which accepts a regular `django.forms.Form`.
 A basic implementation of an advanced search form must implement the `get_search_filter()`.
 Example:
 
     class ExampleListView(ListView):
         ...
-        advanced_search_form = AdvancedSearchForm
+        advanced_search_form_class = AdvancedSearchForm
         ...
     .
     .
@@ -331,10 +331,10 @@ Example:
                                       
         def get_search_filter(self):
             conditions = Q()
-            modified_on_value = self.stored_data.get('modified_on')
+            modified_on_value = self.cleaned_data.get('modified_on')
             if modified_on_value:
                 conditions &= Q(modified_on__gte=modified_on_value)
-            created_on_value = self.stored_data.get('created_on')
+            created_on_value = self.cleaned_data.get('created_on')
             if created_on_value:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
