@@ -22,13 +22,8 @@ class AdvancedArticleSearchForm(forms.Form):
                                   required=False,
                                   label='Description')
 
-    def __init__(self, data):
-        # Reset data, but store for get_search_filter
-        self.stored_data = data
-        super(AdvancedArticleSearchForm, self).__init__()
-
     def get_search_filter(self):
-        value = self.stored_data.get('description')
+        value = self.cleaned_data.get('description')
         if value:
             return Q(description__icontains=value)
         return Q()

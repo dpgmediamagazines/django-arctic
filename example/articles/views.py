@@ -29,7 +29,7 @@ class ArticleListView(ListView):
     fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'published']
     search_fields = ['title']
-    advanced_search_form = AdvancedArticleSearchForm
+    advanced_search_form_class = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
         ('delete', 'articles:delete', 'fa-trash'),
