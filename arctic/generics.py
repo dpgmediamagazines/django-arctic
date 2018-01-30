@@ -317,26 +317,23 @@ class ListView(View, ListMixin, base.ListView):
     def get_object_list(self):
         qs = self.get_queryset()
 
-        if self.get_advanced_search_form():
-            form = self.get_advanced_search_form()(data=self.request.GET)
-            if not hasattr(form, 'get_search_filter'):
-                raise AttributeError(
-                    'advanced_search_form must implement get_search_filter()')
-            qs = qs.filter(form.get_search_filter())
+        if self.advanced_search_form_class:
+            form = self.get_advanced_search_form(data=self.request.GET)
+            if form.is_valid():
+                if not hasattr(form, 'get_search_filter'):
+                    raise AttributeError(
+                        'advanced_search_form '
+                        'must implement get_search_filter()')
+                qs = qs.filter(form.get_search_filter())
 
-        if self.get_simple_search_form():
-            if self.get_search_fields():
-                form = self.get_simple_search_form()(
-                    search_fields=self.get_search_fields(),
-                    data=self.request.GET
-                )
-            else:
-                form = self.get_simple_search_form()(data=self.request.GET)
-
-            if not hasattr(form, 'get_search_filter'):
-                raise AttributeError(
-                    'simple_search_form must implement get_search_filter()')
-            qs = qs.filter(form.get_search_filter())
+        if self.get_simple_search_form_class():
+            form = self.get_simple_search_form(self.request.GET)
+            if form.is_valid():
+                if not hasattr(form, 'get_search_filter'):
+                    raise AttributeError(
+                        'simple_search_form '
+                        'must implement get_search_filter()')
+                qs = qs.filter(form.get_search_filter())
 
         self.object_list = qs
 
@@ -517,12 +514,8 @@ class ListView(View, ListMixin, base.ListView):
         context['has_action_links'] = self.has_action_links
         context['sorting_url'] = self.sorting_url
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_simple_search_form():
-            context['simple_search_form'] = \
-                self.get_simple_search_form()(data=self.request.GET)
-        if self.get_advanced_search_form():
-            context['advanced_search_form'] = \
-                self.get_advanced_search_form()(data=self.request.GET)
+        context['simple_search_form'] = self.simple_search_form
+        context['advanced_search_form'] = self.advanced_search_form
         return context
 
     @classmethod
