@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-(unreleased)
+
+##1.0.0
 
 ###Fixed
 
@@ -15,7 +16,8 @@ Always reference the ticket number at the end of the issue description.
 
 ## Changed
 
-- renamed `_search_form` `ListView` attrs, dropped compatibility with previous naming
+- Updated Bootstrap to version 4.0.0
+- Renamed `_search_form` `ListView` attrs, dropped compatibility with previous naming.
 
 [242]: //github.com/sanoma/django-arctic/issues/242
 

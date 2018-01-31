@@ -3,7 +3,7 @@ import shutil
 import sys
 from setuptools import (find_packages, setup)
 
-__VERSION__ = '1.0.0b2'
+__VERSION__ = '1.0.0'
 
 
 def read_md(f):
@@ -34,7 +34,7 @@ setup(
     name='django-arctic',
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries',

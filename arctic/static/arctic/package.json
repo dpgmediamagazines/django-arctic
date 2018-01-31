@@ -16,7 +16,7 @@
     "babel-plugin-transform-es2015-modules-umd": "6.24.1",
     "babel-preset-es2015": "6.24.1",
     "babel-register": "6.24.1",
-    "bootstrap": "github:twbs/bootstrap#v4-dev",
+    "bootstrap": "4.0.0",
     "font-awesome": "github:FortAwesome/Font-Awesome",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "4.0.0",

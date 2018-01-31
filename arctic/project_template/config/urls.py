@@ -6,5 +6,6 @@ from arctic.views import (handler400, handler403, handler404, handler500)  # noq
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^arctic/', include('arctic.urls', namespace='arctic')),
     url(r'^', include('dashboard.urls')),
 ]
