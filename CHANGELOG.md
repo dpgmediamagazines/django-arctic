@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+[unreleased]
+
+###Fixed
+
+- Search form JS submitting selector - [#248][248]
+
+[248]: //github.com/sanoma/django-arctic/issues/248
+
 
 ##1.0.0
 

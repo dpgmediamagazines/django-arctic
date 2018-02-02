@@ -79,6 +79,6 @@ $(document).ready(function() {
     // Search input by clicking on Icon
     var $searchIcon = $('[js-search-submit]');
     $searchIcon.on('click',  function (){
-        $('form').submit();
+        $('form.search-form').submit();
     })
 });
