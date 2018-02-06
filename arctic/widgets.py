@@ -55,9 +55,7 @@ class PickerFormatMixin(Input):
         context = super(PickerFormatMixin, self).get_context(
             name, value, attrs
         )
-        if not value:
-            value = datetime.now().strftime(self.display_format)
-        elif isinstance(value, datetime):
+        if isinstance(value, datetime):
             value = value.strftime(self.display_format)
         context['widget']['attrs'][self.widget_attribute_key] = value
         return context
