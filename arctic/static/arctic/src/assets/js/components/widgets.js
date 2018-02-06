@@ -131,7 +131,7 @@ $(document).ready(function() {
     });
 
     $('[js-datetimepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-datetime")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-datetime"))
+        var date = new Date($(this).attr("data-datetime")) == 'Invalid Date' ? null : new Date($(this).attr("data-datetime"))
         $(this).datepicker({
             language: 'en',
             todayButton: true,
