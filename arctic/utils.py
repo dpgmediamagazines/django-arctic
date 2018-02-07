@@ -15,7 +15,7 @@ from . import defaults
 def is_active(path, path_to_check):
     if not path_to_check:
         return False
-    return path == path_to_check
+    return path_to_check in path
 
 # TODO: menu needs to hide entries not available to a certain user role
 # by getting the view class from the named url we can check which permissions
