@@ -31,8 +31,10 @@
                             <label class="sr-only" for="search">Search</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0 {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
                                 {% if advanced_search_form %}
-                                    <a id="arctic_toggle_advanced_search_form_button" class="input-group-addon arctic_toggle_form_button" tabindex="0" popover-trigger="manual" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
-                                        <i class="fa fa-sliders"></i>
+                                    <a id="arctic_toggle_advanced_search_form_button" class="input-group-btn arctic_toggle_form_button" tabindex="0" popover-trigger="manual" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-sliders"></i>
+                                        </button>
                                     </a>
                                 {% endif %}
                                 <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
