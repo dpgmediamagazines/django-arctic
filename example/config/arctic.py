@@ -1,7 +1,7 @@
 ARCTIC_SITE_NAME = 'Arctic Example'
 
 # Menu format:
-# (('menu label', 'named url', 'optional icon class', (optional submenu)))
+# (('menu label', 'named url', 'optional icon class', (optional submenu), (optional related_urls)) )
 ARCTIC_MENU = (
     ('Dashboard', 'index', 'fa-dashboard'),
     ('Articles', None, 'fa-file-text-o', (
