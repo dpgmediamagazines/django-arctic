@@ -103,18 +103,11 @@ class TestMenu:
 
     def test_is_active_menu_item(self):
         MENU_CONF = (
-            (
-                'Articles', None, 'fa-file-text-o',
-                (
-                    (
-                        'List', 'articles:list', ('articles:detail',)
-                    ),
-                    (
-                        'Create', 'articles:create'
-                    )
-                ),
-                ('articles:delete',)
-             ),)
+            ('Articles', None, 'fa-file-text-o', (
+                ('List', 'articles:list', ('articles:detail',)),
+                ('Create', 'articles:create')
+            ), ('articles:delete',))
+        )
         is_menu_active = utils.is_active(MENU_CONF[0], 'articles:delete')
         is_submenu_active = utils.is_active(MENU_CONF[0][-2][0],
                                             'articles:delete')
