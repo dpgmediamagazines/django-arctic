@@ -4,7 +4,6 @@ from django.urls import ResolverMatch, reverse
 from django.http import HttpRequest
 
 from arctic import utils
-from tests.factories import ArticleFactory
 
 
 @pytest.mark.django_db
@@ -85,9 +84,8 @@ class TestMenu:
         menu = utils.menu(**kwargs)
         assert menu == self.OUTPUT_MENU
 
-    def test_menu_on_detail_page(self, admin_client, admin_user):
-        a = ArticleFactory()
-        path = reverse('articles:detail', kwargs={'pk': a.id})
+    def test_menu_on_detail_page(self, admin_user):
+        path = reverse('articles:detail', kwargs={'pk': 1})
         request = HttpRequest()
         request.path = path
         request.resolver_match = ResolverMatch(None, None, None,
@@ -102,3 +100,24 @@ class TestMenu:
 
         articles_submenu = dict(dict(menu)['Articles']['submenu'])
         assert articles_submenu['List']['active'] is True
+
+    def test_is_active_menu_item(self):
+        MENU_CONF = (
+            (
+                'Articles', None, 'fa-file-text-o',
+                (
+                    (
+                        'List', 'articles:list', ('articles:detail',)
+                    ),
+                    (
+                        'Create', 'articles:create'
+                    )
+                ),
+                ('articles:delete',)
+             ),
+        )
+        is_menu_active = utils.is_active(MENU_CONF[0], 'articles:delete')
+        is_submenu_active = utils.is_active(MENU_CONF[0][-2][0],
+                                            'articles:delete')
+        assert is_menu_active is True
+        assert is_submenu_active is False
