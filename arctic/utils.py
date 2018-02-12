@@ -114,7 +114,6 @@ def menu_clean(menu_config):
         # one of the items is active: make items with lesser weight inactive
         for _, value in list(menu_config.items()):
             if value['active'] and value['active_weight'] < max_weight:
-                max_weight = max(value['active_weight'], max_weight)
                 value['active'] = False
     return menu_config
 

@@ -6,19 +6,21 @@ ARCTIC_SITE_NAME = 'Arctic Example'
 ARCTIC_MENU = (
     ('Dashboard', 'index', 'fa-dashboard'),
     ('Articles', None, 'fa-file-text-o', (
-        ('List', 'articles:list'),
+        ('List', 'articles:list', ('articles:detail', 'articles:delete')),
         ('Create', 'articles:create'),
     )),
     ('Categories', None, 'fa-sitemap', (
-        ('List', 'articles:category-list'),
+        ('List', 'articles:category-list',
+         ('articles:category-detail', 'articles:category-delete')),
         ('Create', 'articles:category-create'),
     )),
     ('Tags', None, 'fa-tags', (
-        ('List', 'articles:tag-list'),
+        ('List', 'articles:tag-list',
+         ('articles:tag-detail', 'articles:tag-delete')),
         ('Create', 'articles:tag-create'),
     )),
     ('Users', None, 'fa-user', (
-        ('List', 'users:list'),
+        ('List', 'users:list', ('users:detail', )),
         ('Create', 'users:create'),
     )),
     ('Countries', 'countries-list', 'fa-globe'),
