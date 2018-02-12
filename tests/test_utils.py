@@ -114,8 +114,7 @@ class TestMenu:
                     )
                 ),
                 ('articles:delete',)
-             ),
-        )
+             ),)
         is_menu_active = utils.is_active(MENU_CONF[0], 'articles:delete')
         is_submenu_active = utils.is_active(MENU_CONF[0][-2][0],
                                             'articles:delete')
