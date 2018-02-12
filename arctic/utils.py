@@ -24,7 +24,7 @@ def is_active(menu_entry, url_name):
                 if is_list_of_list(menu_item):
                     # suppose it is submenus
                     related_submenus = menu_item
-                elif type(menu_item) in (tuple, list):
+                elif isinstance(menu_item, (tuple, list)):
                     # suppose it is related urls names
                     related_urls += list(menu_item)
 
@@ -353,6 +353,6 @@ def is_list_of_list(item):
     and consist of list (tuple) elements
     """
     if type(item) in (list, tuple) and len(item) \
-            and type(item[0]) in (list, tuple):
+            and isinstance(item[0], (list, tuple)):
         return True
     return False
