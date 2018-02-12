@@ -98,7 +98,7 @@ class TestMenu:
         kwargs = {'request': request, 'user': admin_user}
 
         menu = utils.menu(**kwargs)
-        assert dict(menu)['Articles']['active'] == True
+        assert dict(menu)['Articles']['active'] is True
 
         articles_submenu = dict(dict(menu)['Articles']['submenu'])
-        assert articles_submenu['List']['active'] == True
+        assert articles_submenu['List']['active'] is True
