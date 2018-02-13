@@ -59,7 +59,7 @@ to "/" happens.
 Main menu that enables navigation between the different pages in Arctic.
 It is a list with the format:
 
-    (('menu label', 'named url', 'optional icon class', (optional submenu)), ...)
+    (('menu label', 'named url', 'optional icon class', (optional submenu), (optional related url_names list)), ...)
 
 ## `ARCTIC_ROLES`
 

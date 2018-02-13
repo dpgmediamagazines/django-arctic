@@ -1,53 +1,115 @@
 from collections import OrderedDict
-# import django.urls
-# from django.http import HttpRequest
-#
-# from arctic import utils
+import pytest
+from django.urls import ResolverMatch, reverse
+from django.http import HttpRequest
+
+from arctic import utils
 
 
+@pytest.mark.django_db
 class TestMenu:
-    MENU = (
-        ('menu 1', 'url_1', 'icon 1'),
-        ('menu 2', 'url_2', 'icon 2', (
-            ('menu 2_1', 'url_2_1'),
-            ('menu 2_2', 'url_2_2'),
-        )),
-        ('menu 3', '/'),
-        ('menu 4', 'url_4', (
-            ('menu 4_1', 'url_4_1', 'icon 4_1'),
-        )),
-    )
-
     OUTPUT_MENU = OrderedDict([
-        ('menu 1', {'url': 'url_1', 'icon': 'icon 1', 'active': False,
-                    'active_weight': 5, 'submenu': None}),
-        ('menu 2', {'url': 'url_2', 'icon': 'icon 2', 'active': False,
-                    'active_weight': 5, 'submenu': OrderedDict([
-            ('menu 2_1', {'url': 'url_2_1', 'icon': None, 'active': False,
-                          'active_weight': 7, 'submenu': None}),
-            ('menu 2_2', {'url': 'url_2_2', 'icon': None, 'active': False,
-                          'active_weight': 7, 'submenu': None}),
-        ])}),
-        ('menu 3', {'url': '/', 'icon': None, 'active': True,
-                    'active_weight': 1, 'submenu': None}),
-        ('menu 4', {'url': 'url_4', 'icon': None, 'active': False,
-                    'active_weight': 5, 'submenu': OrderedDict([
-            ('menu 4_1', {'url': 'url_4_1', 'icon': 'icon 4_1',
-                          'active': False, 'active_weight': 7,
-                          'submenu': None}),
-        ])}),
-    ])  # noqa
+        ('Dashboard', {
+            'submenu': None, 'active': False,
+            'active_weight': 1, 'icon': 'fa-dashboard', 'url': 'index'}
+         ),
+        ('Articles', {
+            'submenu': OrderedDict([
+                ('List', {'submenu': None, 'active': False,
+                          'active_weight': 10, 'icon': None,
+                          'url': 'articles:list'}
+                 ),
+                ('Create', {'submenu': None, 'active': False,
+                            'active_weight': 17, 'icon': None,
+                            'url': 'articles:create'})
+            ]),
+            'active': False,
+            'active_weight': 0, 'icon': 'fa-file-text-o', 'url': None}
+         ),
+        ('Categories', {
+            'submenu': OrderedDict([
+                ('List', {'submenu': None, 'active': False,
+                          'active_weight': 19, 'icon': None,
+                          'url': 'articles:category-list'}
+                 ),
+                ('Create', {
+                    'submenu': None, 'active': False,
+                    'active_weight': 26, 'icon': None,
+                    'url': 'articles:category-create'})
+            ]),
+            'active': False, 'active_weight': 0,
+            'icon': 'fa-sitemap', 'url': None}
+         ),
+        ('Tags', {
+            'submenu': OrderedDict([
+                ('List', {'submenu': None, 'active': False,
+                          'active_weight': 15, 'icon': None,
+                          'url': 'articles:tag-list'}),
+                ('Create', {'submenu': None, 'active': False,
+                            'active_weight': 22, 'icon': None,
+                            'url': 'articles:tag-create'})
+            ]),
+            'active': False, 'active_weight': 0,
+            'icon': 'fa-tags', 'url': None}
+         ),
+        ('Users', {
+            'submenu': OrderedDict([
+                ('List', {'submenu': None, 'active': False,
+                          'active_weight': 7, 'icon': None,
+                          'url': 'users:list'}),
+                ('Create', {'submenu': None, 'active': False,
+                            'active_weight': 14, 'icon': None,
+                            'url': 'users:create'})
+            ]),
+            'active': False, 'active_weight': 0,
+            'icon': 'fa-user', 'url': None}
+         ),
+        ('Countries', {'submenu': None, 'active': False,
+                       'active_weight': 11, 'icon': 'fa-globe',
+                       'url': 'countries-list'})
+    ])
 
-    # def test_menu(self, monkeypatch):
-    #     """
-    #     Test menu items with and without icons and with and without submenus
-    #     """
-    #     request = HttpRequest()
-    #     request.path = '/'
-    #     kwargs = {'request': request}
-    #
-    #     monkeypatch.setattr(django.urls, 'reverse',
-    #                         lambda url: url)
-    #     menu = utils.menu(menu_config=self.MENU, **kwargs)
-    #
-    #     assert menu == self.OUTPUT_MENU
+    def test_menu(self, admin_user):
+        """
+        Test menu items with and without icons and with and without submenus
+        """
+        path = '/'
+        request = HttpRequest()
+        request.path = path
+        request.resolver_match = ResolverMatch(None, None, None,
+                                               url_name='index')
+        request.user = admin_user
+        kwargs = {'request': request, 'user': admin_user}
+
+        menu = utils.menu(**kwargs)
+        assert menu == self.OUTPUT_MENU
+
+    def test_menu_on_detail_page(self, admin_user):
+        path = reverse('articles:detail', kwargs={'pk': 1})
+        request = HttpRequest()
+        request.path = path
+        request.resolver_match = ResolverMatch(None, None, None,
+                                               url_name='detail',
+                                               app_names=['articles'],
+                                               namespaces=['articles'])
+        request.user = admin_user
+        kwargs = {'request': request, 'user': admin_user}
+
+        menu = utils.menu(**kwargs)
+        assert dict(menu)['Articles']['active'] is True
+
+        articles_submenu = dict(dict(menu)['Articles']['submenu'])
+        assert articles_submenu['List']['active'] is True
+
+    def test_is_active_menu_item(self):
+        MENU_CONF = (
+            ('Articles', None, 'fa-file-text-o', (
+                ('List', 'articles:list', ('articles:detail',)),
+                ('Create', 'articles:create')
+            ), ('articles:delete',)),
+        )
+        is_menu_active = utils.is_active(MENU_CONF[0], 'articles:delete')
+        is_submenu_active = utils.is_active(MENU_CONF[0][-2][0],
+                                            'articles:delete')
+        assert is_menu_active is True
+        assert is_submenu_active is False

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+##[unreleased]
+
+###Fixed
+
+- Search form JS submitting selector - [#248][248]
+
+## Changed
+- Folding side menu, menu settings - [#257][257]
+
+[248]: //github.com/sanoma/django-arctic/issues/248
+[257]: //github.com/sanoma/django-arctic/issues/257
+
 
 ##1.0.0
 
