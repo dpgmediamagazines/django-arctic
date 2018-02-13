@@ -12,10 +12,25 @@ from django.urls import (get_ns_resolver, get_resolver, get_urlconf,
 from . import defaults
 
 
-def is_active(path, path_to_check):
-    if not path_to_check:
-        return False
-    return path == path_to_check
+def is_active(menu_entry, url_name):
+    if url_name:
+        if menu_entry[1] == url_name:
+            return True
+        elif len(menu_entry) >= 3:
+            related_urls = []
+            related_submenus = []
+
+            for menu_item in menu_entry[2:]:
+                if is_list_of_list(menu_item):
+                    # suppose it is submenus
+                    related_submenus = menu_item
+                elif isinstance(menu_item, (tuple, list)):
+                    # suppose it is related urls names
+                    related_urls += list(menu_item)
+
+            related_urls += [submenu[1] for submenu in related_submenus]
+            return url_name in related_urls
+    return False
 
 # TODO: menu needs to hide entries not available to a certain user role
 # by getting the view class from the named url we can check which permissions
@@ -30,6 +45,8 @@ def menu(menu_config=None, **kwargs):
     """
     request = kwargs.pop('request', None)
     user = kwargs.pop('user', None)
+    url_full_name = ":".join([request.resolver_match.namespace,
+                              request.resolver_match.url_name])
 
     if not menu_config:
         menu_config = settings.ARCTIC_MENU
@@ -55,17 +72,23 @@ def menu(menu_config=None, **kwargs):
                 'url': menu_entry[1],
                 'icon': icon,
                 'submenu': None,
-                'active': is_active(request.path, path),
+                'active': is_active(menu_entry, url_full_name),
                 'active_weight': active_weight
             }
 
             # check if the last item in a menu entry is a submenu
-            last_item = menu_entry[-1]
-            if type(last_item) in (list, tuple):
-                menu_dict[menu_entry[0]]['submenu'] = menu(last_item,
+            submenu = _get_submenu(menu_entry)
+            if submenu:
+                menu_dict[menu_entry[0]]['submenu'] = menu(submenu,
                                                            user=user,
                                                            request=request)
     return menu_clean(menu_dict)
+
+
+def _get_submenu(menu_entry):
+    for item in menu_entry[-2:]:
+        if is_list_of_list(item):
+            return item
 
 
 def menu_clean(menu_config):
@@ -91,7 +114,6 @@ def menu_clean(menu_config):
         # one of the items is active: make items with lesser weight inactive
         for _, value in list(menu_config.items()):
             if value['active'] and value['active_weight'] < max_weight:
-                max_weight = max(value['active_weight'], max_weight)
                 value['active'] = False
     return menu_config
 
@@ -322,3 +344,14 @@ def offset_limit(func):
         limit = stop - start
         return func(self, offset, limit)
     return func_wrapper
+
+
+def is_list_of_list(item):
+    """
+    check whether the item is list (tuple)
+    and consist of list (tuple) elements
+    """
+    if type(item) in (list, tuple) and len(item) \
+            and isinstance(item[0], (list, tuple)):
+        return True
+    return False
