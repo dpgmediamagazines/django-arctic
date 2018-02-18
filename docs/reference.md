@@ -278,6 +278,12 @@ optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
 
+### `get_field_actions(row)`
+
+optional method to specify `action_links` per each row. 
+This method should return action links in same format, as `action_links` has. 
+All returned actions, that are not defined in `action_links` field will be ignored.
+
 ### `field_links`
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
