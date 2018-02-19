@@ -383,8 +383,10 @@ class ListMixin(object):
     fields = None  # Which fields should be shown in listing
     ordering_fields = []  # Fields with ordering (subset of fields)
     field_links = {}
+    _allowed_field_links = {}
     field_classes = {}
     action_links = []  # "Action" links on item level. For example "Edit"
+    _allowed_action_links = []  # validated with permissions, formatted links
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
@@ -482,11 +484,20 @@ class ListMixin(object):
         return self.field_classes
 
     def _get_field_actions(self, obj):
-        field_actions = self.get_action_links()
+        all_actions = self.get_action_links()
         has_confirm_links = hasattr(self, 'confirm_links')
-        if field_actions:
+        get_field_actions = getattr(self, 'get_field_actions', None)
+        if get_field_actions:
+            field_actions = get_field_actions(obj)
+            allowed_field_actions = self._get_allowed_field_actions(
+                field_actions,
+                all_actions
+            )
+        else:
+            allowed_field_actions = all_actions
+        if allowed_field_actions:
             actions = []
-            for field_action in field_actions:
+            for field_action in allowed_field_actions:
                 actions.append({'label': field_action['label'],
                                 'icon': field_action['icon'],
                                 'url': self._reverse_field_link(
@@ -496,13 +507,19 @@ class ListMixin(object):
                     actions[0].update({'confirm':
                                       self.confirm_links[field_url_name]})
             return {'type': 'actions', 'actions': actions}
-        return None
+
+    def _get_allowed_field_actions(self, field_actions, all_actions):
+        allowed_urls = [a['url'] for a in all_actions]
+        allowed_actions = []
+        for action in field_actions:
+            if action[1] in allowed_urls:
+                allowed_actions.append(self._build_action_link(action))
+        return allowed_actions
 
     def get_action_links(self):
-        if not self.action_links:
-            return []
-        else:
-            allowed_action_links = []
+        if self._allowed_action_links:
+            return self._allowed_action_links
+        if self.action_links:
             for link in self.action_links:
                 url = named_url = link[1]
                 if type(url) in (list, tuple):
@@ -511,14 +528,16 @@ class ListMixin(object):
                 if not view_from_url(named_url).\
                         has_permission(self.request.user):
                     continue
+                self._allowed_action_links.append(
+                    self._build_action_link(link)
+                )
+        return self._allowed_action_links
 
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_action_links.append({'label': link[0],
-                                             'url': url,
-                                             'icon': icon})
-            return allowed_action_links
+    def _build_action_link(self, action_link):
+        icon = action_link[2] if len(action_link) == 3 else None
+        return {'label': action_link[0],
+                'url': action_link[1],
+                'icon': icon}
 
     def get_tool_links(self):
         if not self.tool_links:

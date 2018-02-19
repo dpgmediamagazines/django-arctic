@@ -32,6 +32,7 @@ class ArticleListView(ListView):
     advanced_search_form_class = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
+        ('detail', 'articles:detail', 'fa-edit'),
         ('delete', 'articles:delete', 'fa-trash'),
     ]
     field_links = {
@@ -50,6 +51,14 @@ class ArticleListView(ListView):
     def get_published_field(self, row):
         symbol = 'fa-check' if row.published else 'fa-minus'
         return mark_safe('<i class="fa {}"></i>'.format(symbol))
+
+    def get_field_actions(self, obj):
+        action_links = [
+            ('detail', 'articles:detail', 'fa-edit'),
+        ]
+        if not obj.published:
+            action_links.append(('delete', 'articles:delete', 'fa-trash'),)
+        return action_links
 
 
 class ArticleUpdateView(UpdateView):

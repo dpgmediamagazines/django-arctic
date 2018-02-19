@@ -557,7 +557,6 @@ class DataListView(TemplateView, ListMixin):
         context.update(page_context)
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(object_list)
-        context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
