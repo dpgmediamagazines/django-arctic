@@ -280,9 +280,22 @@ as delete.
 
 ### `get_field_actions(row)`
 
-optional method to specify `action_links` per each row. 
+optional method to specify `action_links` per each row.
 This method should return action links in same format, as `action_links` has. 
 All returned actions, that are not defined in `action_links` field will be ignored.
+Suggested approach is to remove actions from `action_links` copy, 
+not preferred for current row:
+
+    def get_field_actions(self, obj):
+        actions = self.action_links.copy()
+    
+        if obj.is_published:
+            filter(lambda a: a != ('delete', 'staticpages:delete', 'fa-trash'), actions)
+        else:
+            filter(lambda a: a != ('deactivate', 'staticpages:deactivate', 'fa-power-off'), actions)
+    
+        return actions
+
 
 ### `field_links`
 
