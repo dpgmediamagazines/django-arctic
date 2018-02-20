@@ -21,4 +21,3 @@ class TestFieldClasses(object):
 
         assert response.context_data['list_items'][0][2]['class'] == 'online'
         assert response.context_data['list_items'][1][2]['class'] == 'offline'
-
