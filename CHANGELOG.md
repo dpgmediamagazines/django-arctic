@@ -20,10 +20,12 @@ Always reference the ticket number at the end of the issue description.
 ## Added
 
 - Specifying `action_links` per each row in `ListView` - [#259][259]
+- Specifying `field_classes` per each row in `ListView` - [#261][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
 [257]: //github.com/sanoma/django-arctic/issues/257
 [259]: //github.com/sanoma/django-arctic/issues/259
+[261]: //github.com/sanoma/django-arctic/issues/261
 
 
 ##1.0.0
