@@ -42,23 +42,27 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
+    field_classes = {'published': ''}
 
     permission_required = "view_article"
 
-    def get_category_field(self, row):
-        return row.category.name
+    def get_category_field(self, row_instance):
+        return row_instance.category.name
 
-    def get_published_field(self, row):
-        symbol = 'fa-check' if row.published else 'fa-minus'
+    def get_published_field(self, row_instance):
+        symbol = 'fa-check' if row_instance.published else 'fa-minus'
         return mark_safe('<i class="fa {}"></i>'.format(symbol))
 
-    def get_field_actions(self, obj):
+    def get_field_actions(self, row_instance):
         action_links = [
             ('detail', 'articles:detail', 'fa-edit'),
         ]
-        if not obj.published:
+        if not row_instance.published:
             action_links.append(('delete', 'articles:delete', 'fa-trash'),)
         return action_links
+
+    def get_published_field_classes(self, row_instance):
+        return 'online' if row_instance.published else 'offline'
 
 
 class ArticleUpdateView(UpdateView):

@@ -311,6 +311,22 @@ objects, for example: `('category:list', 'category__slug')`
 dictionary of `{'field': 'css class', ...}` that adds an extra class to the specified field's cell, this enables the usage of client side widgets that
 can transform the field data into a graphic representation.
 
+### `get_{}_field_classes(row_instance)`
+optional method to specify field classes per each row instance. 
+Should return string of css classes `'css class'`.
+
+Example:
+```
+    class MyListView(arctic.ListView):
+        fields = {'online': ''}
+
+        def get_online_field_classes(row_instance):
+            if row_instance.published:
+                return 'online'
+            else:
+                return 'offline'
+```
+
 ### `tool_links`
 
 list of links with the format `('name', 'url', 'icon')`, not connected to the 

@@ -480,8 +480,15 @@ class ListMixin(object):
                 allowed_field_links[field] = url
             return allowed_field_links
 
-    def get_field_classes(self):
-        return self.field_classes
+    def get_field_classes(self, obj):
+        field_classes = self.field_classes
+        for field_name in field_classes.keys():
+            get_field_name_classes = getattr(
+                self, 'get_%s_field_classes' % field_name, None
+            )
+            if get_field_name_classes:
+                field_classes[field_name] = get_field_name_classes(obj)
+        return field_classes
 
     def _get_field_actions(self, obj):
         all_actions = self.get_action_links()
