@@ -5,10 +5,6 @@ import re
 
 import django
 
-try:
-    from django.core.urlresolvers import reverse, NoReverseMatch
-except ImportError:  # Django 2 detected :)
-    from django.urls import reverse, NoReverseMatch
 from django.template import Node, Library, TemplateSyntaxError, \
     VariableDoesNotExist
 from django.template.loader import get_template
