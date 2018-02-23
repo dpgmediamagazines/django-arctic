@@ -169,6 +169,7 @@
                                             </td>
                                         {% elif column.type == 'actions' %}
                                             <td>
+                                            {% block list_actions %}
                                             <div class="list-actions">
                                                 {% for link in column.actions %}
                                                 {% if link.confirm %}
@@ -203,6 +204,7 @@
                                                     </a>
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
+                                            {% endblock %}
                                             </div>
                                             </td>
                                         {% elif column.type == 'sorting' %}
