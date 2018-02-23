@@ -65,7 +65,6 @@ class PaginationNode(Node):
             except VariableDoesNotExist:
                 kwargs[argname] = None
 
-
         # Unpack our keyword arguments, substituting defaults where necessary
         range_length = kwargs.get("range", None)
         if range_length is not None:
