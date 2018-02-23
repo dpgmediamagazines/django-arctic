@@ -33,7 +33,7 @@ def get_current_app(context):
     return current_app
 
 
-def strToBool(val):
+def str_to_bool(val):
     """
     Helper function to turn a string representation of "true" into
     boolean True.
@@ -73,9 +73,9 @@ class BootstrapPaginationNode(Node):
         if range_length is not None:
             range_length = int(range_length)
 
-        show_prev_next = strToBool(kwargs.get("show_prev_next", "true"))
-        show_first_last = strToBool(kwargs.get("show_first_last", "false"))
-        show_index_range = strToBool(kwargs.get("show_index_range", "false"))
+        show_prev_next = str_to_bool(kwargs.get("show_prev_next", "true"))
+        show_first_last = str_to_bool(kwargs.get("show_first_last", "false"))
+        show_index_range = str_to_bool(kwargs.get("show_index_range", "false"))
 
         # Generage our viewable page range
         page_count = page.paginator.num_pages
@@ -134,7 +134,6 @@ class BootstrapPaginationNode(Node):
 def arctic_paginate(parser, token):
     """
     Renders a Page object as a Twitter Bootstrap styled pagination bar.
-    Compatible with Bootstrap 3.x only.
     Example::
         {% bootstrap_paginate page_obj range=10 %}
     Named Parameters::
