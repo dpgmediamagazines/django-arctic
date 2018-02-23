@@ -383,10 +383,8 @@ class ListMixin(object):
     fields = None  # Which fields should be shown in listing
     ordering_fields = []  # Fields with ordering (subset of fields)
     field_links = {}
-    _allowed_field_links = {}
     field_classes = {}
     action_links = []  # "Action" links on item level. For example "Edit"
-    _allowed_action_links = []  # validated with permissions, formatted links
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
@@ -524,8 +522,7 @@ class ListMixin(object):
         return allowed_actions
 
     def get_action_links(self):
-        if self._allowed_action_links:
-            return self._allowed_action_links
+        self._allowed_action_links = []
         if self.action_links:
             for link in self.action_links:
                 url = named_url = link[1]

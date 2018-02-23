@@ -221,8 +221,8 @@
                     </table>
                 </div>
             </div>
-            {% block bottom_pagination %}
-                {% arctic_paginate page_obj range=5 paginator=page_obj.paginator show_first_last=True %}
+            {% block pagination %}
+                {% arctic_paginate page_obj range=5 paginator=paginator show_first_last=True %}
             {% endblock %}
         </div>
     {% else %}

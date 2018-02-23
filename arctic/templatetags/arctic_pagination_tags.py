@@ -54,7 +54,6 @@ class PaginationNode(Node):
         self.kwargs = kwargs
 
     def render(self, context):
-        page = self.page.resolve(context)
         kwargs = {}
 
         # Retrieve variable instances from context where necessary
@@ -66,7 +65,6 @@ class PaginationNode(Node):
             except VariableDoesNotExist:
                 kwargs[argname] = None
 
-        paginator = kwargs.pop("paginator", None)
 
         # Unpack our keyword arguments, substituting defaults where necessary
         range_length = kwargs.get("range", None)
@@ -78,8 +76,11 @@ class PaginationNode(Node):
         show_index_range = str_to_bool(kwargs.get("show_index_range", "false"))
 
         # Generage our viewable page range
-        page_count = page.paginator.num_pages
-        current_page = page.number
+        page = self.page.resolve(context)
+        paginator = kwargs.pop("paginator", None)
+
+        page_count = paginator.num_pages if paginator else 1
+        current_page = page.number if page else 1
 
         if page_count == -1:
             # assume total objects length is unknown, pages are not required
