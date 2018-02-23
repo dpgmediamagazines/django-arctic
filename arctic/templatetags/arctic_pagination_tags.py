@@ -113,8 +113,8 @@ class BootstrapPaginationNode(Node):
 
             page_range = range(range_min, range_max + 1)
 
-            first_page_index = page_range[0]
-            last_page_index = page_range[-1]
+            first_page_index = 1
+            last_page_index = page_count
 
         return get_template("arctic/partials/pagination.html").render(
             Context({
