@@ -44,9 +44,9 @@ def str_to_bool(val):
     return val in ['true', 'on', 'yes', True]
 
 
-class BootstrapPaginationNode(Node):
+class PaginationNode(Node):
     """
-    Render the Bootstrap pagination bar with the given parameters
+    Render the pagination bar with the given parameters
     """
 
     def __init__(self, page, kwargs):
@@ -133,9 +133,9 @@ class BootstrapPaginationNode(Node):
 @register.tag
 def arctic_paginate(parser, token):
     """
-    Renders a Page object as a Twitter Bootstrap styled pagination bar.
+    Renders a Page object with pagination bar.
     Example::
-        {% bootstrap_paginate page_obj range=10 %}
+        {% arctic_paginate page_obj paginator=page_obj.paginator range=10 %}
     Named Parameters::
         range - The size of the pagination bar (ie, if set to 10 then, at most,
                 10 page numbers will display at any given time) Defaults to
@@ -163,4 +163,4 @@ def arctic_paginate(parser, token):
             name, value = match.groups()
             kwargs[name] = parser.compile_filter(value)
 
-    return BootstrapPaginationNode(page, kwargs)
+    return PaginationNode(page, kwargs)
