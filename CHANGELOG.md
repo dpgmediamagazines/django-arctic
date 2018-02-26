@@ -16,7 +16,7 @@ Always reference the ticket number at the end of the issue description.
 ## Changed
 
 - Folding side menu, menu settings - [#257][257]
-- Changed pagination style. Changed `pagination` block to `pagination_bottom` - [#265][265]
+- Improved pagination styles - [#265][265]
 
 ## Added
 
