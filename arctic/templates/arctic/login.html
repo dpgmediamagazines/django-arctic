@@ -18,7 +18,7 @@
         <div class="outer"><div class="middle"><div class="inner">
             <img class="page-login__logo" src="{% static SITE_LOGO %}"/>
             <h1 class="page-login__title">{{ SITE_NAME }}</h1>
-            <form action=".?next={{ next }}" method="post" class="{{ form_display }}">
+            <form action=".?next={{ next }}" method="post" class="{{ form_display }}" novalidate>
                 <fieldset type="get">
                     {% csrf_token %}
                     {% if messages %}
