@@ -16,6 +16,7 @@ Always reference the ticket number at the end of the issue description.
 ## Changed
 
 - Folding side menu, menu settings - [#257][257]
+- Improved pagination styles - [#265][265]
 
 ## Added
 
@@ -26,6 +27,7 @@ Always reference the ticket number at the end of the issue description.
 [257]: //github.com/sanoma/django-arctic/issues/257
 [259]: //github.com/sanoma/django-arctic/issues/259
 [261]: //github.com/sanoma/django-arctic/issues/261
+[265]: //github.com/sanoma/django-arctic/issues/265
 
 
 ##1.0.0

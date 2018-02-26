@@ -1,4 +1,4 @@
-{% load i18n staticfiles arctic_tags %}
+{% load i18n staticfiles arctic_tags arctic_pagination_tags %}
 
 <div class="row">
     {% block tool_links %}
@@ -77,6 +77,9 @@
         </form>
     {% endif %}
 </div>
+
+{% block top_pagination %}
+{% endblock %}
 
 {% block table %}
 <div class="row">
@@ -166,6 +169,7 @@
                                             </td>
                                         {% elif column.type == 'actions' %}
                                             <td>
+                                            {% block list_actions %}
                                             <div class="list-actions">
                                                 {% for link in column.actions %}
                                                 {% if link.confirm %}
@@ -200,6 +204,7 @@
                                                     </a>
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
+                                            {% endblock %}
                                             </div>
                                             </td>
                                         {% elif column.type == 'sorting' %}
@@ -217,9 +222,7 @@
                 </div>
             </div>
             {% block pagination %}
-                {% with page_obj=page_obj paginator=page_obj.paginator %}
-                    {% include "arctic/partials/pagination.html" %}
-                {% endwith %}
+                {% arctic_paginate page_obj range=5 paginator=paginator show_first_last=True %}
             {% endblock %}
         </div>
     {% else %}
