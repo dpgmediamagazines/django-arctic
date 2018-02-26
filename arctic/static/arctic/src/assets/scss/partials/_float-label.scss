@@ -56,6 +56,15 @@
                 padding-top: 18px;
                 padding-bottom: 3px;
             }
+
+            &[type=range] {
+                padding-top: 4px;
+                margin-top: 18px;
+            }
+
+            &[type=range] + label {
+                margin-top: -18px
+            }
         }
 
         label {
@@ -110,7 +119,7 @@
             input[type=text] {
                 height: 1px;
                 padding: .8rem 0 .4rem;
-                font-size: 12px;
+                //font-size: 12px;
             }
         }
     }
@@ -121,12 +130,17 @@
     }
 
     .selectize-control.single {
-
         .item {
             padding-bottom: .2rem;
         }
     }
 
+
+    .selectize-control.single .selectize-input {
+        &:after, &.dropdown-active:after {
+            margin-top: 5px;
+        }
+    }
     
     // support for SimpleMDE editor with float labels
     .form-group div.editor-statusbar+label {

@@ -36,7 +36,18 @@ $(document).ready(function() {
         $(this).selectize({
             allowEmptyOption: true,
             highlight: false,
-            plugins: ['remove_button']
+            plugins: ['remove_button'],
+            onFocus: function() {
+                $(instance).next().next().css({
+                    top: '.3rem',
+                    fontSize: '75%'
+                });
+            },
+            onBlur: function() {
+                if ($(instance).next().find('.item').length == 0) {
+                    $(instance).next().next().removeAttr('style');
+                }
+            }
         });
     });
 
@@ -46,22 +57,15 @@ $(document).ready(function() {
             delimiter: ',',
             persist: false,
             plugins: ['remove_button'],
-            onDropdownOpen: function($dropdown) {
-                if ( $('form').hasClass('float-label') ) {
-                    $dropdown.parent().next('label').css({
-                        top: '.3rem',
-                        fontSize: '75%'
-                    });
-                }
+            onFocus: function() {
+                $(instance).next().next().css({
+                    top: '.3rem',
+                    fontSize: '75%'
+                });
             },
-            onDropdownClose: function($dropdown) {
-                if ( $('form').hasClass('float-label') ) {
-                    if (!$(instance).find('.has-items')) {
-                        $dropdown.parent().next('label').css({
-                            top: '.75rem',
-                            fontSize: '100%'
-                        });
-                    }
+            onBlur: function() {
+                if ($(instance).next().find('.item').length == 0) {
+                    $(instance).next().next().removeAttr('style');
                 }
             },
             create: function(input) {
@@ -95,18 +99,14 @@ $(document).ready(function() {
                 });
             },
             onFocus: function() {
-                //alert($(instance).next('label'));
-                $(instance).next('label').css({
+                $(instance).next().next().css({
                     top: '.3rem',
                     fontSize: '75%'
                 });
             },
             onBlur: function() {
-                if ( $(instance).find('.item').length == 0 ) {
-                    $(instance).next('label').css({
-                        top: '.75rem',
-                        fontSize: '100%'
-                    });
+                if ($(instance).next().find('.item').length == 0) {
+                    $(instance).next().next().removeAttr('style');
                 }
             },
         });

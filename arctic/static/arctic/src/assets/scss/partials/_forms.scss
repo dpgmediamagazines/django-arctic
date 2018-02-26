@@ -183,6 +183,14 @@ label {
     }
 }
 
+.arctic_toggle_form_button {
+    &:focus, &.btn-secondary:focus {
+        outline-style:none;
+        box-shadow: none;
+        border-color:transparent;
+    }
+}
+
 // Restore default list and quote stylings in form-group to display correct
 // styling when using rich text editors.
 

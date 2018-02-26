@@ -21,27 +21,13 @@ $(document).ready(function() {
     $('.float-label .selectize-input.has-items').each(function() {
         // Check if float label input is not empty, if so then add some CSS
             $(this).css({
-                paddingTop: '1.2rem',
-                paddingBottom: '.4rem'
+                paddingTop: '1.1rem',
+                paddingBottom: '.1rem'
             });
 
             $(this).parent().next('label').css({
                 top: '.3rem',
                 fontSize: '75%'
             });
-    });
-    $('.float-label .selectize-input.has-items').blur(function() {
-        // Check if float label input is not empty, if so then add some CSS
-        if ($(this).val().length > 0) {
-            $(this).css({
-                paddingTop: '1.2rem',
-                paddingBottom: '.4rem'
-            });
-
-            $(this).next('label').css({
-                top: '.3rem',
-                fontSize: '75%'
-            });
-        }
     });
 });
