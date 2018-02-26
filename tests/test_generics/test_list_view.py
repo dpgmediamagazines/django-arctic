@@ -63,7 +63,7 @@ class TestListView(object):
         """
         Multiple tool links display
         """
-        ArticleListView.tool_links.append(('Delete', 'articles:delete'))
+        ArticleListView.tool_links.append(('Create', 'articles:create'))
 
         response = self._request(admin_client)
 
@@ -115,3 +115,37 @@ class TestListView(object):
                                     {'description': 'tion2'})
         assert len(response.context_data['list_items']) == 1
         assert response.context_data['list_items'][0][0]['value'] == 'title2'
+
+    def test_field_actions(self, admin_client):
+        ArticleFactory(title='title1', description='description1',
+                       published=True)
+        ArticleFactory(title='title2', description='description2',
+                       published=False)
+
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': ''})
+        assert len(response.context_data['list_items'][0][-1]['actions']) == 1
+        assert len(response.context_data['list_items'][1][-1]['actions']) == 2
+
+    def test_field_actions_allowing(self, admin_client):
+        def get_field_actions(self, obj):
+            action_links = [
+                ('detail', 'articles:detail', 'fa-edit'),
+                ('categories', 'articles:category-list', 'fa-edit'),
+            ]
+            if not obj.published:
+                action_links.append(
+                    ('delete', 'articles:delete', 'fa-trash'), )
+            return action_links
+
+        ArticleListView.get_field_actions = get_field_actions
+
+        ArticleFactory(title='title1', description='description1',
+                       published=True)
+        ArticleFactory(title='title2', description='description2',
+                       published=False)
+
+        response = admin_client.get(reverse('articles:list'),
+                                    {'description': ''})
+        assert len(response.context_data['list_items'][0][-1]['actions']) == 1
+        assert len(response.context_data['list_items'][1][-1]['actions']) == 2

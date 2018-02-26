@@ -278,6 +278,25 @@ optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
 
+### `get_field_actions(row)`
+
+optional method to specify `action_links` per each row.
+This method should return action links in same format, as `action_links` has. 
+All returned actions, that are not defined in `action_links` field will be ignored.
+Suggested approach is to remove actions from `action_links` copy, 
+not preferred for current row:
+
+    def get_field_actions(self, obj):
+        actions = self.action_links.copy()
+    
+        if obj.is_published:
+            actions = filter(lambda a: a != ('delete', 'staticpages:delete', 'fa-trash'), actions)
+        else:
+            actions = filter(lambda a: a != ('deactivate', 'staticpages:deactivate', 'fa-power-off'), actions)
+    
+        return actions
+
+
 ### `field_links`
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
@@ -291,6 +310,22 @@ objects, for example: `('category:list', 'category__slug')`
 
 dictionary of `{'field': 'css class', ...}` that adds an extra class to the specified field's cell, this enables the usage of client side widgets that
 can transform the field data into a graphic representation.
+
+### `get_{}_field_classes(row_instance)`
+optional method to specify field classes per each row instance. 
+Should return string of css classes `'css class'`.
+
+Example:
+```
+    class MyListView(arctic.ListView):
+        fields = {'online': ''}
+
+        def get_online_field_classes(row_instance):
+            if row_instance.published:
+                return 'online'
+            else:
+                return 'offline'
+```
 
 ### `tool_links`
 

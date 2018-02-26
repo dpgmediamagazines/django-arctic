@@ -416,9 +416,9 @@ class ListView(View, ListMixin, base.ListView):
         # field name here
         fields = self.get_fields(strip_labels=True)
         field_links = self.get_field_links()
-        field_classes = self.get_field_classes()
 
         for obj in objects:
+            field_classes = self.get_field_classes(obj)
             row = []
 
             for field_name in fields:
@@ -557,17 +557,16 @@ class DataListView(TemplateView, ListMixin):
         context.update(page_context)
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(object_list)
-        context['action_links'] = self.get_action_links()
         context['tool_links'] = self.get_tool_links()
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_simple_search_form():
+        if self.get_simple_search_form_class():
             context['simple_search_form'] = \
-                self.get_simple_search_form()(data=self.request.GET)
-        if self.get_advanced_search_form():
+                self.get_simple_search_form_class()(data=self.request.GET)
+        if self.get_advanced_search_form_class():
             context['advanced_search_form'] = \
-                self.get_advanced_search_form()(data=self.request.GET)
+                self.get_advanced_search_form_class()(data=self.request.GET)
 
         return context
 
@@ -619,11 +618,11 @@ class DataListView(TemplateView, ListMixin):
         items = []
         fields = []
         field_links = self.get_field_links()
-        field_classes = self.get_field_classes()
         for field in self.get_fields():
             fields.append(field[0] if type(field) in (list, tuple)
                           else field)
         for obj in objects:
+            field_classes = self.get_field_classes(obj)
             row = []
             for field_name in fields:
                 field = {'field': field_name, 'type': 'field'}

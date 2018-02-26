@@ -14,10 +14,20 @@ Always reference the ticket number at the end of the issue description.
 - Search form JS submitting selector - [#248][248]
 
 ## Changed
+
 - Folding side menu, menu settings - [#257][257]
+- Improved pagination styles - [#265][265]
+
+## Added
+
+- Specifying `action_links` per each row in `ListView` - [#259][259]
+- Specifying `field_classes` per each row in `ListView` - [#261][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
 [257]: //github.com/sanoma/django-arctic/issues/257
+[259]: //github.com/sanoma/django-arctic/issues/259
+[261]: //github.com/sanoma/django-arctic/issues/261
+[265]: //github.com/sanoma/django-arctic/issues/265
 
 
 ##1.0.0
