@@ -41,7 +41,8 @@ $(document).ready(function() {
     });
 
     $('[js-selectize-multiple]').each(function(index) {
-        $(this).selectize({
+        var instance = this;
+        $(instance).selectize({
             delimiter: ',',
             persist: false,
             plugins: ['remove_button'],
@@ -55,7 +56,7 @@ $(document).ready(function() {
             },
             onDropdownClose: function($dropdown) {
                 if ( $('form').hasClass('float-label') ) {
-                    if ( $('.float-label .selectize-input').find('.item').length == 0 ) {
+                    if (!$(instance).find('.has-items')) {
                         $dropdown.parent().next('label').css({
                             top: '.75rem',
                             fontSize: '100%'
@@ -73,8 +74,9 @@ $(document).ready(function() {
     });
 
     $('[js-selectize-autocomplete]').each(function(index) {
-        var url = $(this).attr('data-url');
-        $(this).selectize({
+        var instance = this
+        var url = $(instance).attr('data-url');
+        $(instance).selectize({
             valueField: 'value',
             labelField: 'label',
             searchField: 'label',
@@ -92,15 +94,16 @@ $(document).ready(function() {
                     }
                 });
             },
-            onDropdownOpen: function($dropdown) {
-                $dropdown.parent().next('label').css({
+            onFocus: function() {
+                //alert($(instance).next('label'));
+                $(instance).next('label').css({
                     top: '.3rem',
                     fontSize: '75%'
                 });
             },
-            onDropdownClose: function($dropdown) {
-                if ( $('.float-label .selectize-input').find('.item').length == 0 ) {
-                    $dropdown.parent().next('label').css({
+            onBlur: function() {
+                if ( $(instance).find('.item').length == 0 ) {
+                    $(instance).next('label').css({
                         top: '.75rem',
                         fontSize: '100%'
                     });
@@ -110,36 +113,79 @@ $(document).ready(function() {
     });
 
     $('[js-datepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-date")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-date"))
-        $(this).datepicker({
+        var date = new Date($(this).attr("data-date")) == 'Invalid Date' ? null : new Date($(this).attr("data-date"))
+        var instance = this;
+        $(instance).attr('type', 'text');
+        $(instance).datepicker({
             todayButton: true,
             language: 'en',
             startDate: date,
-            dateFormat: django2datepicker(DATE_FORMAT)
+            dateFormat: django2datepicker(DATE_FORMAT),
+            onShow: (function(inst, animationCompleted) {
+                if ($(instance).val() == '') {
+                    $(instance).val(' ');
+                }
+                return inst;
+            }),
+            onHide: (function(inst, animationCompleted) {
+                if ($(instance).val() == ' ') {
+                    $(instance).val('');
+                }
+                return inst;
+            })
+
         }).data('datepicker').selectDate(date);
     });
 
     $('[js-timepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-time")) == 'Invalid Date' ? new Date() : new Date($(this).attr("data-time"))
-        $(this).datepicker({
+        var date = new Date($(this).attr("data-time")) == 'Invalid Date' ? null : new Date($(this).attr("data-time"))
+        var instance = this;
+        $(instance).attr('type', 'text');
+        $(instance).datepicker({
             onlyTimepicker: true,
             language: 'en',
             startDate: date,
             timeFormat: django2datepicker(TIME_FORMAT),
-            timepicker: true
+            timepicker: true,
+            onShow: (function(inst, animationCompleted) {
+                if ($(instance).val() == '') {
+                    $(instance).val(' ');
+                }
+                return inst;
+            }),
+            onHide: (function(inst, animationCompleted) {
+                if ($(instance).val() == ' ') {
+                    $(instance).val('');
+                }
+                return inst;
+            })
         }).data('datepicker').selectDate(date);
     });
 
     $('[js-datetimepicker]').each(function(index) {
         var date = new Date($(this).attr("data-datetime")) == 'Invalid Date' ? null : new Date($(this).attr("data-datetime"))
-        $(this).datepicker({
+        var instance = this;
+        $(instance).attr('type', 'text');
+        $(instance).datepicker({
             language: 'en',
             todayButton: true,
             startDate: date,
             dateFormat: django2datepicker(DATE_FORMAT),
             timeFormat: django2datepicker(TIME_FORMAT),
-            timepicker: true
-        }).data('datepicker').selectDate(date);
+            timepicker: true,
+            onShow: (function(inst, animationCompleted) {
+                if ($(instance).val() == '') {
+                    $(instance).val(' ');
+                }
+                return inst;
+            }),
+            onHide: (function(inst, animationCompleted) {
+                if ($(instance).val() == ' ') {
+                    $(instance).val('');
+                }
+                return inst;
+            })
+       }).data('datepicker').selectDate(date);
     });
 
     // sortable ListViews

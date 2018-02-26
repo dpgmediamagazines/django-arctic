@@ -22,7 +22,13 @@
         input[type=search],
         input[type=password],
         input[type=date],
+        input[type=datetime-local],
+        input[type=time],
+        input[type=color],
         input[type=number],
+        input[type=url],
+        input[type=file],
+        input[type=range],
         textarea,
         select {
             width: 100%;
@@ -32,15 +38,23 @@
             padding: .8rem .75rem;
 
             &:focus,
-            &:valid {
+            &:not(.empty) {
                 padding-top: 1.2rem;
                 padding-bottom: .4rem;
             }
 
+            &.has-items + .selectize-control ~ label,
             &:focus + label,
-            &:valid + label {
+            &:disabled + label,
+            &[type=file] + label,
+            &:not(.empty) + label {
                 top: .3rem;
                 font-size: 75%;
+            }
+
+            &[type=file] {
+                padding-top: 18px;
+                padding-bottom: 3px;
             }
         }
 
@@ -74,6 +88,10 @@
     .styled-select + label {
         top: .3rem;
         font-size: 75%;
+    }
+
+    .styled-select:after {
+        bottom: 12px;
     }
 
     .selectize-control {
