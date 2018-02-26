@@ -1,1 +1,16 @@
-<svg width="701" height="512" viewBox="0 0 701 512" xmlns="http://www.w3.org/2000/svg"><title>arctic 2</title><g fill="none" fill-rule="evenodd" stroke="#4A4A4A"><path stroke-width="40" fill="#FFF" d="M162.688 56.033l131.206-34.654h133.28L536.57 56.033l33.287-25.295 80.924-9.36 27.36 34.655-27.36 74.436-63.65 19.386-28.795 218.403-94.422 86.219-113.41 36.156-110.418-36.156-101.945-86.22-29.118-218.402-60.656-19.386-25.5-74.436 25.5-34.654 77.828 9.359z"/><path stroke-width="20" fill="#4A4A4A" d="M216 183l16-15.5-16-15.5-16 15.5zm253 0l16-15.5-16-15.5-16 15.5z"/><path stroke-width="15" fill="#4A4A4A" d="M332.234 336.97L312.4 305.986 305.512 275H395l-9.775 29.808-22.12 32.163z"/><path stroke-width="25" d="M252 378.144L267.664 394l71-9.152L347.027 363l8.371 21.79 65.57 6.038 26.423-16.26"/><path stroke-width="20" fill="#4A4A4A" d="M116.559 83.256L99.628 77 85 83.256l4.445 9.244 11.334 11.68zM583 85.536l16 15.491 16-9.029V77h-18.732z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="701px" height="512px" viewBox="0 0 701 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>arctic 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Path" stroke="#4A4A4A" stroke-width="40" fill="#FFFFFF" points="162.6875 56.0330138 293.89384 21.3789063 427.174366 21.3789063 536.570415 56.0330138 569.856881 30.7376489 650.78125 21.3789063 678.140625 56.0330138 650.78125 130.46875 587.130585 149.855493 558.335938 368.257812 463.914062 454.476563 350.503906 490.632812 240.085937 454.476563 138.140625 368.257812 109.023438 149.855493 48.3671875 130.46875 22.8671875 56.0330138 48.3671875 21.3789063 126.195312 30.7376489"></polygon>
+        <polygon id="Oval" stroke="#4A4A4A" stroke-width="20" fill="#4A4A4A" points="216 183 232 167.5 216 152 200 167.5"></polygon>
+        <polygon id="Oval-Copy" stroke="#4A4A4A" stroke-width="20" fill="#4A4A4A" points="469 183 485 167.5 469 152 453 167.5"></polygon>
+        <polygon id="Path-2" stroke="#4A4A4A" stroke-width="15" fill="#4A4A4A" points="332.234375 336.970601 312.400391 305.985301 305.511719 275 395 275 385.22512 304.807904 363.105009 336.970601"></polygon>
+        <polyline id="Path-3" stroke="#4A4A4A" stroke-width="25" points="252 378.143929 267.664062 394 338.664062 384.848034 347.027344 363 355.398438 384.7899 420.96875 390.82754 447.390625 374.568683"></polyline>
+        <polygon id="Path-4" stroke="#4A4A4A" stroke-width="20" fill="#4A4A4A" points="116.558594 83.2561734 99.6275106 77 85 83.2561734 89.4453125 92.5 100.779297 104.179688"></polygon>
+        <polygon id="Path-5" stroke="#4A4A4A" stroke-width="20" fill="#4A4A4A" points="583 85.5362591 599 101.027344 615 91.9980327 615 77 596.267821 77"></polygon>
+    </g>
+</svg>

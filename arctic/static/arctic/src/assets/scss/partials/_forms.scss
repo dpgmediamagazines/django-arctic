@@ -148,7 +148,7 @@ label {
     position: relative;
     overflow: hidden;
 
-    &::after {
+    &:after {
         position: absolute;
         bottom: 15px;
         right: 15px;
@@ -161,6 +161,7 @@ label {
         border-width: 5px 5px 0 5px;
         content: ' ';
         pointer-events: none;
+        z-index: 1;
     }
 }
 
@@ -179,6 +180,14 @@ label {
     width: 100%; // 80% from default search form
     @include media-breakpoint-up(md) {
         width: 80%;
+    }
+}
+
+.arctic_toggle_form_button {
+    &:focus, &.btn-secondary:focus {
+        outline-style:none;
+        box-shadow: none;
+        border-color:transparent;
     }
 }
 
