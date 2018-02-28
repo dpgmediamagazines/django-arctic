@@ -58,7 +58,6 @@ class SuccessMessageMixin(object):
         return response
 
 
-
 class LinksMixin(object):
     """
     Adding links to view, to be resolved with 'arctic_url' template tag
