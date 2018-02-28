@@ -12,6 +12,7 @@ Always reference the ticket number at the end of the issue description.
 ###Fixed
 
 - Search form JS submitting selector - [#248][248]
+- Float Label styling for a number of HTML5 inputs - [#247][247]
 
 ## Changed
 
@@ -24,7 +25,9 @@ Always reference the ticket number at the end of the issue description.
 - Specifying `field_classes` per each row in `ListView` - [#261][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
+[247]: //github.com/sanoma/django-arctic/issues/247
 [257]: //github.com/sanoma/django-arctic/issues/257
+[265]: //github.com/sanoma/django-arctic/issues/265
 [259]: //github.com/sanoma/django-arctic/issues/259
 [261]: //github.com/sanoma/django-arctic/issues/261
 [265]: //github.com/sanoma/django-arctic/issues/265

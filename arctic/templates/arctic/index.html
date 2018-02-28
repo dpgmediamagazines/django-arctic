@@ -1,92 +1,140 @@
 {% extends "arctic/base.html" %}
 
 {% block content %}
-    <h4 id="form" data-magellan-target="form">Form with validation</h4>
-    <form class="content-block__flex-wrap" data-abide novalidate>
-        <fieldset type="get">
-            <div data-abide-error class="alert callout" style="display: none;">
-                <p><i class="fi-alert"></i> There are some errors in your form.</p>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input class="form-control" id="name" type="text" required />
+    <h4 id="form" data-magellan-target="form">Form with HTML5 input types</h4>
+    <form class="content-block__flex-wrap float-label" data-abide novalidate>
+        <fieldset type="get" class="fieldset-default arctic-card">
+            <div class="form-size">
+                <div data-abide-error class="alert callout" style="display: none;">
+                    <p><i class="fi-alert"></i> There are some errors in your form.</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-3 col">
+                        <div class="form-group">
+                            <input class="form-control" id="text" type="text" required />
+                            <label for="text">Text Input</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col">
+                        <div class="form-group">
+                            <input class="form-control" id="text_disabled" type="text" value="Some Value" required disabled />
+                            <label for="text_disabled">Text Input Disabled</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col">
+                        <div class="form-group">
+                            <input class="form-control" id="password" type="password" required />
+                            <label for="password">Password Input</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col">
+                        <div class="form-group">
+                            <input class="form-control" id="email" type="email" required />
+                            <label for="email">Email Input</label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="form-group">
-                        <label for="surname">Surname</label>
-                        <input class="form-control" id="surname" type="text" required />
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col">
+                        <div class="form-group">
+                            <input class="form-control" id="datetime_local" type="datetime-local" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} [2]{2}:[2]{2}" js-datetimepicker />
+                            <label for="datetime_local">DateTime-Local Input</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col">
+                        <div class="form-group">
+                            <input class="form-control" id="date" type="date" js-datepicker />
+                            <label for="date">Date Input</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3 col">
+                       <div class="form-group">
+                            <input class="form-control" id="time" type="time" js-timepicker />
+                            <label for="time">Time Input</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <textarea name="description" cols="40" rows="3" id="textarea"></textarea>
+                            <label for="textarea">Textarea</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col">
+                        <div class="form-group">
+                            <input class="form-control" id="number" type="number" required />
+                            <label for="number">Number Input</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col">
+                        <div class="form-group">
+                            <input class="form-control" id="range" type="range" required />
+                            <label for="range">Range Input</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col">
+                       <div class="form-group">
+                            <input class="form-control" id="color" type="color" required />
+                            <label for="color">Color Input</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col">
+                        <div class="form-group">
+                            <input class="form-control" id="url" type="url" required />
+                            <label for="url">Url Input</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col">
+                        <div class="form-group">
+                            <input class="form-control" id="file" type="file" required />
+                            <label for="range">File Input</label>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input class="form-control" id="password" type="password" required />
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 col">
+                        <div class="form-group styled-select">
+                            <label for="styled-select">Option groups</label>
+                            <select id="styled-select">
+                                <option value="">Select gear...</option>
+                                <optgroup label="Climbing">
+                                    <option value="pitons">Pitons</option>
+                                    <option value="cams">Cams</option>
+                                    <option value="nuts">Nuts</option>
+                                    <option value="bolts">Bolts</option>
+                                    <option value="stoppers">Stoppers</option>
+                                    <option value="sling">Sling</option>
+                                </optgroup>
+                                <optgroup label="Skiing">
+                                    <option value="skis">Skis</option>
+                                    <option value="skins">Skins</option>
+                                    <option value="poles">Poles</option>
+                                </optgroup>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-3 col">
-                    <div class="form-group">
-                        <label for="repeat-password">Repeat Password</label>
-                        <input class="form-control" id="repeat-password" type="password" required />
+                <div class="row button-group">
+                    <div class="col-sm-6">
+                        <button class="btn btn-secondary" type="reset" value="Reset">Reset</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col">
-                    <div class="form-group">
-                        <label for="street">Street</label>
-                        <input class="form-control" id="street" type="text" required />
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-3 col">
-                    <div class="form-group">
-                        <label for="house-number">House Number</label>
-                        <input class="form-control" id="house-number" type="number" required />
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-3 col">
-                   <div class="form-group">
-                        <label for="extension">House Number Extension</label>
-                        <input class="form-control" id="extension" type="text" required />
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3 col">
-                    <div class="form-group styled-select">
-                        <label for="styled-select">Option groups</label>
-                        <select id="styled-select">
-                            <option value="">Select gear...</option>
-                            <optgroup label="Climbing">
-                                <option value="pitons">Pitons</option>
-                                <option value="cams">Cams</option>
-                                <option value="nuts">Nuts</option>
-                                <option value="bolts">Bolts</option>
-                                <option value="stoppers">Stoppers</option>
-                                <option value="sling">Sling</option>
-                            </optgroup>
-                            <optgroup label="Skiing">
-                                <option value="skis">Skis</option>
-                                <option value="skins">Skins</option>
-                                <option value="poles">Poles</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row button-group">
-                <div class="col-sm-12 col">
-                    <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-                    <button class="btn btn-secondary" type="reset" value="Reset">Reset</button>
-                </div>
-            </div>
+            </div> 
         </fieldset>
     </form>
 
