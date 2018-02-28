@@ -374,6 +374,37 @@ Example:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
 
+### `quick_filters_block_form_class`
+
+Arctic provides a filter endpoint via `quick_filters_block_form_class` which accepts a regular `django.forms.Form`.
+A basic implementation of an advanced search form must implement the `get_filters()` and define `FILTER_BUTTONS` like a Django choices constant.
+Also you can override name of request query set your name into `filters_field_name`.
+Those filters are showed like the buttons on front of list table.
+Example:
+
+
+    class QuickAdvertorialFiltersForm(QuickFiltersForm):
+        filters_field_name = 'quick_filters'
+
+        FILTER_BUTTONS = (
+            ('current', 'Currently visible'),
+            ('upcoming', 'Upcoming'),
+            ('past', 'Past'),
+        )
+
+        def get_filters(self):
+            f = self.get_current_filter()
+            now = timezone.now()
+
+            if f == 'current':
+                return Q(schedule_start__lte=now) & Q(schedule_end__gte=now)
+            elif f == 'past':
+                return Q(schedule_end__lt=now)
+            elif f == 'upcoming':
+                return Q(schedule_start__gt=now)
+            return Q()
+
+
 ## DataListView
 
 `class arctic.generics.DataListView`

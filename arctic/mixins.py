@@ -393,6 +393,8 @@ class ListMixin(object):
     # Simple search form if search_fields is defined
     simple_search_form_class = SimpleSearchForm
     advanced_search_form_class = None  # Custom form for advanced search
+    quick_filters_block_form_class = None  # Custom form for advanced search
+    _quick_filters_block_form = None
     _simple_search_form = None
     _advanced_search_form = None
     tool_links_icon = 'fa-wrench'
@@ -580,6 +582,12 @@ class ListMixin(object):
         """
         return self.advanced_search_form_class
 
+    def get_quick_filters_block_form_class(self):
+        """
+        Hook to dynamically change the advanced search form
+        """
+        return self.quick_filters_block_form_class
+
     def get_simple_search_form(self, data):
         if self.get_search_fields():
             self._simple_search_form = self.get_simple_search_form_class()(
@@ -599,6 +607,15 @@ class ListMixin(object):
             self._advanced_search_form = self.get_advanced_search_form_class()(
                 data=data)
             return self._advanced_search_form
+
+    def get_quick_filters_block_form(self, data, request=None):
+        """
+        Hook to dynamically change the advanced search form
+        """
+        if self.get_quick_filters_block_form_class():
+            self._quick_filters_block_form = self.get_quick_filters_block_form_class()(
+                data=data, request=request)
+            return self._quick_filters_block_form
 
 
 class RoleAuthentication(object):

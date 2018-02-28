@@ -25,6 +25,7 @@ class TagFactory(DjangoModelFactory):
 class ArticleFactory(DjangoModelFactory):
     title = Sequence(lambda n: 'Article {}'.format(n))
     category = SubFactory(CategoryFactory)
+    published = fuzzy.FuzzyChoice([True, False])
     updated_at = fuzzy.FuzzyDateTime(datetime.datetime(2016, 1, 1,
                                                        tzinfo=compat.UTC))
 

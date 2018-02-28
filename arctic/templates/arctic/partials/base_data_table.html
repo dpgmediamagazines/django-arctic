@@ -2,7 +2,7 @@
 
 <div class="row">
     {% block tool_links %}
-        <div class="col">
+        <div class="col-6">
             {% if tool_links %}
                 <div class="form-group">
                 {% if tool_links|length > 1 %}
@@ -76,6 +76,18 @@
             {% endblock %}
         </form>
     {% endif %}
+
+    {% block  quick_filters %}
+        {% if quick_filters_block_form %}
+            <div class="col-6">
+                <p>
+                    <b>{% trans 'Filters' %}: </b>
+                    {{ quick_filters_block_form }}
+                </p>
+            </div>
+        {% endif %}
+    {% endblock %}
+
 </div>
 
 {% block table %}

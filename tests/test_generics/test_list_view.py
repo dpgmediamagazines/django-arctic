@@ -116,6 +116,22 @@ class TestListView(object):
         assert len(response.context_data['list_items']) == 1
         assert response.context_data['list_items'][0][0]['value'] == 'title2'
 
+    def test_quick_filters_form(self, admin_client):
+        """
+        Test quick filters result
+        """
+        ArticleFactory(title='title1', description='description1', published=True)
+        ArticleFactory(title='title2', description='Dead rabbit is walking without leg.', published=False)
+
+        response = admin_client.get(reverse('articles:list'),
+                                    {'quick_filters': 'published'})
+        assert len(response.context_data['list_items']) == 1
+        assert response.context_data['list_items'][0][0]['value'] == 'title1'
+
+        response = admin_client.get(reverse('articles:list'),
+                                    {'quick_filters': 'find_rabbit'})
+        assert response.context_data['list_items'][0][0]['value'] == 'title2'
+
     def test_field_actions(self, admin_client):
         ArticleFactory(title='title1', description='description1',
                        published=True)

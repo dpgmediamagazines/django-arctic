@@ -1,7 +1,9 @@
 from datetime import datetime
 
+import django
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TimeInput, Input)
+                                  SelectMultiple, TimeInput, Input, RadioSelect)
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 
@@ -83,3 +85,37 @@ class TimePickerInput(PickerFormatMixin, TimeInput):
         self.display_format = '%I:%M %p'
         self.widget_attribute_key = 'data-time'
         super(TimePickerInput, self).__init__(attrs, format)
+
+
+class QuickFiltersSelect(RadioSelect):
+    template_name = 'arctic/widgets/quick_filters_select.html'
+
+    def get_context(self, name, value, attrs=None, *args, **kwargs):
+        context = {
+            'request': self.attrs.get('request'),
+        }
+
+        if django.VERSION >= (1, 11):
+            cnt = super(QuickFiltersSelect, self).get_context(name, value, attrs)
+            context.update(cnt)
+        else:
+            # django 1.10 doesn't support optgroups and render choices in method
+            context['widget'] = self
+            optgroups = []
+            for val, label in self.choices:
+                option = {
+                    'name': name,
+                    'value': val,
+                    'selected': val == value,
+                    'label': label
+                }
+                optgroups.append((None, [option], None))
+            context['widget'].optgroups = optgroups
+        return context
+
+    def render(self, name, value, attrs=None):
+        if django.VERSION >= (1, 11):
+            return super(QuickFiltersSelect, self).render(name, value, attrs)
+        else:
+            t = render_to_string(self.template_name, context=self.get_context(name, value, attrs))
+            return mark_safe(t)
