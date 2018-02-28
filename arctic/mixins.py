@@ -7,6 +7,7 @@ import importlib
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
+from django.template import (Template, Context)
 from django.urls import reverse
 from django.utils import six
 
@@ -488,9 +489,32 @@ class ListMixin(object):
                 field_classes[field_name] = get_field_name_classes(obj)
         return field_classes
 
+    def get_confirm_link(self, url, obj):
+        """
+        Returns the metadata for a link that needs to be confirmed, if it
+        exists, it also parses the message and title of the url to include
+        row field data if needed.
+        """
+        try:
+            if type(obj) != dict:
+                obj = vars(obj)
+            link = {key: value.replace('"', '&quot;') for (key, value) in
+                    self.confirm_links[url].items()}
+            link['message'] = Template(link['message']).render(Context(obj))
+            link['title'] = Template(link['title']).render(Context(obj))
+            link['ok']  # this triggers a KeyError exception if not existent
+            link['cancel']
+            return link
+        except KeyError as e:
+            raise ImproperlyConfigured(
+                'confirm_links requires a dictionary with \'message\', '
+                '\'title\', \'ok\' and \'cancel\' strings, the named url \'' +
+                url + '\' misses ' + str(e))
+        except AttributeError:
+            return None
+
     def _get_field_actions(self, obj):
         all_actions = self.get_action_links()
-        has_confirm_links = hasattr(self, 'confirm_links')
         get_field_actions = getattr(self, 'get_field_actions', None)
         if get_field_actions:
             field_actions = get_field_actions(obj)
@@ -506,11 +530,10 @@ class ListMixin(object):
                 actions.append({'label': field_action['label'],
                                 'icon': field_action['icon'],
                                 'url': self._reverse_field_link(
-                                    field_action['url'], obj)})
-                field_url_name = field_action['url']
-                if has_confirm_links and field_url_name in self.confirm_links:
-                    actions[0].update({'confirm':
-                                      self.confirm_links[field_url_name]})
+                                    field_action['url'], obj),
+                                'confirm': self.get_confirm_link(
+                                    field_action['url'], obj),
+                                })
             return {'type': 'actions', 'actions': actions}
 
     def _get_allowed_field_actions(self, field_actions, all_actions):
