@@ -128,32 +128,9 @@
                             {% for row in list_items %}
                                 <tr>
                                     {% for column in row %}
-                                        {% if column.confirm %}
-                                            <div class="modal fade" id="modal{{ column.value }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ column.value }}Label" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalLabel">Confirm your action</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ column.confirm|lookup:'message' }}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ column.confirm|lookup:'cancel' }}</button>
-                                                            <a class="btn btn-primary" href="{{ column.url }}" onclick="$('#modal{{ column.value }}').modal('hide')">{{ column.confirm|lookup:'yes' }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
                                         {% if column.type == 'field' %}
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
-                                                {% if column.confirm %}
-                                                    <a data-toggle="modal" data-target="#modal{{ column.value }}">
-                                                {% elif column.url %}
+                                                {% if column.url %}
                                                     <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}>
                                                 {% endif %}
                                                 {% if column.value|typename != 'list' %}
@@ -172,35 +149,21 @@
                                             {% block list_actions %}
                                             <div class="list-actions">
                                                 {% for link in column.actions %}
-                                                {% if link.confirm %}
-                                                        <div class="modal fade" id="modal{{ link.label }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ link.label }}Label" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Confirm your action</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {{ link.confirm|lookup:'message' }}
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ link.confirm|lookup:'cancel' }}</button>
-                                                                        <a class="btn btn-primary" href="{{ link.url }}" onclick="$('#modal{{ link.value }}').modal('hide')">{{ link.confirm|lookup:'yes' }}</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <a data-toggle="modal" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" data-target="#modal{{ link.label }}" title=" 2{{ link.label|capfirst }}">
-                                                        {% elif not link.confirm %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}">
-                                                        {% endif %}
-                                                        {% if link.icon %}
-                                                            <i class="fa {{ link.icon }} fa-lg"></i>
-                                                        {% else %}
-                                                            {{ link.label|capfirst }}
-                                                        {% endif %}
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}" 
+                                                    {% if link.confirm %}
+                                                        data-toggle="modal" 
+                                                        data-target="#confirm-dialog"
+                                                        data-confirm-title="{{ link.confirm.title }}"
+                                                        data-confirm-message="{{ link.confirm.message }}"
+                                                        data-confirm-ok="{{ link.confirm.ok }}"
+                                                        data-confirm-cancel="{{ link.confirm.cancel }}"
+                                                    {% endif %}
+                                                    >
+                                                    {% if link.icon %}
+                                                        <i class="fa {{ link.icon }} fa-lg"></i>
+                                                    {% else %}
+                                                        {{ link.label|capfirst }}
+                                                    {% endif %}
                                                     </a>
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
@@ -228,6 +191,28 @@
     {% else %}
        <h3 class="col text-center">{% trans 'No result...' %}</h3>
     {% endif %}
+</div>
+{% endblock %}
+
+{% block confirm_dialog %}
+<div class="modal fade" id="confirm-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary confirm-cancel" data-dismiss="modal">Cancel</button>
+        <a href="#" role="button" class="btn btn-primary confirm-ok">OK</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 

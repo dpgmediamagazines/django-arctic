@@ -339,7 +339,19 @@ links or, if only one tool link set, it would be use as default icon.
 
 ### `confirm_links`
 
-dictionary as `{'url_field': {'message': 'Would you like to continue?', 'yes': 'Yes', 'cancel': 'No'}}'` which wraps every `url_field` displayed on a `ListView` with a confirmation dialog.  
+Dictionary of named urls that will display a confirmation dialog. The format is:
+
+    {'named_url': {
+        'title': 'Delete "{{ field_name }}"',
+        'message': 'Would you like to delete this?', 
+        'ok': 'Delete', 
+        'cancel': 'Cancel'},
+        ...
+    }
+
+Both `title` and `message` can contain field names wrapped as django template
+variables, which will be parsed into the field value for the row instance.
+Currently `confirm_links` work only on the `action_links` area. 
 
 ### `advanced_search_form_class`
 
