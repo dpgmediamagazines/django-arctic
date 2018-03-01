@@ -78,11 +78,11 @@ def test_form_rendering_with_request_get_args():
 
     assert len(filters_links) == len(form.FILTER_BUTTONS)
 
-    for a, button in zip(filters_links, form.FILTER_BUTTONS):
-        assert a.text.strip() == button[1]
+    for a, btn in zip(filters_links, form.FILTER_BUTTONS):
+        assert a.text.strip() == btn[1]
         # check active filter button
-        if button[0] == form.FILTER_BUTTONS[0][0]:  # 'current'
+        if btn[0] == form.FILTER_BUTTONS[0][0]:  # 'current'
             assert 'btn-info' in a['class']
             assert a['href'] == '?search=cats&'
         else:
-            assert a['href'] == '?search=cats&quick_filters={}'.format(button[0])
+            assert a['href'] == '?search=cats&quick_filters={}'.format(btn[0])

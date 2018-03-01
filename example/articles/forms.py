@@ -45,4 +45,3 @@ class QuickArticleFiltersForm(QuickFiltersForm):
         if f == 'find_rabbit':
             return Q(description__icontains='rabbit')
         return Q()
-

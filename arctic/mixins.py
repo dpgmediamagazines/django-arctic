@@ -613,8 +613,11 @@ class ListMixin(object):
         Hook to dynamically change the advanced search form
         """
         if self.get_quick_filters_block_form_class():
-            self._quick_filters_block_form = self.get_quick_filters_block_form_class()(
-                data=data, request=request)
+            self._quick_filters_block_form = \
+                self.get_quick_filters_block_form_class()(
+                    data=data,
+                    request=request
+                )
             return self._quick_filters_block_form
 
 

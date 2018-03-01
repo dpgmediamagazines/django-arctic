@@ -8,7 +8,8 @@ from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
 from collections import OrderedDict
 
-from .forms import ArticleForm, AdvancedArticleSearchForm, QuickArticleFiltersForm
+from .forms import (ArticleForm, AdvancedArticleSearchForm,
+                    QuickArticleFiltersForm)
 from .inlines import TagsInline
 from .models import (Article, Category, Tag)
 

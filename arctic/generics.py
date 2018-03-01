@@ -525,9 +525,10 @@ class ListView(View, ListMixin, base.ListView):
         context['tool_links_icon'] = self.get_tool_links_icon()
         context['simple_search_form'] = self.simple_search_form
         context['advanced_search_form'] = self.advanced_search_form
-        context['quick_filters_block_form'] = self.get_quick_filters_block_form(
-            data=self.request.GET,
-            request=self.request
+        context['quick_filters_block_form'] = \
+            self.get_quick_filters_block_form(
+                data=self.request.GET,
+                request=self.request
         )
         return context
 

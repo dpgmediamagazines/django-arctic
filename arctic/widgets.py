@@ -2,7 +2,8 @@ from datetime import datetime
 
 import django
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TimeInput, Input, RadioSelect)
+                                  SelectMultiple, TimeInput, Input,
+                                  RadioSelect)
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -96,10 +97,11 @@ class QuickFiltersSelect(RadioSelect):
         }
 
         if django.VERSION >= (1, 11):
-            cnt = super(QuickFiltersSelect, self).get_context(name, value, attrs)
-            context.update(cnt)
+            c = super(QuickFiltersSelect, self).get_context(name, value, attrs)
+            context.update(c)
         else:
-            # django 1.10 doesn't support optgroups and render choices in method
+            # django 1.10 doesn't support optgroups
+            # and render choices in method
             context['widget'] = self
             optgroups = []
             for val, label in self.choices:
@@ -117,5 +119,8 @@ class QuickFiltersSelect(RadioSelect):
         if django.VERSION >= (1, 11):
             return super(QuickFiltersSelect, self).render(name, value, attrs)
         else:
-            t = render_to_string(self.template_name, context=self.get_context(name, value, attrs))
+            t = render_to_string(
+                template_name=self.template_name,
+                context=self.get_context(name, value, attrs)
+            )
             return mark_safe(t)

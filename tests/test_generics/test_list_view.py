@@ -120,8 +120,16 @@ class TestListView(object):
         """
         Test quick filters result
         """
-        ArticleFactory(title='title1', description='description1', published=True)
-        ArticleFactory(title='title2', description='Dead rabbit is walking without leg.', published=False)
+        ArticleFactory(
+            title='title1',
+            description='description1',
+            published=True
+        )
+        ArticleFactory(
+            title='title2',
+            description='Dead rabbit is walking without leg.',
+            published=False
+        )
 
         response = admin_client.get(reverse('articles:list'),
                                     {'quick_filters': 'published'})
