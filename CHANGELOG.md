@@ -14,6 +14,7 @@ Always reference the ticket number at the end of the issue description.
 - Search form JS submitting selector - [#248][248]
 - Float Label styling for a number of HTML5 inputs - [#247][247]
 - confirm_links feature in ListViews now works properly - [#54][54].
+- Fixed displaying success message after DeleteView - [#270][270]
 
 ## Changed
 
@@ -32,6 +33,8 @@ Always reference the ticket number at the end of the issue description.
 [265]: //github.com/sanoma/django-arctic/issues/265
 [259]: //github.com/sanoma/django-arctic/issues/259
 [261]: //github.com/sanoma/django-arctic/issues/261
+[265]: //github.com/sanoma/django-arctic/issues/265
+[270]: //github.com/sanoma/django-arctic/issues/270
 
 
 ##1.0.0

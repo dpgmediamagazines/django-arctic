@@ -49,6 +49,15 @@ class SuccessMessageMixin(object):
             object=self.object,
         )
 
+    def post(self, *args, **kwargs):
+        response = super(SuccessMessageMixin, self).post(*args, **kwargs)
+        if not getattr(self, 'form_class', None):
+            # assume this is DeleteView without form
+            success_message = self.get_success_message({})
+            if success_message:
+                messages.success(self.request, success_message)
+        return response
+
 
 class LinksMixin(object):
     """
