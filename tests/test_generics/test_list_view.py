@@ -63,7 +63,7 @@ class TestListView(object):
         """
         Multiple tool links display
         """
-        ArticleListView.tool_links.append(('Delete', 'articles:delete'))
+        ArticleListView.tool_links.append(('Create', 'articles:create'))
 
         response = self._request(admin_client)
 

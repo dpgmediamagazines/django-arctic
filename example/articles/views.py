@@ -140,13 +140,10 @@ class CategoryListView(ListView):
     ]
     confirm_links = {
         'articles:category-delete': {
+            'title': _('Delete "{{ name }}"'),
             'message': _('Are you sure you want to delete this?'),
-            'yes': _('Yes'),
-            'cancel': _('No')},
-        'articles:category-detail': {
-            'message': _('Are you sure you want to proceed'),
-            'yes': _('Yes'),
-            'cancel': _('No')}}
+            'ok': _('Delete'),
+            'cancel': _('Cancel')}}
 
 
 class CategoryArticlesListView(ArticleListView):

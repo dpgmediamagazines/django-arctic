@@ -18,7 +18,7 @@
         <div class="outer"><div class="middle"><div class="inner">
             <img class="page-login__logo" src="{% static SITE_LOGO %}"/>
             <h1 class="page-login__title">{{ SITE_NAME }}</h1>
-            <form action=".?next={{ next }}" method="post" class="{{ form_display }}">
+            <form action=".?next={{ next }}" method="post" class="{{ form_display }}" novalidate>
                 <fieldset type="get">
                     {% csrf_token %}
                     {% if messages %}
@@ -36,21 +36,19 @@
                         {% endfor %}
                     {% endif %}
                       <div class="log-in-form">
-                        {% block form %}
-                            {% block form_fields %}
-                                {% include "arctic/partials/form_fields.html" with form=form %}
+                            {% block form %}
+                                {% block form_fields %}
+                                    {% include "arctic/partials/form_fields.html" with form=form %}
+                                {% endblock %}
                             {% endblock %}
-                        {% endblock %}
-                        <p><button type="submit" class="btn btn-primary btn-block">Login</button></p>
+                            <p><button type="submit" class="btn btn-primary btn-block">Login</button></p>
                         {% block login_extra %}
                         {% endblock %}
                       </div>
                 </fieldset>
             </form>
-        </div>
-        </div>
-        </div>
-  </div>
+        </div></div></div>
+    </div>
 </div>
 
 {% endblock %}

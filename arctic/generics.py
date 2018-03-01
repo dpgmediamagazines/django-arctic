@@ -761,6 +761,7 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
 
 class DeleteView(SuccessMessageMixin, View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
+    redirect = True
 
     def get(self, request, *args, **kwargs):
         """
@@ -778,6 +779,10 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
                                 "that depends on it." % self.object
             protected_objects = e.protected_objects
             can_delete = False
+
+        if can_delete and self.redirect:
+            self.delete(request, *args, **kwargs)
+            return redirect(self.success_url)
 
         context = self.get_context_data(object=self.object,
                                         can_delete=can_delete,

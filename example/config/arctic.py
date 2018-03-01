@@ -1,5 +1,5 @@
 ARCTIC_SITE_NAME = 'Arctic Example'
-ARCTIC_FORM_DISPLAY = 'stacked'
+ARCTIC_FORM_DISPLAY = 'float-label'
 
 # Menu format:
 # (('menu label', 'named url', 'optional icon class',

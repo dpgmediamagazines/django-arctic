@@ -52,5 +52,7 @@ PATHS:
     - "src/assets/js/components/toggle_form.js"
     - "src/assets/js/components/widgets.js"
     - "src/assets/js/components/sortable.js"
+    - "src/assets/js/components/float_label.js"
+    - "src/assets/js/components/confirm_dialog.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"

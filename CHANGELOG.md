@@ -12,10 +12,14 @@ Always reference the ticket number at the end of the issue description.
 ###Fixed
 
 - Search form JS submitting selector - [#248][248]
+- Float Label styling for a number of HTML5 inputs - [#247][247]
+- confirm_links feature in ListViews now works properly - [#54][54].
+- Fixed displaying success message after DeleteView - [#270][270]
 
 ## Changed
 
 - Folding side menu, menu settings - [#257][257]
+- Improved pagination styles - [#265][265]
 
 ## Added
 
@@ -23,9 +27,14 @@ Always reference the ticket number at the end of the issue description.
 - Specifying `field_classes` per each row in `ListView` - [#261][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
+[247]: //github.com/sanoma/django-arctic/issues/247
+[54]: //github.com/sanoma/django-arctic/issues/54
 [257]: //github.com/sanoma/django-arctic/issues/257
+[265]: //github.com/sanoma/django-arctic/issues/265
 [259]: //github.com/sanoma/django-arctic/issues/259
 [261]: //github.com/sanoma/django-arctic/issues/261
+[265]: //github.com/sanoma/django-arctic/issues/265
+[270]: //github.com/sanoma/django-arctic/issues/270
 
 
 ##1.0.0
