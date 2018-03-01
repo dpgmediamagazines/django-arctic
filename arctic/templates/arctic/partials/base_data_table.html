@@ -77,21 +77,27 @@
         </form>
     {% endif %}
 
-    {% block  quick_filters %}
-        {% if quick_filters_block_form %}
-            <div class="col-6">
-                <p>
-                    <b>{% trans 'Filters' %}: </b>
-                    {{ quick_filters_block_form }}
-                </p>
-            </div>
-        {% endif %}
-    {% endblock %}
-
 </div>
 
-{% block top_pagination %}
-{% endblock %}
+<div class="row">
+    <div class="col justify-content-start">
+            {% block  quick_filters %}
+            {% if quick_filters_block_form %}
+                <div class="col p-0">
+                    <p>
+                        <b>{% trans 'Filters' %}: </b>
+                        {{ quick_filters_block_form }}
+                    </p>
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+    <div class="col justify-content-end">
+        {% block top_pagination %}
+        {% endblock %}
+    </div>
+</div>
+
 
 {% block table %}
 <div class="row">
