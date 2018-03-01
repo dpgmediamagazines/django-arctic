@@ -509,8 +509,22 @@ This view deletes data defined from a django model.
 **Extends**
 
 * `arctic.generics.View`
-* `arctic.mixins.SuccessMessageMixin`
 * `django.views.DeleteView`
+
+**Properties**
+
+### `redirect`
+
+If `True` it will delete the object and imediately redirect to the success url 
+not displaying the confirmation view.
+
+**Methods**
+
+### `get_success_message(obj)`
+
+This method will return the success message to be displayed after the deletion 
+of an object. 
+
 
 
 # Mixins

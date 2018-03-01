@@ -204,6 +204,7 @@ class CategoryCreateView(CreateView):
 
 class CategoryDeleteView(DeleteView):
     model = Category
+    redirect = True
     success_url = reverse_lazy('articles:category-list')
     permission_required = 'delete_category'
 
