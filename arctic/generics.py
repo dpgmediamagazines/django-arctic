@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 import extra_views
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import (authenticate, login, logout)
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
@@ -745,9 +746,12 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
         return context
 
 
-class DeleteView(SuccessMessageMixin, View, base.DeleteView):
+class DeleteView(View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
-    redirect = True
+    redirect = False
+
+    def get_success_message(self, obj):
+        return _('"{}" has been successfully deleted.').format(str(obj))
 
     def get(self, request, *args, **kwargs):
         """
@@ -767,6 +771,7 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
             can_delete = False
 
         if can_delete and self.redirect:
+            messages.success(request, self.get_success_message(self.object))
             self.delete(request, *args, **kwargs)
             return redirect(self.success_url)
 
@@ -776,10 +781,15 @@ class DeleteView(SuccessMessageMixin, View, base.DeleteView):
                                         protected_objects=protected_objects)
         return self.render_to_response(context)
 
+    def post(self, request, *args, **kwargs):
+        response = super(DeleteView, self).post(request, *args, **kwargs)
+        messages.success(request, self.get_success_message(self.object))
+        return response
+
 
 class LoginView(FormView):
     template_name = 'arctic/login.html'
-    page_title = 'Login'
+    page_title = _('Login')
     requires_login = False
     form_class = AuthenticationForm
 
@@ -812,7 +822,7 @@ class LoginView(FormView):
 
             return redirect('/')
 
-        self.messages.append('Invalid username/password combination')
+        self.messages.append(_('Invalid username/password combination'))
 
         return render(request, self.template_name,
                       self.get_context_data(**kwargs))
