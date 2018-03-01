@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-##[unreleased]
+##1.0.1 (2017-03-01)
 
 ###Fixed
 
