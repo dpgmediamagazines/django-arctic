@@ -60,3 +60,9 @@ $(document).ready(function() {
         $('form.search-form').submit();
     })
 });
+
+function select_quick_filter(self) {
+    var next_input = $(self).next('input');
+    next_input.attr('checked', true);
+    $('form.search-form').submit();
+}

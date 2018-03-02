@@ -1,12 +1,16 @@
-{% load arctic_tags %}
 {% with id=widget.attrs.id %}
     <span class="quick_filters">
     {% for group, options, index in widget.optgroups %}
-        <a class="ml-2 btn {% if options.0.selected %}btn-info{% else %}btn-outline-primary{% endif %}"
-           href="?{% get_parameters options.0.name %}{% if not options.0.selected %}{{ options.0.name }}={{ options.0.value }}{% endif %}"
+        <button class="mr-2 btn {% if options.0.selected %}btn-info{% else %}btn-outline-primary{% endif %}"
+                onclick="select_quick_filter(this)"
+                type="button"
         >
             {{ options.0.label }}
-        </a>
+        </button>
+        <input {% if options.0.selected %}checked{% endif %} type="radio"
+               name="{{ options.0.name }}"
+               hidden
+               value="{{ options.0.value }}">
     {% endfor %}
     </span>
 {% endwith %}

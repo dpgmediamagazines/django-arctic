@@ -1,5 +1,7 @@
 {% if field.is_hidden %}
-    {{ field }}
+    {% if not field.field.widget.widget_type == 'quick_filter' %}
+        {{ field }}
+    {% endif %}
 {% else %}
     {% comment %}
          Make the field widget type available to templates so we can

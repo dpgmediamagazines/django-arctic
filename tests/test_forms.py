@@ -1,20 +1,29 @@
+from django import forms
 from django.db.models import Q
 from django.http import HttpRequest
 from django.template import Context, Template
 from bs4 import BeautifulSoup
 
-from arctic.forms import (
-    QuickFiltersForm,
-    SimpleSearchForm
-)
+from arctic.forms import SimpleSearchForm
+from arctic.widgets import QuickFiltersSelect
 
 
-class FiltersForm(QuickFiltersForm):
+class FiltersForm(SimpleSearchForm):
     FILTER_BUTTONS = (
-        ('current', 'Currently visible'),
-        ('upcoming', 'Upcoming'),
-        ('past', 'Past'),
+        ('published', 'Is published'),
+        ('find_rabbit', 'Rabbit')
     )
+
+    quick_filters = forms.ChoiceField(choices=FILTER_BUTTONS, widget=QuickFiltersSelect)
+
+    def get_search_filter(self):
+        quick_filter = self.cleaned_data.get('quick_filters')
+
+        if quick_filter == 'published':
+            return Q(published=True)
+        if quick_filter == 'find_rabbit':
+            return Q(description__icontains='rabbit')
+        return Q()
 
 
 def test_simple_search_form():
@@ -35,54 +44,39 @@ def test_simple_search_form():
     assert str(search_filter) == str(Q(('name__icontains', 'test')))
 
 
-def test_quick_filters_form():
-    form = FiltersForm()
+def test_filters_widget_attr():
+    widget = QuickFiltersSelect
 
-    assert hasattr(form, 'get_current_filter')
-    assert form.filters_field_name == 'quick_filters'
-
-
-def test_quick_filters_form_error():
-    class EmptyFiltersForm(QuickFiltersForm):
-        pass
-
-    try:
-        EmptyFiltersForm()
-    except AttributeError as error:
-        assert error
-
-
-def test_context_in_quick_filters_widget():
-    form = FiltersForm(request='request_obj')
-
-    widget = form.fields[form.filters_field_name].widget
-    context = widget.get_context('quick_filters', 'past', widget.attrs)
-
-    assert context.get('request') == 'request_obj'
+    assert hasattr(widget, 'widget_type')
+    assert widget.widget_type == 'quick_filter'
+    assert widget.input_type == 'hidden'
     assert widget.template_name == 'arctic/widgets/quick_filters_select.html'
 
 
 def test_form_rendering_with_request_get_args():
     request = HttpRequest()
     request.GET['search'] = 'cats'
-    request.GET['quick_filters'] = 'current'
+    request.GET['quick_filters'] = 'published'
 
-    form = FiltersForm(request=request, data=request.GET)
+    form = FiltersForm(data=request.GET)
     assert form.is_valid()
 
     template = Template('{{ form }}').render(Context({"form": form}))
 
     soup = BeautifulSoup(template, 'html.parser')
 
-    filters_links = soup.find_all('a')
+    filters_inputs = soup.find_all('input', {'type': 'radio'})
+    filters_buttons = soup.find_all('button')
 
-    assert len(filters_links) == len(form.FILTER_BUTTONS)
+    assert len(filters_inputs) == len(form.FILTER_BUTTONS)
+    assert len(filters_buttons) == len(form.FILTER_BUTTONS)
 
-    for a, btn in zip(filters_links, form.FILTER_BUTTONS):
-        assert a.text.strip() == btn[1]
-        # check active filter button
-        if btn[0] == form.FILTER_BUTTONS[0][0]:  # 'current'
-            assert 'btn-info' in a['class']
-            assert a['href'] == '?search=cats&'
-        else:
-            assert a['href'] == '?search=cats&quick_filters={}'.format(btn[0])
+    for inp, btn, choice in zip(filters_inputs, filters_buttons, form.FILTER_BUTTONS):
+        assert btn.text.strip() == choice[1]
+        assert btn['onclick'] == "select_quick_filter(this)"
+        assert inp.get('hidden') == ''
+        assert inp.get('value') == choice[0]
+        assert inp.get('name') == 'quick_filters'
+
+    # check if we marked selected filter
+    assert filters_inputs[0].attrs.get('checked') == ''

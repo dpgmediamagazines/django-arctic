@@ -3,7 +3,7 @@ from __future__ import (absolute_import, unicode_literals)
 from django import forms
 from django.db.models import Q
 
-from arctic.forms import QuickFiltersForm
+from arctic.widgets import QuickFiltersSelect
 
 from .models import Article
 
@@ -20,28 +20,25 @@ class ArticleForm(forms.ModelForm):
 
 
 class AdvancedArticleSearchForm(forms.Form):
-    description = forms.CharField(max_length=100,
-                                  required=False,
-                                  label='Description')
-
-    def get_search_filter(self):
-        value = self.cleaned_data.get('description')
-        if value:
-            return Q(description__icontains=value)
-        return Q()
-
-
-class QuickArticleFiltersForm(QuickFiltersForm):
     FILTER_BUTTONS = (
         ('published', 'Is published'),
         ('find_rabbit', 'Rabbit')
     )
+    description = forms.CharField(max_length=100,
+                                  required=False,
+                                  label='Description')
 
-    def get_filters(self):
-        f = self.get_current_filter()
+    quick_filters = forms.ChoiceField(required=False, choices=FILTER_BUTTONS, widget=QuickFiltersSelect)
 
-        if f == 'published':
-            return Q(published=True)
-        if f == 'find_rabbit':
-            return Q(description__icontains='rabbit')
-        return Q()
+    def get_search_filter(self):
+        value = self.cleaned_data.get('description')
+        quick_filter = self.cleaned_data.get('quick_filters')
+        conditions = Q()
+
+        if value:
+            conditions &= Q(description__icontains=value)
+        if quick_filter == 'published':
+            conditions &= Q(published=True)
+        if quick_filter == 'find_rabbit':
+            conditions &= Q(description__icontains='rabbit')
+        return conditions

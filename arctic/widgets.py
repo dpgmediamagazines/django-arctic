@@ -90,6 +90,8 @@ class TimePickerInput(PickerFormatMixin, TimeInput):
 
 class QuickFiltersSelect(RadioSelect):
     template_name = 'arctic/widgets/quick_filters_select.html'
+    widget_type = 'quick_filter'
+    input_type = 'hidden'
 
     def get_context(self, name, value, attrs=None, *args, **kwargs):
         context = {

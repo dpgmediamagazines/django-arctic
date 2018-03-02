@@ -317,15 +317,6 @@ class ListView(View, ListMixin, base.ListView):
     def get_object_list(self):
         qs = self.get_queryset()
 
-        if self.quick_filters_block_form_class:
-            form = self.get_quick_filters_block_form(data=self.request.GET)
-            if form.is_valid():
-                if not hasattr(form, 'get_filters'):
-                    raise AttributeError(
-                        'quick_filters_block_form '
-                        'must implement get_filters()')
-                qs = qs.filter(form.get_filters())
-
         if self.advanced_search_form_class:
             form = self.get_advanced_search_form(data=self.request.GET)
             if form.is_valid():
@@ -525,11 +516,6 @@ class ListView(View, ListMixin, base.ListView):
         context['tool_links_icon'] = self.get_tool_links_icon()
         context['simple_search_form'] = self.simple_search_form
         context['advanced_search_form'] = self.advanced_search_form
-        context['quick_filters_block_form'] = \
-            self.get_quick_filters_block_form(
-                data=self.request.GET,
-                request=self.request
-        )
         return context
 
     @classmethod

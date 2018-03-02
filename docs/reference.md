@@ -357,6 +357,7 @@ Currently `confirm_links` work only on the `action_links` area.
 
 arctic provides a search endpoint via `advanced_search_form_class` which accepts a regular `django.forms.Form`.
 A basic implementation of an advanced search form must implement the `get_search_filter()`.
+Also you can create choice field with name `quick_filters` and  `QuickFiltersSelect` widget to create tabs with filters on bottom of search input.
 Example:
 
     class ExampleListView(ListView):
@@ -371,6 +372,15 @@ Example:
         """
         Basic implementation of arctic's advanced search form class
         """
+        FILTER_BUTTONS = (
+            ('current', 'Currently visible'),
+            ('upcoming', 'Upcoming'),
+            ('past', 'Past'),
+        )
+        quick_filters = forms.ChoiceField(required=False,
+                                          choices=FILTER_BUTTONS,
+                                          widget=QuickFiltersSelect)
+
         modified_on = forms.DateTimeField(required=False,
                                           widget=forms.DateInput(attrs={'js-datepicker': ''}))
         created_on = forms.DateTimeField(required=False,
@@ -385,36 +395,6 @@ Example:
             if created_on_value:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
-
-### `quick_filters_block_form_class`
-
-Arctic provides a filter endpoint via `quick_filters_block_form_class` which accepts a regular `django.forms.Form`.
-A basic implementation of an advanced search form must implement the `get_filters()` and define `FILTER_BUTTONS` like a Django choices constant.
-Also you can override name of request query set your name into `filters_field_name`.
-Those filters are showed like the buttons on front of list table.
-Example:
-
-
-    class QuickAdvertorialFiltersForm(QuickFiltersForm):
-        filters_field_name = 'quick_filters'
-
-        FILTER_BUTTONS = (
-            ('current', 'Currently visible'),
-            ('upcoming', 'Upcoming'),
-            ('past', 'Past'),
-        )
-
-        def get_filters(self):
-            f = self.get_current_filter()
-            now = timezone.now()
-
-            if f == 'current':
-                return Q(schedule_start__lte=now) & Q(schedule_end__gte=now)
-            elif f == 'past':
-                return Q(schedule_end__lt=now)
-            elif f == 'upcoming':
-                return Q(schedule_start__gt=now)
-            return Q()
 
 
 ## DataListView
