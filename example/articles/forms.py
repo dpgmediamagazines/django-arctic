@@ -28,7 +28,11 @@ class AdvancedArticleSearchForm(forms.Form):
                                   required=False,
                                   label='Description')
 
-    quick_filters = forms.ChoiceField(required=False, choices=FILTER_BUTTONS, widget=QuickFiltersSelect)
+    quick_filters = forms.ChoiceField(
+        required=False,
+        choices=FILTER_BUTTONS,
+        widget=QuickFiltersSelect
+    )
 
     def get_search_filter(self):
         value = self.cleaned_data.get('description')
