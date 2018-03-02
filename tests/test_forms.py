@@ -14,7 +14,10 @@ class FiltersForm(SimpleSearchForm):
         ('find_rabbit', 'Rabbit')
     )
 
-    quick_filters = forms.ChoiceField(choices=FILTER_BUTTONS, widget=QuickFiltersSelect)
+    quick_filters = forms.ChoiceField(
+        choices=FILTER_BUTTONS,
+        widget=QuickFiltersSelect
+    )
 
     def get_search_filter(self):
         quick_filter = self.cleaned_data.get('quick_filters')
@@ -71,7 +74,10 @@ def test_form_rendering_with_request_get_args():
     assert len(filters_inputs) == len(form.FILTER_BUTTONS)
     assert len(filters_buttons) == len(form.FILTER_BUTTONS)
 
-    for inp, btn, choice in zip(filters_inputs, filters_buttons, form.FILTER_BUTTONS):
+    for inp, btn, choice in zip(
+            filters_inputs,
+            filters_buttons,
+            form.FILTER_BUTTONS):
         assert btn.text.strip() == choice[1]
         assert btn['onclick'] == "select_quick_filter(this)"
         assert inp.get('hidden') == ''
