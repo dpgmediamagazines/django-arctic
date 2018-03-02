@@ -33,7 +33,8 @@ function django2datepicker(django_format) {
 
 $(document).ready(function() {
     $('[js-selectize]').each(function(index) {
-        $(this).selectize({
+        var instance = this;
+        $(instance).selectize({
             allowEmptyOption: true,
             highlight: false,
             plugins: ['remove_button'],
