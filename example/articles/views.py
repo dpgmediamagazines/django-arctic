@@ -27,7 +27,7 @@ class ArticleListView(ListView):
     paginate_by = 10
     model = Article
     fields = ['title', 'description', 'published', 'category', 'tags']
-    ordering_fields = ['title', 'description', 'published']
+    ordering_fields = ['title', 'description', 'category', 'published']
     search_fields = ['title']
     advanced_search_form_class = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
@@ -52,6 +52,9 @@ class ArticleListView(ListView):
     def get_published_field(self, row_instance):
         symbol = 'fa-check' if row_instance.published else 'fa-minus'
         return mark_safe('<i class="fa {}"></i>'.format(symbol))
+
+    def get_category_ordering_field(self):
+        return 'category__name'
 
     def get_field_actions(self, row_instance):
         action_links = [
