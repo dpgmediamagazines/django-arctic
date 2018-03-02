@@ -1,4 +1,4 @@
-#Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-##[unreleased]
+## 1.0.1 (2017-03-01)
 
-###Fixed
+### Fixed
 
 - Search form JS submitting selector - [#248][248]
 - Float Label styling for a number of HTML5 inputs - [#247][247]
@@ -39,9 +39,9 @@ Always reference the ticket number at the end of the issue description.
 [269]: //github.com/sanoma/django-arctic/issues/269
 
 
-##1.0.0
+## 1.0.0
 
-###Fixed
+### Fixed
 
 - Search forms and related widgets - [#242][242]
 
@@ -53,9 +53,9 @@ Always reference the ticket number at the end of the issue description.
 [242]: //github.com/sanoma/django-arctic/issues/242
 
 
-##1.0.0-beta2
+## 1.0.0-beta2
 
-##Added
+## Added
 
 - Django 2.0 compatibility
 
@@ -64,14 +64,14 @@ Always reference the ticket number at the end of the issue description.
 - Django 1.8 support
 
 
-##1.0.0-beta1
+## 1.0.0-beta1
 
-##Added
+## Added
 
 - `DataListView`, a `ListView` that uses APIs as source of data - [#172][172] 
 - Float Labels option for form displays - [#221][221]
 
-##Changed
+## Changed
 
 - Moved from Foundation 6 to Bootstrap 4 - [#184][184]
 - Improved tables look and feel - [#216][216]
@@ -88,18 +88,18 @@ Always reference the ticket number at the end of the issue description.
 [221]: //github.com/sanoma/django-arctic/issues/221
 
 
-##0.9.7 (2017-06-13)
+## 0.9.7 (2017-06-13)
 
-###Fixed
+### Fixed
 
 - Action Links now support named urls with parameters - [#165][165]
 
 [165]: //github.com/sanoma/django-arctic/issues/165
 
 
-##0.9.6 (2017-04-25)
+## 0.9.6 (2017-04-25)
 
-###Changed
+### Changed
 
 - Added support for read-only fields in update view - [#72][72]
 - Added support for media assets in Views and default templates - [#195][195]
@@ -110,9 +110,9 @@ Always reference the ticket number at the end of the issue description.
 [195]: //github.com/sanoma/django-arctic/issues/195
 
 
-##0.9.5 (2017-03-16)
+## 0.9.5 (2017-03-16)
 
-###Changed
+### Changed
 
 - Added full Django 1.10 compatibility - [#164][164]
 - Added submenu icons display option - [#178][178]
@@ -125,14 +125,14 @@ Always reference the ticket number at the end of the issue description.
 [186]: //github.com/sanoma/django-arctic/issues/186
 
 
-##0.9.4 (2017-02-23)
+## 0.9.4 (2017-02-23)
 
-###Changed
+### Changed
 
 - Simplified the frontend tooling, removing Bower and foundation-cli, setup is 
   now based on npm and gulp - [#161][161]
 
-###Fixed
+### Fixed
 
 - In the listview, don't generate NoReverseMatch exception if any value of 
   the arguments is None.
@@ -140,9 +140,9 @@ Always reference the ticket number at the end of the issue description.
 [161]: //github.com/sanoma/django-arctic/issues/161
 
 
-##0.9.3 (2016-10-27)
+## 0.9.3 (2016-10-27)
 
-###Changed
+### Changed
 
 - `FormView`, `CreateView` and `UpdateView` added a `layout` property to 
   easily customize positioning and width of form fields - [#75][75]

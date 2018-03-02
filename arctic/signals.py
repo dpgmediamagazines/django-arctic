@@ -10,8 +10,8 @@ Role = get_role_model()
 UserRole = get_user_role_model()
 
 
-def superuser_post_save(sender, instance, **kwargs):
-    if instance.is_superuser:
+def superuser_post_save(sender, instance, created, **kwargs):
+    if created and instance.is_superuser:
         RoleAuthentication.sync()
         admin = Role.objects.get(name='admin')
         try:
