@@ -13,20 +13,17 @@ class FiltersForm(SimpleSearchForm):
         ('published', 'Is published'),
         ('find_rabbit', 'Rabbit')
     )
+    filters_query_name = 'my_filters'
 
-    quick_filters = forms.ChoiceField(
-        choices=FILTER_BUTTONS,
-        widget=QuickFiltersSelect
-    )
+    def get_quick_filter_query(self):
+        value = self.cleaned_data.get(self.filters_query_name)
 
-    def get_search_filter(self):
-        quick_filter = self.cleaned_data.get('quick_filters')
-
-        if quick_filter == 'published':
+        if value == 'published':
             return Q(published=True)
-        if quick_filter == 'find_rabbit':
+        elif value == 'rabbit':
             return Q(description__icontains='rabbit')
-        return Q()
+        else:
+            return Q()
 
 
 def test_simple_search_form():
@@ -49,17 +46,39 @@ def test_simple_search_form():
 
 def test_filters_widget_attr():
     widget = QuickFiltersSelect
-
-    assert hasattr(widget, 'widget_type')
-    assert widget.widget_type == 'quick_filter'
-    assert widget.input_type == 'hidden'
     assert widget.template_name == 'arctic/widgets/quick_filters_select.html'
+
+
+def test_filters_form_field():
+    form = FiltersForm()
+
+    assert form.fields.get('my_filters')
+
+    widget = form.fields['my_filters'].widget
+    assert isinstance(widget, QuickFiltersSelect)
+
+    assert not form.fields['my_filters'].required
+    assert not form.fields['my_filters'].choices == form.FILTER_BUTTONS
+
+
+def test_filters_form_errors():
+    class WrongFiltersForm(SimpleSearchForm):
+        filters_query_name = 'some_name'
+
+    form = WrongFiltersForm()
+
+    try:
+        form.get_quick_filter_query()
+    except NotImplementedError:
+        assert True
+    else:
+        assert False
 
 
 def test_form_rendering_with_request_get_args():
     request = HttpRequest()
     request.GET['search'] = 'cats'
-    request.GET['quick_filters'] = 'published'
+    request.GET['my_filters'] = 'published'
 
     form = FiltersForm(data=request.GET)
     assert form.is_valid()
@@ -82,7 +101,7 @@ def test_form_rendering_with_request_get_args():
         assert btn['onclick'] == "select_quick_filter(this)"
         assert inp.get('hidden') == ''
         assert inp.get('value') == choice[0]
-        assert inp.get('name') == 'quick_filters'
+        assert inp.get('name') == 'my_filters'
 
     # check if we marked selected filter
     assert filters_inputs[0].attrs.get('checked') == ''

@@ -351,13 +351,45 @@ Dictionary of named urls that will display a confirmation dialog. The format is:
 
 Both `title` and `message` can contain field names wrapped as django template
 variables, which will be parsed into the field value for the row instance.
-Currently `confirm_links` work only on the `action_links` area. 
+Currently `confirm_links` work only on the `action_links` area.
+
+### `simple_search_form_class`
+
+By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
+Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
+you want to perform custom Q() query for each filter button.
+Example:
+
+    class ExampleListView(ListView):
+        ...
+        advanced_search_form_class = QuickSearchForm
+        ...
+    .
+    .
+    from django.db.models import Q
+
+    class QuickSearchForm(SimpleSearchForm):
+        filters_query_name = 'my_filters'
+        FILTER_BUTTONS = (
+            ('published', 'Is published'),
+            ('rabbit', 'Find rabbit')
+        )
+
+        def get_quick_filter_query(self):
+            value = self.cleaned_data.get(self.filters_query_name)
+
+            if value == 'published':
+                return Q(published=True)
+            elif value == 'rabbit':
+                return Q(description__icontains='rabbit')
+            else:
+                return Q()
+
 
 ### `advanced_search_form_class`
 
 arctic provides a search endpoint via `advanced_search_form_class` which accepts a regular `django.forms.Form`.
 A basic implementation of an advanced search form must implement the `get_search_filter()`.
-Also you can create choice field with name `quick_filters` and  `QuickFiltersSelect` widget to create tabs with filters on bottom of search input.
 Example:
 
     class ExampleListView(ListView):
@@ -367,20 +399,11 @@ Example:
     .
     .
     from django.db.models import Q
-    
+
     class AdvancedSearchForm(Form):
         """
         Basic implementation of arctic's advanced search form class
         """
-        FILTER_BUTTONS = (
-            ('current', 'Currently visible'),
-            ('upcoming', 'Upcoming'),
-            ('past', 'Past'),
-        )
-        quick_filters = forms.ChoiceField(required=False,
-                                          choices=FILTER_BUTTONS,
-                                          widget=QuickFiltersSelect)
-
         modified_on = forms.DateTimeField(required=False,
                                           widget=forms.DateInput(attrs={'js-datepicker': ''}))
         created_on = forms.DateTimeField(required=False,

@@ -1,9 +1,8 @@
 from __future__ import (absolute_import, unicode_literals)
 
+from arctic.forms import SimpleSearchForm
 from django import forms
 from django.db.models import Q
-
-from arctic.widgets import QuickFiltersSelect
 
 from .models import Article
 
@@ -20,29 +19,35 @@ class ArticleForm(forms.ModelForm):
 
 
 class AdvancedArticleSearchForm(forms.Form):
-    FILTER_BUTTONS = (
-        ('published', 'Is published'),
-        ('find_rabbit', 'Rabbit')
-    )
     description = forms.CharField(max_length=100,
                                   required=False,
                                   label='Description')
 
-    quick_filters = forms.ChoiceField(
-        required=False,
-        choices=FILTER_BUTTONS,
-        widget=QuickFiltersSelect
-    )
+    def __init__(self, data):
+        # Reset data, but store for get_search_filter
+        self.stored_data = data
+        super(AdvancedArticleSearchForm, self).__init__(data)
 
     def get_search_filter(self):
-        value = self.cleaned_data.get('description')
-        quick_filter = self.cleaned_data.get('quick_filters')
-        conditions = Q()
-
+        value = self.stored_data.get('description')
         if value:
-            conditions &= Q(description__icontains=value)
-        if quick_filter == 'published':
-            conditions &= Q(published=True)
-        if quick_filter == 'find_rabbit':
-            conditions &= Q(description__icontains='rabbit')
-        return conditions
+            return Q(description__icontains=value)
+        return Q()
+
+
+class FiltersAndSearchForm(SimpleSearchForm):
+    filters_query_name = 'my_filters'
+    FILTER_BUTTONS = (
+        ('published', 'Is published'),
+        ('rabbit', 'Find rabbit')
+    )
+
+    def get_quick_filter_query(self):
+        value = self.cleaned_data.get(self.filters_query_name)
+
+        if value == 'published':
+            return Q(published=True)
+        elif value == 'rabbit':
+            return Q(description__icontains='rabbit')
+        else:
+            return Q()

@@ -2,7 +2,7 @@
 
 <div class="row">
     {% block tool_links %}
-        <div class="col-6">
+        <div class="col">
             {% if tool_links %}
                 <div class="form-group">
                 {% if tool_links|length > 1 %}
@@ -46,6 +46,14 @@
 
                             </div>
                         </div>
+                        {% block quick_filters %}
+                          {% if simple_search_form.get_quick_filters_field %}
+                            <div class="form-group">
+                              {{ simple_search_form.get_quick_filters_field }}
+                            </div>
+                          {% endif %}
+                        {% endblock %}
+
                         {% if simple_search_form.errors %}
                             {% block errors %}
                                 {% for field in simple_search_form %}
@@ -68,7 +76,6 @@
                                         <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
                                     </div>
                                 </div>
-                                {{ advanced_search_form.quick_filters }}
                             {% endblock %}
                         {% endif %}
                     </div>
@@ -80,24 +87,8 @@
 
 </div>
 
-<div class="row">
-    <div class="col justify-content-start">
-            {% block  quick_filters %}
-            {% if quick_filters_block_form %}
-                <div class="col p-0">
-                    <p>
-                        <b>{% trans 'Filters' %}: </b>
-                        {{ quick_filters_block_form }}
-                    </p>
-                </div>
-            {% endif %}
-        {% endblock %}
-    </div>
-    <div class="col justify-content-end">
-        {% block top_pagination %}
-        {% endblock %}
-    </div>
-</div>
+{% block top_pagination %}
+{% endblock %}
 
 
 {% block table %}

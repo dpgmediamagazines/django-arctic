@@ -1,16 +1,14 @@
-{% with id=widget.attrs.id %}
-    <span class="quick_filters">
-    {% for group, options, index in widget.optgroups %}
-        <button class="mr-2 btn {% if options.0.selected %}btn-info{% else %}btn-outline-primary{% endif %}"
-                onclick="select_quick_filter(this)"
-                type="button"
-        >
-            {{ options.0.label }}
-        </button>
-        <input {% if options.0.selected %}checked{% endif %} type="radio"
-               name="{{ options.0.name }}"
-               hidden
-               value="{{ options.0.value }}">
-    {% endfor %}
-    </span>
-{% endwith %}
+<span class="quick_filters">
+  {% for group, options, index in widget.optgroups %}
+      <button class="mr-2 btn {% if options.0.selected %}btn-info{% else %}btn-outline-primary{% endif %}"
+              onclick="select_quick_filter(this)"
+              type="button"
+      >
+          {{ options.0.label }}
+      </button>
+      <input {% if options.0.selected %}checked{% endif %} type="radio"
+             name="{{ options.0.name }}"
+             hidden
+             value="{{ options.0.value }}">
+  {% endfor %}
+</span>

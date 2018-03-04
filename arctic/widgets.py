@@ -90,21 +90,17 @@ class TimePickerInput(PickerFormatMixin, TimeInput):
 
 class QuickFiltersSelect(RadioSelect):
     template_name = 'arctic/widgets/quick_filters_select.html'
-    widget_type = 'quick_filter'
-    input_type = 'hidden'
 
     def get_context(self, name, value, attrs=None, *args, **kwargs):
-        context = {
-            'request': self.attrs.get('request'),
-        }
-
         if django.VERSION >= (1, 11):
-            c = super(QuickFiltersSelect, self).get_context(name, value, attrs)
-            context.update(c)
+            return super(QuickFiltersSelect, self)\
+                .get_context(name, value, attrs)
         else:
             # django 1.10 doesn't support optgroups
             # and render choices in method
-            context['widget'] = self
+            context = {
+                'widget': self
+            }
             optgroups = []
             for val, label in self.choices:
                 option = {
@@ -118,6 +114,7 @@ class QuickFiltersSelect(RadioSelect):
         return context
 
     def render(self, name, value, attrs=None):
+        """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
             return super(QuickFiltersSelect, self).render(name, value, attrs)
         else:
