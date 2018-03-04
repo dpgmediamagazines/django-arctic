@@ -1,4 +1,3 @@
-from django import forms
 from django.db.models import Q
 from django.http import HttpRequest
 from django.template import Context, Template
