@@ -7,7 +7,7 @@ from tests.factories import ArticleFactory
 @pytest.mark.django_db
 class TestOrderingView(object):
     """
-    Test ListView using ArticleListView from example application
+    Test ordering on ListView
     """
     def _request(self, admin_client):
         response = admin_client.get(reverse('articles:list'),
@@ -17,7 +17,7 @@ class TestOrderingView(object):
 
     def test_virtual_ordering_field(self, admin_client):
         """
-        Single item in ListView
+        ordering by 'virtual ordering field'
         """
         ArticleFactory(title='Article 0')
         ArticleFactory(title='Article 1')
