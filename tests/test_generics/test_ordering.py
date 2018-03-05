@@ -24,12 +24,10 @@ class TestOrderingView(object):
         response = self._request(admin_client)
         for key, item in response.context_data.items():
             print(key, item)
-        assert response.context_data['list_header'][3]['order_url'] == \
-               '/articles/?order=category__name'
-        assert response.context_data['list_header'][3]['order_direction'] == \
-               'desc'
-        assert len(response.context_data['list_items']) == 2
-        assert response.context_data['list_items'][0][0]['value'] == \
-               'Article 1'
-        assert response.context_data['list_items'][1][0]['value'] == \
-               'Article 0'
+        lst_headers = response.context_data['list_header']
+        lst_items = response.context_data['list_items']
+        assert lst_headers[3]['order_url'] == '/articles/?order=category__name'
+        assert lst_headers[3]['order_direction'] == 'desc'
+        assert len(lst_items) == 2
+        assert lst_items[0][0]['value'] == 'Article 1'
+        assert lst_items[1][0]['value'] == 'Article 0'
