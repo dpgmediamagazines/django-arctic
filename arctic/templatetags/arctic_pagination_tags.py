@@ -70,6 +70,7 @@ class PaginationNode(Node):
         if range_length is not None:
             range_length = int(range_length)
 
+        show_legend = str_to_bool(kwargs.get("show_legend", "true"))
         show_prev_next = str_to_bool(kwargs.get("show_prev_next", "true"))
         show_first_last = str_to_bool(kwargs.get("show_first_last", "false"))
         show_index_range = str_to_bool(kwargs.get("show_index_range", "false"))
@@ -127,6 +128,7 @@ class PaginationNode(Node):
                 'page_range': page_range,
                 'first_page_index': first_page_index,
                 'last_page_index': last_page_index,
+                'show_legend': show_legend,
             }))
 
 
