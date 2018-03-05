@@ -22,8 +22,6 @@ class TestOrderingView(object):
         ArticleFactory(title='Article 0')
         ArticleFactory(title='Article 1')
         response = self._request(admin_client)
-        for key, item in response.context_data.items():
-            print(key, item)
         lst_headers = response.context_data['list_header']
         lst_items = response.context_data['list_items']
         assert lst_headers[3]['order_url'] == '/articles/?order=category__name'
