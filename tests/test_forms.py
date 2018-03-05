@@ -56,6 +56,8 @@ def test_filters_form_field():
     widget = form.fields['my_filters'].widget
     assert isinstance(widget, QuickFiltersSelect)
 
+    assert form.get_quick_filters_field().field == form.fields['my_filters']
+
     assert not form.fields['my_filters'].required
     assert not form.fields['my_filters'].choices == form.FILTER_BUTTONS
 
