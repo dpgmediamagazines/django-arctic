@@ -93,7 +93,7 @@ class QuickFiltersSelect(RadioSelect):
 
     def get_context(self, name, value, attrs=None, *args, **kwargs):
         if django.VERSION >= (1, 11):
-            return super(QuickFiltersSelect, self)\
+            return super(QuickFiltersSelect, self) \
                 .get_context(name, value, attrs)
         else:
             # django 1.10 doesn't support optgroups
