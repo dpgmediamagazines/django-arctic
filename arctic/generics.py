@@ -373,6 +373,7 @@ class ListView(View, ListMixin, base.ListView):
             })
         else:
             prefix = self.get_prefix()
+            ordering_fields = self.get_ordering_fields()
             for field_name in self.get_fields():
                 item = {}
                 if isinstance(field_name, tuple):
@@ -397,7 +398,7 @@ class ListView(View, ListMixin, base.ListView):
                     except AttributeError:
                         item['label'] = field_name
                 item['name'] = prefix + name
-                if name in self.get_ordering_fields():
+                if name in ordering_fields:
                     item['order_url'], item['order_direction'] = \
                         self.ordering_url(name)
                 result.append(item)
@@ -498,7 +499,7 @@ class ListView(View, ListMixin, base.ListView):
         if self.prefix:
             fields = [f.replace(prefix, '', 1) for f in fields]
         return [f for f in fields if f.lstrip('-')
-                in self.get_ordering_fields()]
+                in self.get_ordering_fields_lookups()]
 
     def get_page_title(self):
         if not self.page_title:

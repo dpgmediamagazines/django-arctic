@@ -408,7 +408,7 @@ class ListMixin(object):
     def advanced_search_form(self):
         return self._advanced_search_form
 
-    def ordering_url(self, field):
+    def ordering_url(self, field_name):
         """
         Creates a url link for sorting the given field.
 
@@ -419,11 +419,12 @@ class ListMixin(object):
         direction = ''
         query_params = self.request.GET.copy()
         ordering = self.request.GET.get('order', '').split(',')
+        field = self._get_ordering_field_lookup(field_name)
         if not ordering:
             ordering = self.get_default_ordering()
         merged_ordering = list(ordering)  # copy the list
 
-        for ordering_field in self.get_ordering_fields():
+        for ordering_field in self.get_ordering_fields_lookups():
             if (ordering_field.lstrip('-') not in ordering) and \
                (('-' + ordering_field.lstrip('-')) not in ordering):
                 merged_ordering.append(ordering_field)
@@ -457,6 +458,25 @@ class ListMixin(object):
         Hook to dynamically change the fields that can be ordered
         """
         return self.ordering_fields
+
+    def get_ordering_fields_lookups(self):
+        """
+        Getting real model fields to order by
+        """
+        ordering_field = []
+        for field_name in self.get_ordering_fields():
+            ordering_field.append(self._get_ordering_field_lookup(field_name))
+        return ordering_field
+
+    def _get_ordering_field_lookup(self, field_name):
+        """
+        get real model field to order by
+        """
+        field = field_name
+        get_field = getattr(self, 'get_%s_ordering_field' % field_name, None)
+        if get_field:
+            field = get_field()
+        return field
 
     def get_tool_links_icon(self):
         return self.tool_links_icon
