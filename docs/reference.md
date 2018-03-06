@@ -385,7 +385,7 @@ Example:
             }
 
             for value in values:
-                q &= conditions.get(value, Q())
+                q |= conditions.get(value, Q())
             return q
 
 ### `advanced_search_form_class`

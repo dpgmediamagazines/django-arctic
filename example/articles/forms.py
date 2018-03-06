@@ -29,7 +29,7 @@ class AdvancedArticleSearchForm(forms.Form):
         super(AdvancedArticleSearchForm, self).__init__(data)
 
     def get_search_filter(self):
-        value = self.stored_data.get('description')
+        value = self.cleaned_data.get('description')
         if value:
             return Q(description__icontains=value)
         return Q()
@@ -53,6 +53,6 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
         }
 
         for value in values:
-            q &= conditions.get(value, Q())
+            q |= conditions.get(value, Q())
 
         return q
