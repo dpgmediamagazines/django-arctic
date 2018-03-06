@@ -106,7 +106,7 @@ class QuickFiltersSelect(CheckboxSelectMultiple):
                 option = {
                     'name': name,
                     'value': val,
-                    'selected': val == value,
+                    'selected': val in value,
                     'label': label
                 }
                 optgroups.append((None, [option], None))
