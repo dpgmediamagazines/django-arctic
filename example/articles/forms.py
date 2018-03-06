@@ -45,11 +45,8 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
 
     def get_search_filter(self):
         q = super(FiltersAndSearchForm, self).get_search_filter()
-        return q & self.get_quick_filter_query()
 
-    def get_quick_filter_query(self):
         values = self.cleaned_data.get(self.filters_query_name)
-        q = Q()
         conditions = {
             'published': Q(published=True),
             'rabbit': Q(description__icontains='rabbit')
@@ -57,4 +54,5 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
 
         for value in values:
             q &= conditions.get(value, Q())
+
         return q

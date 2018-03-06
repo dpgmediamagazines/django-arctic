@@ -62,20 +62,6 @@ def test_filters_form_field():
     assert not form.fields['my_filters'].choices == form.FILTER_BUTTONS
 
 
-def test_filters_form_errors():
-    class WrongFiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
-        filters_query_name = 'some_name'
-
-    form = WrongFiltersForm()
-
-    try:
-        form.get_quick_filter_query()
-    except NotImplementedError:
-        assert True
-    else:
-        assert False
-
-
 def test_form_rendering_with_request_get_args():
     request = HttpRequest()
     request.GET['search'] = 'cats'

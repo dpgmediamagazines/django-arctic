@@ -368,23 +368,25 @@ Example:
     .
     from django.db.models import Q
 
-    class QuickSearchForm(SimpleSearchForm):
+    class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
         filters_query_name = 'my_filters'
         FILTER_BUTTONS = (
             ('published', 'Is published'),
             ('rabbit', 'Find rabbit')
         )
 
-        def get_quick_filter_query(self):
-            value = self.cleaned_data.get(self.filters_query_name)
+        def get_search_filter(self):
+            q = super(FiltersAndSearchForm, self).get_search_filter()
 
-            if value == 'published':
-                return Q(published=True)
-            elif value == 'rabbit':
-                return Q(description__icontains='rabbit')
-            else:
-                return Q()
+            values = self.cleaned_data.get(self.filters_query_name)
+            conditions = {
+                'published': Q(published=True),
+                'rabbit': Q(description__icontains='rabbit')
+            }
 
+            for value in values:
+                q &= conditions.get(value, Q())
+            return q
 
 ### `advanced_search_form_class`
 

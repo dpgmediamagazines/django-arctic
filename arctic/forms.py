@@ -21,16 +21,6 @@ class QuickFiltersFormMixin(object):
                 widget=QuickFiltersSelect
             )
 
-    def get_quick_filter_query(self):
-        """Returns Q () conditions in depends for filter query"""
-        if self.filters_query_name:
-            raise NotImplementedError(
-                'For using quick_filters you must implement '
-                '"get_quick_filter_query()" in the simple_search_form_class'
-            )
-        else:
-            return Q()
-
     def get_quick_filters_field(self):
         """Dynamically render form field in template"""
         return self[self.filters_query_name]
