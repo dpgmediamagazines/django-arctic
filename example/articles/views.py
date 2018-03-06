@@ -8,7 +8,8 @@ from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
 from collections import OrderedDict
 
-from .forms import ArticleForm, AdvancedArticleSearchForm
+from .forms import (ArticleForm, AdvancedArticleSearchForm,
+                    FiltersAndSearchForm)
 from .inlines import TagsInline
 from .models import (Article, Category, Tag)
 
@@ -29,6 +30,7 @@ class ArticleListView(ListView):
     fields = ['title', 'description', 'published', 'category', 'tags']
     ordering_fields = ['title', 'description', 'category', 'published']
     search_fields = ['title']
+    simple_search_form_class = FiltersAndSearchForm
     advanced_search_form_class = AdvancedArticleSearchForm
     breadcrumbs = (('Home', 'index'), ('Article List', None))
     action_links = [
