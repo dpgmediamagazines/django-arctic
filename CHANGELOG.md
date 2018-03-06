@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+
 ##[unreleased]
 
 ## Changed
 - added pagination_legend block and show_legend pagination option - [#277][277]
+- added virtual_ordering_fields for ListView - [#274][274]
 
 [277]: //github.com/sanoma/django-arctic/issues/277
+[274]: //github.com/sanoma/django-arctic/issues/274
 
 
 ## 1.0.1 (2017-03-01)
