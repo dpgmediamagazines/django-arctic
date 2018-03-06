@@ -3,13 +3,13 @@
 
 {% if paginator.num_pages > 1 or paginator.num_pages == -1 %}
     <div class="row paginator-block">
-        {% if show_legend %}
-            <div class="col col-auto pagination-legend">
-                <div class="pagination-info">
-                    {% with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
-                        {{ start }} &ndash; {{ end }}{% if count != -1 %} {% trans 'of' %} {{ count }}{% endif %}
-                    {% endwith %}
-                </div>
+        {% if show_label %}
+            <div class="col col-auto pagination-label">
+                {% block pagination_label %}
+                    <div class="pagination-info">
+                        {{ page_obj.start_index }} &ndash; {{ page_obj.end_index }}{% if paginator.count != -1 %} {% trans 'of' %} {{ paginator.count }}{% endif %}
+                    </div>
+                {% endblock %}
             </div>
         {% endif %}
         <div class="col col-auto pagination-navigation">

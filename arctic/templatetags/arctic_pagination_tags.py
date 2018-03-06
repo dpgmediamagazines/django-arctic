@@ -13,6 +13,8 @@ from django.template.loader import get_template
 # instead accepts only accepts a dict. Up until django 1.8, a context was
 # actually required. Fortunately Context takes a single dict parameter,
 # so for django >=1.9 we can get away with just passing a unit function.
+from arctic.utils import arctic_setting
+
 if django.VERSION < (1, 9, 0):
     from django.template import Context
 else:
@@ -66,14 +68,26 @@ class PaginationNode(Node):
                 kwargs[argname] = None
 
         # Unpack our keyword arguments, substituting defaults where necessary
-        range_length = kwargs.get("range", None)
+
+        PAGINATION_SETTINGS = arctic_setting('ARCTIC_PAGINATION')
+
+        show_label = str_to_bool(kwargs.get(
+            "show_label", PAGINATION_SETTINGS['show_label']
+        ))
+        show_prev_next = str_to_bool(kwargs.get(
+            "show_prev_next", PAGINATION_SETTINGS['show_prev_next']
+        ))
+        show_first_last = str_to_bool(kwargs.get(
+            "show_first_last", PAGINATION_SETTINGS['show_first_last']
+        ))
+        show_index_range = str_to_bool(kwargs.get(
+            "show_index_range", PAGINATION_SETTINGS['show_index_range']
+        ))
+        range_length = kwargs.get(
+            "range", PAGINATION_SETTINGS["range"]
+        )
         if range_length is not None:
             range_length = int(range_length)
-
-        show_legend = str_to_bool(kwargs.get("show_legend", "true"))
-        show_prev_next = str_to_bool(kwargs.get("show_prev_next", "true"))
-        show_first_last = str_to_bool(kwargs.get("show_first_last", "false"))
-        show_index_range = str_to_bool(kwargs.get("show_index_range", "false"))
 
         # Generage our viewable page range
         page = self.page.resolve(context)
@@ -117,7 +131,9 @@ class PaginationNode(Node):
             first_page_index = 1
             last_page_index = page_count
 
-        return get_template("arctic/partials/pagination.html").render(
+        return get_template(
+            arctic_setting('ARCTIC_PAGINATION_TEMPLATE')
+        ).render(
             Context({
                 'page_obj': page,
                 'paginator': paginator,
@@ -128,7 +144,7 @@ class PaginationNode(Node):
                 'page_range': page_range,
                 'first_page_index': first_page_index,
                 'last_page_index': last_page_index,
-                'show_legend': show_legend,
+                'show_label': show_label,
             }))
 
 

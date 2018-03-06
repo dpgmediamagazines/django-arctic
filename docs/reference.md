@@ -95,6 +95,27 @@ Name of the site.
 Title of the site to be used in the title tag. If not set it will use
 `ARCTIC_SITE_NAME`
 
+## `ARCTIC_PAGINATION`
+
+Default pagination settings for `arctic_paginate` templatetag. 
+All params should be defined in case overriding default settings. 
+
+    ARCTIC_PAGINATION = {
+        'show_label': True,
+        'show_prev_next': True,
+        'show_first_last': True,
+        'show_index_range': False,
+        'range': 5,
+    }
+
+
+## `ARCTIC_PAGINATION_TEMPLATE`
+
+Default pagination template used by `arctic_paginate` templatetag. 
+Should be overridden in case customization pagination.
+
+    ARCTIC_PAGINATION_TEMPLATE = 'arctic/partials/pagination.html'
+
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
