@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, unicode_literals)
 
-from arctic.forms import SimpleSearchForm
+from arctic.forms import SimpleSearchForm, QuickFiltersFormMixin
 from django import forms
 from django.db.models import Q
 
@@ -35,7 +35,7 @@ class AdvancedArticleSearchForm(forms.Form):
         return Q()
 
 
-class FiltersAndSearchForm(SimpleSearchForm):
+class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
     filters_query_name = 'my_filters'
 
     FILTER_BUTTONS = (
@@ -44,11 +44,13 @@ class FiltersAndSearchForm(SimpleSearchForm):
     )
 
     def get_quick_filter_query(self):
-        value = self.cleaned_data.get(self.filters_query_name)
+        values = self.cleaned_data.get(self.filters_query_name)
+        q = Q()
+        conditions = {
+            'published': Q(published=True),
+            'rabbit': Q(description__icontains='rabbit')
+        }
 
-        if value == 'published':
-            return Q(published=True)
-        elif value == 'rabbit':
-            return Q(description__icontains='rabbit')
-        else:
-            return Q()
+        for value in values:
+            q &= conditions.get(value, Q())
+        return q

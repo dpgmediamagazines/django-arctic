@@ -1,13 +1,11 @@
-<span class="quick_filters">
-    <div data-toggle="buttons">
-    {% for group, options, index in widget.optgroups %}
-      <label  class="mr-2 btn btn-primary btn-outline-primary" js-search-submit>
-        <input type="radio"
-               {% if options.0.selected %}checked{% endif %}
-               name="{{ options.0.name }}"
-               value="{{ options.0.value }}"
-               > {{ options.0.label }}
-      </label>
-    {% endfor %}
-    </div>
-</span>
+<div class="quick_filters" data-toggle="buttons">
+  {% for group, options, index in widget.optgroups %}
+    <label class="mr-2 btn btn-primary btn-outline-primary {% if options.0.selected %}active{% endif %}">
+      <input type="checkbox" onchange="$('form.search-form').submit()"
+             {% if options.0.selected %}checked{% endif %}
+             name="{{ options.0.name }}"
+             value="{{ options.0.value }}"
+      > {{ options.0.label }}
+    </label>
+  {% endfor %}
+</div>

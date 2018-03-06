@@ -60,17 +60,3 @@ $(document).ready(function() {
         $('form.search-form').submit();
     })
 });
-
-function select_quick_filter(self) {
-    var next_input = $(self).next('input');
-
-    // activate and deactivate filter
-    var checked = next_input.attr('checked');
-    if (checked === 'checked') {
-        next_input.attr('checked', false);
-    }
-    else {
-        next_input.attr('checked', true);
-    }
-    $('form.search-form').submit();
-}

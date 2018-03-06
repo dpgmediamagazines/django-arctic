@@ -3,11 +3,11 @@ from django.http import HttpRequest
 from django.template import Context, Template
 from bs4 import BeautifulSoup
 
-from arctic.forms import SimpleSearchForm
+from arctic.forms import SimpleSearchForm, QuickFiltersFormMixin
 from arctic.widgets import QuickFiltersSelect
 
 
-class FiltersForm(SimpleSearchForm):
+class FiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
     FILTER_BUTTONS = (
         ('published', 'Is published'),
         ('find_rabbit', 'Rabbit')
@@ -63,7 +63,7 @@ def test_filters_form_field():
 
 
 def test_filters_form_errors():
-    class WrongFiltersForm(SimpleSearchForm):
+    class WrongFiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
         filters_query_name = 'some_name'
 
     form = WrongFiltersForm()
@@ -88,8 +88,8 @@ def test_form_rendering_with_request_get_args():
 
     soup = BeautifulSoup(template, 'html.parser')
 
-    filters_inputs = soup.find_all('input', {'type': 'radio'})
-    filters_buttons = soup.find_all('button')
+    filters_inputs = soup.find_all('input', {'type': 'checkbox'})
+    filters_buttons = soup.find_all('label', {'class': 'btn'})
 
     assert len(filters_inputs) == len(form.FILTER_BUTTONS)
     assert len(filters_buttons) == len(form.FILTER_BUTTONS)
@@ -99,8 +99,6 @@ def test_form_rendering_with_request_get_args():
             filters_buttons,
             form.FILTER_BUTTONS):
         assert btn.text.strip() == choice[1]
-        assert btn['onclick'] == "select_quick_filter(this)"
-        assert inp.get('hidden') == ''
         assert inp.get('value') == choice[0]
         assert inp.get('name') == 'my_filters'
 

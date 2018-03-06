@@ -3,7 +3,7 @@ from datetime import datetime
 import django
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
                                   SelectMultiple, TimeInput, Input,
-                                  RadioSelect)
+                                  CheckboxSelectMultiple)
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -88,7 +88,7 @@ class TimePickerInput(PickerFormatMixin, TimeInput):
         super(TimePickerInput, self).__init__(attrs, format)
 
 
-class QuickFiltersSelect(RadioSelect):
+class QuickFiltersSelect(CheckboxSelectMultiple):
     template_name = 'arctic/widgets/quick_filters_select.html'
 
     def get_context(self, name, value, attrs=None, *args, **kwargs):
