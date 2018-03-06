@@ -102,9 +102,7 @@ All params should be defined in case overriding default settings.
 
     ARCTIC_PAGINATION = {
         'show_label': True,
-        'show_prev_next': True,
         'show_first_last': True,
-        'show_index_range': False,
         'range': 5,
     }
 

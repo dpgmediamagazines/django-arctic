@@ -74,14 +74,8 @@ class PaginationNode(Node):
         show_label = str_to_bool(kwargs.get(
             "show_label", PAGINATION_SETTINGS['show_label']
         ))
-        show_prev_next = str_to_bool(kwargs.get(
-            "show_prev_next", PAGINATION_SETTINGS['show_prev_next']
-        ))
         show_first_last = str_to_bool(kwargs.get(
             "show_first_last", PAGINATION_SETTINGS['show_first_last']
-        ))
-        show_index_range = str_to_bool(kwargs.get(
-            "show_index_range", PAGINATION_SETTINGS['show_index_range']
         ))
         range_length = kwargs.get(
             "range", PAGINATION_SETTINGS["range"]
@@ -138,8 +132,6 @@ class PaginationNode(Node):
                 'page_obj': page,
                 'paginator': paginator,
                 'request': context['request'],
-                'show_index_range': show_index_range,
-                'show_prev_next': show_prev_next,
                 'show_first_last': show_first_last,
                 'page_range': page_range,
                 'first_page_index': first_page_index,
