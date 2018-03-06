@@ -43,6 +43,10 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
         ('rabbit', 'Find rabbit')
     )
 
+    def get_search_filter(self):
+        q = super(FiltersAndSearchForm, self).get_search_filter()
+        return q & self.get_quick_filter_query()
+
     def get_quick_filter_query(self):
         values = self.cleaned_data.get(self.filters_query_name)
         q = Q()

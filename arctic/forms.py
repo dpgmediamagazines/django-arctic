@@ -21,10 +21,6 @@ class QuickFiltersFormMixin(object):
                 widget=QuickFiltersSelect
             )
 
-    def get_search_filter(self):
-        q = super(QuickFiltersFormMixin, self).get_search_filter()
-        return q & self.get_quick_filter_query()
-
     def get_quick_filter_query(self):
         """Returns Q () conditions in depends for filter query"""
         if self.filters_query_name:
