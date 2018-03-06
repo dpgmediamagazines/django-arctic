@@ -46,6 +46,14 @@
 
                             </div>
                         </div>
+                        {% block quick_filters %}
+                          {% if simple_search_form.filters_query_name %}
+                            <div class="form-group">
+                              {{ simple_search_form.get_quick_filters_field }}
+                            </div>
+                          {% endif %}
+                        {% endblock %}
+
                         {% if simple_search_form.errors %}
                             {% block errors %}
                                 {% for field in simple_search_form %}
@@ -76,10 +84,12 @@
             {% endblock %}
         </form>
     {% endif %}
+
 </div>
 
 {% block top_pagination %}
 {% endblock %}
+
 
 {% block table %}
 <div class="row">

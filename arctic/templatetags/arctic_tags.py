@@ -3,6 +3,7 @@ from __future__ import (absolute_import, unicode_literals)
 from collections import OrderedDict
 
 from django import template
+from django.template import VariableDoesNotExist
 from django.urls import reverse
 
 register = template.Library()
@@ -47,12 +48,20 @@ class GetParametersNode(template.Node):
     """
     Renders current get parameters except for the specified parameter
     """
+
     def __init__(self, field):
+        self.template_var = template.Variable(field)
         self.field = field
 
     def render(self, context):
         request = context['request']
         getvars = request.GET.copy()
+
+        # check if we pass template vat into tag
+        try:
+            self.field = self.template_var.resolve(context)
+        except VariableDoesNotExist:
+            pass
 
         if self.field in getvars:
             del getvars[self.field]
@@ -87,7 +96,6 @@ def get_all_fields(obj):
             value = ','.join(str(v) for v in value)
 
         if f.editable and value and f.name:
-
             fields.append({
                 'label': f.verbose_name,
                 'name': f.name,
@@ -163,6 +171,7 @@ def arctic_url(context, link, *args, **kwargs):
     We could tie this to check_url_access() to check for permissions,
     including object-level.
     """
+
     def reverse_mutable_url_args(url_args):
         mutated_url_args = []
         for arg in url_args:
