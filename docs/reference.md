@@ -252,6 +252,26 @@ list of fields that are to be searched.
 
 list of fields that can be ordered by clicking on the field's header column.
 
+
+### `virtual ordering fields`
+
+Via the fields property, it's possible to add virtual ordering fields. 
+This is very userfull if we need to order by one of virtual field. For this 
+you should extend the view with custom ordering fields. A virtual ordering field 
+does need an accompanying method written like "get_{}_ordering_field". 
+
+Example:
+
+    class MyListView(arctic.ListView):
+        fields = (model_field1, model_field2, not_a_model)
+        ordering_fields = (model_field1, model_field2, not_a_model)
+        
+        def get_not_a_model_field(row_instance):
+            return row_instance.created_at_UTC or row_instance.created_at_CET
+        
+        def get_not_a_model_ordering_field():
+            return 'created_at_UTC'
+
 ### `sorting_field`
 
 setting this property with a numberic database field will enable drag and drop 
