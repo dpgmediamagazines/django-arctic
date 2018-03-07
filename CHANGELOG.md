@@ -36,6 +36,7 @@ Always reference the ticket number at the end of the issue description.
 
 - Specifying `action_links` per each row in `ListView` - [#259][259]
 - Specifying `field_classes` per each row in `ListView` - [#261][261]
+- Specifying `QuickFiltersSelect` for filters_block in `ListView` - [#273][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
 [247]: //github.com/sanoma/django-arctic/issues/247
@@ -46,6 +47,7 @@ Always reference the ticket number at the end of the issue description.
 [261]: //github.com/sanoma/django-arctic/issues/261
 [265]: //github.com/sanoma/django-arctic/issues/265
 [270]: //github.com/sanoma/django-arctic/issues/270
+[269]: //github.com/sanoma/django-arctic/issues/269
 
 
 ## 1.0.0

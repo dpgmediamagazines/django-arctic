@@ -271,6 +271,26 @@ list of fields that are to be searched.
 
 list of fields that can be ordered by clicking on the field's header column.
 
+
+### `virtual ordering fields`
+
+Via the fields property, it's possible to add virtual ordering fields. 
+This is very userfull if we need to order by one of virtual field. For this 
+you should extend the view with custom ordering fields. A virtual ordering field 
+does need an accompanying method written like "get_{}_ordering_field". 
+
+Example:
+
+    class MyListView(arctic.ListView):
+        fields = (model_field1, model_field2, not_a_model)
+        ordering_fields = (model_field1, model_field2, not_a_model)
+        
+        def get_not_a_model_field(row_instance):
+            return row_instance.created_at_UTC or row_instance.created_at_CET
+        
+        def get_not_a_model_ordering_field():
+            return 'created_at_UTC'
+
 ### `sorting_field`
 
 setting this property with a numberic database field will enable drag and drop 
@@ -370,7 +390,42 @@ Dictionary of named urls that will display a confirmation dialog. The format is:
 
 Both `title` and `message` can contain field names wrapped as django template
 variables, which will be parsed into the field value for the row instance.
-Currently `confirm_links` work only on the `action_links` area. 
+Currently `confirm_links` work only on the `action_links` area.
+
+### `simple_search_form_class`
+
+By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
+Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
+you want to perform custom Q() query for each filter button.
+Example:
+
+    class ExampleListView(ListView):
+        ...
+        advanced_search_form_class = QuickSearchForm
+        ...
+    .
+    .
+    from django.db.models import Q
+
+    class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
+        filters_query_name = 'my_filters'
+        FILTER_BUTTONS = (
+            ('published', 'Is published'),
+            ('rabbit', 'Find rabbit')
+        )
+
+        def get_search_filter(self):
+            q = super(FiltersAndSearchForm, self).get_search_filter()
+
+            values = self.cleaned_data.get(self.filters_query_name)
+            conditions = {
+                'published': Q(published=True),
+                'rabbit': Q(description__icontains='rabbit')
+            }
+
+            for value in values:
+                q |= conditions.get(value, Q())
+            return q
 
 ### `advanced_search_form_class`
 
@@ -385,7 +440,7 @@ Example:
     .
     .
     from django.db.models import Q
-    
+
     class AdvancedSearchForm(Form):
         """
         Basic implementation of arctic's advanced search form class
@@ -404,6 +459,7 @@ Example:
             if created_on_value:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
+
 
 ## DataListView
 
