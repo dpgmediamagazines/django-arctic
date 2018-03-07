@@ -195,7 +195,7 @@
                 </div>
             </div>
             {% block pagination %}
-                {% arctic_paginate page_obj range=5 paginator=paginator show_first_last=True %}
+                {% arctic_paginate page_obj paginator=paginator %}
             {% endblock %}
         </div>
     {% else %}
