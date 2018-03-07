@@ -13,3 +13,11 @@ ARCTIC_WIDGET_OVERLOADS = {
     'SelectMultiple': 'arctic.widgets.SelectizeMultiple',
     'MultipleChoiceField': 'arctic.widgets.Selectize',
 }
+
+ARCTIC_PAGINATION = {
+    'show_label': True,
+    'show_first_last': True,
+    'range': 5,
+}
+
+ARCTIC_PAGINATION_TEMPLATE = 'arctic/partials/pagination.html'
