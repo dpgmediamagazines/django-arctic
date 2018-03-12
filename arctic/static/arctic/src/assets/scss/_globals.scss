@@ -3,7 +3,7 @@ li {
 }
 
 //bootstrap overwrite
-a:not([href]):not([tabindex]) {
+a:not([href]):not([tabindex]):not(.btn) {
     color: $link-color;
     cursor: pointer;
     &:hover {

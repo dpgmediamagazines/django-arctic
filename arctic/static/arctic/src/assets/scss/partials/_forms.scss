@@ -217,18 +217,25 @@ label {
 }
 
 .input-group {
-  > .btn:first-child {
-    margin-left: 0;
-  }
+    > input,
+    > .btn {
+        height: 2.34rem;
+    }
 
-  // Reset rounded corners
-  > .btn:not(:last-child):not(.dropdown-toggle),
-  > .btn-group:not(:last-child) > .btn {
-    @include border-right-radius(0);
-  }
+    > .btn:first-child {
+        margin-left: 0;
+    }
 
-  > .btn:not(:first-child),
-  > .btn-group:not(:first-child) > .btn {
-    @include border-left-radius(0);
-  }
+    // Reset rounded corners
+    > .btn:not(:last-child):not(.dropdown-toggle),
+    > .btn-group:not(:last-child) > .btn,
+    > input {
+        @include border-right-radius(0);
+        border-right: 0;
+    }
+
+    > .btn:not(:first-child),
+    > .btn-group:not(:first-child) > .btn {
+        @include border-left-radius(0);
+    }
 }
