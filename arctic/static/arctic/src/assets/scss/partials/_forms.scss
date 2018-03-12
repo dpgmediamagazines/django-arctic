@@ -224,4 +224,28 @@ label {
     h1, h2, h3, h4, h5 {
         margin-bottom: 1rem;
     }
-} 
+}
+
+.input-group {
+    > input,
+    > .btn {
+        height: 2.34rem;
+    }
+
+    > .btn:first-child {
+        margin-left: 0;
+    }
+
+    // Reset rounded corners
+    > .btn:not(:last-child):not(.dropdown-toggle),
+    > .btn-group:not(:last-child) > .btn,
+    > input {
+        @include border-right-radius(0);
+        border-right: 0;
+    }
+
+    > .btn:not(:first-child),
+    > .btn-group:not(:first-child) > .btn {
+        @include border-left-radius(0);
+    }
+}

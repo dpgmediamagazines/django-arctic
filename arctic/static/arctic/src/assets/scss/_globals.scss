@@ -3,7 +3,7 @@ li {
 }
 
 //bootstrap overwrite
-a:not([href]):not([tabindex]) {
+a:not([href]):not([tabindex]):not(.btn) {
     color: $link-color;
     cursor: pointer;
     &:hover {
@@ -30,6 +30,12 @@ a:not([href]):not([tabindex]) {
         opacity: 0.4;
     }
 }
+
+a[aria-describedby] {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
 
 .hide {
     display: none !important;
