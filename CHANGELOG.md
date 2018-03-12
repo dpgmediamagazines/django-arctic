@@ -8,11 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-##[unreleased]
+## [unreleased]
 
-## Changed
+### Fixed
+
+- Search bar items now join like a grouped button - [#267][267]
+
+### Changed
+
 - added virtual_ordering_fields for ListView - [#274][274]
 
+[267]: //github.com/sanoma/django-arctic/issues/267
 [274]: //github.com/sanoma/django-arctic/issues/274
 
 

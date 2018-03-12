@@ -31,6 +31,12 @@ a:not([href]):not([tabindex]):not(.btn) {
     }
 }
 
+a[aria-describedby] {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+
 .hide {
     display: none !important;
 }
