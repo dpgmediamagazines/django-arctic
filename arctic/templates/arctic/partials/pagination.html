@@ -3,14 +3,16 @@
 
 {% if paginator.num_pages > 1 or paginator.num_pages == -1 %}
     <div class="row paginator-block">
-        <div class="col col-auto">
-            <div class="pagination-info">
-                {% with start=page_obj.start_index end=page_obj.end_index count=paginator.count %}
-                    {{ start }} &ndash; {{ end }}{% if count != -1 %} {% trans 'of' %} {{ count }}{% endif %}
-                {% endwith %}
+        {% if show_label %}
+            <div class="col col-auto pagination-label">
+                {% block pagination_label %}
+                    <div class="pagination-info">
+                        {{ page_obj.start_index }} &ndash; {{ page_obj.end_index }}{% if paginator.count != -1 %} {% trans 'of' %} {{ paginator.count }}{% endif %}
+                    </div>
+                {% endblock %}
             </div>
-        </div>
-        <div class="col col-auto">
+        {% endif %}
+        <div class="col col-auto pagination-navigation">
             <ul class="pagination" role="navigation" aria-label="{% trans "Pagination" %}">
                 {% if show_first_last %}
                     {% if page_obj.has_previous %}

@@ -95,6 +95,25 @@ Name of the site.
 Title of the site to be used in the title tag. If not set it will use
 `ARCTIC_SITE_NAME`
 
+## `ARCTIC_PAGINATION`
+
+Default pagination settings for `arctic_paginate` templatetag. 
+All params should be defined in case overriding default settings. 
+
+    ARCTIC_PAGINATION = {
+        'show_label': True,
+        'show_first_last': True,
+        'range': 5,
+    }
+
+
+## `ARCTIC_PAGINATION_TEMPLATE`
+
+Default pagination template used by `arctic_paginate` templatetag. 
+Should be overridden in case customization pagination.
+
+    ARCTIC_PAGINATION_TEMPLATE = 'arctic/partials/pagination.html'
+
 ## `LOGIN_URL` and `LOGOUT_URL`
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
@@ -371,7 +390,42 @@ Dictionary of named urls that will display a confirmation dialog. The format is:
 
 Both `title` and `message` can contain field names wrapped as django template
 variables, which will be parsed into the field value for the row instance.
-Currently `confirm_links` work only on the `action_links` area. 
+Currently `confirm_links` work only on the `action_links` area.
+
+### `simple_search_form_class`
+
+By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
+Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
+you want to perform custom Q() query for each filter button.
+Example:
+
+    class ExampleListView(ListView):
+        ...
+        advanced_search_form_class = QuickSearchForm
+        ...
+    .
+    .
+    from django.db.models import Q
+
+    class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
+        filters_query_name = 'my_filters'
+        FILTER_BUTTONS = (
+            ('published', 'Is published'),
+            ('rabbit', 'Find rabbit')
+        )
+
+        def get_search_filter(self):
+            q = super(FiltersAndSearchForm, self).get_search_filter()
+
+            values = self.cleaned_data.get(self.filters_query_name)
+            conditions = {
+                'published': Q(published=True),
+                'rabbit': Q(description__icontains='rabbit')
+            }
+
+            for value in values:
+                q |= conditions.get(value, Q())
+            return q
 
 ### `advanced_search_form_class`
 
@@ -386,7 +440,7 @@ Example:
     .
     .
     from django.db.models import Q
-    
+
     class AdvancedSearchForm(Form):
         """
         Basic implementation of arctic's advanced search form class
@@ -405,6 +459,7 @@ Example:
             if created_on_value:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
+
 
 ## DataListView
 

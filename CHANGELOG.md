@@ -14,11 +14,13 @@ Always reference the ticket number at the end of the issue description.
 
 - Search bar items now join like a grouped button - [#267][267]
 
-### Changed
+## Changed
 
+- added pagination_legend block and show_legend pagination option - [#277][277]
 - added virtual_ordering_fields for ListView - [#274][274]
 
 [267]: //github.com/sanoma/django-arctic/issues/267
+[277]: //github.com/sanoma/django-arctic/issues/277
 [274]: //github.com/sanoma/django-arctic/issues/274
 
 
@@ -40,6 +42,7 @@ Always reference the ticket number at the end of the issue description.
 
 - Specifying `action_links` per each row in `ListView` - [#259][259]
 - Specifying `field_classes` per each row in `ListView` - [#261][261]
+- Specifying `QuickFiltersSelect` for filters_block in `ListView` - [#273][261]
 
 [248]: //github.com/sanoma/django-arctic/issues/248
 [247]: //github.com/sanoma/django-arctic/issues/247
@@ -50,6 +53,7 @@ Always reference the ticket number at the end of the issue description.
 [261]: //github.com/sanoma/django-arctic/issues/261
 [265]: //github.com/sanoma/django-arctic/issues/265
 [270]: //github.com/sanoma/django-arctic/issues/270
+[269]: //github.com/sanoma/django-arctic/issues/269
 
 
 ## 1.0.0

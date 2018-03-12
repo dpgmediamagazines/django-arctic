@@ -191,6 +191,16 @@ label {
     }
 }
 
+// Quick filters inputs
+
+.quick_filters {
+    input[type="checkbox"]{
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+        pointer-events: none;
+    }
+}
+
 // Restore default list and quote stylings in form-group to display correct
 // styling when using rich text editors.
 
