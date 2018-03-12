@@ -9,8 +9,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 {% trans "Oops! We found some errors. Please check the error messages below and try again." %}
-                <hr>
                 {% if form.non_field_errors %}
+                    <hr>
                     {% for error in form.non_field_errors %}
                         <p class="mb-0">
                             {{ error }}

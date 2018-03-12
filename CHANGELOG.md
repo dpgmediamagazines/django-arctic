@@ -13,6 +13,7 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 
 - Search bar items now join like a grouped button - [#267][267]
+- Broken inline forms are working again - [#279][279]
 
 ## Changed
 
@@ -22,6 +23,7 @@ Always reference the ticket number at the end of the issue description.
 [267]: //github.com/sanoma/django-arctic/issues/267
 [277]: //github.com/sanoma/django-arctic/issues/277
 [274]: //github.com/sanoma/django-arctic/issues/274
+[279]: //github.com/sanoma/django-arctic/issues/279
 
 
 ## 1.0.1 (2017-03-01)

@@ -11,7 +11,7 @@
             <div class="row {% if field.errors %}invalid-form-field{% endif %}">
         {% endif %}
         {% block controls %}
-            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %}{%if not inline %} col{% endif %}">
+            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
                 <div class="form-group">
                     {% block widget %}
                         {# checkbox or radio #}

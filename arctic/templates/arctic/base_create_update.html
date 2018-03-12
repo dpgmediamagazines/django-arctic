@@ -32,7 +32,7 @@
                     {% block inlines_title %}
                         {% if formset.verbose_name %}
                             <div class="arctic-card__form-header">
-                                <h4 class="arctic-card__title">{{ formset.verbose_name }}</h4>
+                                <h6 class="arctic-card__title">{{ formset.verbose_name }}</h6>
                             </div>
                             <div class="arctic-card__placeholder arctic-card__placeholder--small"></div>
                         {% endif %}
@@ -41,8 +41,11 @@
                         {{ formset.non_form_errors }}
                     {% for form in formset %}
                         {% block inlines_form_fields %}
-                            {% include "arctic/partials/form_field_inline.html" with form=form %}
+                            {% include "arctic/partials/form_fields_inline.html" with form=form %}
                         {% endblock %}
+                        {% if not forloop.last %}    
+                            <hr><br>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endif %}
