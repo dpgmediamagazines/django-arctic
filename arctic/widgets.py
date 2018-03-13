@@ -117,7 +117,8 @@ class QuickFiltersSelectMixin(object):
     def render(self, name, value, attrs=None):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
-            return super(QuickFiltersSelectMixin, self).render(name, value, attrs)
+            return super(QuickFiltersSelectMixin, self).render(
+                name, value, attrs)
         else:
             t = render_to_string(
                 template_name=self.template_name,
@@ -132,7 +133,8 @@ class QuickFiltersSelect(QuickFiltersSelectMixin, RadioSelect):
     """
 
 
-class QuickFiltersSelectMultiple(QuickFiltersSelectMixin, CheckboxSelectMultiple):
+class QuickFiltersSelectMultiple(QuickFiltersSelectMixin,
+                                 CheckboxSelectMultiple):
     """
     This widget is used to be able to have a few active filters
     """

@@ -19,7 +19,9 @@ class QuickFiltersFormMixin(object):
             self.fields[self.filters_query_name] = self._get_filter_form_field(
                 required=False,
                 choices=self.FILTER_BUTTONS,
-                widget=self._get_filter_field_widget(attrs={'select_multiple': self.filters_select_multiple})
+                widget=self._get_filter_field_widget(
+                    attrs={'select_multiple': self.filters_select_multiple}
+                )
             )
 
     def get_quick_filters_field(self):
@@ -29,12 +31,18 @@ class QuickFiltersFormMixin(object):
     @property
     def _get_filter_form_field(self):
         """Return form form field according to multiple select possibility"""
-        return forms.MultipleChoiceField if self.filters_select_multiple else forms.ChoiceField
+        if self.filters_select_multiple:
+            return forms.MultipleChoiceField
+        else:
+            return forms.ChoiceField
 
     @property
     def _get_filter_field_widget(self):
         """Return field widget according to multiple select possibility"""
-        return QuickFiltersSelectMultiple if self.filters_select_multiple else QuickFiltersSelect
+        if self.filters_select_multiple:
+            return QuickFiltersSelectMultiple
+        else:
+            return QuickFiltersSelect
 
 
 class SimpleSearchForm(forms.Form):

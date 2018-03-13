@@ -57,4 +57,3 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
             q |= conditions.get(value, Q())
 
         return q | conditions.get(values, Q())
-
