@@ -4,7 +4,7 @@ from django.template import Context, Template
 from bs4 import BeautifulSoup
 
 from arctic.forms import SimpleSearchForm, QuickFiltersFormMixin
-from arctic.widgets import QuickFiltersSelect
+from arctic.widgets import QuickFiltersSelect, QuickFiltersSelectMultiple
 
 
 class FiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
@@ -13,6 +13,7 @@ class FiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
         ('find_rabbit', 'Rabbit')
     )
     filters_query_name = 'my_filters'
+    filters_select_multiple = True
 
     def get_quick_filter_query(self):
         value = self.cleaned_data.get(self.filters_query_name)
@@ -23,6 +24,10 @@ class FiltersForm(QuickFiltersFormMixin, SimpleSearchForm):
             return Q(description__icontains='rabbit')
         else:
             return Q()
+
+
+class FiltersFormSelectOne(FiltersForm):
+    filters_select_multiple = False
 
 
 def test_simple_search_form():
@@ -53,13 +58,20 @@ def test_filters_form_field():
 
     assert form.fields.get('my_filters')
 
-    widget = form.fields['my_filters'].widget
-    assert isinstance(widget, QuickFiltersSelect)
-
     assert form.get_quick_filters_field().field == form.fields['my_filters']
 
     assert not form.fields['my_filters'].required
     assert not form.fields['my_filters'].choices == form.FILTER_BUTTONS
+
+
+def test_filters_form_widget_selecting():
+    form = FiltersForm()
+    widget = form.fields['my_filters'].widget
+    assert isinstance(widget, QuickFiltersSelectMultiple)
+
+    form = FiltersFormSelectOne()
+    widget = form.fields['my_filters'].widget
+    assert isinstance(widget, QuickFiltersSelect)
 
 
 def test_form_rendering_with_request_get_args():
@@ -90,3 +102,19 @@ def test_form_rendering_with_request_get_args():
 
     # check if we marked selected filter
     assert filters_inputs[0].attrs.get('checked') == ''
+
+
+def test_filters_form_rendering_select_one():
+    request = HttpRequest()
+    request.GET['search'] = 'cats'
+    request.GET['my_filters'] = 'published'
+
+    form = FiltersFormSelectOne(data=request.GET)
+    assert form.is_valid()
+
+    template = Template('{{ form }}').render(Context({"form": form}))
+
+    soup = BeautifulSoup(template, 'html.parser')
+    filters_inputs = soup.find_all('input', {'type': 'checkbox'})
+
+    assert filters_inputs[0].attrs.get('checked') is None

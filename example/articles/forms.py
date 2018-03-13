@@ -37,6 +37,7 @@ class AdvancedArticleSearchForm(forms.Form):
 
 class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
     filters_query_name = 'my_filters'
+    filters_select_multiple = False
 
     FILTER_BUTTONS = (
         ('published', 'Is published'),
@@ -55,4 +56,5 @@ class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
         for value in values:
             q |= conditions.get(value, Q())
 
-        return q
+        return q | conditions.get(values, Q())
+
