@@ -136,5 +136,5 @@ class QuickFiltersSelect(QuickFiltersSelectMixin, RadioSelect):
 class QuickFiltersSelectMultiple(QuickFiltersSelectMixin,
                                  CheckboxSelectMultiple):
     """
-    This widget is used to be able to have a few active filters
+    This widget is used to be able to have a more than one active filters
     """
