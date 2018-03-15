@@ -19,11 +19,13 @@ Always reference the ticket number at the end of the issue description.
 
 - added pagination_legend block and show_legend pagination option - [#277][277]
 - added virtual_ordering_fields for ListView - [#274][274]
+- added single and multiple select for quick filter - [#282][282]
 
 [267]: //github.com/sanoma/django-arctic/issues/267
 [277]: //github.com/sanoma/django-arctic/issues/277
 [274]: //github.com/sanoma/django-arctic/issues/274
 [279]: //github.com/sanoma/django-arctic/issues/279
+[282]: //github.com/sanoma/django-arctic/issues/282
 
 
 ## 1.0.1 (2017-03-01)

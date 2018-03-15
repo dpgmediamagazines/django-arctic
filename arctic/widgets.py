@@ -3,7 +3,7 @@ from datetime import datetime
 import django
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
                                   SelectMultiple, TimeInput, Input,
-                                  CheckboxSelectMultiple)
+                                  CheckboxSelectMultiple, RadioSelect)
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -88,18 +88,19 @@ class TimePickerInput(PickerFormatMixin, TimeInput):
         super(TimePickerInput, self).__init__(attrs, format)
 
 
-class QuickFiltersSelect(CheckboxSelectMultiple):
+class QuickFiltersSelectMixin(object):
     template_name = 'arctic/widgets/quick_filters_select.html'
 
     def get_context(self, name, value, attrs=None, *args, **kwargs):
         if django.VERSION >= (1, 11):
-            return super(QuickFiltersSelect, self) \
+            return super(QuickFiltersSelectMixin, self) \
                 .get_context(name, value, attrs)
         else:
             # django 1.10 doesn't support optgroups
             # and render choices in method
             context = {
-                'widget': self
+                'widget': self,
+                'attrs': attrs
             }
             optgroups = []
             for val, label in self.choices:
@@ -116,10 +117,24 @@ class QuickFiltersSelect(CheckboxSelectMultiple):
     def render(self, name, value, attrs=None):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
-            return super(QuickFiltersSelect, self).render(name, value, attrs)
+            return super(QuickFiltersSelectMixin, self).render(
+                name, value, attrs)
         else:
             t = render_to_string(
                 template_name=self.template_name,
                 context=self.get_context(name, value, attrs)
             )
             return mark_safe(t)
+
+
+class QuickFiltersSelect(QuickFiltersSelectMixin, RadioSelect):
+    """
+    This widget is used when you want select only one active filter
+    """
+
+
+class QuickFiltersSelectMultiple(QuickFiltersSelectMixin,
+                                 CheckboxSelectMultiple):
+    """
+    This widget is used to be able to have a more than one active filters
+    """

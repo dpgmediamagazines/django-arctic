@@ -37,6 +37,7 @@ class AdvancedArticleSearchForm(forms.Form):
 
 class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
     filters_query_name = 'my_filters'
+    filters_select_multiple = True
 
     FILTER_BUTTONS = (
         ('published', 'Is published'),

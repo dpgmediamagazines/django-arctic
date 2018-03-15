@@ -397,18 +397,21 @@ Currently `confirm_links` work only on the `action_links` area.
 By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
 Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
 you want to perform custom Q() query for each filter button.
+Use `filters_select_multiple` variable to define which type of filters will be used. When you want select more than one active filter set `True`.
+
 Example:
 
     class ExampleListView(ListView):
         ...
         advanced_search_form_class = QuickSearchForm
         ...
-    .
-    .
+
+
     from django.db.models import Q
 
     class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
         filters_query_name = 'my_filters'
+        filters_select_multiple = True
         FILTER_BUTTONS = (
             ('published', 'Is published'),
             ('rabbit', 'Find rabbit')
