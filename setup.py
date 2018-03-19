@@ -46,7 +46,6 @@ except Exception:
 if sys.argv[-1] == 'publish':
     check_installed('pypandoc', 'twine')
     check_tagged_version(__VERSION__)
-    sys.exit()
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload dist/*")
     shutil.rmtree('build')
