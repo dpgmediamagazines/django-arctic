@@ -7,8 +7,11 @@ __VERSION__ = '1.0.2'
 
 
 def read_md(f):
-    from pypandoc import convert
-    return convert(f, 'rst')
+    try:
+        from pypandoc import convert
+        return convert(f, 'rst')
+    except ImportError:
+        return open(f, 'r').read()
 
 
 def check_installed(*packages):
