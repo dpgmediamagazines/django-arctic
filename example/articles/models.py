@@ -16,7 +16,7 @@ class Article(models.Model):
     order = models.IntegerField('Order', blank=True, null=True)
 
     def __str__(self):
-        return 'Article "' + self.title + '"'
+        return self.title
 
     class Meta:
         ordering = ['id']

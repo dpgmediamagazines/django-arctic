@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## [Unreleased]
+
+### Added
+
+- Auto detect confirmation dialogs in ListViews - [#284][284]
+
+### Changed
+
+- `confirm_links` property in ListView changed to `modal_links` - [#284][284]
+
+[284]: //github.com/sanoma/django-arctic/issues/284
+
 
 ## 1.0.2 (2017-03-19)
 

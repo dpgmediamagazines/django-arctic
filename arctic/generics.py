@@ -407,7 +407,7 @@ class ListView(View, ListMixin, base.ListView):
 
     def get_list_items(self, objects):  # noqa: C901
         self.has_action_links = False
-        has_confirm_links = hasattr(self, 'confirm_links')
+        has_modal_links = hasattr(self, 'modal_links')
         items = []
         if not self.get_fields():
             for obj in objects:
@@ -442,8 +442,10 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
                         field_links[field_name], obj)
-                    self.add_confirm_link(has_confirm_links, field,
+                    self.add_confirm_link(has_modal_links, field,
                                           field_links[field_name])
+                    field['confirm'] = self.get_confirm_link(
+                        field_links[field_name], obj)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row.append(field)
@@ -460,8 +462,8 @@ class ListView(View, ListMixin, base.ListView):
         return items
 
     def add_confirm_link(self, has_confirm_link, field, field_url_name):
-        if has_confirm_link and field_url_name in self.confirm_links:
-            field['confirm'] = self.confirm_links[field_url_name]
+        if has_confirm_link and field_url_name in self.modal_links:
+            field['confirm'] = self.modal_links[field_url_name]
 
     def get_field_value(self, field_name, obj):
         # first try to find a virtual field
@@ -702,7 +704,7 @@ class DataListView(TemplateView, ListMixin):
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,
                  FormMixin, extra_views.CreateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
-    success_message = _('%(object)s was created successfully')
+    success_message = _('"%(object)s" was successfully created')
 
     def get_page_title(self):
         if not self.page_title:
@@ -719,7 +721,7 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
 class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
                  LinksMixin, extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
-    success_message = _('%(object)s was updated successfully')
+    success_message = _('"%(object)s" was successfully updated')
 
     links = None             # Optional links such as list of linked items
     readonly_fields = None   # Optional list of readonly fields
@@ -749,7 +751,16 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
 
 class DeleteView(View, base.DeleteView):
     template_name = 'arctic/base_confirm_delete.html'
-    redirect = False
+    redirect = True
+
+    @staticmethod
+    def confirm_dialog():
+        return {
+            'title': _('Delete "{obj}"'),
+            'message': _('Are you sure you want to delete this?'),
+            'ok': _('Delete'),
+            'cancel': _('Cancel'),
+        }
 
     def get_success_message(self, obj):
         return _('"{}" has been successfully deleted.').format(str(obj))
@@ -774,7 +785,8 @@ class DeleteView(View, base.DeleteView):
         if can_delete and self.redirect:
             messages.success(request, self.get_success_message(self.object))
             self.delete(request, *args, **kwargs)
-            return redirect(self.success_url)
+            return redirect(self.request.request.META.get('HTTP_REFERER',
+                                                          self.success_url))
 
         context = self.get_context_data(object=self.object,
                                         can_delete=can_delete,

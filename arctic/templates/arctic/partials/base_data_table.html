@@ -136,7 +136,16 @@
                                         {% if column.type == 'field' %}
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                                 {% if column.url %}
-                                                    <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}>
+                                                    <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
+                                                    {% if column.confirm %}
+                                                        data-toggle="modal" 
+                                                        data-target="#confirm-dialog"
+                                                        data-confirm-title="{{ column.confirm.title }}"
+                                                        data-confirm-message="{{ column.confirm.message }}"
+                                                        data-confirm-ok="{{ column.confirm.ok }}"
+                                                        data-confirm-cancel="{{ column.confirm.cancel }}"
+                                                    {% endif %}
+                                                    >
                                                 {% endif %}
                                                 {% if column.value|typename != 'list' %}
                                                     {{ column.value|default_if_none:"" }}
