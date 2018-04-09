@@ -141,12 +141,6 @@ class CategoryListView(ListView):
     action_links = [
         ('delete', 'articles:category-delete', 'fa-trash'),
     ]
-    confirm_links = {
-        'articles:category-delete': {
-            'title': _('Delete "{{ name }}"'),
-            'message': _('Are you sure you want to delete this?'),
-            'ok': _('Delete'),
-            'cancel': _('Cancel')}}
 
 
 class CategoryArticlesListView(ArticleListView):

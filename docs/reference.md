@@ -376,21 +376,43 @@ table data.
 default is fa-wrench. an icon displayed for the dropdown of multiple tool 
 links or, if only one tool link set, it would be use as default icon.
 
-### `confirm_links`
+### `modals`
 
-Dictionary of named urls that will display a confirmation dialog. The format is:
+Dictionary of named urls that will be displayed in a modal.
+Currently only the `confirm` type is supported. 
+The format for this type is:
 
-    {'named_url': {
-        'title': 'Delete "{{ field_name }}"',
-        'message': 'Would you like to delete this?', 
-        'ok': 'Delete', 
-        'cancel': 'Cancel'},
+    {    
+        'named_url': {
+            'type': 'confirm',
+            'title': 'Delete "{field_name}"',
+            'message': 'Would you like to delete this?', 
+            'ok': 'Delete', 
+            'cancel': 'Cancel'
+        },
         ...
     }
 
-Both `title` and `message` can contain field names wrapped as django template
+Both `title` and `message` can contain field names wrapped as python template
 variables, which will be parsed into the field value for the row instance.
-Currently `confirm_links` work only on the `action_links` area.
+Currently `modals` work with `action_links` and `field_links`.
+ 
+Confirm dialogs can be automatically picked up if a view includes the following method:
+
+    @staticmethod 
+    def confirm_dialog():
+        return {
+            'title': 'Delete "{field_name}"',
+            'message': 'Would you like to delete this?',
+            'ok': 'Delete',
+            'cancel': 'Cancel',
+        }
+
+The `obj` variable references the string representation of the object. Other 
+individual fields present in the object can be used with the string template 
+markup.
+
+The use of the dialog can be disabled by return None in the confirm_dialog, if one already exists in the parent class.
 
 ### `simple_search_form_class`
 
@@ -601,8 +623,13 @@ not displaying the confirmation view.
 ### `get_success_message(obj)`
 
 This method will return the success message to be displayed after the deletion 
-of an object. 
+of an object.
 
+### `confirm_dialog()`
+
+This static method will return the data needed to generate a confirmation 
+dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is 
+called.
 
 
 # Mixins

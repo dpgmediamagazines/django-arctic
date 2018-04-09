@@ -7,7 +7,6 @@ import importlib
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
-from django.template import (Template, Context)
 from django.urls import reverse
 from django.utils import six
 
@@ -389,6 +388,7 @@ class ListMixin(object):
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
+    modal_links = {}
     # Simple search form if search_fields is defined
     simple_search_form_class = SimpleSearchForm
     advanced_search_form_class = None  # Custom form for advanced search
@@ -487,6 +487,12 @@ class ListMixin(object):
         """
         return self.search_fields
 
+    def _extract_confirm_dialog(self, view, url):
+        dialog = getattr(view, 'confirm_dialog', None)
+        if dialog:
+            self.modal_links[url] = dialog()
+            self.modal_links[url]['type'] = 'confirm'
+
     def get_field_links(self):
         if not self.field_links:
             return {}
@@ -494,9 +500,10 @@ class ListMixin(object):
             allowed_field_links = {}
             for field, url in self.field_links.items():
                 # check permission based on named_url
-                if not view_from_url(url).has_permission(self.request.user):
-                    continue
-                allowed_field_links[field] = url
+                view = view_from_url(url)
+                if view.has_permission(self.request.user):
+                    allowed_field_links[field] = url
+                    self._extract_confirm_dialog(view, url)
             return allowed_field_links
 
     def get_field_classes(self, obj):
@@ -515,19 +522,23 @@ class ListMixin(object):
         exists, it also parses the message and title of the url to include
         row field data if needed.
         """
+        if not (url in self.modal_links.keys()):
+            return None
+
         try:
             if type(obj) != dict:
+                obj.obj = str(obj)
                 obj = vars(obj)
-            link = {key: value.replace('"', '&quot;') for (key, value) in
-                    self.confirm_links[url].items()}
-            link['message'] = Template(link['message']).render(Context(obj))
-            link['title'] = Template(link['title']).render(Context(obj))
+            link = self.modal_links[url]
+            link['message'] = link['message'].format(**obj)
+            link['title'] = link['title'].format(**obj)
             link['ok']  # this triggers a KeyError exception if not existent
             link['cancel']
+            link['type']
             return link
         except KeyError as e:
             raise ImproperlyConfigured(
-                'confirm_links requires a dictionary with \'message\', '
+                'modal_links requires a dictionary with \'message\', '
                 '\'title\', \'ok\' and \'cancel\' strings, the named url \'' +
                 url + '\' misses ' + str(e))
         except AttributeError:
@@ -572,12 +583,13 @@ class ListMixin(object):
                 if type(url) in (list, tuple):
                     named_url = url[0]
                 # check permission based on named_url
-                if not view_from_url(named_url).\
-                        has_permission(self.request.user):
-                    continue
-                self._allowed_action_links.append(
-                    self._build_action_link(link)
-                )
+                view = view_from_url(named_url)
+                if view.has_permission(self.request.user):
+                    self._allowed_action_links.append(
+                        self._build_action_link(link)
+                    )
+                    self._extract_confirm_dialog(view, url)
+
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
