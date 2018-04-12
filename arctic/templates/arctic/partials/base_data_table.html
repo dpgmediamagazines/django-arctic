@@ -144,6 +144,7 @@
                                                         data-confirm-message="{{ column.confirm.message }}"
                                                         data-confirm-ok="{{ column.confirm.ok }}"
                                                         data-confirm-cancel="{{ column.confirm.cancel }}"
+                                                        data-confirm-class="{{ column.confirm.class }}"
                                                     {% endif %}
                                                     >
                                                 {% endif %}
@@ -171,6 +172,7 @@
                                                         data-confirm-message="{{ link.confirm.message }}"
                                                         data-confirm-ok="{{ link.confirm.ok }}"
                                                         data-confirm-cancel="{{ link.confirm.cancel }}"
+                                                        data-confirm-class="{{ link.confirm.class }}"
                                                     {% endif %}
                                                     >
                                                     {% if link.icon %}
@@ -209,7 +211,7 @@
 {% endblock %}
 
 {% block confirm_dialog %}
-<div class="modal fade" id="confirm-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm-dialog" tabindex="-1" role="dialog"  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">

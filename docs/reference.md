@@ -388,7 +388,8 @@ The format for this type is:
             'title': 'Delete "{field_name}"',
             'message': 'Would you like to delete this?', 
             'ok': 'Delete', 
-            'cancel': 'Cancel'
+            'cancel': 'Cancel',
+            'class': 'this_modal_class', # optional 
         },
         ...
     }
@@ -406,6 +407,7 @@ Confirm dialogs can be automatically picked up if a view includes the following 
             'message': 'Would you like to delete this?',
             'ok': 'Delete',
             'cancel': 'Cancel',
+            'class': 'this_dialog_class', # optional 
         }
 
 The `obj` variable references the string representation of the object. Other 
