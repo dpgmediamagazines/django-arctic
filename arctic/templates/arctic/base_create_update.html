@@ -17,6 +17,7 @@
         </div>
     </div>
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check {{ form_display }}" novalidate>
+        <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
         <fieldset type="post" class="fieldset-default arctic-card">
             <div class="{% block form_size_class %}form-size{% endblock %}">
             {% csrf_token %}
@@ -55,25 +56,36 @@
             {# TODO move form-actions to it's own section #}
             {% block form_actions %}
             <div class="row justify-content-center">
-                <div class="col-sm-6 col">
-                    {% if links %}
-                        {% for link in links %}
-                            <a class="btn btn-secondary" href="{{ link.url }}">
-                                {{ link.label }}
-                            </a>
-                        {% endfor %}
-                    {% endif %}
+                <div class="col">
+                    {% for action in actions %}
+                        {% if action.position == 'left' %}
+                            {% if action.type == 'submit' %}
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                            {% else %}
+                                <a class="btn btn-{{ action.style }}" href="{% if action.type == 'cancel' %} {{ cancel_url }} {% else %} {{ action.url }} {% endif %}" id="{{ action.id }}">
+                                    {{ action.label }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="col-sm-6 col text-right">
-                    {% block form_actions_buttons %}
-                        <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
-                    {% endblock %}
+                <div class="col text-right">
+                    {% for action in actions %}
+                        {% if action.position != 'left' %}
+                            {% if action.type == 'submit' %}
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                            {% else %}
+                                <a class="btn btn-{{ action.style }}" href="{% if action.type == 'cancel' %} {{ cancel_url }} {% else %} {{ action.url }} {% endif %}" id="{{ action.id }}">
+                                {{ action.label }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             {% endblock form_actions %}
             </div>
         </fieldset>
     </form>
-
     {% block extra_content %}{% endblock %}
 {% endblock %}

@@ -16,7 +16,7 @@ lists and forms.
   MultiSelect and also support custom layouts without having to create extra 
   templates.
 
-![arctic screenshot](docs/img/arctic_screenshot.png)
+![arctic screenshot](https://raw.githubusercontent.com/sanoma/django-arctic/master/docs/img/arctic_screenshot.png)
 
 ## Why
 

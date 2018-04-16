@@ -77,16 +77,17 @@ class ArticleUpdateView(UpdateView):
     success_url = reverse_lazy('articles:list')
     inlines = [TagsInline]
     form_class = ArticleForm
-    links = [
-        ('Back to list', 'articles:list'),
+    actions = [
+        ('Cancel', 'cancel'),
+        ('Save', 'submit'),
     ]
     layout = OrderedDict([
-                        ('',
-                         ['title', ['category', 'tags|5']]),
-                        ('Body|Extra Information for this fieldset',
-                         ['description']),
-                        ('Extended Details',
-                         [['published|4', 'updated_at']])])
+        ('+Basic Details',
+            ['title', ['category|4', 'tags']]),
+        ('-Body|Extra Information for this fieldset',
+            ['description']),
+        ('Extended Details',
+            [['published|4', 'updated_at']])])
 
     # tabs = [
     #     ('Detail', 'articles:detail'),

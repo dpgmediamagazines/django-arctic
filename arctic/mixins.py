@@ -3,18 +3,20 @@ Basic mixins for generic class based views.
 """
 
 import importlib
+import warnings
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
 from django.urls import reverse
 from django.utils import six
+from django.utils.translation import ugettext as _
 
 from collections import OrderedDict
 
 from .forms import SimpleSearchForm
 from .loading import (get_role_model, get_user_role_model)
-from .utils import (arctic_setting, reverse_url, view_from_url)
+from .utils import (arctic_setting, reverse_url, view_from_url, generate_id)
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -82,29 +84,66 @@ class FormMixin(object):
     use_widget_overloads = True
     layout = None
     _fields = []
-    links = None             # Optional links such as list of linked items
+    actions = None             # Optional links such as list of linked items
+    links = None
     readonly_fields = None
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
-    def get_links(self):
-        if not self.links:
-            return None
+    def get_actions(self):
+        if self.actions and self.links:
+            raise ImproperlyConfigured(
+                'Forms cannot have both "actions" and "links", please use '
+                'only "actions"')
+        if self.links:
+            warnings.warn(
+                '"links" property is deprecated, please use "actions" '
+                'instead.', DeprecationWarning)
+            self.actions = self.links
 
-        allowed_links = []
-        for link in self.links:
+        # Forms require a submit
+        default_action = {'label': _('Submit'),
+                          'type': 'submit',
+                          'id': 'action-submit',
+                          'style': 'primary'}
+        if not self.actions:
+            return [default_action]
 
+        allowed_actions = []
+        last_submit_index = -1
+        for action in self.actions:
             # check permission based on named_url
-            if not view_from_url(link[1]).has_permission(self.request.user):
-                continue
+            if (action[1] in ('cancel', 'submit')) or \
+               view_from_url(action[1]).has_permission(self.request.user):
+                allowed_action = {
+                    'label': action[0],
+                    'style': 'secondary',
+                    'id': generate_id('action', action[0])
+                }
 
-            try:
-                obj = self.get_object()
-            except AttributeError:
-                obj = None
-            allowed_links.append({
-                'label': link[0],
-                'url': reverse_url(link[1], obj)})
-        return allowed_links
+                if action[1] in ('cancel', 'submit'):
+                    allowed_action['type'] = action[1]
+                else:
+                    allowed_action['type'] = 'link'
+                    try:
+                        obj = self.get_object()
+                    except AttributeError:
+                        obj = None
+                    allowed_action['url'] = reverse_url(action[1], obj)
+                if len(action) == 3:
+                    if action[2] == 'left':
+                        allowed_action['position'] = 'left'
+                    elif type(action[2]) is dict:
+                        allowed_action.update(action[2])
+
+                if action[1] == 'submit':
+                    last_submit_index = len(allowed_actions)
+                allowed_actions.append(allowed_action)
+
+        if last_submit_index >= 0:
+            allowed_actions[last_submit_index]['style'] = 'primary'
+        else:
+            allowed_actions.append(default_action)
+        return allowed_actions
 
     def get_layout(self):
         if not self.layout:
