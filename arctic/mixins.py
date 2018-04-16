@@ -89,7 +89,7 @@ class FormMixin(object):
     readonly_fields = None
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
-    def get_actions(self):
+    def get_actions(self):  # noqa: C901
         if self.actions and self.links:
             raise ImproperlyConfigured(
                 'Forms cannot have both "actions" and "links", please use '
