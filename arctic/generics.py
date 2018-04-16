@@ -1,5 +1,7 @@
 from __future__ import (division, unicode_literals)
 from collections import OrderedDict
+import calendar
+import json
 
 import extra_views
 from django.conf import settings
@@ -10,6 +12,7 @@ from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
                                     ValidationError)
 from django.core.paginator import InvalidPage
 from django.urls import (NoReverseMatch, reverse)
+from django.utils.html import mark_safe
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
 from django.http import Http404
@@ -189,6 +192,19 @@ class View(RoleAuthentication, base.View):
                                        get_language())[0]
         dtformats['SHORT_DATETIME'] = get_format('DATETIME_INPUT_FORMATS',
                                                  get_language())[0]
+        dtformats['DAYS'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.day_name]))
+        dtformats['DAYS_SHORT'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.day_abbr]))
+        dtformats['DAYS_MIN'] = mark_safe(json.dumps(
+            [_(day)[:2] for day in calendar.day_abbr]))
+        dtformats['MONTHS'] = mark_safe(json.dumps(
+            [_(day).capitalize() for day in calendar.month_name[1:]]))
+        dtformats['MONTHS_SHORT'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.month_abbr[1:]]))
+        dtformats['TODAY'] = _('Today')
+        dtformats['CLEAR'] = _('Clear')
+        dtformats['FIRST_DAY'] = calendar.firstweekday()
 
         return dtformats
 
