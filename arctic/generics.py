@@ -791,7 +791,7 @@ class DeleteView(View, base.DeleteView):
         }
 
     def get_success_message(self, obj):
-        return _('"{}" has been successfully deleted.').format(str(obj))
+        return _('"{}" was successfully deleted.').format(str(obj))
 
     def get(self, request, *args, **kwargs):
         """

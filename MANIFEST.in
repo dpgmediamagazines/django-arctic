@@ -2,6 +2,7 @@ include README.md
 include LICENSE
 
 recursive-include arctic/static/arctic/dist *.js *.css *.jpg *.png *.eot *.svg *.ttf *.woff *woff2
+recursive-include arctic/locale *
 recursive-include arctic/templates *.html
 recursive-include arctic/project_template *
 recursive-exclude * __pycache__
