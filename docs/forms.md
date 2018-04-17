@@ -10,15 +10,14 @@ a base to try the examples on this one.
 ## Links
 
 By default the Forms include a 'Submit' button, but more can be added by using 
-the `links` property, for example:
+the `actions` property, for example:
 
-    links = [
+    actions = [
         ('Back to list', 'articles:list'),
     ]
 
 This will create an extra button that links to the article list, more can be 
-added and they will all be displayed as secondary links on the bottom 
-leftmost side of the form.
+added and they will all be displayed as secondary links at the end of the form.
 
 ## Layouts
 
