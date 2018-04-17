@@ -16,8 +16,12 @@ Always reference the ticket number at the end of the issue description.
 ### Changed
 
 - `confirm_links` property in ListView changed to `modal_links` - [#284][284]
+- deprecated `links` and replaced it with `actions` - [#287][287]
+- improved look and feel of the datetime picker and added localization to it
+- added dutch localization
 
 [284]: //github.com/sanoma/django-arctic/issues/284
+[287]: //github.com/sanoma/django-arctic/issues/287
 
 
 ## 1.0.2 (2017-03-19)
