@@ -1,5 +1,7 @@
 from __future__ import (division, unicode_literals)
 from collections import OrderedDict
+import calendar
+import json
 
 import extra_views
 from django.conf import settings
@@ -10,6 +12,7 @@ from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
                                     ValidationError)
 from django.core.paginator import InvalidPage
 from django.urls import (NoReverseMatch, reverse)
+from django.utils.html import mark_safe
 from django.db.models.deletion import (Collector, ProtectedError)
 from django.forms.widgets import Media
 from django.http import Http404
@@ -189,6 +192,19 @@ class View(RoleAuthentication, base.View):
                                        get_language())[0]
         dtformats['SHORT_DATETIME'] = get_format('DATETIME_INPUT_FORMATS',
                                                  get_language())[0]
+        dtformats['DAYS'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.day_name]))
+        dtformats['DAYS_SHORT'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.day_abbr]))
+        dtformats['DAYS_MIN'] = mark_safe(json.dumps(
+            [_(day)[:2] for day in calendar.day_abbr]))
+        dtformats['MONTHS'] = mark_safe(json.dumps(
+            [_(day).capitalize() for day in calendar.month_name[1:]]))
+        dtformats['MONTHS_SHORT'] = mark_safe(json.dumps(
+            [_(day) for day in calendar.month_abbr[1:]]))
+        dtformats['TODAY'] = _('Today')
+        dtformats['CLEAR'] = _('Clear')
+        dtformats['FIRST_DAY'] = calendar.firstweekday()
 
         return dtformats
 
@@ -713,8 +729,12 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
 
     def get_context_data(self, **kwargs):
         context = super(CreateView, self).get_context_data(**kwargs)
-        context['links'] = self.get_links()
+        context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
+        context['cancel_url'] = self.request.POST.get(
+            'cancel_url', self.request.META.get(
+                'HTTP_REFERER',
+                '/'.join(self.request.get_full_path().split('/')[:-1])))
         return context
 
 
@@ -733,8 +753,12 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
 
     def get_context_data(self, **kwargs):
         context = super(UpdateView, self).get_context_data(**kwargs)
-        context['links'] = self.get_links()
+        context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
+        context['cancel_url'] = self.request.POST.get(
+            'cancel_url', self.request.META.get(
+                'HTTP_REFERER',
+                '/'.join(self.request.get_full_path().split('/')[:-1])))
         return context
 
 
@@ -744,8 +768,12 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
 
     def get_context_data(self, **kwargs):
         context = super(FormView, self).get_context_data(**kwargs)
-        context['links'] = self.get_links()
+        context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
+        context['cancel_url'] = self.request.POST.get(
+            'cancel_url', self.request.META.get(
+                'HTTP_REFERER',
+                '/'.join(self.request.get_full_path().split('/')[:-1])))
         return context
 
 
@@ -763,7 +791,7 @@ class DeleteView(View, base.DeleteView):
         }
 
     def get_success_message(self, obj):
-        return _('"{}" has been successfully deleted.').format(str(obj))
+        return _('"{}" was successfully deleted.').format(str(obj))
 
     def get(self, request, *args, **kwargs):
         """

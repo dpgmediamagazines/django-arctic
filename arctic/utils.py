@@ -8,6 +8,8 @@ from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.urls import (get_ns_resolver, get_resolver, get_urlconf,
                          NoReverseMatch, reverse)
+from django.template.defaultfilters import slugify
+from django.utils import translation
 
 from . import defaults
 
@@ -242,6 +244,9 @@ def reverse_url(url, obj, fallback_field=None):
     When a fallback field is given it will use it as an argument if none other
     are given.
     """
+    if url.startswith('#'):  # local url
+        return url
+
     args = []
     if type(url) in (list, tuple):
         named_url = url[0]
@@ -355,3 +360,14 @@ def is_list_of_list(item):
             and isinstance(item[0], (list, tuple)):
         return True
     return False
+
+
+def generate_id(*s):
+    """
+    generates an id from one or more given strings
+    it uses english as the base language in case some strings
+    are translated, this ensures consistent ids
+    """
+    with translation.override('en'):
+        generated_id = slugify('-'.join([str(i) for i in s]))
+    return generated_id

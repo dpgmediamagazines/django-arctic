@@ -11,19 +11,19 @@ $datepickerFontSize: $font-size-base !default;
 $datepickerYearsPerRow: 4 !default;
 
 $datepickerTextColor: (
-  button: #5cc4ef,
+  button:  $brand-primary,
   otherMonth: #dedede,
   otherMonthInRange: #ccc,
   disabled: #aeaeae,
-  currentDate: #4EB5E6,
+  currentDate: lighten($brand-primary, 5),
   common: #4a4a4a,
   dayNames: #FF9A19,
   navArrows: #9c9c9c
 ) !default;
 
 $datepickerBG: (
-  selected: #5cc4ef,
-  selectedHover: darken(#5cc4ef, 5),
+  selected: $brand-primary,
+  selectedHover: darken($brand-primary, 5),
   inRange: rgba(#5cc4ef, .1),
   hover: #f0f0f0
 ) !default;

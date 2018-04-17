@@ -123,9 +123,18 @@
 
         {% block scripts_bottom %}
             <script>
-                var DATE_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATE }}'
-                var DATETIME_FORMAT = '{{ DATETIME_FORMATS.SHORT_DATETIME }}'
-                var TIME_FORMAT = '{{ DATETIME_FORMATS.TIME }}'
+                datetime_picker_settings = {
+                    days: {{ DATETIME_FORMATS.DAYS }},
+                    daysShort: {{ DATETIME_FORMATS.DAYS_SHORT }},
+                    daysMin:{{ DATETIME_FORMATS.DAYS_MIN }},
+                    months: {{ DATETIME_FORMATS.MONTHS }},
+                    monthsShort: {{ DATETIME_FORMATS.MONTHS_SHORT }},
+                    today: "{{ DATETIME_FORMATS.TODAY }}",
+                    clear: "{{ DATETIME_FORMATS.CLEAR }}",
+                    dateFormat: "{{ DATETIME_FORMATS.SHORT_DATE }}",
+                    timeFormat: "{{ DATETIME_FORMATS.TIME }}",
+                    firstDay: {{ DATETIME_FORMATS.FIRST_DAY }}
+                }
             </script>
             <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
             {{ media.js }}
