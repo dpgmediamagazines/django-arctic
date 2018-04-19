@@ -124,7 +124,7 @@ def view_from_url(named_url):  # noqa
     """
     Finds and returns the view class from a named url
     """
-    # code below is `stolen` from django's reverse method
+    # code below is `stolen` from django's reverse method.
     resolver = get_resolver(get_urlconf())
 
     if type(named_url) in (list, tuple):
@@ -136,6 +136,14 @@ def view_from_url(named_url):  # noqa
     current_path = None
     resolved_path = []
     ns_pattern = ''
+
+    # if it's a local url permission already given, so we just return true
+    if named_url.startswith('#'):
+        class LocalUrlDummyView:
+            @staticmethod
+            def has_permission(user):
+                return True
+        return LocalUrlDummyView
 
     while path:
         ns = path.pop()
