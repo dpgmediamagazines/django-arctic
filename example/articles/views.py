@@ -45,6 +45,7 @@ class ArticleListView(ListView):
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
+    field_classes = {'published': ''}
 
     permission_required = "view_article"
 
