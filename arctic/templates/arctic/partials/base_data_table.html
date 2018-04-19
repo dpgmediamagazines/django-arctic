@@ -3,22 +3,24 @@
 <div class="row">
     {% block tool_links %}
         <div class="col">
-            {% if tool_links %}
-                <div class="form-group">
-                {% if tool_links|length > 1 %}
-                    <button class="btn btn-secondary float-right" type="button" data-toggle="tool-links"><i class="fa {{ tool_links_icon }}"></i></button>
-                        <div class="dropdown-pane bottom" id="tool-links" data-dropdown data-close-on-click="true">
-                            <ul>
-                                {% for link in tool_links %}
-                                    <li><a href="{% url link.url %}">{{ link.label }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+            {% for link in tool_links %}
+                {% if forloop.counter0 < tool_links_collapse %}
+                    <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}">{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
                 {% else %}
-                    <a class="btn btn-secondary" title="{{ tool_links.0.label }}" href="{% url tool_links.0.url %}"><i title="{{ tool_links.0.label }}" class="fa {% if tool_links.0.icon %}{{ tool_links.0.icon }}{% else %}{{ tool_links_icon }}{% endif %}"></i></a>
+                    {% if forloop.counter0 == tool_links_collapse %}
+                        <span class="dropdown">
+                            <button class="btn btn-secondary" type="button" data-toggle="dropdown" id="tool-links-dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa {{ tool_links_icon }}"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="tool_links_dropdown">
+                    {% endif %}
+                                <a class="dropdown-item" href="{{ link.url }}">{{ link.label }}</a>
+                    {% if forloop.last %}
+                            </div>
+                        </span>
+                    {% endif %}
                 {% endif %}
-                </div>
-            {% endif %}
+            {% endfor %}
         </div>
     {% endblock %}
     {% if simple_search_form or advanced_search_form %}

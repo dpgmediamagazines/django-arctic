@@ -2,7 +2,7 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.urls import (reverse, reverse_lazy)
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
@@ -41,10 +41,10 @@ class ArticleListView(ListView):
         'title': 'articles:detail',
         'category': ('articles:category-detail', 'category_id'),
     }
+    tool_links_collapse = 2
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
-    field_classes = {'published': ''}
 
     permission_required = "view_article"
 

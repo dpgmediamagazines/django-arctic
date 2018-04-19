@@ -3,6 +3,7 @@ Basic mixins for generic class based views.
 """
 
 import importlib
+import sys
 import warnings
 
 from django.conf import settings
@@ -10,7 +11,7 @@ from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
 from django.urls import reverse
 from django.utils import six
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from collections import OrderedDict
 
@@ -133,14 +134,18 @@ class FormMixin(object):
                     if action[2] == 'left':
                         allowed_action['position'] = 'left'
                     elif type(action[2]) is dict:
+                        if action[2].get('style'):
+                            allowed_action['custom_style'] = True
                         allowed_action.update(action[2])
 
                 if action[1] == 'submit':
                     last_submit_index = len(allowed_actions)
+                    allowed_action['name'] = generate_id(action[0])
                 allowed_actions.append(allowed_action)
 
         if last_submit_index >= 0:
-            allowed_actions[last_submit_index]['style'] = 'primary'
+            if not allowed_actions[last_submit_index].get('custom_style'):
+                allowed_actions[last_submit_index]['style'] = 'primary'
         else:
             allowed_actions.append(default_action)
         return allowed_actions
@@ -153,7 +158,9 @@ class FormMixin(object):
 
         allowed_rows = OrderedDict()
         i = 0
-        if type(self.layout) is OrderedDict:
+        py36_version = 50725104  # integer that represents python 3.6.0
+        if (type(self.layout) is OrderedDict) or \
+           (((type(self.layout) is dict) and sys.hexversion >= py36_version)):
             for fieldset, rows in self.layout.items():
                 fieldset = self._return_fieldset(fieldset)
                 if isinstance(rows, six.string_types) or \
@@ -174,7 +181,7 @@ class FormMixin(object):
 
         else:
             raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
-                                       'an OrderedDict')
+                                       'a dict (OrderedDict if python < 3.6)')
 
         return allowed_rows
 
@@ -433,7 +440,8 @@ class ListMixin(object):
     advanced_search_form_class = None  # Custom form for advanced search
     _simple_search_form = None
     _advanced_search_form = None
-    tool_links_icon = 'fa-wrench'
+    tool_links_icon = 'fa-ellipsis-h'
+    tool_links_collapse = 1
     max_embeded_list_items = 10  # when displaying a list in a column
     primary_key = 'pk'
     sorting_field = None
@@ -643,18 +651,19 @@ class ListMixin(object):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_tool_links.append({'label': link[0],
-                                           'url': link[1],
-                                           'icon': icon})
+                if view_from_url(link[1]).has_permission(self.request.user):
+                    allowed_tool_link = {
+                        'label': link[0],
+                        'url': reverse_url(link[1], None),
+                        'style': 'secondary',
+                        'id': generate_id('tool-link', link[0])
+                    }
+                    if len(link) == 3:  # if an icon class is given
+                        if type(link[2]) is str:
+                            allowed_tool_link['icon'] = link[2]
+                        elif type(link[2]) is dict:
+                            allowed_tool_link.update(link[2])
+                    allowed_tool_links.append(allowed_tool_link)
             return allowed_tool_links
 
     def get_simple_search_form_class(self):

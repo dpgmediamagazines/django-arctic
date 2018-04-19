@@ -7,9 +7,9 @@ django generics, there are three different views available: `CreateView`,
 It is recomended to use the project created in the [Lists](lists.md) chapter as
 a base to try the examples on this one.
 
-## Links
+## Actions
 
-By default the Forms include a 'Submit' button, but more can be added by using 
+By default the Forms include a `Submit` button, but more can be added by using 
 the `actions` property, for example:
 
     actions = [
