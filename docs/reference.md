@@ -381,7 +381,7 @@ be passed through to the template, the standard template recognizes the keys:
 
 ### `tool_links_icon`
 
-This icon is used in the `tool_links` dropdown, by defult an ellipsis `...`
+This icon is used in the `tool_links` dropdown, by default an ellipsis `...`
 will be used.
 
 ### `modals`
