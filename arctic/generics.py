@@ -534,6 +534,8 @@ class ListView(View, ListMixin, base.ListView):
         context['has_action_links'] = self.has_action_links
         context['sorting_url'] = self.sorting_url
         context['tool_links_icon'] = self.get_tool_links_icon()
+        context['tool_links_collapse'] = self.tool_links_collapse - \
+            int(len(context['tool_links']) == self.tool_links_collapse + 1)
         context['simple_search_form'] = self.simple_search_form
         context['advanced_search_form'] = self.advanced_search_form
         return context
@@ -581,12 +583,10 @@ class DataListView(TemplateView, ListMixin):
         # self.has_action_links is set in get_list_items
         context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
-        if self.get_simple_search_form_class():
-            context['simple_search_form'] = \
-                self.get_simple_search_form_class()(data=self.request.GET)
-        if self.get_advanced_search_form_class():
-            context['advanced_search_form'] = \
-                self.get_advanced_search_form_class()(data=self.request.GET)
+        context['tool_links_collapse'] = self.tool_links_collapse - \
+            int(len(context['tool_links']) == self.tool_links_collapse + 1)
+        context['simple_search_form'] = self.simple_search_form
+        context['advanced_search_form'] = self.advanced_search_form
 
         return context
 

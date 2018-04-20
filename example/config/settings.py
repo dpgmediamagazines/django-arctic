@@ -100,13 +100,13 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'nl-nl'
-
-TIME_ZONE = 'Europe/Amsterdam'
-
 USE_I18N = True
 
 USE_L10N = True
+
+LANGUAGE_CODE = 'nl'
+
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_TZ = True
 
