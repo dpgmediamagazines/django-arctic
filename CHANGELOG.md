@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## [Unreleased]
+## 1.1.0 (2017-04-20)
 
 ### Added
 
@@ -17,11 +17,13 @@ Always reference the ticket number at the end of the issue description.
 
 - `confirm_links` property in ListView changed to `modal_links` - [#284][284]
 - deprecated `links` and replaced it with `actions` - [#287][287]
+- expanded `tool_links` functionality - [#286][286]
 - improved look and feel of the datetime picker and added localization to it
 - added dutch localization
 
 [284]: //github.com/sanoma/django-arctic/issues/284
 [287]: //github.com/sanoma/django-arctic/issues/287
+[286]: //github.com/sanoma/django-arctic/issues/286
 
 
 ## 1.0.2 (2017-03-19)
