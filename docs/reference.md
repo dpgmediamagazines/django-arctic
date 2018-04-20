@@ -368,13 +368,30 @@ Example:
 
 ### `tool_links`
 
-list of links with the format `('name', 'url', 'icon')`, not connected to the 
-table data.
+This field is a list of links not connected to any individual table rows.
+It is a list of tupples containing 2 items and an optional third.
+The first item is the title of the link, and the second is a named url.
+
+The third parameter can be a string with an icon (if no icon is provided the 
+link will display the given title)
+It is also possible to pass a dictionary as the third item, all of its keys will
+be passed through to the template, the standard template recognizes the keys: 
+`icon`, `style` (`link`, `primary`, `secondary` is default) and
+`id` (by default auto generated from the english version of the title).
+
+The maximum number of `tool_links` displayed is defined in `tool_links_collapse`,
+whenever this number is reached, the remaining tool_links are displayed in a
+dropdown.
+
+## `tool_links_collapse`
+
+A number defining how many `tool_links` are to be displayed, any extra items 
+will be available in a dropdown.
 
 ### `tool_links_icon`
 
-default is fa-wrench. an icon displayed for the dropdown of multiple tool 
-links or, if only one tool link set, it would be use as default icon.
+This icon is used in the `tool_links` dropdown, by default an ellipsis `...`
+will be used.
 
 ### `modals`
 
@@ -756,7 +773,7 @@ accepted value is `left` (right is the default).
 It is also possible to pass a dictionary as the third item, all of its keys will
 be passed through to the template, the standard template recognizes the keys: 
 `position` (`left`), `style` (`link`, `primary`, `secondary` is default) and
-`id` (by default auto generated from the english version of the label).
+`id` (by default auto generated from the english version of the title).
 
 Example:
 
