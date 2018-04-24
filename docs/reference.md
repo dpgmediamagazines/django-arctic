@@ -368,12 +368,12 @@ Example:
 
 ### `tool_links`
 
-This field is a list of links not connected to any individual table rows.
+This field contains links not connected to any individual table rows.
 It is a list of tupples containing 2 items and an optional third.
 The first item is the title of the link, and the second is a named url.
 
-The third parameter can be a string with an icon (if no icon is provided the 
-link will display the given title)
+The optional third parameter can be a string with an icon (if no icon is 
+provided the link will display the given title)
 It is also possible to pass a dictionary as the third item, all of its keys will
 be passed through to the template, the standard template recognizes the keys: 
 `icon`, `style` (`link`, `primary`, `secondary` is default) and
@@ -382,6 +382,12 @@ be passed through to the template, the standard template recognizes the keys:
 The maximum number of `tool_links` displayed is defined in `tool_links_collapse`,
 whenever this number is reached, the remaining tool_links are displayed in a
 dropdown.
+
+Example:
+
+    tool_links = (
+        ('Add Arcticle', 'articles:create', 'fa-plus'),
+    )
 
 ## `tool_links_collapse`
 
