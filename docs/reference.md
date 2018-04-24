@@ -389,7 +389,7 @@ Example:
         ('Add Arcticle', 'articles:create', 'fa-plus'),
     )
 
-## `tool_links_collapse`
+### `tool_links_collapse`
 
 A number defining how many `tool_links` are to be displayed, any extra items 
 will be available in a dropdown.
