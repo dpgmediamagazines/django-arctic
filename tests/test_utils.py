@@ -16,13 +16,13 @@ class TestMenu:
          ),
         (_('Articles'), {
             'submenu': OrderedDict([
-                (_('List'), {'submenu': None, 'active': False,
-                          'active_weight': 10, 'icon': None,
-                          'url': 'articles:list'}
-                 ),
+                (_('List'), {'submenu': None,
+                             'active': False,
+                             'active_weight': 10, 'icon': None,
+                             'url': 'articles:list'}),
                 (_('Create'), {'submenu': None, 'active': False,
-                            'active_weight': 17, 'icon': None,
-                            'url': 'articles:create'})
+                               'active_weight': 17, 'icon': None,
+                               'url': 'articles:create'})
             ]),
             'active': False,
             'active_weight': 0, 'icon': 'fa-file-text-o', 'url': None}
@@ -30,8 +30,8 @@ class TestMenu:
         (_('Categories'), {
             'submenu': OrderedDict([
                 (_('List'), {'submenu': None, 'active': False,
-                          'active_weight': 19, 'icon': None,
-                          'url': 'articles:category-list'}
+                             'active_weight': 19, 'icon': None,
+                             'url': 'articles:category-list'}
                  ),
                 (_('Create'), {
                     'submenu': None, 'active': False,
@@ -44,11 +44,11 @@ class TestMenu:
         (_('Tags'), {
             'submenu': OrderedDict([
                 (_('List'), {'submenu': None, 'active': False,
-                          'active_weight': 15, 'icon': None,
-                          'url': 'articles:tag-list'}),
+                             'active_weight': 15, 'icon': None,
+                             'url': 'articles:tag-list'}),
                 (_('Create'), {'submenu': None, 'active': False,
-                            'active_weight': 22, 'icon': None,
-                            'url': 'articles:tag-create'})
+                               'active_weight': 22, 'icon': None,
+                               'url': 'articles:tag-create'})
             ]),
             'active': False, 'active_weight': 0,
             'icon': 'fa-tags', 'url': None}
@@ -56,18 +56,18 @@ class TestMenu:
         (_('Users'), {
             'submenu': OrderedDict([
                 (_('List'), {'submenu': None, 'active': False,
-                          'active_weight': 7, 'icon': None,
-                          'url': 'users:list'}),
+                             'active_weight': 7, 'icon': None,
+                             'url': 'users:list'}),
                 (_('Create'), {'submenu': None, 'active': False,
-                            'active_weight': 14, 'icon': None,
-                            'url': 'users:create'})
+                               'active_weight': 14, 'icon': None,
+                               'url': 'users:create'})
             ]),
             'active': False, 'active_weight': 0,
             'icon': 'fa-user', 'url': None}
          ),
         (_('Countries'), {'submenu': None, 'active': False,
-                       'active_weight': 11, 'icon': 'fa-globe',
-                       'url': 'countries-list'})
+                          'active_weight': 11, 'icon': 'fa-globe',
+                          'url': 'countries-list'})
     ])
 
     def test_menu(self, admin_user):
