@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-16 21:47+0200\n"
+"POT-Creation-Date: 2018-04-30 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,181 +18,182 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: arctic/generics.py:205
+#: generics.py:205
 msgid "Today"
 msgstr "Vandaag"
 
-#: arctic/generics.py:206
+#: generics.py:206
 msgid "Clear"
 msgstr "Wissen"
 
-#: arctic/generics.py:691
+#: generics.py:691
 msgid "Page cannot be converted to an int."
 msgstr "Pagina kan niet omgezet worden naar een int."
 
-#: arctic/generics.py:696
+#: generics.py:696
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Ongeldige pagina (%(page_number)s): %(message)s"
 
-#: arctic/generics.py:723
+#: generics.py:723
 #, python-format
 msgid "\"%(object)s\" was successfully created"
 msgstr "\"%(object)s\" is aangemakt"
 
-#: arctic/generics.py:727
+#: generics.py:727
 #, python-format
 msgid "Create %s"
 msgstr "Aanmaken %s"
 
-#: arctic/generics.py:744
+#: generics.py:744
 #, python-format
 msgid "\"%(object)s\" was successfully updated"
 msgstr "\"%(object)s\" is bijgewerkt"
 
-#: arctic/generics.py:751
+#: generics.py:751
 #, python-format
 msgid "Edit %s"
 msgstr "%s bewerken"
 
-#: arctic/generics.py:787
+#: generics.py:787
 #, python-brace-format
 msgid "Delete \"{obj}\""
 msgstr "\"{obj}\" verwijderen"
 
-#: arctic/generics.py:788
+#: generics.py:788
 msgid "Are you sure you want to delete this?"
 msgstr "Weet je zeker dat je dit wilt verwijderen?"
 
-#: arctic/generics.py:789
+#: generics.py:789
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: arctic/generics.py:790
+#: generics.py:790
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: arctic/generics.py:794
+#: generics.py:794
 msgid "\"{}\" was successfully deleted."
 msgstr "\"{}\" is verwijderd."
 
-#: arctic/generics.py:833
+#: generics.py:833
 msgid "Login"
 msgstr "Inloggen"
 
-#: arctic/generics.py:866
+#: generics.py:866
 msgid "Invalid username/password combination"
 msgstr "Ongeldige gebruikersnaam/wachtwoord combinatie"
 
-#: arctic/mixins.py:104
+#: mixins.py:105
 msgid "Submit"
 msgstr "Submit"
 
-#: arctic/templates/arctic/base.html:36
+#: models.py:17
+msgid "Role"
+msgstr "Rol"
+
+#: templates/arctic/base.html:36
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: arctic/templates/arctic/partials/base_data_table.html:38
-#: arctic/templates/arctic/partials/base_data_table.html:71
+#: templates/arctic/partials/base_data_table.html:40
+#: templates/arctic/partials/base_data_table.html:73
 msgid "Search"
 msgstr "Zoek"
 
-#: arctic/templates/arctic/partials/base_data_table.html:208
+#: templates/arctic/partials/base_data_table.html:210
 msgid "No result..."
 msgstr "Geen resultaat..."
 
-#: arctic/templates/arctic/partials/form_validation.html:11
+#: templates/arctic/partials/form_field_parts/field_label.html:6
+msgid "optional"
+msgstr "optioneel"
+
+#: templates/arctic/partials/form_validation.html:11
 msgid ""
 "Oops! We found some errors. Please check the error messages below and try "
 "again."
-msgstr "Oops! We hebben enkele fouten gevonden. Controleer de onderstaande foutmeldingen en probeer "
-"opnieuw."
+msgstr ""
+"Oops! We hebben enkele fouten gevonden. Controleer de onderstaande "
+"foutmeldingen en probeer opnieuw."
 
-#: arctic/templates/arctic/partials/pagination.html:10
+#: templates/arctic/partials/pagination.html:10
 msgid "of"
 msgstr "van"
 
-#: arctic/templates/arctic/partials/pagination.html:16
+#: templates/arctic/partials/pagination.html:16
 msgid "Pagination"
 msgstr "Paginering"
 
-#: arctic/templates/arctic/partials/pagination.html:20
-#: arctic/templates/arctic/partials/pagination.html:34
+#: templates/arctic/partials/pagination.html:20
+#: templates/arctic/partials/pagination.html:34
 msgid "Previous page"
 msgstr "Vorige pagina"
 
-#: arctic/templates/arctic/partials/pagination.html:50
+#: templates/arctic/partials/pagination.html:50
 msgid "(current)"
 msgstr "(huidige)"
 
-#: arctic/templates/arctic/partials/pagination.html:62
+#: templates/arctic/partials/pagination.html:62
 msgid "Next page"
 msgstr "Volgende pagina"
 
-#: arctic/templates/arctic/partials/pagination.html:77
+#: templates/arctic/partials/pagination.html:77
 msgid "Last page"
 msgstr "Laatste pagina"
 
-#: arctic/users/forms.py:55
+#: users/forms.py:55
 msgid "New Password"
 msgstr "Nieuw Wachtwoord"
 
-#: arctic/users/forms.py:58
+#: users/forms.py:58
 msgid "Leave this field empty if you don't want to change your password."
 msgstr "Laat dit veld leeg als u uw wachtwoord niet wilt wijzigen."
 
-#: arctic/users/views.py:16
+#: users/views.py:16
 msgid "Users"
 msgstr "Gebruikers"
 
-#: arctic/users/views.py:33
+#: users/views.py:33
 msgid "Create Users"
 msgstr "Gebruikers Aanmaken"
 
-#: arctic/users/views.py:39
+#: users/views.py:39
 msgid "Create User"
 msgstr "Gebruiker Aanmaken"
 
-#: arctic/users/views.py:46
+#: users/views.py:46
 msgid "User {} was successfully created"
 msgstr "Gebruiker {} is succesvol gemaakt"
 
-#: arctic/users/views.py:51
+#: users/views.py:51
 msgid "Change User"
 msgstr "Gebruiker Bijwerken"
 
-#: arctic/users/views.py:66
+#: users/views.py:66
 msgid "User {} was successfully updated"
 msgstr "Gebruiker {} is succesvol bijgewerkt"
 
-#: example/articles/views.py:45 example/articles/views.py:107
-msgid "Create Article"
-msgstr "Artikel Aanmaken"
+#~ msgid "Create Article"
+#~ msgstr "Artikel Aanmaken"
 
-#: example/articles/views.py:74
-msgid "Edit Article"
-msgstr "Artikel Bijwerken"
+#~ msgid "Edit Article"
+#~ msgstr "Artikel Bijwerken"
 
-#: example/articles/views.py:131
-msgid "Categories"
-msgstr "Categorieën"
+#~ msgid "Categories"
+#~ msgstr "Categorieën"
 
-#: example/articles/views.py:138 example/articles/views.py:196
-msgid "Create Category"
-msgstr "Categorie Aanmaken"
+#~ msgid "Create Category"
+#~ msgstr "Categorie Aanmaken"
 
-#: example/articles/views.py:178
-msgid "Edit Category"
-msgstr "Categorie Bijwerken"
+#~ msgid "Edit Category"
+#~ msgstr "Categorie Bijwerken"
 
-#: example/articles/views.py:213
-msgid "Tags"
-msgstr "Tags"
+#~ msgid "Tags"
+#~ msgstr "Tags"
 
-#: example/articles/views.py:220 example/articles/views.py:234
-msgid "Create Tag"
-msgstr "Tag Aanmaken"
+#~ msgid "Create Tag"
+#~ msgstr "Tag Aanmaken"
 
-#: example/articles/views.py:226
-msgid "Edit Tag"
-msgstr "Tag Bijwerken"
+#~ msgid "Edit Tag"
+#~ msgstr "Tag Bijwerken"

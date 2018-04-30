@@ -2,7 +2,7 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.urls import (reverse, reverse_lazy)
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
@@ -79,15 +79,15 @@ class ArticleUpdateView(UpdateView):
     inlines = [TagsInline]
     form_class = ArticleForm
     actions = [
-        ('Cancel', 'cancel'),
-        ('Save', 'submit'),
+        (_('Cancel'), 'cancel'),
+        (_('Save'), 'submit'),
     ]
     layout = OrderedDict([
-        ('+Basic Details',
+        ('+' + _('Basic Details'),
             ['title', ['category|4', 'tags']]),
-        ('-Body|Extra Information for this fieldset',
+        ('-' + _('Body|Extra Information for this fieldset'),
             ['description']),
-        ('Extended Details',
+        (_('Extended Details'),
             [['published|4', 'updated_at']])])
 
     # tabs = [
@@ -111,12 +111,12 @@ class ArticleCreateView(CreateView):
     form_class = ArticleForm
     permission_required = "add_article"
     layout = OrderedDict([
-                        ('+Basic Details',
-                         ['title', ['category|4', 'tags']]),
-                        ('-Body|Extra Information for this fieldset',
-                         ['description']),
-                        ('Extended Details',
-                         [['published|4', 'updated_at']])])
+        ('+' + _('Basic Details'),
+            ['title', ['category|4', 'tags']]),
+        ('-' + _('Body|Extra Information for this fieldset'),
+            ['description']),
+        (_('Extended Details'),
+            [['published|4', 'updated_at']])])
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -181,8 +181,8 @@ class CategoryUpdateView(UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('articles:category-list')
     tabs = [
-        ('Detail', 'articles:category-detail'),
-        ('Related Articles', 'articles:category-articles-list'),
+        (_('Detail'), 'articles:category-detail'),
+        (_('Related Articles'), 'articles:category-articles-list'),
     ]
     permission_required = 'change_category'
 

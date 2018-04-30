@@ -189,6 +189,7 @@ $(document).ready(function() {
        }).data('datepicker').selectDate(date);
     });
 
+    
     // sortable ListViews
     $('[data-sorting-url]').each(function(index) {
         var url = $(this).attr('data-sorting-url');
@@ -217,4 +218,8 @@ $(document).ready(function() {
             }
         });
     });
+
+
+    // tooltips
+    $('[data-toggle="tooltip"]').tooltip()
 });

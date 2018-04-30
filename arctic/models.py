@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserRole(models.Model):
@@ -13,7 +14,7 @@ class UserRole(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField('Role', max_length=100, unique=True)
+    name = models.CharField(_('Role'), max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

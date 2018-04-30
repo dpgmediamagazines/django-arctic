@@ -34,15 +34,6 @@
                             </span>
                         {% endfor %}
                     {% endblock %}
-
-                    {% block help_text %}
-                        {% if field.help_text %}
-                            <div class='help-text'>
-                                {# We allow HTML within form help fields #}
-                                {{ field.help_text|safe }}
-                            </div>
-                        {% endif %}
-                    {% endblock %}
                 </div>
             </div>
             {% endblock %}

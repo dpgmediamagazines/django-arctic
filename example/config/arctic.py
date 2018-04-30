@@ -1,30 +1,33 @@
-ARCTIC_SITE_NAME = 'Arctic Example'
+from django.utils.translation import ugettext_lazy as _
+
+
+ARCTIC_SITE_NAME = _('Arctic Example')
 ARCTIC_FORM_DISPLAY = 'float-label'
 
 # Menu format:
 # (('menu label', 'named url', 'optional icon class',
 #   (optional submenu), (optional related_urls)) )
 ARCTIC_MENU = (
-    ('Dashboard', 'index', 'fa-dashboard'),
-    ('Articles', None, 'fa-file-text-o', (
-        ('List', 'articles:list', ('articles:detail', 'articles:delete')),
-        ('Create', 'articles:create'),
+    (_('Dashboard'), 'index', 'fa-dashboard'),
+    (_('Articles'), None, 'fa-file-text-o', (
+        (_('List'), 'articles:list', ('articles:detail', 'articles:delete')),
+        (_('Create'), 'articles:create'),
     )),
-    ('Categories', None, 'fa-sitemap', (
-        ('List', 'articles:category-list',
+    (_('Categories'), None, 'fa-sitemap', (
+        (_('List'), 'articles:category-list',
          ('articles:category-detail', 'articles:category-delete')),
-        ('Create', 'articles:category-create'),
+        (_('Create'), 'articles:category-create'),
     )),
-    ('Tags', None, 'fa-tags', (
-        ('List', 'articles:tag-list',
+    (_('Tags'), None, 'fa-tags', (
+        (_('List'), 'articles:tag-list',
          ('articles:tag-detail', 'articles:tag-delete')),
-        ('Create', 'articles:tag-create'),
+        (_('Create'), 'articles:tag-create'),
     )),
-    ('Users', None, 'fa-user', (
-        ('List', 'users:list', ('users:detail', )),
-        ('Create', 'users:create'),
+    (_('Users'), None, 'fa-user', (
+        (_('List'), 'users:list', ('users:detail', )),
+        (_('Create'), 'users:create'),
     )),
-    ('Countries', 'countries-list', 'fa-globe'),
+    (_('Countries'), 'countries-list', 'fa-globe'),
 )
 
 ARCTIC_USER_ROLE_MODEL = 'arctic.UserRole'
