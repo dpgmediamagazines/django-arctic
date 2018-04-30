@@ -11,6 +11,7 @@ class UserRole(models.Model):
 
     class Meta:
         swappable = 'ARCTIC_USER_ROLE_MODEL'
+        ordering = ['user']
 
 
 class Role(models.Model):

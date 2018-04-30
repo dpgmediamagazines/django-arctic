@@ -2,6 +2,7 @@ from collections import OrderedDict
 import pytest
 from django.urls import ResolverMatch, reverse
 from django.http import HttpRequest
+from django.utils.translation import ugettext_lazy as _
 
 from arctic import utils
 
@@ -9,30 +10,30 @@ from arctic import utils
 @pytest.mark.django_db
 class TestMenu:
     OUTPUT_MENU = OrderedDict([
-        ('Dashboard', {
+        (_('Dashboard'), {
             'submenu': None, 'active': False,
             'active_weight': 1, 'icon': 'fa-dashboard', 'url': 'index'}
          ),
-        ('Articles', {
+        (_('Articles'), {
             'submenu': OrderedDict([
-                ('List', {'submenu': None, 'active': False,
+                (_('List'), {'submenu': None, 'active': False,
                           'active_weight': 10, 'icon': None,
                           'url': 'articles:list'}
                  ),
-                ('Create', {'submenu': None, 'active': False,
+                (_('Create'), {'submenu': None, 'active': False,
                             'active_weight': 17, 'icon': None,
                             'url': 'articles:create'})
             ]),
             'active': False,
             'active_weight': 0, 'icon': 'fa-file-text-o', 'url': None}
          ),
-        ('Categories', {
+        (_('Categories'), {
             'submenu': OrderedDict([
-                ('List', {'submenu': None, 'active': False,
+                (_('List'), {'submenu': None, 'active': False,
                           'active_weight': 19, 'icon': None,
                           'url': 'articles:category-list'}
                  ),
-                ('Create', {
+                (_('Create'), {
                     'submenu': None, 'active': False,
                     'active_weight': 26, 'icon': None,
                     'url': 'articles:category-create'})
@@ -40,31 +41,31 @@ class TestMenu:
             'active': False, 'active_weight': 0,
             'icon': 'fa-sitemap', 'url': None}
          ),
-        ('Tags', {
+        (_('Tags'), {
             'submenu': OrderedDict([
-                ('List', {'submenu': None, 'active': False,
+                (_('List'), {'submenu': None, 'active': False,
                           'active_weight': 15, 'icon': None,
                           'url': 'articles:tag-list'}),
-                ('Create', {'submenu': None, 'active': False,
+                (_('Create'), {'submenu': None, 'active': False,
                             'active_weight': 22, 'icon': None,
                             'url': 'articles:tag-create'})
             ]),
             'active': False, 'active_weight': 0,
             'icon': 'fa-tags', 'url': None}
          ),
-        ('Users', {
+        (_('Users'), {
             'submenu': OrderedDict([
-                ('List', {'submenu': None, 'active': False,
+                (_('List'), {'submenu': None, 'active': False,
                           'active_weight': 7, 'icon': None,
                           'url': 'users:list'}),
-                ('Create', {'submenu': None, 'active': False,
+                (_('Create'), {'submenu': None, 'active': False,
                             'active_weight': 14, 'icon': None,
                             'url': 'users:create'})
             ]),
             'active': False, 'active_weight': 0,
             'icon': 'fa-user', 'url': None}
          ),
-        ('Countries', {'submenu': None, 'active': False,
+        (_('Countries'), {'submenu': None, 'active': False,
                        'active_weight': 11, 'icon': 'fa-globe',
                        'url': 'countries-list'})
     ])
