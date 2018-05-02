@@ -27,6 +27,7 @@
     <div class="col">
         <form action="" method="GET" class="search-form">
             {% block search_form %}
+            <fieldset id="arctic_search_form">
                 <div class="form-group simple-search {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
                     {% for field in simple_search_form %}
                         {{ field }}
@@ -45,6 +46,7 @@
                     {% endblock %}
                     {% endif %}
                 </div>
+            </fieldset>
             {% endblock %}
         </form>
                 </div>
