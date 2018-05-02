@@ -441,40 +441,40 @@ The use of the dialog can be disabled by return None in the confirm_dialog, if o
 
 ### `simple_search_form_class`
 
-By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
-Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
-you want to perform custom Q() query for each filter button.
-Use `filters_select_multiple` variable to define which type of filters will be used. When you want select more than one active filter set `True`.
-
-Example:
+By default Arctic uses `SimpleSearchForm` to search the fields defined in 
+`search_fields`.
+This form can be replaced by another one with extended functionality, 
+for example:
 
     class ExampleListView(ListView):
         ...
-        advanced_search_form_class = QuickSearchForm
+        advanced_search_form_class = FiltersAndSearchForm
         ...
 
 
     from django.db.models import Q
+    from arctic.forms import SimpleSearchForm
 
-    class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
-        filters_query_name = 'my_filters'
-        filters_select_multiple = True
-        FILTER_BUTTONS = (
-            ('published', 'Is published'),
-            ('rabbit', 'Find rabbit')
+
+    class FiltersAndSearchForm(SimpleSearchForm):
+        field_order = ['published', 'search']
+        FILTER_CHOICES = (
+            ('published', 'Published'),
+            ('drafts', 'Drafts')
         )
+        published = forms.ChoiceField(choices=FILTER_CHOICES,
+                                      widget=QuickFiltersSelect}),
+                                      required=False)
 
+        # this method is required and should return a filtering query
         def get_search_filter(self):
             q = super(FiltersAndSearchForm, self).get_search_filter()
 
-            values = self.cleaned_data.get(self.filters_query_name)
-            conditions = {
-                'published': Q(published=True),
-                'rabbit': Q(description__icontains='rabbit')
-            }
+            published_value = self.cleaned_data.get('published')
+            if published_value in ('published', 'drafts'):
+                published = True if published_value == 'published' else False
 
-            for value in values:
-                q |= conditions.get(value, Q())
+                q &= Q(published=published)
             return q
 
 ### `advanced_search_form_class`

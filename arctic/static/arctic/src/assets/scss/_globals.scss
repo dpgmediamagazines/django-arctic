@@ -32,9 +32,9 @@ a:not([href]):not([tabindex]):not(.btn) {
     }
 }
 
-a[aria-describedby] {
-    background-color: #e6e6e6;
-    border-color: #adadad;
+a[aria-describedby]:not([href]):not([tabindex]) {
+    background-color: #6c757d;
+    color: #ffffff;
 }
 
 

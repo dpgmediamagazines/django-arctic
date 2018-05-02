@@ -56,7 +56,7 @@
             {# TODO move form-actions to it's own section #}
             {% block form_actions %}
             <div class="row justify-content-center">
-                <div class="col">
+                <div class="col-auto">
                     {% for action in actions %}
                         {% if action.position == 'left' %}
                             {% if action.type == 'submit' %}
