@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+
+## [unreleased]
+
+### Changed
+
+- in Forms, `help_text` is now displayed as a popup.
+
+## Fixed
+
+- SimpleSearchForm now works as expected, it can be replaced by a custom form
+  with a variable number of fields
+
+## Removed
+
+- QuickFiltersFormMixin this is no longer needed, the same functionality can be
+  added by using a `ChoiceField` with a `QuickFiltersSelect` or a 
+  `QuickFiltersSelectMultiple` widget.
+
+
 ## 1.1.0 (2017-04-20)
 
 ### Added
