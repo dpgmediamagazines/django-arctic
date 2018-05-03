@@ -10,10 +10,10 @@ It provides a Bootstrap 4 based user interface, role based authentication and
 a number of generic Django Views that provide great looking and feature-rich 
 lists and forms.
 
-- The ListViews support sorting, searching, links, nested fields, 
-  custom columns and data sources not only from databases but also from APIs
-- The FormViews have enhanced widgets for DateTime, AutoComplete and 
-  MultiSelect and also support custom layouts without having to create extra 
+- Lists support sorting, searching, links, nested fields, custom columns 
+  and data sources not only from databases but also from APIs
+- The Forms have enhanced widgets for DateTime, AutoComplete and MultiSelect 
+  and also support custom layouts without having to create extra 
   templates.
 
 ![arctic screenshot](https://raw.githubusercontent.com/sanoma/django-arctic/master/docs/img/arctic_screenshot.png)

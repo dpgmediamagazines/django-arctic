@@ -2,7 +2,7 @@ from datetime import datetime
 
 import django
 from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TimeInput, Input,
+                                  SelectMultiple, TextInput, TimeInput, Input,
                                   CheckboxSelectMultiple, RadioSelect)
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -22,19 +22,19 @@ class StyledSelect(Select):
 
 
 class Selectize(Select):
-    def __init__(self, attrs, choices):
+    def __init__(self, attrs={}, choices=()):
         attrs['js-selectize'] = True
         super(Selectize, self).__init__(attrs, choices)
 
 
 class SelectizeMultiple(SelectMultiple):
-    def __init__(self, attrs, choices):
+    def __init__(self, attrs={}, choices=()):
         attrs['js-selectize-multiple'] = True
         super(SelectizeMultiple, self).__init__(attrs, choices)
 
 
 class SelectizeAutoComplete(Select):
-    def __init__(self, attrs, choices, url):
+    def __init__(self, url, attrs={}, choices=()):
         attrs['js-selectize-autocomplete'] = True
         attrs['data-url'] = url
         super(SelectizeAutoComplete, self).__init__(attrs, choices)
@@ -65,7 +65,7 @@ class PickerFormatMixin(Input):
 
 
 class DateTimePickerInput(PickerFormatMixin, DateTimeInput):
-    def __init__(self, attrs, format):
+    def __init__(self, attrs={}, format=None):
         attrs['js-datetimepicker'] = True
         self.display_format = '%m/%d/%Y %I:%M %p'
         self.widget_attribute_key = 'data-datetime'
@@ -73,7 +73,7 @@ class DateTimePickerInput(PickerFormatMixin, DateTimeInput):
 
 
 class DatePickerInput(PickerFormatMixin, DateInput):
-    def __init__(self, attrs, format):
+    def __init__(self, attrs={}, format=None):
         attrs['js-datepicker'] = True
         self.display_format = '%m/%d/%Y'
         self.widget_attribute_key = 'data-date'
@@ -81,7 +81,7 @@ class DatePickerInput(PickerFormatMixin, DateInput):
 
 
 class TimePickerInput(PickerFormatMixin, TimeInput):
-    def __init__(self, attrs, format):
+    def __init__(self, attrs={}, format=None):
         attrs['js-timepicker'] = True
         self.display_format = '%I:%M %p'
         self.widget_attribute_key = 'data-time'
@@ -119,12 +119,12 @@ class QuickFiltersSelectMixin(object):
         if django.VERSION >= (1, 11):
             return super(QuickFiltersSelectMixin, self).render(
                 name, value, attrs)
-        else:
-            t = render_to_string(
-                template_name=self.template_name,
-                context=self.get_context(name, value, attrs)
-            )
-            return mark_safe(t)
+
+        t = render_to_string(
+            template_name=self.template_name,
+            context=self.get_context(name, value, attrs)
+        )
+        return mark_safe(t)
 
 
 class QuickFiltersSelect(QuickFiltersSelectMixin, RadioSelect):
@@ -138,3 +138,21 @@ class QuickFiltersSelectMultiple(QuickFiltersSelectMixin,
     """
     This widget is used to be able to have a more than one active filters
     """
+
+
+class SearchInput(TextInput):
+    """
+    Widget used in the inline search field on top of ListViews
+    """
+    template_name = 'arctic/widgets/search_input.html'
+
+    def render(self, name, value, attrs=None):
+        """For django 1.10 compatibility"""
+        if django.VERSION >= (1, 11):
+            return super(SearchInput, self).render(name, value, attrs)
+
+        t = render_to_string(
+            template_name=self.template_name,
+            context=self.get_context(name, value, attrs)
+        )
+        return mark_safe(t)

@@ -2,7 +2,7 @@
 
 <div class="row">
     {% block tool_links %}
-        <div class="col">
+        <div class="col-auto">
             {% for link in tool_links %}
                 {% if forloop.counter0 < tool_links_collapse %}
                     <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}">{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
@@ -24,62 +24,31 @@
         </div>
     {% endblock %}
     {% if simple_search_form or advanced_search_form %}
-        <form action="" method="GET" class="search-form col-12 col-md-6 push-right list-inline-search">
+    <div class="col">
+        <form action="" method="GET" class="search-form">
             {% block search_form %}
-            <fieldset type="get" id="arctic_search_form">
-                <div class="page-filters row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="sr-only" for="search">Search</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0 {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
-                                {% if advanced_search_form %}
-                                    <a id="arctic_toggle_advanced_search_form_button" class="btn btn-secondary arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
-                                        <i class="fa fa-sliders"></i>
-                                    </a>
-                                {% endif %}
-                                <input type="text" class="form-control" id="search" placeholder="{% trans 'Search' %}" value="{{ simple_search_form.search.value|default:"" }}" name="search">
-                                <button class="btn btn-secondary" type="button" js-search-submit>
-                                    <i class="fa fa-search"></i>
-                                </button>
+                <div id="arctic_search_form" class="form-group simple-search {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
+                    {% for field in simple_search_form %}
+                        {{ field }}
+                    {% endfor %}
+                    {% if advanced_search_form %}
+                    {% block advanced_search_form %}
+                        <a id="arctic_toggle_advanced_search_form_button" class="btn btn-secondary arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                            <i class="fa fa-sliders"></i>
+                        </a>
+                        <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
+                            {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
+                            <div class="form-block pull-right">
+                                <input type="reset" value="{% trans 'Clear' %}" class="btn btn-secondary" onClick='location.href = location.pathname'>
+                                <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
                             </div>
                         </div>
-                        {% block quick_filters %}
-                          {% if simple_search_form.filters_query_name %}
-                            <div class="form-group">
-                              {{ simple_search_form.get_quick_filters_field }}
-                            </div>
-                          {% endif %}
-                        {% endblock %}
-
-                        {% if simple_search_form.errors %}
-                            {% block errors %}
-                                {% for field in simple_search_form %}
-                                    {% for error in field.errors %}
-                                        <p class="invalid-feedback invalid-form-field">{{ error }}</p>
-                                    {% endfor %}
-                                {% endfor %}
-                                {% for error in form.non_field_errors %}
-                                    <p class="invalid-feedback invalid-form-field">{{ error }}</p>
-                                {% endfor %}
-                            {% endblock %}
-                        {% endif %}
-
-
-                        {% if advanced_search_form %}
-                            {% block advanced_search_form %}
-                                <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
-                                    {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
-                                    <div class="form-block">
-                                        <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
-                                    </div>
-                                </div>
-                            {% endblock %}
-                        {% endif %}
-                    </div>
+                    {% endblock %}
+                    {% endif %}
                 </div>
-            </fieldset>
             {% endblock %}
         </form>
+    </div>
     {% endif %}
 
 </div>

@@ -168,7 +168,13 @@ label {
     appearance: none;
 }
 
-//Advanced search from
+//search forms
+
+form.search-form {
+    padding: 0;
+    margin: 0;
+    float: right;
+}
 
 .popover {
     max-width: none; //remove max width from bootstrap
@@ -186,15 +192,6 @@ label {
     }
 }
 
-// Quick filters inputs
-
-.quick_filters {
-    input[type="checkbox"]{
-        position: absolute;
-        clip: rect(0, 0, 0, 0);
-        pointer-events: none;
-    }
-}
 
 // Restore default list and quote stylings in form-group to display correct
 // styling when using rich text editors.
@@ -221,26 +218,75 @@ label {
     }
 }
 
-.input-group {
-    > input,
-    > .btn {
-        height: 2.34rem;
+
+.simple-search {
+    .spacer {
+        margin-right: 2em;
     }
 
-    > .btn:first-child {
-        margin-left: 0;
+    input {
+        width: auto;
+        vertical-align: middle;
+        display: inline-block;
     }
 
-    // Reset rounded corners
-    > .btn:not(:last-child):not(.dropdown-toggle),
-    > .btn-group:not(:last-child) > .btn,
-    > input {
-        @include border-right-radius(0);
-        border-right: 0;
+    [js-datepicker] {
+        width: 7.5em;
     }
 
-    > .btn:not(:first-child),
-    > .btn-group:not(:first-child) > .btn {
-        @include border-left-radius(0);
+    [js-timepicker] {
+        width: 4.5em;
+    }
+
+    [js-datetimepicker] {
+        width: 10.4em;
     }
 }
+
+.search-input {
+    margin:0;
+    padding: 0;
+    display: inline-block;
+    margin-right: -26px;
+    vertical-align: middle;
+
+    .search-query {
+        width: auto;
+        display: inline-block;
+        margin-bottom: 0;
+        border-radius: 3px;
+    }
+ 
+    button {
+        border: 0;
+        background: none;
+        padding: 2px 5px;
+        margin-top: -2px;
+        position: relative;
+        left: -34px;
+        margin-bottom: 0;
+        border-radius: 3px;
+    }
+ 
+    .search-query:focus + button {
+        z-index: 3;   
+    }
+}
+
+.quick-filters {
+    background-color: white;
+
+    .btn-outline-secondary {
+        color: $btn-secondary-color;        
+    }
+
+    .btn-outline-secondary, 
+    .btn-outline-secondary:not(:disabled):not(.disabled).active {
+        border-color: $btn-secondary-border-color;
+    }
+    .btn-outline-secondary:hover {
+        color: $btn-secondary-color;
+        background-color: #e6e6e6;
+    }
+}
+

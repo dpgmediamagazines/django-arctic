@@ -44,6 +44,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 unittest_results_*
+.pytest_cache
 
 # Translations
 *.pot
