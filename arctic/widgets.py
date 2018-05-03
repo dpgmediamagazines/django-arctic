@@ -22,19 +22,19 @@ class StyledSelect(Select):
 
 
 class Selectize(Select):
-    def __init__(self, attrs, choices):
+    def __init__(self, attrs={}, choices=()):
         attrs['js-selectize'] = True
         super(Selectize, self).__init__(attrs, choices)
 
 
 class SelectizeMultiple(SelectMultiple):
-    def __init__(self, attrs, choices):
+    def __init__(self, attrs={}, choices=()):
         attrs['js-selectize-multiple'] = True
         super(SelectizeMultiple, self).__init__(attrs, choices)
 
 
 class SelectizeAutoComplete(Select):
-    def __init__(self, attrs, choices, url):
+    def __init__(self, url, attrs={}, choices=()):
         attrs['js-selectize-autocomplete'] = True
         attrs['data-url'] = url
         super(SelectizeAutoComplete, self).__init__(attrs, choices)

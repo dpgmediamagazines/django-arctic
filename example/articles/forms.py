@@ -44,7 +44,8 @@ class FiltersAndSearchForm(SimpleSearchForm):
     )
     published = forms.ChoiceField(choices=FILTER_CHOICES,
                                   widget=QuickFiltersSelect(
-                                      attrs={'class': 'spacer'}),
+                                      attrs={'class': 'spacer',
+                                             'submit': True}),
                                   required=False)
     # date = forms.CharField(required=False,
     #                        widget=DateTimePickerInput(
