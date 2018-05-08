@@ -252,9 +252,6 @@ def reverse_url(url, obj, fallback_field=None):
     When a fallback field is given it will use it as an argument if none other
     are given.
     """
-    if url.startswith('#'):  # local url
-        return url
-
     args = []
     if type(url) in (list, tuple):
         named_url = url[0]
@@ -264,6 +261,8 @@ def reverse_url(url, obj, fallback_field=None):
             else:
                 args.append(find_attribute(obj, arg))
     else:
+        if url.startswith('#'):  # local url
+            return url
         named_url = url
         if fallback_field:
             if type(obj) is dict:

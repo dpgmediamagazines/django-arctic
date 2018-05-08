@@ -62,7 +62,7 @@
                             {% if action.type == 'submit' %}
                                 <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
                             {% else %}
-                                <a class="btn btn-{{ action.style }}" href="{% if action.type == 'cancel' %} {{ cancel_url }} {% else %} {{ action.url }} {% endif %}" id="{{ action.id }}">
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
                                     {{ action.label }}
                                 </a>
                             {% endif %}
@@ -75,7 +75,7 @@
                             {% if action.type == 'submit' %}
                                 <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
                             {% else %}
-                                <a class="btn btn-{{ action.style }}" href="{% if action.type == 'cancel' %} {{ cancel_url }} {% else %} {{ action.url }} {% endif %}" id="{{ action.id }}">
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
                                 {{ action.label }}
                                 </a>
                             {% endif %}

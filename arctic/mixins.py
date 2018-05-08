@@ -90,6 +90,13 @@ class FormMixin(object):
     readonly_fields = None
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
+    def get_cancel_url(self):
+        return self.request.POST.get(
+            'cancel_url', self.request.META.get(
+                'HTTP_REFERER',
+                '/'.join(self.request.get_full_path()
+                         .rstrip('/').split('/')[:-1])))
+
     def get_actions(self):  # noqa: C901
         if self.actions and self.links:
             raise ImproperlyConfigured(
@@ -121,8 +128,11 @@ class FormMixin(object):
                     'id': generate_id('action', action[0])
                 }
 
-                if action[1] in ('cancel', 'submit'):
+                if action[1] == 'submit':
                     allowed_action['type'] = action[1]
+                elif action[1] == 'cancel':
+                    allowed_action['type'] = 'link'
+                    allowed_action['url'] = self.get_cancel_url()
                 else:
                     allowed_action['type'] = 'link'
                     try:

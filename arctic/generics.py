@@ -731,10 +731,7 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
         context = super(CreateView, self).get_context_data(**kwargs)
         context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
-        context['cancel_url'] = self.request.POST.get(
-            'cancel_url', self.request.META.get(
-                'HTTP_REFERER',
-                '/'.join(self.request.get_full_path().split('/')[:-1])))
+        context['cancel_url'] = self.get_cancel_url()
         return context
 
 
@@ -755,10 +752,7 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
         context = super(UpdateView, self).get_context_data(**kwargs)
         context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
-        context['cancel_url'] = self.request.POST.get(
-            'cancel_url', self.request.META.get(
-                'HTTP_REFERER',
-                '/'.join(self.request.get_full_path().split('/')[:-1])))
+        context['cancel_url'] = self.get_cancel_url()
         return context
 
 
@@ -770,10 +764,7 @@ class FormView(FormMediaMixin, View, SuccessMessageMixin, FormMixin,
         context = super(FormView, self).get_context_data(**kwargs)
         context['actions'] = self.get_actions()
         context['layout'] = self.get_layout()
-        context['cancel_url'] = self.request.POST.get(
-            'cancel_url', self.request.META.get(
-                'HTTP_REFERER',
-                '/'.join(self.request.get_full_path().split('/')[:-1])))
+        context['cancel_url'] = self.get_cancel_url()
         return context
 
 
