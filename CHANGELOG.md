@@ -8,14 +8,61 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-##[unreleased]
+## [unreleased]
+
+### Changed
+
+- in Forms, `help_text` is now displayed as a popup.
+
+## Fixed
+
+- SimpleSearchForm now works as expected, it can be replaced by a custom form
+  with a variable number of fields
+
+## Removed
+
+- QuickFiltersFormMixin this is no longer needed, the same functionality can be
+  added by using a `ChoiceField` with a `QuickFiltersSelect` or a 
+  `QuickFiltersSelectMultiple` widget.
+
+
+## 1.1.0 (2017-04-20)
+
+### Added
+
+- Auto detect confirmation dialogs in ListViews - [#284][284]
+
+### Changed
+
+- `confirm_links` property in ListView changed to `modal_links` - [#284][284]
+- deprecated `links` and replaced it with `actions` - [#287][287]
+- expanded `tool_links` functionality - [#286][286]
+- improved look and feel of the datetime picker and added localization to it
+- added dutch localization
+
+[284]: //github.com/sanoma/django-arctic/issues/284
+[287]: //github.com/sanoma/django-arctic/issues/287
+[286]: //github.com/sanoma/django-arctic/issues/286
+
+
+## 1.0.2 (2017-03-19)
+
+### Fixed
+
+- Search bar items now join like a grouped button - [#267][267]
+- Broken inline forms are working again - [#279][279]
 
 ## Changed
+
 - added pagination_legend block and show_legend pagination option - [#277][277]
 - added virtual_ordering_fields for ListView - [#274][274]
+- added single and multiple select for quick filter - [#282][282]
 
+[267]: //github.com/sanoma/django-arctic/issues/267
 [277]: //github.com/sanoma/django-arctic/issues/277
 [274]: //github.com/sanoma/django-arctic/issues/274
+[279]: //github.com/sanoma/django-arctic/issues/279
+[282]: //github.com/sanoma/django-arctic/issues/282
 
 
 ## 1.0.1 (2017-03-01)

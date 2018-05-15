@@ -1,0 +1,7 @@
+{% load i18n %}
+<span class="search-input">
+    <input type="text" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %} {% include "django/forms/widgets/attrs.html" %} class="search-query form-control" placeholder="{% trans 'Search' %}" />
+    <button class="btn btn-secondary" type="submit">
+        <i class="fa fa-search"></i>
+    </button>
+</span>

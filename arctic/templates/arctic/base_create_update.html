@@ -17,6 +17,7 @@
         </div>
     </div>
     <form action="" method="POST" enctype="multipart/form-data" class="dirty-check {{ form_display }}" novalidate>
+        <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
         <fieldset type="post" class="fieldset-default arctic-card">
             <div class="{% block form_size_class %}form-size{% endblock %}">
             {% csrf_token %}
@@ -32,7 +33,7 @@
                     {% block inlines_title %}
                         {% if formset.verbose_name %}
                             <div class="arctic-card__form-header">
-                                <h4 class="arctic-card__title">{{ formset.verbose_name }}</h4>
+                                <h6 class="arctic-card__title">{{ formset.verbose_name }}</h6>
                             </div>
                             <div class="arctic-card__placeholder arctic-card__placeholder--small"></div>
                         {% endif %}
@@ -41,8 +42,11 @@
                         {{ formset.non_form_errors }}
                     {% for form in formset %}
                         {% block inlines_form_fields %}
-                            {% include "arctic/partials/form_field_inline.html" with form=form %}
+                            {% include "arctic/partials/form_fields_inline.html" with form=form %}
                         {% endblock %}
+                        {% if not forloop.last %}    
+                            <hr><br>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endif %}
@@ -52,25 +56,36 @@
             {# TODO move form-actions to it's own section #}
             {% block form_actions %}
             <div class="row justify-content-center">
-                <div class="col-sm-6 col">
-                    {% if links %}
-                        {% for link in links %}
-                            <a class="btn btn-secondary" href="{{ link.url }}">
-                                {{ link.label }}
-                            </a>
-                        {% endfor %}
-                    {% endif %}
+                <div class="col-auto">
+                    {% for action in actions %}
+                        {% if action.position == 'left' %}
+                            {% if action.type == 'submit' %}
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                            {% else %}
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
+                                    {{ action.label }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="col-sm-6 col text-right">
-                    {% block form_actions_buttons %}
-                        <input type="submit" name="save" value="Submit" class="btn btn-primary" id="submit-id-save" />
-                    {% endblock %}
+                <div class="col text-right">
+                    {% for action in actions %}
+                        {% if action.position != 'left' %}
+                            {% if action.type == 'submit' %}
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                            {% else %}
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
+                                {{ action.label }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             {% endblock form_actions %}
             </div>
         </fieldset>
     </form>
-
     {% block extra_content %}{% endblock %}
 {% endblock %}

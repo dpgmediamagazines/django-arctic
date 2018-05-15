@@ -35,12 +35,14 @@ $sidebar-width: 220px;
 
 #sidebar {
     position: fixed;
+    height: 100vh;
     max-width: $sidebar-width;
-    min-height: 100vh;
+    min-height: auto;
     background-color: $sidebar-background;
     color: $sidebar-color;
     left: #{-$sidebar-width};
     transition: transform .4s ease;
+    overflow-x: hidden;
 
     @include media-breakpoint-up(lg) {
         left: 0;

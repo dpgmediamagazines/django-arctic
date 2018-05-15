@@ -368,63 +368,113 @@ Example:
 
 ### `tool_links`
 
-list of links with the format `('name', 'url', 'icon')`, not connected to the 
-table data.
+This field contains links not connected to any individual table rows.
+It is a list of tupples containing 2 items and an optional third.
+The first item is the title of the link, and the second is a named url.
+
+The optional third parameter can be a string with an icon (if no icon is 
+provided the link will display the given title)
+It is also possible to pass a dictionary as the third item, all of its keys will
+be passed through to the template, the standard template recognizes the keys: 
+`icon`, `style` (`link`, `primary`, `secondary` is default) and
+`id` (by default auto generated from the english version of the title).
+
+The maximum number of `tool_links` displayed is defined in `tool_links_collapse`,
+whenever this number is reached, the remaining tool_links are displayed in a
+dropdown.
+
+Example:
+
+    tool_links = (
+        ('Add Arcticle', 'articles:create', 'fa-plus'),
+    )
+
+### `tool_links_collapse`
+
+A number defining how many `tool_links` are to be displayed, any extra items 
+will be available in a dropdown.
 
 ### `tool_links_icon`
 
-default is fa-wrench. an icon displayed for the dropdown of multiple tool 
-links or, if only one tool link set, it would be use as default icon.
+This icon is used in the `tool_links` dropdown, by default an ellipsis `...`
+will be used.
 
-### `confirm_links`
+### `modals`
 
-Dictionary of named urls that will display a confirmation dialog. The format is:
+Dictionary of named urls that will be displayed in a modal.
+Currently only the `confirm` type is supported. 
+The format for this type is:
 
-    {'named_url': {
-        'title': 'Delete "{{ field_name }}"',
-        'message': 'Would you like to delete this?', 
-        'ok': 'Delete', 
-        'cancel': 'Cancel'},
+    {    
+        'named_url': {
+            'type': 'confirm',
+            'title': 'Delete "{field_name}"',
+            'message': 'Would you like to delete this?', 
+            'ok': 'Delete', 
+            'cancel': 'Cancel',
+            'class': 'this_modal_class', # optional 
+        },
         ...
     }
 
-Both `title` and `message` can contain field names wrapped as django template
+Both `title` and `message` can contain field names wrapped as python template
 variables, which will be parsed into the field value for the row instance.
-Currently `confirm_links` work only on the `action_links` area.
+Currently `modals` work with `action_links` and `field_links`.
+ 
+Confirm dialogs can be automatically picked up if a view includes the following method:
+
+    @staticmethod 
+    def confirm_dialog():
+        return {
+            'title': 'Delete "{field_name}"',
+            'message': 'Would you like to delete this?',
+            'ok': 'Delete',
+            'cancel': 'Cancel',
+            'class': 'this_dialog_class', # optional 
+        }
+
+The `obj` variable references the string representation of the object. Other 
+individual fields present in the object can be used with the string template 
+markup.
+
+The use of the dialog can be disabled by return None in the confirm_dialog, if one already exists in the parent class.
 
 ### `simple_search_form_class`
 
-By default Arctic uses `SimpleSearchForm` to be able search by `search_fields`.
-Also this form supports `Quick filters` it like a buttons when you click on it, filter will be applied. It's useful when
-you want to perform custom Q() query for each filter button.
-Example:
+By default Arctic uses `SimpleSearchForm` to search the fields defined in 
+`search_fields`.
+This form can be replaced by another one with extended functionality, 
+for example:
 
     class ExampleListView(ListView):
         ...
-        advanced_search_form_class = QuickSearchForm
+        advanced_search_form_class = FiltersAndSearchForm
         ...
-    .
-    .
+
+
     from django.db.models import Q
+    from arctic.forms import SimpleSearchForm
 
-    class QuickSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
-        filters_query_name = 'my_filters'
-        FILTER_BUTTONS = (
-            ('published', 'Is published'),
-            ('rabbit', 'Find rabbit')
+
+    class FiltersAndSearchForm(SimpleSearchForm):
+        field_order = ['published', 'search']
+        FILTER_CHOICES = (
+            ('published', 'Published'),
+            ('drafts', 'Drafts')
         )
+        published = forms.ChoiceField(choices=FILTER_CHOICES,
+                                      widget=QuickFiltersSelect}),
+                                      required=False)
 
+        # this method is required and should return a filtering query
         def get_search_filter(self):
             q = super(FiltersAndSearchForm, self).get_search_filter()
 
-            values = self.cleaned_data.get(self.filters_query_name)
-            conditions = {
-                'published': Q(published=True),
-                'rabbit': Q(description__icontains='rabbit')
-            }
+            published_value = self.cleaned_data.get('published')
+            if published_value in ('published', 'drafts'):
+                published = True if published_value == 'published' else False
 
-            for value in values:
-                q |= conditions.get(value, Q())
+                q &= Q(published=published)
             return q
 
 ### `advanced_search_form_class`
@@ -598,8 +648,13 @@ not displaying the confirmation view.
 ### `get_success_message(obj)`
 
 This method will return the success message to be displayed after the deletion 
-of an object. 
+of an object.
 
+### `confirm_dialog()`
+
+This static method will return the data needed to generate a confirmation 
+dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is 
+called.
 
 
 # Mixins
@@ -651,6 +706,13 @@ permissions, only one permission is needed to validate a user's role.
 
 ## FormMixin
 
+`class arctic.mixins.RoleAuthentication`
+
+This class provides common behaviours for `CreateView`, `UpdateView` and 
+`FormView`
+
+**Properties**
+
 ### `form_display`
 
 Defines how a form will be displayed, the options are:
@@ -665,7 +727,6 @@ Defines how a form will be displayed, the options are:
 
 This option can be changed globally with the setting `ARCTIC_FORM_DISPLAY`.
 
-
 ### `layout`
 
 List of fields to be displayed in a 12-column grid system.
@@ -679,23 +740,55 @@ fields will be evenly sized to fill up the entire row.
 Fieldsets are also supported giving `layout` a dictionary where each key 
 is the fieldset name and the values a field list. A fieldset can have an 
 optional description by using the `'fieldset|description'` syntax.
-When a fieldset name is prepended with a `'-'`, it will be displayed as 
-collapsed.
+When a fieldset name is prepended with a `-`, it will be collapsible and 
+displayed as collapsed, if prepended with a `+` it will be collapsible and 
+displayed as uncollapsed.
 
 Examples:
 
     from collections import OrderedDict
 
+    # category and tags on the same row, no fieldsets
+    layout = ['title', 
+              'description', 
+              ['category', 'tags'], 
+              'published', 
+              'updated_at']
+
+    # Two collapsible fieldsets, the first collapsed by default
     layout = OrderedDict([
-                            ('-fieldset', ['title|10', ['category', 'updated_at|4']]),
-                            ('fieldset2', ['tags']),
-                        ])
+        ('-fieldset', 
+            ['title|10', 
+            ['category', 'updated_at|4']]),                
+        ('+fieldset2', 
+            ['tags']),
+        ])
     
-    layout = ['title', 'description', ['category', 'tags']]
-    
-    layout = ['title', 'description', ['category', 'tags'], 'published', 'updated_at']
 
     layout = [['published', 'updated_at']]
+
+### `actions`
+
+This field is used to add a number of links and buttons to the form.
+It is a list of tupples containing 2 items and an optional third.
+The first item is the title of the action, and the second is either a named url,
+`submit` or `cancel`. 
+
+The third parameter can be a string with the positioning of the action - the 
+accepted value is `left` (right is the default).
+It is also possible to pass a dictionary as the third item, all of its keys will
+be passed through to the template, the standard template recognizes the keys: 
+`position` (`left`), `style` (`link`, `primary`, `secondary` is default) and
+`id` (by default auto generated from the english version of the title).
+
+Example:
+
+    actions = [
+         ('Back to List', 'articles:list', 'left'),
+         ('Cancel', 'cancel'), 
+         ('Save as draft', 'submit'),
+         ('Save', 'submit'),
+    ]
 
 
 # Apps

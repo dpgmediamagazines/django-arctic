@@ -3,19 +3,21 @@ Basic mixins for generic class based views.
 """
 
 import importlib
+import sys
+import warnings
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import (ImproperlyConfigured, PermissionDenied)
-from django.template import (Template, Context)
 from django.urls import reverse
 from django.utils import six
+from django.utils.translation import ugettext_lazy as _
 
 from collections import OrderedDict
 
 from .forms import SimpleSearchForm
 from .loading import (get_role_model, get_user_role_model)
-from .utils import (arctic_setting, reverse_url, view_from_url)
+from .utils import (arctic_setting, reverse_url, view_from_url, generate_id)
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -83,29 +85,80 @@ class FormMixin(object):
     use_widget_overloads = True
     layout = None
     _fields = []
-    links = None             # Optional links such as list of linked items
+    actions = None             # Optional links such as list of linked items
+    links = None
     readonly_fields = None
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
-    def get_links(self):
-        if not self.links:
-            return None
+    def get_cancel_url(self):
+        return self.request.POST.get(
+            'cancel_url', self.request.META.get(
+                'HTTP_REFERER',
+                '/'.join(self.request.get_full_path()
+                         .rstrip('/').split('/')[:-1])))
 
-        allowed_links = []
-        for link in self.links:
+    def get_actions(self):  # noqa: C901
+        if self.actions and self.links:
+            raise ImproperlyConfigured(
+                'Forms cannot have both "actions" and "links", please use '
+                'only "actions"')
+        if self.links:
+            warnings.warn(
+                '"links" property is deprecated, please use "actions" '
+                'instead.', DeprecationWarning)
+            self.actions = self.links
 
+        # Forms require a submit
+        default_action = {'label': _('Submit'),
+                          'type': 'submit',
+                          'id': 'action-submit',
+                          'style': 'primary'}
+        if not self.actions:
+            return [default_action]
+
+        allowed_actions = []
+        last_submit_index = -1
+        for action in self.actions:
             # check permission based on named_url
-            if not view_from_url(link[1]).has_permission(self.request.user):
-                continue
+            if (action[1] in ('cancel', 'submit')) or \
+               view_from_url(action[1]).has_permission(self.request.user):
+                allowed_action = {
+                    'label': action[0],
+                    'style': 'secondary',
+                    'id': generate_id('action', action[0])
+                }
 
-            try:
-                obj = self.get_object()
-            except AttributeError:
-                obj = None
-            allowed_links.append({
-                'label': link[0],
-                'url': reverse_url(link[1], obj)})
-        return allowed_links
+                if action[1] == 'submit':
+                    allowed_action['type'] = action[1]
+                elif action[1] == 'cancel':
+                    allowed_action['type'] = 'link'
+                    allowed_action['url'] = self.get_cancel_url()
+                else:
+                    allowed_action['type'] = 'link'
+                    try:
+                        obj = self.get_object()
+                    except AttributeError:
+                        obj = None
+                    allowed_action['url'] = reverse_url(action[1], obj)
+                if len(action) == 3:
+                    if action[2] == 'left':
+                        allowed_action['position'] = 'left'
+                    elif type(action[2]) is dict:
+                        if action[2].get('style'):
+                            allowed_action['custom_style'] = True
+                        allowed_action.update(action[2])
+
+                if action[1] == 'submit':
+                    last_submit_index = len(allowed_actions)
+                    allowed_action['name'] = generate_id(action[0])
+                allowed_actions.append(allowed_action)
+
+        if last_submit_index >= 0:
+            if not allowed_actions[last_submit_index].get('custom_style'):
+                allowed_actions[last_submit_index]['style'] = 'primary'
+        else:
+            allowed_actions.append(default_action)
+        return allowed_actions
 
     def get_layout(self):
         if not self.layout:
@@ -115,7 +168,9 @@ class FormMixin(object):
 
         allowed_rows = OrderedDict()
         i = 0
-        if type(self.layout) is OrderedDict:
+        py36_version = 50725104  # integer that represents python 3.6.0
+        if (type(self.layout) is OrderedDict) or \
+           (((type(self.layout) is dict) and sys.hexversion >= py36_version)):
             for fieldset, rows in self.layout.items():
                 fieldset = self._return_fieldset(fieldset)
                 if isinstance(rows, six.string_types) or \
@@ -136,7 +191,7 @@ class FormMixin(object):
 
         else:
             raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
-                                       'an OrderedDict')
+                                       'a dict (OrderedDict if python < 3.6)')
 
         return allowed_rows
 
@@ -389,12 +444,14 @@ class ListMixin(object):
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
+    modal_links = {}
     # Simple search form if search_fields is defined
     simple_search_form_class = SimpleSearchForm
     advanced_search_form_class = None  # Custom form for advanced search
     _simple_search_form = None
     _advanced_search_form = None
-    tool_links_icon = 'fa-wrench'
+    tool_links_icon = 'fa-ellipsis-h'
+    tool_links_collapse = 1
     max_embeded_list_items = 10  # when displaying a list in a column
     primary_key = 'pk'
     sorting_field = None
@@ -487,6 +544,12 @@ class ListMixin(object):
         """
         return self.search_fields
 
+    def _extract_confirm_dialog(self, view, url):
+        dialog = getattr(view, 'confirm_dialog', None)
+        if dialog:
+            self.modal_links[url] = dialog()
+            self.modal_links[url]['type'] = 'confirm'
+
     def get_field_links(self):
         if not self.field_links:
             return {}
@@ -494,9 +557,10 @@ class ListMixin(object):
             allowed_field_links = {}
             for field, url in self.field_links.items():
                 # check permission based on named_url
-                if not view_from_url(url).has_permission(self.request.user):
-                    continue
-                allowed_field_links[field] = url
+                view = view_from_url(url)
+                if view.has_permission(self.request.user):
+                    allowed_field_links[field] = url
+                    self._extract_confirm_dialog(view, url)
             return allowed_field_links
 
     def get_field_classes(self, obj):
@@ -515,19 +579,23 @@ class ListMixin(object):
         exists, it also parses the message and title of the url to include
         row field data if needed.
         """
+        if not (url in self.modal_links.keys()):
+            return None
+
         try:
             if type(obj) != dict:
+                obj.obj = str(obj)
                 obj = vars(obj)
-            link = {key: value.replace('"', '&quot;') for (key, value) in
-                    self.confirm_links[url].items()}
-            link['message'] = Template(link['message']).render(Context(obj))
-            link['title'] = Template(link['title']).render(Context(obj))
+            link = self.modal_links[url]
+            link['message'] = link['message'].format(**obj)
+            link['title'] = link['title'].format(**obj)
             link['ok']  # this triggers a KeyError exception if not existent
             link['cancel']
+            link['type']
             return link
         except KeyError as e:
             raise ImproperlyConfigured(
-                'confirm_links requires a dictionary with \'message\', '
+                'modal_links requires a dictionary with \'message\', '
                 '\'title\', \'ok\' and \'cancel\' strings, the named url \'' +
                 url + '\' misses ' + str(e))
         except AttributeError:
@@ -572,12 +640,13 @@ class ListMixin(object):
                 if type(url) in (list, tuple):
                     named_url = url[0]
                 # check permission based on named_url
-                if not view_from_url(named_url).\
-                        has_permission(self.request.user):
-                    continue
-                self._allowed_action_links.append(
-                    self._build_action_link(link)
-                )
+                view = view_from_url(named_url)
+                if view.has_permission(self.request.user):
+                    self._allowed_action_links.append(
+                        self._build_action_link(link)
+                    )
+                    self._extract_confirm_dialog(view, url)
+
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
@@ -592,18 +661,19 @@ class ListMixin(object):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
-
-                icon = None
-                if len(link) == 3:  # if an icon class is given
-                    icon = link[2]
-                allowed_tool_links.append({'label': link[0],
-                                           'url': link[1],
-                                           'icon': icon})
+                if view_from_url(link[1]).has_permission(self.request.user):
+                    allowed_tool_link = {
+                        'label': link[0],
+                        'url': reverse_url(link[1], None),
+                        'style': 'secondary',
+                        'id': generate_id('tool-link', link[0])
+                    }
+                    if len(link) == 3:  # if an icon class is given
+                        if type(link[2]) is str:
+                            allowed_tool_link['icon'] = link[2]
+                        elif type(link[2]) is dict:
+                            allowed_tool_link.update(link[2])
+                    allowed_tool_links.append(allowed_tool_link)
             return allowed_tool_links
 
     def get_simple_search_form_class(self):

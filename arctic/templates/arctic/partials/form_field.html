@@ -11,7 +11,7 @@
             <div class="row {% if field.errors %}invalid-form-field{% endif %}">
         {% endif %}
         {% block controls %}
-            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %}{%if not inline %} col{% endif %}">
+            <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
                 <div class="form-group">
                     {% block widget %}
                         {# checkbox or radio #}
@@ -33,15 +33,6 @@
                                 {{ error }}
                             </span>
                         {% endfor %}
-                    {% endblock %}
-
-                    {% block help_text %}
-                        {% if field.help_text %}
-                            <div class='help-text'>
-                                {# We allow HTML within form help fields #}
-                                {{ field.help_text|safe }}
-                            </div>
-                        {% endif %}
                     {% endblock %}
                 </div>
             </div>

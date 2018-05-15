@@ -8,6 +8,8 @@ from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.urls import (get_ns_resolver, get_resolver, get_urlconf,
                          NoReverseMatch, reverse)
+from django.template.defaultfilters import slugify
+from django.utils import translation
 
 from . import defaults
 
@@ -122,7 +124,7 @@ def view_from_url(named_url):  # noqa
     """
     Finds and returns the view class from a named url
     """
-    # code below is `stolen` from django's reverse method
+    # code below is `stolen` from django's reverse method.
     resolver = get_resolver(get_urlconf())
 
     if type(named_url) in (list, tuple):
@@ -134,6 +136,14 @@ def view_from_url(named_url):  # noqa
     current_path = None
     resolved_path = []
     ns_pattern = ''
+
+    # if it's a local url permission already given, so we just return true
+    if named_url.startswith('#'):
+        class LocalUrlDummyView:
+            @staticmethod
+            def has_permission(user):
+                return True
+        return LocalUrlDummyView
 
     while path:
         ns = path.pop()
@@ -251,6 +261,8 @@ def reverse_url(url, obj, fallback_field=None):
             else:
                 args.append(find_attribute(obj, arg))
     else:
+        if url.startswith('#'):  # local url
+            return url
         named_url = url
         if fallback_field:
             if type(obj) is dict:
@@ -355,3 +367,14 @@ def is_list_of_list(item):
             and isinstance(item[0], (list, tuple)):
         return True
     return False
+
+
+def generate_id(*s):
+    """
+    generates an id from one or more given strings
+    it uses english as the base language in case some strings
+    are translated, this ensures consistent ids
+    """
+    with translation.override('en'):
+        generated_id = slugify('-'.join([str(i) for i in s]))
+    return generated_id

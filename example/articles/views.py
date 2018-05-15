@@ -41,6 +41,7 @@ class ArticleListView(ListView):
         'title': 'articles:detail',
         'category': ('articles:category-detail', 'category_id'),
     }
+    tool_links_collapse = 2
     tool_links = [
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
@@ -77,16 +78,17 @@ class ArticleUpdateView(UpdateView):
     success_url = reverse_lazy('articles:list')
     inlines = [TagsInline]
     form_class = ArticleForm
-    links = [
-        ('Back to list', 'articles:list'),
+    actions = [
+        (_('Cancel'), 'cancel'),
+        (_('Save'), 'submit'),
     ]
     layout = OrderedDict([
-                        ('',
-                         ['title', ['category', 'tags|5']]),
-                        ('Body|Extra Information for this fieldset',
-                         ['description']),
-                        ('Extended Details',
-                         [['published|4', 'updated_at']])])
+        ('+' + _('Basic Details'),
+            ['title', ['category|4', 'tags']]),
+        ('-' + _('Body|Extra Information for this fieldset'),
+            ['description']),
+        (_('Extended Details'),
+            [['published|4', 'updated_at']])])
 
     # tabs = [
     #     ('Detail', 'articles:detail'),
@@ -109,12 +111,12 @@ class ArticleCreateView(CreateView):
     form_class = ArticleForm
     permission_required = "add_article"
     layout = OrderedDict([
-                        ('+Basic Details',
-                         ['title', ['category|4', 'tags']]),
-                        ('-Body|Extra Information for this fieldset',
-                         ['description']),
-                        ('Extended Details',
-                         [['published|4', 'updated_at']])])
+        ('+' + _('Basic Details'),
+            ['title', ['category|4', 'tags']]),
+        ('-' + _('Body|Extra Information for this fieldset'),
+            ['description']),
+        (_('Extended Details'),
+            [['published|4', 'updated_at']])])
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -141,12 +143,6 @@ class CategoryListView(ListView):
     action_links = [
         ('delete', 'articles:category-delete', 'fa-trash'),
     ]
-    confirm_links = {
-        'articles:category-delete': {
-            'title': _('Delete "{{ name }}"'),
-            'message': _('Are you sure you want to delete this?'),
-            'ok': _('Delete'),
-            'cancel': _('Cancel')}}
 
 
 class CategoryArticlesListView(ArticleListView):
@@ -185,8 +181,8 @@ class CategoryUpdateView(UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('articles:category-list')
     tabs = [
-        ('Detail', 'articles:category-detail'),
-        ('Related Articles', 'articles:category-articles-list'),
+        (_('Detail'), 'articles:category-detail'),
+        (_('Related Articles'), 'articles:category-articles-list'),
     ]
     permission_required = 'change_category'
 

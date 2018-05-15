@@ -1,8 +1,12 @@
-{% load arctic_tags %}
+{% load arctic_tags i18n %}
 {# This template makes it easier to overwrite all the labels for the different form types #}
 {{ field.label|safe }}
 {% if field.field.widget|typename != 'CheckboxInput' and field.field.widget|typename != 'RadioSelect' %}
     {% if not field.field.required %}
-        <i>(optional)</i>
+        <i class="optional-field-text">({% trans 'optional' %})</i>
     {% endif %}
+{% endif %}
+{% if field.help_text %}
+    &nbsp;
+    <a href="#" class="help-text-tooltip" data-toggle="tooltip" title="{{ field.help_text }}"><i class="fa fa-question-circle-o"></i></a>
 {% endif %}

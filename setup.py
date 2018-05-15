@@ -3,7 +3,7 @@ import shutil
 import sys
 from setuptools import (find_packages, setup)
 
-__VERSION__ = '1.0.1'
+__VERSION__ = '1.1.0'
 
 
 def read_md(f):
@@ -14,15 +14,41 @@ def read_md(f):
         return open(f, 'r').read()
 
 
+def check_installed(*packages):
+    exit = False
+    # if not a list, let's make it into one
+    for package in packages:
+        if os.system('pip freeze | grep {} >/dev/null'.format(package)):
+            print('{0} not installed: use `pip install {0}`'.format(package))
+            exit = True
+    if exit:
+        print('Exiting.')
+        sys.exit()
+
+
+def check_tagged_version(version):
+    current_branch_is_master = not os.system(
+        'git rev-parse --abbrev-ref HEAD | grep master >/dev/null')
+    master_is_tagged = not os.system(
+        'git tag --points-at master | grep {} >/dev/null'.format(version))
+    if not current_branch_is_master:
+        print('Publish can only be done from the master branch.')
+    if not master_is_tagged:
+        print('`{}` tag has not been created on the master branch.'.format(
+            version))
+    if not (current_branch_is_master and master_is_tagged):
+        print('Exiting.')
+        sys.exit()
+
+
 try:
     REQUIREMENTS = open('requirements/base.txt').read()
 except Exception:
     REQUIREMENTS = None
 
 if sys.argv[-1] == 'publish':
-    if os.system("pip freeze | grep twine"):
-        print("twine not installed.\nUse `pip install twine`.\nExiting.")
-        sys.exit()
+    check_installed('pypandoc', 'twine')
+    check_tagged_version(__VERSION__)
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload dist/*")
     shutil.rmtree('build')

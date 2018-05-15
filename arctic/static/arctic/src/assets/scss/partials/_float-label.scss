@@ -119,13 +119,11 @@
             input[type=text] {
                 height: 1px;
                 padding: .8rem 0 .4rem;
-                //font-size: 12px;
             }
         }
     }
 
     .selectize-control ~ label {
-        pointer-events: none;
         user-select: none;
     }
 

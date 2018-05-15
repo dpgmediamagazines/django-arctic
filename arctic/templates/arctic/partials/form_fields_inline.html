@@ -1,9 +1,18 @@
+<div class="form-block {{ form_display }}">
 {% for field in form %}
     {% if field.is_hidden %}
         {{ field }}
     {% else %}
-        <div class="col">
-            {{ field }}
+        <div class="row {% if row.field.errors %} invalid-form-field{% endif %}">
+            {% include 'arctic/partials/form_field.html' %}
         </div>
+        {% block errors %}
+            {% for error in form.non_field_errors %}
+                <span class="invalid-feedback">
+                    {{ error }}
+                </span>
+            {% endfor %}
+        {% endblock %}
     {% endif %}
 {% endfor %}
+</div>

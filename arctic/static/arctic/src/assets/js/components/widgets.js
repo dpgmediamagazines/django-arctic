@@ -113,6 +113,10 @@ $(document).ready(function() {
         });
     });
 
+    datetime_picker_settings.dateFormat = django2datepicker(datetime_picker_settings.dateFormat);
+    datetime_picker_settings.timeFormat = django2datepicker(datetime_picker_settings.timeFormat);
+    $.fn.datepicker.language['en'] = datetime_picker_settings;
+
     $('[js-datepicker]').each(function(index) {
         var date = new Date($(this).attr("data-date")) == 'Invalid Date' ? null : new Date($(this).attr("data-date"))
         var instance = this;
@@ -121,7 +125,6 @@ $(document).ready(function() {
             todayButton: true,
             language: 'en',
             startDate: date,
-            dateFormat: django2datepicker(DATE_FORMAT),
             onShow: (function(inst, animationCompleted) {
                 if ($(instance).val() == '') {
                     $(instance).val(' ');
@@ -146,7 +149,6 @@ $(document).ready(function() {
             onlyTimepicker: true,
             language: 'en',
             startDate: date,
-            timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true,
             onShow: (function(inst, animationCompleted) {
                 if ($(instance).val() == '') {
@@ -171,8 +173,6 @@ $(document).ready(function() {
             language: 'en',
             todayButton: true,
             startDate: date,
-            dateFormat: django2datepicker(DATE_FORMAT),
-            timeFormat: django2datepicker(TIME_FORMAT),
             timepicker: true,
             onShow: (function(inst, animationCompleted) {
                 if ($(instance).val() == '') {
@@ -189,6 +189,7 @@ $(document).ready(function() {
        }).data('datepicker').selectDate(date);
     });
 
+    
     // sortable ListViews
     $('[data-sorting-url]').each(function(index) {
         var url = $(this).attr('data-sorting-url');
@@ -217,4 +218,8 @@ $(document).ready(function() {
             }
         });
     });
+
+
+    // tooltips
+    $('[data-toggle="tooltip"]').tooltip()
 });

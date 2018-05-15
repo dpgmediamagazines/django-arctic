@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, unicode_literals)
 
-from arctic.forms import SimpleSearchForm, QuickFiltersFormMixin
+from arctic.forms import SimpleSearchForm
+from arctic.widgets import QuickFiltersSelect
 from django import forms
 from django.db.models import Q
 
@@ -35,24 +36,27 @@ class AdvancedArticleSearchForm(forms.Form):
         return Q()
 
 
-class FiltersAndSearchForm(QuickFiltersFormMixin, SimpleSearchForm):
-    filters_query_name = 'my_filters'
-
-    FILTER_BUTTONS = (
-        ('published', 'Is published'),
-        ('rabbit', 'Find rabbit')
+class FiltersAndSearchForm(SimpleSearchForm):
+    field_order = ['published', 'search']
+    FILTER_CHOICES = (
+        ('published', 'Published'),
+        ('drafts', 'Drafts')
     )
+    published = forms.ChoiceField(choices=FILTER_CHOICES,
+                                  widget=QuickFiltersSelect(
+                                      attrs={'class': 'spacer',
+                                             'submit': True}),
+                                  required=False)
+    # date = forms.CharField(required=False,
+    #                        widget=DateTimePickerInput(
+    #                            attrs={'placeholder': 'Start date'}))
 
     def get_search_filter(self):
         q = super(FiltersAndSearchForm, self).get_search_filter()
 
-        values = self.cleaned_data.get(self.filters_query_name)
-        conditions = {
-            'published': Q(published=True),
-            'rabbit': Q(description__icontains='rabbit')
-        }
+        published_value = self.cleaned_data.get('published')
+        if published_value in ('published', 'drafts'):
+            published = True if published_value == 'published' else False
 
-        for value in values:
-            q |= conditions.get(value, Q())
-
+            q &= Q(published=published)
         return q

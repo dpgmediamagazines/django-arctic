@@ -132,12 +132,12 @@ class TestListView(object):
         )
 
         response = admin_client.get(reverse('articles:list'),
-                                    {'my_filters': 'published'})
+                                    {'published': 'published'})
         assert len(response.context_data['list_items']) == 1
         assert response.context_data['list_items'][0][0]['value'] == 'title1'
 
         response = admin_client.get(reverse('articles:list'),
-                                    {'my_filters': 'rabbit'})
+                                    {'published': 'drafts'})
         assert response.context_data['list_items'][0][0]['value'] == 'title2'
 
     def test_field_actions(self, admin_client):
