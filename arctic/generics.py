@@ -781,6 +781,11 @@ class DeleteView(View, base.DeleteView):
             'cancel': _('Cancel'),
         }
 
+    def get_success_url(self):
+        if self.success_url:
+            return self.success_url
+        return self.request.META.get('HTTP_REFERER')
+
     def get_success_message(self, obj):
         return _('"{}" was successfully deleted.').format(str(obj))
 
@@ -804,8 +809,7 @@ class DeleteView(View, base.DeleteView):
         if can_delete and self.redirect:
             messages.success(request, self.get_success_message(self.object))
             self.delete(request, *args, **kwargs)
-            return redirect(self.request.META.get('HTTP_REFERER',
-                                                  self.get_success_url()))
+            return redirect(self.get_success_url())
 
         context = self.get_context_data(object=self.object,
                                         can_delete=can_delete,

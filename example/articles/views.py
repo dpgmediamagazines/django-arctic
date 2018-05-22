@@ -124,7 +124,7 @@ class ArticleCreateView(CreateView):
 
 class ArticleDeleteView(DeleteView):
     model = Article
-    success_url = reverse_lazy('articles:list')
+    # success_url = reverse_lazy('articles:list')
     permission_required = "delete_article"
 
 
