@@ -1,0 +1,9 @@
+{% if confirm %}
+    data-toggle="modal" 
+    data-target="#confirm-dialog"
+    data-confirm-title="{{ confirm.title }}"
+    data-confirm-message="{{ confirm.message|linebreaks }}"
+    data-confirm-ok="{{ confirm.ok }}"
+    data-confirm-cancel="{{ confirm.cancel }}"
+    data-confirm-class="{{ confirm.class }}"
+{% endif %}
