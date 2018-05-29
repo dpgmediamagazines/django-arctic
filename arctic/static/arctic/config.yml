@@ -22,7 +22,6 @@ PATHS:
   assets:
     - "src/assets/**/*"
     - "!src/assets/{img,js,scss}/**/*"
-    - "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js"
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
     - "node_modules/font-awesome/scss"

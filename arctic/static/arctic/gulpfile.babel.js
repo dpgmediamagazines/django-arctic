@@ -23,7 +23,7 @@ function loadConfig() {
 }
 
 // Build the "dist" folder by running all of the below tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts)));
+gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts, copyExternalJs)));
 
 // Build the site for development purpose
 gulp.task('default', gulp.series('build', watch));
@@ -44,6 +44,11 @@ function copy() {
 function copyFonts() {
     return gulp.src('./node_modules/font-awesome/fonts/*')
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
+};
+
+function copyExternalJs() {
+    return gulp.src('./node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js')
+    .pipe(gulp.dest(PATHS.dist + '/assets/js'));
 };
 
 // Compile Sass into CSS. In production, the CSS is compressed
