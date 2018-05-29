@@ -102,8 +102,8 @@
                         </thead>
                         <tbody {% if list_items.0.0.type == 'sorting' %}data-sorting-url="{{ sorting_url }}"{% endif %}>
                             {% for row in list_items %}
-                                <tr>
-                                    {% for column in row %}
+                                <tr data-id="{{ row.id }}">
+                                    {% for column in row.fields %}
                                         {% if column.type == 'field' %}
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                                 {% if column.url %}

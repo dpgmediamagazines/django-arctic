@@ -437,7 +437,10 @@ class ListView(View, ListMixin, base.ListView):
 
         for obj in objects:
             field_classes = self.get_field_classes(obj)
-            row = []
+            row = {
+                'id': getattr(obj, self.primary_key),  # for row data id attr
+                'fields': []
+            }
 
             for field_name in fields:
                 field = {'type': 'field', 'field': field_name}
@@ -464,16 +467,17 @@ class ListView(View, ListMixin, base.ListView):
                         field_links[field_name], obj)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
-                row.append(field)
+                row['fields'].append(field)
+
             actions = self._get_field_actions(obj)
             if actions:
-                row.append(actions)
+                row['fields'].append(actions)
                 self.has_action_links = True
             if self.sorting_field:
                 sort = {'type': 'sorting',
                         'id': getattr(obj, self.primary_key),
                         'value': getattr(obj, self.sorting_field)}
-                row.insert(0, sort)
+                row['fields'].insert(0, sort)
             items.append(row)
         return items
 
@@ -643,20 +647,23 @@ class DataListView(TemplateView, ListMixin):
                           else field)
         for obj in objects:
             field_classes = self.get_field_classes(obj)
-            row = []
+            row = {
+                'id': getattr(obj, 'id', ''),
+                'fields': []
+            }
             for field_name in fields:
                 field = {'field': field_name, 'type': 'field'}
                 field['value'] = self.get_field_value(field_name, obj)
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj, self.primary_key)
+                        field_links[field_name], obj)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
-                row.append(field)
+                row['fields'].append(field)
             items.append(row)
             actions = self._get_field_actions(obj)
             if actions:
-                row.append(actions)
+                row['fields'].append(actions)
                 self.has_action_links = True
         return items
 

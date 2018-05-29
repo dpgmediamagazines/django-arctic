@@ -27,5 +27,5 @@ class TestOrderingView(object):
         assert lst_headers[3]['order_url'] == '/articles/?order=category__name'
         assert lst_headers[3]['order_direction'] == 'desc'
         assert len(lst_items) == 2
-        assert lst_items[0][0]['value'] == 'Article 1'
-        assert lst_items[1][0]['value'] == 'Article 0'
+        assert lst_items[0]['fields'][0]['value'] == 'Article 1'
+        assert lst_items[1]['fields'][0]['value'] == 'Article 0'
