@@ -24,7 +24,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-from .mixins import (FormMediaMixin, FormMixin, LinksMixin, ListMixin,
+from .mixins import (FormMediaMixin, FormMixin, ListMixin,
                      RoleAuthentication, SuccessMessageMixin)
 from .paginator import IndefinitePaginator
 from .utils import (arctic_setting, find_attribute, get_field_class,
@@ -268,7 +268,7 @@ class TemplateView(View, base.TemplateView):
     pass
 
 
-class DetailView(View, LinksMixin, base.DetailView):
+class DetailView(View, base.DetailView):
     """
     Custom detail view.
     """
@@ -423,7 +423,6 @@ class ListView(View, ListMixin, base.ListView):
 
     def get_list_items(self, objects):  # noqa: C901
         self.has_action_links = False
-        has_modal_links = hasattr(self, 'modal_links')
         items = []
         if not self.get_fields():
             for obj in objects:
@@ -458,9 +457,7 @@ class ListView(View, ListMixin, base.ListView):
                 if field_name in field_links.keys():
                     field['url'] = self._reverse_field_link(
                         field_links[field_name], obj)
-                    self.add_confirm_link(has_modal_links, field,
-                                          field_links[field_name])
-                    field['confirm'] = self.get_confirm_link(
+                    field['modal'] = self.get_modal_link(
                         field_links[field_name], obj)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
@@ -476,10 +473,6 @@ class ListView(View, ListMixin, base.ListView):
                 row.insert(0, sort)
             items.append(row)
         return items
-
-    def add_confirm_link(self, has_confirm_link, field, field_url_name):
-        if has_confirm_link and field_url_name in self.modal_links:
-            field['confirm'] = self.modal_links[field_url_name]
 
     def get_field_value(self, field_name, obj):
         # first try to find a virtual field
@@ -736,7 +729,7 @@ class CreateView(FormMediaMixin, View, SuccessMessageMixin,
 
 
 class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
-                 LinksMixin, extra_views.UpdateWithInlinesView):
+                 extra_views.UpdateWithInlinesView):
     template_name = 'arctic/base_create_update.html'
     success_message = _('"%(object)s" was successfully updated')
 

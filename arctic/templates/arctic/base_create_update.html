@@ -88,4 +88,10 @@
         </fieldset>
     </form>
     {% block extra_content %}{% endblock %}
+
+{% include 'arctic/partials/modal.html' %}
+<script src="{% static "arctic/dist/assets/js/iframeResizer.contentWindow.min.js" %}"></script>
+
 {% endblock %}
+
+

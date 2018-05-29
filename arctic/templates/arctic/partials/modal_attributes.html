@@ -1,9 +1,13 @@
-{% if confirm %}
+{% if modal.type == 'confirm' %}
     data-toggle="modal" 
     data-target="#confirm-dialog"
-    data-confirm-title="{{ confirm.title }}"
-    data-confirm-message="{{ confirm.message|linebreaks }}"
-    data-confirm-ok="{{ confirm.ok }}"
-    data-confirm-cancel="{{ confirm.cancel }}"
-    data-confirm-class="{{ confirm.class }}"
+    data-confirm-title="{{ modal.title }}"
+    data-confirm-message="{{ modal.message|linebreaks }}"
+    data-confirm-ok="{{ modal.ok }}"
+    data-confirm-cancel="{{ modal.cancel }}"
+    data-confirm-class="{{ modal.class }}"
+{% elif modal.type == 'iframe' %}
+    data-toggle="modal" 
+    data-target="#iframe-modal"
+    data-size="{{ modal.size }}"
 {% endif %}

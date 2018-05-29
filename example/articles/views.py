@@ -46,6 +46,9 @@ class ArticleListView(ListView):
         (_('Create Article'), 'articles:create', 'fa-plus'),
     ]
     field_classes = {'published': ''}
+    modal_links = {
+        'articles:detail': {'type': 'iframe', 'size': 'large'},
+    }
 
     permission_required = "view_article"
 
@@ -58,14 +61,6 @@ class ArticleListView(ListView):
 
     def get_category_ordering_field(self):
         return 'category__name'
-
-    def get_field_actions(self, row_instance):
-        action_links = [
-            ('detail', 'articles:detail', 'fa-edit'),
-        ]
-        if not row_instance.published:
-            action_links.append(('delete', 'articles:delete', 'fa-trash'),)
-        return action_links
 
     def get_published_field_classes(self, row_instance):
         return 'online' if row_instance.published else 'offline'
@@ -138,6 +133,9 @@ class CategoryListView(ListView):
     tool_links = [
         (_('Create Category'), 'articles:category-create'),
     ]
+    modal_links = {
+        'articles:category-detail': {'type': 'iframe'},
+    }
     permission_required = 'view_category'
     sorting_field = 'order'
     action_links = [

@@ -52,27 +52,51 @@ class SuccessMessageMixin(object):
         )
 
 
-class LinksMixin(object):
-    """
-    Adding links to view, to be resolved with 'arctic_url' template tag
-    """
-    def get_links(self):
-        if not self.links:
+class ModalMixin(object):
+    modal_links = {}
+
+    def get_modal_link(self, url, obj={}):
+        """
+        Returns the metadata for a link that needs to be confirmed, if it
+        exists, it also parses the message and title of the url to include
+        row field data if needed.
+        """
+        if not (url in self.modal_links.keys()):
             return None
-        else:
-            allowed_links = []
-            for link in self.links:
 
-                # check permission based on named_url
-                if not view_from_url(link[1]).\
-                        has_permission(self.request.user):
-                    continue
+        try:
+            if type(obj) != dict:
+                obj.obj = str(obj)
+                obj = vars(obj)
+            link = self.modal_links[url]
+            if link['type'] == 'confirm':
+                link['message'] = link['message'].format(**obj)
+                link['title'] = link['title'].format(**obj)
+                link['ok']  # triggers a KeyError exception if not existent
+                link['cancel']
+            elif link['type'] == 'iframe':
+                try:
+                    link['size']
+                except KeyError:
+                    link['size'] = 'medium'
+            else:
+                raise ImproperlyConfigured(
+                    'modal_links type: ' + link['type'] + ' is unsupported')
+            return link
+        except KeyError as e:
+            raise ImproperlyConfigured(
+                'modal_links misses the following attribute: ' + str(e))
+        except AttributeError:
+            return None
 
-                allowed_links.append(link)
-            return allowed_links
+    def _extract_confirm_dialog(self, view, url):
+        dialog = getattr(view, 'confirm_dialog', None)
+        if dialog:
+            self.modal_links[url] = dialog()
+            self.modal_links[url]['type'] = 'confirm'
 
 
-class FormMixin(object):
+class FormMixin(ModalMixin):
     """
     Adding customizable fields to view. Using the 12-grid system, you
     can now give fields a css-attribute. See reference for more information
@@ -134,6 +158,8 @@ class FormMixin(object):
                     allowed_action['type'] = 'link'
                     allowed_action['url'] = self.get_cancel_url()
                 else:
+                    self._extract_confirm_dialog(view_from_url(action[1]),
+                                                 action[1])
                     allowed_action['type'] = 'link'
                     try:
                         obj = self.get_object()
@@ -434,7 +460,7 @@ class FormMixin(object):
         return context
 
 
-class ListMixin(object):
+class ListMixin(ModalMixin):
     template_name = 'arctic/base_list.html'
     fields = None  # Which fields should be shown in listing
     ordering_fields = []  # Fields with ordering (subset of fields)
@@ -444,7 +470,6 @@ class ListMixin(object):
     tool_links = []   # Global links. For Example "Add object"
     default_ordering = []  # Default ordering, e.g. ['title', '-brand']
     search_fields = []
-    modal_links = {}
     # Simple search form if search_fields is defined
     simple_search_form_class = SimpleSearchForm
     advanced_search_form_class = None  # Custom form for advanced search
@@ -544,12 +569,6 @@ class ListMixin(object):
         """
         return self.search_fields
 
-    def _extract_confirm_dialog(self, view, url):
-        dialog = getattr(view, 'confirm_dialog', None)
-        if dialog:
-            self.modal_links[url] = dialog()
-            self.modal_links[url]['type'] = 'confirm'
-
     def get_field_links(self):
         if not self.field_links:
             return {}
@@ -573,34 +592,6 @@ class ListMixin(object):
                 field_classes[field_name] = get_field_name_classes(obj)
         return field_classes
 
-    def get_confirm_link(self, url, obj):
-        """
-        Returns the metadata for a link that needs to be confirmed, if it
-        exists, it also parses the message and title of the url to include
-        row field data if needed.
-        """
-        if not (url in self.modal_links.keys()):
-            return None
-
-        try:
-            if type(obj) != dict:
-                obj.obj = str(obj)
-                obj = vars(obj)
-            link = self.modal_links[url]
-            link['message'] = link['message'].format(**obj)
-            link['title'] = link['title'].format(**obj)
-            link['ok']  # this triggers a KeyError exception if not existent
-            link['cancel']
-            link['type']
-            return link
-        except KeyError as e:
-            raise ImproperlyConfigured(
-                'modal_links requires a dictionary with \'message\', '
-                '\'title\', \'ok\' and \'cancel\' strings, the named url \'' +
-                url + '\' misses ' + str(e))
-        except AttributeError:
-            return None
-
     def _get_field_actions(self, obj):
         all_actions = self.get_action_links()
         get_field_actions = getattr(self, 'get_field_actions', None)
@@ -619,7 +610,7 @@ class ListMixin(object):
                                 'icon': field_action['icon'],
                                 'url': self._reverse_field_link(
                                     field_action['url'], obj),
-                                'confirm': self.get_confirm_link(
+                                'modal': self.get_modal_link(
                                     field_action['url'], obj),
                                 })
             return {'type': 'actions', 'actions': actions}

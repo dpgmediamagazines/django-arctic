@@ -55,8 +55,12 @@
 .modal-dialog {
     margin: 0 auto;
 
+    .modal-content {
+        overflow: hidden;
+    }
+
     iframe {
-        max-height: 80vh;
+        max-height: 85vh;
         width: 100%;
         border: 0;
         border-radius: $border-radius;

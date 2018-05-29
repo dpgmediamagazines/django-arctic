@@ -108,7 +108,7 @@
                                             <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                                 {% if column.url %}
                                                     <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
-                                                    {% include 'arctic/partials/modal_attributes.html' with confirm=column.confirm %}
+                                                    {% include 'arctic/partials/modal_attributes.html' with modal=column.modal %}
                                                     >
                                                 {% endif %}
                                                 {% if column.value|typename != 'list' %}
@@ -128,7 +128,7 @@
                                             <div class="list-actions">
                                                 {% for link in column.actions %}
                                                     <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}" 
-                                                    {% include 'arctic/partials/modal_attributes.html' with confirm=link.confirm %}
+                                                    {% include 'arctic/partials/modal_attributes.html' with modal=link.modal %}
                                                     >
                                                     {% if link.icon %}
                                                         <i class="fa {{ link.icon }} fa-lg"></i>
@@ -165,6 +165,6 @@
 </div>
 {% endblock %}
 
-{% include 'arctic/partials/modal.html' %}
-
 {% block extra_data %}{% endblock %}
+
+{% include 'arctic/partials/modal.html' %}
