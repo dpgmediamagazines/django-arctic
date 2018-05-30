@@ -137,26 +137,26 @@
                                             {% endif %}
                                         </td>
                                     {% endfor %}
-                                    {% for action in row.actions %}
+                                    {% if row.actions %}
                                         <td>
                                             {% block list_actions %}
                                             <div class="list-actions">
-                                                {% for link in action.actions %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}"
-                                                    {% if link.confirm %}
+                                                {% for action in row.actions %}
+                                                    <a href="{{ action.url }}" class="action-{{ action.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}"
+                                                    {% if action.confirm %}
                                                         data-toggle="modal"
                                                         data-target="#confirm-dialog"
-                                                        data-confirm-title="{{ link.confirm.title }}"
-                                                        data-confirm-message="{{ link.confirm.message|linebreaks }}"
-                                                        data-confirm-ok="{{ link.confirm.ok }}"
-                                                        data-confirm-cancel="{{ link.confirm.cancel }}"
-                                                        data-confirm-class="{{ link.confirm.class }}"
+                                                        data-confirm-title="{{ action.confirm.title }}"
+                                                        data-confirm-message="{{ action.confirm.message|linebreaks }}"
+                                                        data-confirm-ok="{{ action.confirm.ok }}"
+                                                        data-confirm-cancel="{{ action.confirm.cancel }}"
+                                                        data-confirm-class="{{ action.confirm.class }}"
                                                     {% endif %}
                                                     >
-                                                    {% if link.icon %}
-                                                        <i class="fa {{ link.icon }} fa-lg"></i>
+                                                    {% if action.icon %}
+                                                        <i class="fa {{ action.icon }} fa-lg"></i>
                                                     {% else %}
-                                                        {{ link.label|capfirst }}
+                                                        {{ action.label|capfirst }}
                                                     {% endif %}
                                                     </a>
                                                 {% endfor %}
@@ -164,7 +164,7 @@
                                             </div>
                                             {% endblock %}
                                         </td>
-                                    {% endfor %}
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>

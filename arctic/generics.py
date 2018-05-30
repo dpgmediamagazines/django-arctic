@@ -473,7 +473,7 @@ class ListView(View, ListMixin, base.ListView):
 
             actions = self._get_field_actions(obj)
             if actions:
-                row['actions'].append(actions)
+                row['actions'].extend(actions)
                 self.has_action_links = True
             if self.sorting_field:
                 row['sorting_field'] = {
@@ -653,7 +653,7 @@ class DataListView(TemplateView, ListMixin):
             row = {
                 'id': getattr(obj, 'id', ''),
                 'fields': [],
-                'actions': [],
+                'actions': []
             }
             for field_name in fields:
                 field = {'field': field_name, 'type': 'field'}

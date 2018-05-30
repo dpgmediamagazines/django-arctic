@@ -14,6 +14,9 @@ Always reference the ticket number at the end of the issue description.
 
 - added data attribute data-id in base_data_table row to easily distinct rows
 
+## Changed
+
+- changed format of list items, simplified and moved to dict-like structure
 
 ## 1.1.1
 
