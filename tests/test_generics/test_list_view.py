@@ -27,9 +27,9 @@ class TestListView(object):
         article = ArticleFactory()
         response = self._request(admin_client)
         self._assert_list_items_len(response, 1)
-        field = response.context_data['list_items'][0][0]['field']
-        assert response.context_data['list_items'][0][0]['value'] == \
-            getattr(article, field)
+        lst_items = response.context_data['list_items']
+        field = lst_items[0]['fields'][0]['field']
+        assert lst_items[0]['fields'][0]['value'] == getattr(article, field)
 
     def test_paginated_items(self, admin_client):
         """
@@ -95,8 +95,10 @@ class TestListView(object):
         # search filled, filter content
         response = admin_client.get(reverse('articles:list'),
                                     {'search': 'le1'})
-        assert len(response.context_data['list_items']) == 1
-        assert response.context_data['list_items'][0][0]['value'] == 'title1'
+
+        list_items = response.context_data['list_items']
+        assert len(list_items) == 1
+        assert list_items[0]['fields'][0]['value'] == 'title1'
 
     def test_advanced_search_form(self, admin_client):
         """
@@ -113,8 +115,9 @@ class TestListView(object):
         # search filled, filter content
         response = admin_client.get(reverse('articles:list'),
                                     {'description': 'tion2'})
-        assert len(response.context_data['list_items']) == 1
-        assert response.context_data['list_items'][0][0]['value'] == 'title2'
+        list_items = response.context_data['list_items']
+        assert len(list_items) == 1
+        assert list_items[0]['fields'][0]['value'] == 'title2'
 
     def test_simple_search_form_quick_filters(self, admin_client):
         """
@@ -133,12 +136,14 @@ class TestListView(object):
 
         response = admin_client.get(reverse('articles:list'),
                                     {'published': 'published'})
-        assert len(response.context_data['list_items']) == 1
-        assert response.context_data['list_items'][0][0]['value'] == 'title1'
+        list_items = response.context_data['list_items']
+        assert len(list_items) == 1
+        assert list_items[0]['fields'][0]['value'] == 'title1'
 
         response = admin_client.get(reverse('articles:list'),
                                     {'published': 'drafts'})
-        assert response.context_data['list_items'][0][0]['value'] == 'title2'
+        list_items = response.context_data['list_items']
+        assert list_items[0]['fields'][0]['value'] == 'title2'
 
     def test_field_actions(self, admin_client):
         ArticleFactory(title='title1', description='description1',
@@ -148,8 +153,9 @@ class TestListView(object):
 
         response = admin_client.get(reverse('articles:list'),
                                     {'description': ''})
-        assert len(response.context_data['list_items'][0][-1]['actions']) == 1
-        assert len(response.context_data['list_items'][1][-1]['actions']) == 2
+        list_items = response.context_data['list_items']
+        assert len(list_items[0]['actions'][-1]['actions']) == 1
+        assert len(list_items[1]['actions'][-1]['actions']) == 2
 
     def test_field_actions_allowing(self, admin_client):
         def get_field_actions(self, obj):
@@ -171,5 +177,6 @@ class TestListView(object):
 
         response = admin_client.get(reverse('articles:list'),
                                     {'description': ''})
-        assert len(response.context_data['list_items'][0][-1]['actions']) == 1
-        assert len(response.context_data['list_items'][1][-1]['actions']) == 2
+        list_items = response.context_data['list_items']
+        assert len(list_items[0]['actions'][-1]['actions']) == 1
+        assert len(list_items[1]['actions'][-1]['actions']) == 2

@@ -19,5 +19,6 @@ class TestFieldClasses(object):
         ArticleFactory(published=False)
         response = self._request(admin_client)
 
-        assert response.context_data['list_items'][0][2]['class'] == 'online'
-        assert response.context_data['list_items'][1][2]['class'] == 'offline'
+        list_items = response.context_data['list_items']
+        assert list_items[0]['fields'][2]['class'] == 'online'
+        assert list_items[1]['fields'][2]['class'] == 'offline'
