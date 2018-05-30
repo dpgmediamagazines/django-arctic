@@ -100,44 +100,51 @@
                                 {% endif %}
                             </tr>
                         </thead>
-                        <tbody {% if list_items.0.0.type == 'sorting' %}data-sorting-url="{{ sorting_url }}"{% endif %}>
+                        <tbody {% if list_items.0.sorting_field %}data-sorting-url="{{ sorting_url }}"{% endif %}>
                             {% for row in list_items %}
-                                <tr data-id="{{ row.id }}">
+                                <tr {% if row.id %} data-id="{{ row.id }}" {% endif %}>
+                                    {% if row.sorting_field %}
+                                        <td class="drag-cell">
+                                            <div class="list-actions drag-handle show-on-hover">
+                                                <i data-sorting-key="{{ row.sorting_field.id }}" data-sorting-value="{{ column.value }}" class="fa fa-bars"></i>
+                                            </div>
+                                        </td>
+                                    {% endif %}
                                     {% for column in row.fields %}
-                                        {% if column.type == 'field' %}
-                                            <td {% if column.class %}class="{{ column.class }}"{%endif%}>
-                                                {% if column.url %}
-                                                    <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
-                                                    {% if column.confirm %}
-                                                        data-toggle="modal" 
-                                                        data-target="#confirm-dialog"
-                                                        data-confirm-title="{{ column.confirm.title }}"
-                                                        data-confirm-message="{{ column.confirm.message|linebreaks }}"
-                                                        data-confirm-ok="{{ column.confirm.ok }}"
-                                                        data-confirm-cancel="{{ column.confirm.cancel }}"
-                                                        data-confirm-class="{{ column.confirm.class }}"
-                                                    {% endif %}
-                                                    >
+                                        <td {% if column.class %}class="{{ column.class }}"{%endif%}>
+                                            {% if column.url %}
+                                                <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
+                                                {% if column.confirm %}
+                                                    data-toggle="modal"
+                                                    data-target="#confirm-dialog"
+                                                    data-confirm-title="{{ column.confirm.title }}"
+                                                    data-confirm-message="{{ column.confirm.message|linebreaks }}"
+                                                    data-confirm-ok="{{ column.confirm.ok }}"
+                                                    data-confirm-cancel="{{ column.confirm.cancel }}"
+                                                    data-confirm-class="{{ column.confirm.class }}"
                                                 {% endif %}
-                                                {% if column.value|typename != 'list' %}
-                                                    {{ column.value|default_if_none:"" }}
-                                                {% else %}
-                                                    {% for item in column.value %}
-                                                        <span class="list-tag">{{ item }}</span>
-                                                    {% endfor %}
-                                                {% endif %}
-                                                {% if column.url %}
-                                                    </a>
-                                                {% endif %}
-                                            </td>
-                                        {% elif column.type == 'actions' %}
-                                            <td>
+                                                >
+                                            {% endif %}
+                                            {% if column.value|typename != 'list' %}
+                                                {{ column.value|default_if_none:"" }}
+                                            {% else %}
+                                                {% for item in column.value %}
+                                                    <span class="list-tag">{{ item }}</span>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if column.url %}
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                    {% for action in row.actions %}
+                                        <td>
                                             {% block list_actions %}
                                             <div class="list-actions">
-                                                {% for link in column.actions %}
-                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}" 
+                                                {% for link in action.actions %}
+                                                    <a href="{{ link.url }}" class="action-{{ link.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}"
                                                     {% if link.confirm %}
-                                                        data-toggle="modal" 
+                                                        data-toggle="modal"
                                                         data-target="#confirm-dialog"
                                                         data-confirm-title="{{ link.confirm.title }}"
                                                         data-confirm-message="{{ link.confirm.message|linebreaks }}"
@@ -154,16 +161,9 @@
                                                     </a>
                                                 {% endfor %}
                                                 <div class="list-actions-placeholder"></div>
-                                            {% endblock %}
                                             </div>
-                                            </td>
-                                        {% elif column.type == 'sorting' %}
-                                            <td class="drag-cell">
-                                                <div class="list-actions drag-handle show-on-hover">
-                                                    <i data-sorting-key="{{ column.id }}" data-sorting-value="{{ column.value }}" class="fa fa-bars"></i>
-                                                </div>
-                                            </td>
-                                        {% endif %}
+                                            {% endblock %}
+                                        </td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}

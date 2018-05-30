@@ -439,7 +439,9 @@ class ListView(View, ListMixin, base.ListView):
             field_classes = self.get_field_classes(obj)
             row = {
                 'id': getattr(obj, self.primary_key),  # for row data id attr
-                'fields': []
+                'fields': [],
+                'actions': [],
+                'sorting_field': None
             }
 
             for field_name in fields:
@@ -471,13 +473,14 @@ class ListView(View, ListMixin, base.ListView):
 
             actions = self._get_field_actions(obj)
             if actions:
-                row['fields'].append(actions)
+                row['actions'].append(actions)
                 self.has_action_links = True
             if self.sorting_field:
-                sort = {'type': 'sorting',
-                        'id': getattr(obj, self.primary_key),
-                        'value': getattr(obj, self.sorting_field)}
-                row['fields'].insert(0, sort)
+                row['sorting_field'] = {
+                    'type': 'sorting',
+                    'id': getattr(obj, self.primary_key),
+                    'value': getattr(obj, self.sorting_field)
+                }
             items.append(row)
         return items
 
@@ -649,7 +652,8 @@ class DataListView(TemplateView, ListMixin):
             field_classes = self.get_field_classes(obj)
             row = {
                 'id': getattr(obj, 'id', ''),
-                'fields': []
+                'fields': [],
+                'actions': [],
             }
             for field_name in fields:
                 field = {'field': field_name, 'type': 'field'}
@@ -663,7 +667,7 @@ class DataListView(TemplateView, ListMixin):
             items.append(row)
             actions = self._get_field_actions(obj)
             if actions:
-                row['fields'].append(actions)
+                row['actions'].append(actions)
                 self.has_action_links = True
         return items
 
