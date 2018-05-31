@@ -78,7 +78,6 @@ Always reference the ticket number at the end of the issue description.
 ## 1.0.1 (2017-03-01)
 
 ### Fixed
-
 - Search form JS submitting selector - [#248][248]
 - Float Label styling for a number of HTML5 inputs - [#247][247]
 - confirm_links feature in ListViews now works properly - [#54][54].
