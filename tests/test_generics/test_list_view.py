@@ -154,8 +154,8 @@ class TestListView(object):
         response = admin_client.get(reverse('articles:list'),
                                     {'description': ''})
         list_items = response.context_data['list_items']
-        assert len(list_items[0]['actions'][-1]['actions']) == 1
-        assert len(list_items[1]['actions'][-1]['actions']) == 2
+        assert len(list_items[0]['actions']) == 1
+        assert len(list_items[1]['actions']) == 2
 
     def test_field_actions_allowing(self, admin_client):
         def get_field_actions(self, obj):
@@ -178,5 +178,5 @@ class TestListView(object):
         response = admin_client.get(reverse('articles:list'),
                                     {'description': ''})
         list_items = response.context_data['list_items']
-        assert len(list_items[0]['actions'][-1]['actions']) == 1
-        assert len(list_items[1]['actions'][-1]['actions']) == 2
+        assert len(list_items[0]['actions']) == 1
+        assert len(list_items[1]['actions']) == 2
