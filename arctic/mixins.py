@@ -634,7 +634,7 @@ class ListMixin(ModalMixin):
                                 'modal': self.get_modal_link(
                                     field_action['url'], obj),
                                 })
-            return {'type': 'actions', 'actions': actions}
+            return actions
 
     def _get_allowed_field_actions(self, field_actions, all_actions):
         allowed_urls = [a['url'] for a in all_actions]
