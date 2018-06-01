@@ -31,6 +31,15 @@ from .utils import (arctic_setting, find_attribute, get_field_class,
                     find_field_meta, get_attribute, menu, view_from_url)
 
 
+def collapsible(fiedset_name, collapsed=False):
+    """ Utility method for Form layouts """
+    return '{}{}'.format('-' if collapsed else '+', fiedset_name)
+
+
+def collapsible_gettext(fiedset_name, collapsed=False):
+    return collapsible(_(fiedset_name), collapsed)
+
+
 class View(RoleAuthentication, base.View):
     """
     This view needs to be used for all Arctic views, except the LoginView.
@@ -735,6 +744,7 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
 
     links = None             # Optional links such as list of linked items
     readonly_fields = None   # Optional list of readonly fields
+    valid = False
 
     def get_page_title(self):
         if not self.page_title:

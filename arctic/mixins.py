@@ -17,7 +17,8 @@ from collections import OrderedDict
 
 from .forms import SimpleSearchForm
 from .loading import (get_role_model, get_user_role_model)
-from .utils import (arctic_setting, reverse_url, view_from_url, generate_id)
+from .utils import (arctic_setting, reverse_url, view_from_url, generate_id,
+                    append_query_parameter)
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -95,6 +96,11 @@ class ModalMixin(object):
             self.modal_links[url] = dialog()
             self.modal_links[url]['type'] = 'confirm'
 
+    def in_modal(self, url):
+        if self.request.GET.get('inmodal'):
+            return append_query_parameter(url, {'inmodal': 'True'})
+        return url
+
 
 class FormMixin(ModalMixin):
     """
@@ -112,6 +118,7 @@ class FormMixin(ModalMixin):
     actions = None             # Optional links such as list of linked items
     links = None
     readonly_fields = None
+    form_is_valid = False
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
     def get_cancel_url(self):
@@ -120,6 +127,15 @@ class FormMixin(ModalMixin):
                 'HTTP_REFERER',
                 '/'.join(self.request.get_full_path()
                          .rstrip('/').split('/')[:-1])))
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing a valid form."""
+        if not self.success_url:
+            if self.request.GET.get('inmodal'):
+                return reverse('arctic:redirect_to_parent')
+            raise ImproperlyConfigured(
+                "No URL to redirect to. Provide a success_url.")
+        return str(self.success_url)  # success_url may be lazy
 
     def get_actions(self):  # noqa: C901
         if self.actions and self.links:
@@ -156,7 +172,8 @@ class FormMixin(ModalMixin):
                     allowed_action['type'] = action[1]
                 elif action[1] == 'cancel':
                     allowed_action['type'] = 'link'
-                    allowed_action['url'] = self.get_cancel_url()
+                    allowed_action['url'] = self.in_modal(
+                        self.get_cancel_url())
                 else:
                     self._extract_confirm_dialog(view_from_url(action[1]),
                                                  action[1])
@@ -165,13 +182,17 @@ class FormMixin(ModalMixin):
                         obj = self.get_object()
                     except AttributeError:
                         obj = None
-                    allowed_action['url'] = reverse_url(action[1], obj)
+                    allowed_action['url'] = self.in_modal(
+                        reverse_url(action[1], obj))
                 if len(action) == 3:
                     if action[2] == 'left':
                         allowed_action['position'] = 'left'
                     elif type(action[2]) is dict:
                         if action[2].get('style'):
                             allowed_action['custom_style'] = True
+                        if action[2].get('form_action'):
+                            action[2]['form_action'] = self.in_modal(
+                                reverse_url(action[2]['form_action'], obj))
                         allowed_action.update(action[2])
 
                 if action[1] == 'submit':
@@ -299,7 +320,7 @@ class FormMixin(ModalMixin):
         description = None
         try:
             # Make sure strings with numbers work as well, do this
-            int(fieldset)
+            int(str(fieldset))
             title = None
         except ValueError:
             if fieldset.count('|') > 1:

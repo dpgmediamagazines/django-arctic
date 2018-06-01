@@ -2,10 +2,11 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.urls import (reverse, reverse_lazy)
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
+from arctic.generics import collapsible_gettext as _c
 from collections import OrderedDict
 
 from .forms import (ArticleForm, AdvancedArticleSearchForm,
@@ -70,7 +71,7 @@ class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
     permission_required = "change_article"
     model = Article
-    success_url = reverse_lazy('articles:list')
+    # success_url = reverse_lazy('articles:list')
     inlines = [TagsInline]
     form_class = ArticleForm
     actions = [
@@ -78,9 +79,9 @@ class ArticleUpdateView(UpdateView):
         (_('Save'), 'submit'),
     ]
     layout = OrderedDict([
-        ('+' + _('Basic Details'),
+        (_c('Basic Details'),
             ['title', ['category|4', 'tags']]),
-        ('-' + _('Body|Extra Information for this fieldset'),
+        (_c('Body|Extra Information for this fieldset', True),
             ['description']),
         (_('Extended Details'),
             [['published|4', 'updated_at']])])
@@ -89,6 +90,9 @@ class ArticleUpdateView(UpdateView):
     #     ('Detail', 'articles:detail'),
     #     ('Tags', 'articles:detail-tags'),
     # ]
+
+    # def get_success_url(self):
+    #     return reverse('articles:detail', args=(self.object.pk,))
 
     def get_urls(self):
         return {
@@ -105,13 +109,21 @@ class ArticleCreateView(CreateView):
     model = Article
     form_class = ArticleForm
     permission_required = "add_article"
-    layout = OrderedDict([
-        ('+' + _('Basic Details'),
-            ['title', ['category|4', 'tags']]),
-        ('-' + _('Body|Extra Information for this fieldset'),
-            ['description']),
-        (_('Extended Details'),
-            [['published|4', 'updated_at']])])
+    # layout = OrderedDict([
+    #     (_c('Basic Details'),
+    #         ['title', ['category|4', 'tags']]),
+    #     (_c('Body|Extra Information for this fieldset', True),
+    #         ['description']),
+    #     (_('Extended Details'),
+    #         [['published|4', 'updated_at']])])
+    layout = {
+        _c('Basic Details'):
+            ['title', ['category|4', 'tags']],
+        _c('Body|Extra Information for this fieldset', True):
+            ['description'],
+        _('Extended Details'):
+            [['published|4', 'updated_at']]
+    }
 
     def get_success_url(self):
         return reverse('articles:detail', args=(self.object.pk,))
@@ -177,7 +189,7 @@ class CategoryUpdateView(UpdateView):
     page_title = _("Edit Category")
     model = Category
     fields = '__all__'
-    success_url = reverse_lazy('articles:category-list')
+    # success_url = reverse_lazy('articles:category-list')
     tabs = [
         (_('Detail'), 'articles:category-detail'),
         (_('Related Articles'), 'articles:category-articles-list'),

@@ -378,3 +378,14 @@ def generate_id(*s):
     with translation.override('en'):
         generated_id = slugify('-'.join([str(i) for i in s]))
     return generated_id
+
+
+def append_query_parameter(url, parameters, ignore_if_exists=True):
+    """ quick and dirty appending of query parameters to a url """
+    if ignore_if_exists:
+        for key in parameters.keys():
+            if key + '=' in url:
+                del parameters[key]
+    parameters_str = '&'.join(k + '=' + v for k, v in parameters.items())
+    append_token = '&' if '?' in url else '?'
+    return url + append_token + parameters_str

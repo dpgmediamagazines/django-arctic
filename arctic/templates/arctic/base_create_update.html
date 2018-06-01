@@ -1,4 +1,4 @@
-{% extends request.is_ajax|yesno:"arctic/base_dialog.html,arctic/base.html" %}
+{% extends request.GET.inmodal|yesno:"arctic/base_dialog.html,arctic/base.html" %}
 
 {% load i18n arctic_tags staticfiles %}
 
@@ -90,7 +90,6 @@
     {% block extra_content %}{% endblock %}
 
 {% include 'arctic/partials/modal.html' %}
-<script src="{% static "arctic/dist/assets/js/iframeResizer.contentWindow.min.js" %}"></script>
 
 {% endblock %}
 
