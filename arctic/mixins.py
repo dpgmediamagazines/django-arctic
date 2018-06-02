@@ -17,8 +17,7 @@ from collections import OrderedDict
 
 from .forms import SimpleSearchForm
 from .loading import (get_role_model, get_user_role_model)
-from .utils import (arctic_setting, reverse_url, view_from_url, generate_id,
-                    append_query_parameter)
+from .utils import (arctic_setting, reverse_url, view_from_url, generate_id)
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -96,11 +95,6 @@ class ModalMixin(object):
             self.modal_links[url] = dialog()
             self.modal_links[url]['type'] = 'confirm'
 
-    def in_modal(self, url):
-        if self.request.GET.get('inmodal'):
-            return append_query_parameter(url, {'inmodal': 'True'})
-        return url
-
 
 class FormMixin(ModalMixin):
     """
@@ -122,6 +116,9 @@ class FormMixin(ModalMixin):
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
     def get_cancel_url(self):
+        if self.request.GET.get('inmodal'):
+            return "javascript:modal_close()"
+
         return self.request.POST.get(
             'cancel_url', self.request.META.get(
                 'HTTP_REFERER',
@@ -135,7 +132,7 @@ class FormMixin(ModalMixin):
                 return reverse('arctic:redirect_to_parent')
             raise ImproperlyConfigured(
                 "No URL to redirect to. Provide a success_url.")
-        return str(self.success_url)  # success_url may be lazy
+        return self.in_modal(str(self.success_url))  # success_url may be lazy
 
     def get_actions(self):  # noqa: C901
         if self.actions and self.links:
@@ -172,11 +169,12 @@ class FormMixin(ModalMixin):
                     allowed_action['type'] = action[1]
                 elif action[1] == 'cancel':
                     allowed_action['type'] = 'link'
-                    allowed_action['url'] = self.in_modal(
-                        self.get_cancel_url())
+                    allowed_action['url'] = self.get_cancel_url()
                 else:
                     self._extract_confirm_dialog(view_from_url(action[1]),
                                                  action[1])
+                    allowed_action['modal'] = self.get_modal_link(action[1],
+                                                                  self)
                     allowed_action['type'] = 'link'
                     try:
                         obj = self.get_object()
@@ -629,8 +627,9 @@ class ListMixin(ModalMixin):
             for field_action in allowed_field_actions:
                 actions.append({'label': field_action['label'],
                                 'icon': field_action['icon'],
-                                'url': self._reverse_field_link(
-                                    field_action['url'], obj),
+                                'url': self.in_modal(reverse_url(
+                                    field_action['url'], obj,
+                                    self.primary_key)),
                                 'modal': self.get_modal_link(
                                     field_action['url'], obj),
                                 })
@@ -673,12 +672,15 @@ class ListMixin(ModalMixin):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                if view_from_url(link[1]).has_permission(self.request.user):
+                view = view_from_url(link[1])
+                if view.has_permission(self.request.user):
+                    self._extract_confirm_dialog(view, link[1])
                     allowed_tool_link = {
                         'label': link[0],
-                        'url': reverse_url(link[1], None),
+                        'url': self.in_modal(reverse_url(link[1], None)),
                         'style': 'secondary',
-                        'id': generate_id('tool-link', link[0])
+                        'id': generate_id('tool-link', link[0]),
+                        'modal': self.get_modal_link(link[1])
                     }
                     if len(link) == 3:  # if an icon class is given
                         if type(link[2]) is str:

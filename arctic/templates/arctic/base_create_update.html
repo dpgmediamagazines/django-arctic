@@ -1,4 +1,4 @@
-{% extends request.GET.inmodal|yesno:"arctic/base_dialog.html,arctic/base.html" %}
+{% extends request.GET.inmodal|yesno:"arctic/base_modal.html,arctic/base.html" %}
 
 {% load i18n arctic_tags staticfiles %}
 
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check {{ form_display }}" novalidate>
+    <form action="" method="POST" enctype="multipart/form-data" class="{% if not request.GET.inmodal %}dirty-check{% endif %} {{ form_display }}" novalidate>
         <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
         <fieldset type="post" class="fieldset-default arctic-card">
             <div class="{% block form_size_class %}form-size{% endblock %}">
@@ -53,16 +53,18 @@
             {% endblock inlines %}
 
             {% block extra_forms %} {% endblock %}
-            {# TODO move form-actions to it's own section #}
+            {# TODO move form-actions to its own section #}
             {% block form_actions %}
             <div class="row justify-content-center">
                 <div class="col-auto">
                     {% for action in actions %}
                         {% if action.position == 'left' %}
                             {% if action.type == 'submit' %}
-                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" {% if action.form_action %}formaction="{{ action.form_action }}"{% endif %} class="btn btn-{{ action.style }}" id="{{ action.id }}" />
                             {% else %}
-                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}"
+                                    {% include 'arctic/partials/modal_attributes.html' with modal=action.modal %}
+                                >
                                     {{ action.label }}
                                 </a>
                             {% endif %}
@@ -73,9 +75,11 @@
                     {% for action in actions %}
                         {% if action.position != 'left' %}
                             {% if action.type == 'submit' %}
-                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" class="btn btn-{{ action.style }}" id="{{ action.id }}" />
+                                <input type="submit" name="{{ action.name }}" value="{{ action.label }}" {% if action.form_action %}formaction="{{ action.form_action }}"{% endif %} class="btn btn-{{ action.style }}" id="{{ action.id }}" />
                             {% else %}
-                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}">
+                                <a class="btn btn-{{ action.style }}" href="{{ action.url }}" id="{{ action.id }}"
+                                    {% include 'arctic/partials/modal_attributes.html' with modal=action.modal %}
+                                >
                                 {{ action.label }}
                                 </a>
                             {% endif %}
@@ -89,7 +93,7 @@
     </form>
     {% block extra_content %}{% endblock %}
 
-{% include 'arctic/partials/modal.html' %}
+{% include 'arctic/partials/modal_dialogs.html' %}
 
 {% endblock %}
 

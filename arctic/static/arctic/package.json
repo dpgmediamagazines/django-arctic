@@ -62,5 +62,8 @@
     "url": "https://github.com/sanoma/django-arctic.git"
   },
   "bugs": "https://github.com/sanoma/django-arctic/issues",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "gulp-strip-comments": "^2.5.2"
+  }
 }

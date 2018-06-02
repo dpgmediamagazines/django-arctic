@@ -1,11 +1,12 @@
 'use strict';
 
-import plugins  from 'gulp-load-plugins';
-import yargs    from 'yargs';
-import gulp     from 'gulp';
-import rimraf   from 'rimraf';
-import yaml     from 'js-yaml';
-import fs       from 'fs';
+import plugins from 'gulp-load-plugins';
+import yargs from 'yargs';
+import gulp from 'gulp';
+import rimraf from 'rimraf';
+import yaml from 'js-yaml';
+import fs from 'fs';
+import strip from 'gulp-strip-comments';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
@@ -48,6 +49,7 @@ function copyFonts() {
 
 function copyExternalJs() {
     return gulp.src('./node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js')
+    .pipe(strip())
     .pipe(gulp.dest(PATHS.dist + '/assets/js'));
 };
 

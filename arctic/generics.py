@@ -27,8 +27,9 @@ from django.views import generic as base
 from .mixins import (FormMediaMixin, FormMixin, ListMixin,
                      RoleAuthentication, SuccessMessageMixin)
 from .paginator import IndefinitePaginator
-from .utils import (arctic_setting, find_attribute, get_field_class,
-                    find_field_meta, get_attribute, menu, view_from_url)
+from .utils import (append_query_parameter, arctic_setting, find_attribute,
+                    get_field_class, find_field_meta, menu, reverse_url,
+                    view_from_url)
 
 
 def collapsible(fiedset_name, collapsed=False):
@@ -82,7 +83,6 @@ class View(RoleAuthentication, base.View):
         context['page_title'] = self.get_page_title()
         context['page_description'] = self.get_page_description()
         context['menu'] = menu(user=self.request.user, request=self.request)
-        context['urls'] = self.get_urls()
         context['breadcrumbs'] = self.get_breadcrumbs()
         context['tabs'] = self.get_tabs()
         context['index_url'] = self.get_index_url()
@@ -101,24 +101,6 @@ class View(RoleAuthentication, base.View):
         context['form_display'] = self.get_form_display()
         return context
 
-    def get_urls(self):
-        """
-        Used for resolving urls when displaying nested objects, see arctic_url.
-
-        For example, generally you just have /foo/create as
-        a url, but with nested, you may have: /foo/<id>/bar/create/ and <id>
-        would be a parent id. These are then required to resolve urls.
-
-        @returns
-        {named_url, (url_param, url_param),}
-        || {named_url, [url_param, url_param],}
-
-        if you provide a list and in this list there are strings, it will try
-        to get field of that item. This is especially useful for listviews with
-        action_links and field_links.
-        """
-        return self.urls
-
     def get_breadcrumbs(self):
         """
         Breadcrumb format: (('name', 'url'), ...) or None if not used.
@@ -135,7 +117,8 @@ class View(RoleAuthentication, base.View):
                             breadcrumb[1]).has_permission(self.request.user):
                     continue
 
-                allowed_breadcrumbs.append(breadcrumb)
+                url = None if not breadcrumb[1] else reverse(breadcrumb[1])
+                allowed_breadcrumbs.append({'name': breadcrumb[0], 'url': url})
             return allowed_breadcrumbs
 
     def get_tabs(self):
@@ -152,7 +135,11 @@ class View(RoleAuthentication, base.View):
                 if not view_from_url(tab[1]).has_permission(self.request.user):
                     continue
 
-                allowed_tabs.append(tab)
+                obj = self if not hasattr(self, 'object') else self.object
+                url = reverse_url(tab[1], obj)
+                allowed_tabs.append({'name': tab[0],
+                                     'active': self.request.path == url,
+                                     'url': self.in_modal(url)})
             return allowed_tabs
 
     def get_page_title(self):
@@ -272,6 +259,11 @@ class View(RoleAuthentication, base.View):
                     valid_options))
         return arctic_setting('ARCTIC_FORM_DISPLAY', valid_options)
 
+    def in_modal(self, url):
+        if self.request.GET.get('inmodal'):
+            return append_query_parameter(url, {'inmodal': 'True'})
+        return url
+
 
 class TemplateView(View, base.TemplateView):
     pass
@@ -362,26 +354,7 @@ class ListView(View, ListMixin, base.ListView):
                 qs = qs.filter(form.get_search_filter())
 
         self.object_list = qs
-
         return self.object_list
-
-    def _reverse_field_link(self, url, obj):
-        if type(url) in (list, tuple):
-            named_url = url[0]
-            args = []
-            for arg in url[1:]:
-                args.append(find_attribute(obj, arg))
-        else:
-            named_url = url
-            args = [get_attribute(obj, self.primary_key)]
-
-        # Instead of giving NoReverseMatch exception
-        # its more desirable, for field_links in listviews
-        # to just ignore the link.
-        if None in args:
-            return ''
-
-        return reverse(named_url, args=args)
 
     def get_list_header(self):
         """
@@ -431,7 +404,6 @@ class ListView(View, ListMixin, base.ListView):
         return result
 
     def get_list_items(self, objects):  # noqa: C901
-        self.has_action_links = False
         items = []
         if not self.get_fields():
             for obj in objects:
@@ -469,8 +441,8 @@ class ListView(View, ListMixin, base.ListView):
                         embeded_list = embeded_list[:-1] + ['...']
                     field['value'] = embeded_list
                 if field_name in field_links.keys():
-                    field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj)
+                    field['url'] = self.in_modal(reverse_url(
+                        field_links[field_name], obj, self.primary_key))
                     field['modal'] = self.get_modal_link(
                         field_links[field_name], obj)
                 if field_name in field_classes:
@@ -480,7 +452,6 @@ class ListView(View, ListMixin, base.ListView):
             actions = self._get_field_actions(obj)
             if actions:
                 row['actions'].extend(actions)
-                self.has_action_links = True
             if self.sorting_field:
                 row['sorting_field'] = {
                     'type': 'sorting',
@@ -539,8 +510,6 @@ class ListView(View, ListMixin, base.ListView):
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(context['object_list'])
         context['tool_links'] = self.get_tool_links()
-        # self.has_action_links is set in get_list_items
-        context['has_action_links'] = self.has_action_links
         context['sorting_url'] = self.sorting_url
         context['tool_links_icon'] = self.get_tool_links_icon()
         context['tool_links_collapse'] = self.tool_links_collapse - \
@@ -589,8 +558,6 @@ class DataListView(TemplateView, ListMixin):
         context['list_header'] = self.get_list_header()
         context['list_items'] = self.get_list_items(object_list)
         context['tool_links'] = self.get_tool_links()
-        # self.has_action_links is set in get_list_items
-        context['has_action_links'] = self.has_action_links
         context['tool_links_icon'] = self.get_tool_links_icon()
         context['tool_links_collapse'] = self.tool_links_collapse - \
             int(len(context['tool_links']) == self.tool_links_collapse + 1)
@@ -643,7 +610,6 @@ class DataListView(TemplateView, ListMixin):
         return objects
 
     def get_list_items(self, objects):
-        self.has_action_links = False
         items = []
         fields = []
         field_links = self.get_field_links()
@@ -661,8 +627,8 @@ class DataListView(TemplateView, ListMixin):
                 field = {'field': field_name, 'type': 'field'}
                 field['value'] = self.get_field_value(field_name, obj)
                 if field_name in field_links.keys():
-                    field['url'] = self._reverse_field_link(
-                        field_links[field_name], obj)
+                    field['url'] = reverse_url(field_links[field_name], obj,
+                                               self.primary_key)
                 if field_name in field_classes:
                     field['class'] = field_classes[field_name]
                 row['fields'].append(field)
@@ -670,7 +636,6 @@ class DataListView(TemplateView, ListMixin):
             actions = self._get_field_actions(obj)
             if actions:
                 row['actions'].append(actions)
-                self.has_action_links = True
         return items
 
     def get_field_value(self, field_name, obj):
@@ -710,24 +675,6 @@ class DataListView(TemplateView, ListMixin):
                 'page_number': page_number,
                 'message': str(e)
             })
-
-    def _reverse_field_link(self, url, obj):
-        if type(url) in (list, tuple):
-            named_url = url[0]
-            args = []
-            for arg in url[1:]:
-                args.append(obj[arg])
-        else:
-            named_url = url
-            args = [obj[self.primary_key]]
-
-        # Instead of giving NoReverseMatch exception
-        # its more desirable, for field_links in listviews
-        # to just ignore the link.
-        if None in args:
-            return ''
-
-        return reverse(named_url, args=args)
 
 
 class CreateView(FormMediaMixin, View, SuccessMessageMixin,

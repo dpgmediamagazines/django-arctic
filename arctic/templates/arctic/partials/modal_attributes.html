@@ -9,5 +9,6 @@
 {% elif modal.type == 'iframe' %}
     data-toggle="modal" 
     data-target="#iframe-modal"
+    {% if modal.height %}data-height="{{ modal.height }}"{% endif %}
     data-size="{{ modal.size }}"
 {% endif %}

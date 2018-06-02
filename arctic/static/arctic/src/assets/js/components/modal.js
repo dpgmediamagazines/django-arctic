@@ -1,3 +1,9 @@
+function modal_close() {
+    if ('parentIFrame' in window) {
+        window.parentIFrame.sendMessage('close');
+    }
+}
+
 $(document).ready(function() {
     
     $('iframe').iFrameResize({
@@ -27,17 +33,20 @@ $(document).ready(function() {
         var modal = $(this)
         var button = $(event.relatedTarget) // Button that triggered the modal
         var size = button.data('size');
+        var height = button.data('height');
         if (size == 'large') {
             modal.find('.modal-dialog').addClass('modal-lg');
         }
         else if (size == 'small') {
-            modal.find('.modal-dialog').addClss('modal-sm'); 
+            modal.find('.modal-dialog').addClass('modal-sm'); 
+        }
+        if (height) {
+            modal.find('iframe').css('height', height);             
         }
         modal.find('iframe').prop('src', button.prop('href') + '?inmodal=True');
     });
 
-    // $('#iframe-modal').on('hidden.bs.modal', function (e) {
-    //     window.location.reload(false);        
-    // })
-
+    $('#iframe-modal').on('hidden.bs.modal', function (event) {
+        $(this).find('iframe').prop('src', '');
+    });
 });

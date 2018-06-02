@@ -11,7 +11,6 @@
     <body class="{% block body_class %}{% endblock %}">
 
         {% block body %}
-
         <div class="container-fluid">
             <div class="row row-offcanvas flex-nowrap">
                 <div class="col sidebar-offcanvas" id="sidebar">
@@ -47,14 +46,14 @@
                     {% block breadcrumbs%}
                         {% if breadcrumbs %}
                             <nav class="breadcrumb">
-                                {% for name, url in breadcrumbs %}
+                                {% for breadcrumb in breadcrumbs %}
                                     {% if forloop.last %}
                                         <span class="breadcrumb-item active">
-                                            {{ name }}
+                                            {{ breadcrumb.name }}
                                         </span>
                                     {% else %}
-                                        <a class="breadcrumb-item" href="{% url url %}">
-                                            {{ name }}
+                                        <a class="breadcrumb-item" href="{{ breadcrumb.url }}">
+                                            {{ breadcrumb.name }}
                                         </a>
                                     {% endif %}
                                 {% endfor %}
@@ -76,17 +75,12 @@
                         <div class="row">
                             <div class="col-sm-12 col">
                                 <ul class="nav nav-tabs" id="table-tabs" role="tablist">
-                                    {% for name, url in tabs %}
+                                    {% for tab in tabs %}
                                         <li class="nav-item">
-                                            {% if object.pk %}
-                                                {% arctic_url url object.pk as url %}
+                                            {% if tab.active %}
+                                                <a class="nav-link active" href="javascript:">{{ tab.name }}</a></li>
                                             {% else %}
-                                                {% arctic_url url as url %}
-                                            {% endif %}
-                                            {% if request.path == url %}
-                                                <a class="nav-link active" href="javascript:">{{ name }}</a></li>
-                                            {% else %}
-                                                <a class="nav-link" href="{{ url }}">{{ name }}</a></li>
+                                                <a class="nav-link" href="{{ tab.url }}">{{ tab.name }}</a></li>
                                             {% endif %}
                                         </li>
                                     {% endfor %}

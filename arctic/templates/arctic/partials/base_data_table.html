@@ -5,7 +5,9 @@
         <div class="col-auto">
             {% for link in tool_links %}
                 {% if forloop.counter0 < tool_links_collapse %}
-                    <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}">{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
+                    <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}"
+                        {% include 'arctic/partials/modal_attributes.html' with modal=link.modal %}
+                    >{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
                 {% else %}
                     {% if forloop.counter0 == tool_links_collapse %}
                         <span class="dropdown">
@@ -14,7 +16,9 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="tool_links_dropdown">
                     {% endif %}
-                                <a class="dropdown-item" href="{{ link.url }}">{{ link.label }}</a>
+                                <a class="dropdown-item" href="{{ link.url }}"
+                                    {% include 'arctic/partials/modal_attributes.html' with modal=link.modal %}
+                                >{{ link.label }}</a>
                     {% if forloop.last %}
                             </div>
                         </span>
@@ -95,7 +99,7 @@
                                     </th>
                                 {% endfor %}
 
-                                {% if has_action_links %}
+                                {% if list_items.0.actions %}
                                     <th>&nbsp;</th>
                                 {% endif %}
                             </tr>
@@ -113,7 +117,7 @@
                                     {% for column in row.fields %}
                                         <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                             {% if column.url %}
-                                                <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
+                                                <a href="{{ column.url }}"{% if list_items.0.sorting_field %}style="display:block;"{% endif %}
                                                     {% include 'arctic/partials/modal_attributes.html' with modal=column.modal %}
                                                 >
                                             {% endif %}
@@ -167,4 +171,4 @@
 
 {% block extra_data %}{% endblock %}
 
-{% include 'arctic/partials/modal.html' %}
+{% include 'arctic/partials/modal_dialogs.html' %}
