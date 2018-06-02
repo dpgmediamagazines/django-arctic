@@ -51,7 +51,7 @@ class ArticleListView(ListView):
     permission_required = "view_article"
 
     def get_field_actions(self, obj):
-        actions = self.action_links.copy()
+        actions = list(self.action_links)
         if obj.published:
             actions.pop(1)  # delete
         return actions
