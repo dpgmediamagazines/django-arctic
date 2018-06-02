@@ -175,7 +175,7 @@ def view_from_url(named_url):  # noqa
             ns_pattern = ns_pattern + extra
             try:
                 ns_converters.update(resolver.pattern.converters)
-            except:
+            except Exception:
                 pass
         except KeyError as key:
             if resolved_path:
@@ -189,7 +189,7 @@ def view_from_url(named_url):  # noqa
         try:
             resolver = get_ns_resolver(ns_pattern, resolver,
                                        tuple(ns_converters.items()))
-        except:
+        except Exception:
             resolver = get_ns_resolver(ns_pattern, resolver)
 
     # custom code, get view from reverse_dict
