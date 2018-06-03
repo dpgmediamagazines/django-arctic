@@ -8,6 +8,7 @@ $(document).ready(function() {
     
     $('iframe').iFrameResize({
         scrolling: true,
+        warningTimeout: 0,
         resizedCallback: function(messageData) {
             $('#iframe-modal').modal('handleUpdate');
         },
