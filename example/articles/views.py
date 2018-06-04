@@ -2,10 +2,11 @@ from __future__ import (absolute_import, unicode_literals)
 
 from django.urls import (reverse, reverse_lazy)
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from arctic.generics import (CreateView, DeleteView, ListView, TemplateView,
                              UpdateView)
+from arctic.generics import collapsible_gettext as _c
 from collections import OrderedDict
 
 from .forms import (ArticleForm, AdvancedArticleSearchForm,
@@ -49,6 +50,12 @@ class ArticleListView(ListView):
 
     permission_required = "view_article"
 
+    def get_field_actions(self, obj):
+        actions = list(self.action_links)
+        if obj.published:
+            actions.pop(1)  # delete
+        return actions
+
     def get_category_field(self, row_instance):
         return row_instance.category.name
 
@@ -59,14 +66,6 @@ class ArticleListView(ListView):
     def get_category_ordering_field(self):
         return 'category__name'
 
-    def get_field_actions(self, row_instance):
-        action_links = [
-            ('detail', 'articles:detail', 'fa-edit'),
-        ]
-        if not row_instance.published:
-            action_links.append(('delete', 'articles:delete', 'fa-trash'),)
-        return action_links
-
     def get_published_field_classes(self, row_instance):
         return 'online' if row_instance.published else 'offline'
 
@@ -75,7 +74,7 @@ class ArticleUpdateView(UpdateView):
     page_title = _("Edit Article")
     permission_required = "change_article"
     model = Article
-    success_url = reverse_lazy('articles:list')
+    # success_url = reverse_lazy('articles:list')
     inlines = [TagsInline]
     form_class = ArticleForm
     actions = [
@@ -83,25 +82,15 @@ class ArticleUpdateView(UpdateView):
         (_('Save'), 'submit'),
     ]
     layout = OrderedDict([
-        ('+' + _('Basic Details'),
+        (_c('Basic Details'),
             ['title', ['category|4', 'tags']]),
-        ('-' + _('Body|Extra Information for this fieldset'),
+        (_c('Body|Extra Information for this fieldset', True),
             ['description']),
         (_('Extended Details'),
             [['published|4', 'updated_at']])])
 
-    # tabs = [
-    #     ('Detail', 'articles:detail'),
-    #     ('Tags', 'articles:detail-tags'),
-    # ]
-
-    def get_urls(self):
-        return {
-            'articles:list': (),
-            'articles:detail': (self.object.pk,),
-            'articles:category-detail': (self.object.category.pk,),
-            'articles:detail-tags': (self.object.pk,),
-        }
+    def get_success_url(self):
+        return reverse('articles:detail', args=(self.object.pk,))
 
 
 class ArticleCreateView(CreateView):
@@ -111,9 +100,9 @@ class ArticleCreateView(CreateView):
     form_class = ArticleForm
     permission_required = "add_article"
     layout = OrderedDict([
-        ('+' + _('Basic Details'),
+        (_c('Basic Details'),
             ['title', ['category|4', 'tags']]),
-        ('-' + _('Body|Extra Information for this fieldset'),
+        (_c('Body|Extra Information for this fieldset', True),
             ['description']),
         (_('Extended Details'),
             [['published|4', 'updated_at']])])
@@ -138,6 +127,10 @@ class CategoryListView(ListView):
     tool_links = [
         (_('Create Category'), 'articles:category-create'),
     ]
+    modal_links = {
+        'articles:category-detail': {'type': 'iframe', 'height': 377},
+        'articles:category-create': {'type': 'iframe', 'height': 256},
+    }
     permission_required = 'view_category'
     sorting_field = 'order'
     action_links = [
@@ -159,16 +152,10 @@ class CategoryArticlesListView(ArticleListView):
     breadcrumbs = None
 
     tabs = [
-        ('Detail', 'articles:category-detail'),
-        ('Related Articles', 'articles:category-articles-list'),
+        ('Detail', ('articles:category-detail', 'pk')),
+        ('Related Articles', ('articles:category-articles-list', 'pk')),
     ]
     permission_required = 'view_category'
-
-    def get_urls(self):
-        return {
-            'articles:category-detail': (self.pk,),
-            'articles:category-articles-list': (self.pk,),
-        }
 
     def get_queryset(self):
         qs = super(CategoryArticlesListView, self).get_queryset()
@@ -179,18 +166,17 @@ class CategoryUpdateView(UpdateView):
     page_title = _("Edit Category")
     model = Category
     fields = '__all__'
-    success_url = reverse_lazy('articles:category-list')
+    # success_url = reverse_lazy('articles:category-list')
     tabs = [
-        (_('Detail'), 'articles:category-detail'),
-        (_('Related Articles'), 'articles:category-articles-list'),
+        ('Detail', ('articles:category-detail', 'pk')),
+        ('Related Articles', ('articles:category-articles-list', 'pk')),
+    ]
+    actions = [
+        (_('Delete'), ('articles:category-delete', 'pk')),
+        (_('Cancel'), 'cancel'),
+        (_('Save'), 'submit'),
     ]
     permission_required = 'change_category'
-
-    def get_urls(self):
-        return {
-            'articles:category-detail': (self.object.pk,),
-            'articles:category-articles-list': (self.object.pk,),
-        }
 
 
 class CategoryCreateView(CreateView):
@@ -200,7 +186,9 @@ class CategoryCreateView(CreateView):
     permission_required = 'add_category'
 
     def get_success_url(self):
-        return reverse('articles:category-detail', args=(self.object.pk,))
+        if self.request.GET.get('inmodal'):
+            return reverse('arctic:redirect_to_parent')
+        return self.in_modal(str(self.success_url))  # success_url may be lazy
 
 
 class CategoryDeleteView(DeleteView):

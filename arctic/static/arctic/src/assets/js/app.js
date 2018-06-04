@@ -25,11 +25,6 @@
         });
     }
 })(window, $);
-//Turn on Tooltips
-$(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-});
-
 
 // jquery stuff goes here
 $(document).ready(function() {

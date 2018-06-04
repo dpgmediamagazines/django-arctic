@@ -1,11 +1,12 @@
 'use strict';
 
-import plugins  from 'gulp-load-plugins';
-import yargs    from 'yargs';
-import gulp     from 'gulp';
-import rimraf   from 'rimraf';
-import yaml     from 'js-yaml';
-import fs       from 'fs';
+import plugins from 'gulp-load-plugins';
+import yargs from 'yargs';
+import gulp from 'gulp';
+import rimraf from 'rimraf';
+import yaml from 'js-yaml';
+import fs from 'fs';
+import strip from 'gulp-strip-comments';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();
@@ -23,7 +24,7 @@ function loadConfig() {
 }
 
 // Build the "dist" folder by running all of the below tasks
-gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts)));
+gulp.task('build', gulp.series(clean, gulp.parallel(sass, javascript, images, copy, copyFonts, copyExternalJs)));
 
 // Build the site for development purpose
 gulp.task('default', gulp.series('build', watch));
@@ -44,6 +45,12 @@ function copy() {
 function copyFonts() {
     return gulp.src('./node_modules/font-awesome/fonts/*')
     .pipe(gulp.dest(PATHS.dist + '/assets/fonts'));
+};
+
+function copyExternalJs() {
+    return gulp.src('./node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js')
+    .pipe(strip())
+    .pipe(gulp.dest(PATHS.dist + '/assets/js'));
 };
 
 // Compile Sass into CSS. In production, the CSS is compressed

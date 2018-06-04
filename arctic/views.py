@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import TemplateView as BaseTemplateView
 from django.views.generic.base import View as BaseView
 
 from arctic.generics import TemplateView
@@ -93,6 +94,10 @@ class OrderView(BaseView):
             view.reorder(json.loads(request.body))
             return HttpResponse(status=201)
         raise PermissionDenied
+
+
+class RedirectToParentView(BaseTemplateView):
+    template_name = 'arctic/redirect_to_parent.html'
 
 
 handler400 = BadRequestView.as_view()

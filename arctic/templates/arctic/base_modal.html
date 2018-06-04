@@ -1,0 +1,35 @@
+{% extends "arctic/base.html" %}
+{% load i18n staticfiles arctic_tags %}
+
+{% block body %}
+    <div class="container-fluid">
+        {% block header %}
+        <header class="col-sm-12">
+            <h5 class="header__title">
+                {{ page_title }}
+                <button type="button" class="close"  onclick="modal_close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h5>
+        </header>
+        {% endblock %}
+
+        <div class="content-wrapper">
+            {% block tabs %}
+                {{ block.super }}
+            {% endblock %}
+
+            {% block messages %}
+                {{ block.super }}
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts_bottom %}
+    {{ block.super }}
+    <script src="{% static "arctic/dist/assets/js/iframeResizer.contentWindow.min.js" %}"></script>
+{% endblock %}

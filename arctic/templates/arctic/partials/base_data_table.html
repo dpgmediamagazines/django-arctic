@@ -5,7 +5,9 @@
         <div class="col-auto">
             {% for link in tool_links %}
                 {% if forloop.counter0 < tool_links_collapse %}
-                    <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}">{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
+                    <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}"
+                        {% include 'arctic/partials/modal_attributes.html' with modal=link.modal %}
+                    >{% if link.icon %}<i title="{{ link.label }}" class="fa {{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}</a>
                 {% else %}
                     {% if forloop.counter0 == tool_links_collapse %}
                         <span class="dropdown">
@@ -14,7 +16,9 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="tool_links_dropdown">
                     {% endif %}
-                                <a class="dropdown-item" href="{{ link.url }}">{{ link.label }}</a>
+                                <a class="dropdown-item" href="{{ link.url }}"
+                                    {% include 'arctic/partials/modal_attributes.html' with modal=link.modal %}
+                                >{{ link.label }}</a>
                     {% if forloop.last %}
                             </div>
                         </span>
@@ -95,7 +99,7 @@
                                     </th>
                                 {% endfor %}
 
-                                {% if has_action_links %}
+                                {% if list_items.0.actions %}
                                     <th>&nbsp;</th>
                                 {% endif %}
                             </tr>
@@ -113,16 +117,8 @@
                                     {% for column in row.fields %}
                                         <td {% if column.class %}class="{{ column.class }}"{%endif%}>
                                             {% if column.url %}
-                                                <a href="{{ column.url }}"{% if list_items.0.0.type == 'sorting' %}style="display:block;"{% endif %}
-                                                {% if column.confirm %}
-                                                    data-toggle="modal"
-                                                    data-target="#confirm-dialog"
-                                                    data-confirm-title="{{ column.confirm.title }}"
-                                                    data-confirm-message="{{ column.confirm.message|linebreaks }}"
-                                                    data-confirm-ok="{{ column.confirm.ok }}"
-                                                    data-confirm-cancel="{{ column.confirm.cancel }}"
-                                                    data-confirm-class="{{ column.confirm.class }}"
-                                                {% endif %}
+                                                <a href="{{ column.url }}"{% if list_items.0.sorting_field %}style="display:block;"{% endif %}
+                                                    {% include 'arctic/partials/modal_attributes.html' with modal=column.modal %}
                                                 >
                                             {% endif %}
                                             {% if column.value|typename != 'list' %}
@@ -143,15 +139,7 @@
                                             <div class="list-actions">
                                                 {% for action in row.actions %}
                                                     <a href="{{ action.url }}" class="action-{{ action.label }} btn btn-secondary btn-sm show-on-hover" title="{{ link.label|capfirst }}"
-                                                    {% if action.confirm %}
-                                                        data-toggle="modal"
-                                                        data-target="#confirm-dialog"
-                                                        data-confirm-title="{{ action.confirm.title }}"
-                                                        data-confirm-message="{{ action.confirm.message|linebreaks }}"
-                                                        data-confirm-ok="{{ action.confirm.ok }}"
-                                                        data-confirm-cancel="{{ action.confirm.cancel }}"
-                                                        data-confirm-class="{{ action.confirm.class }}"
-                                                    {% endif %}
+                                                    {% include 'arctic/partials/modal_attributes.html' with modal=action.modal %}
                                                     >
                                                     {% if action.icon %}
                                                         <i class="fa {{ action.icon }} fa-lg"></i>
@@ -181,6 +169,6 @@
 </div>
 {% endblock %}
 
-{% include 'arctic/partials/modal.html' %}
-
 {% block extra_data %}{% endblock %}
+
+{% include 'arctic/partials/modal_dialogs.html' %}

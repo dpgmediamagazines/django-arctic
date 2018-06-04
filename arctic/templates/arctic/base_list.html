@@ -1,6 +1,4 @@
-{% extends request.is_ajax|yesno:"arctic/base_dialog.html,arctic/base.html" %}
-
-{% load i18n staticfiles arctic_tags %}
+{% extends request.GET.inmodal|yesno:"arctic/base_modal.html,arctic/base.html" %}
 
 {% block content %}
     {% block list_content %}

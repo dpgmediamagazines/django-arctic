@@ -11,7 +11,6 @@
     <body class="{% block body_class %}{% endblock %}">
 
         {% block body %}
-
         <div class="container-fluid">
             <div class="row row-offcanvas flex-nowrap">
                 <div class="col sidebar-offcanvas" id="sidebar">
@@ -34,31 +33,27 @@
                                     <a href="#" class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
                                         <div class="dropdown-menu" aria-labelledby="user-dropdown">
                                                 <a class="dropdown-item" href="{{ LOGOUT_URL }}">{% trans "Logout" %}</a>
-                                            </li>
-                                        </ul>
                                 {% endif %}
                             {% else %}
                                 {% if LOGIN_URL %}
-                                    <li id="menu-login">
-                                        <a href="{{ LOGIN_URL }}">Login</a>
-                                    </li>
+                                    <a id="menu-login" href="{{ LOGIN_URL }}">Login</a>
                                 {% endif %}
                             {% endif %}
-                        </ul>
+                        </nav>
                     </header>
                     {% endblock %}
                     <div class="content-wrapper">
                     {% block breadcrumbs%}
                         {% if breadcrumbs %}
                             <nav class="breadcrumb">
-                                {% for name, url in breadcrumbs %}
+                                {% for breadcrumb in breadcrumbs %}
                                     {% if forloop.last %}
                                         <span class="breadcrumb-item active">
-                                            {{ name }}
+                                            {{ breadcrumb.name }}
                                         </span>
                                     {% else %}
-                                        <a class="breadcrumb-item" href="{% url url %}">
-                                            {{ name }}
+                                        <a class="breadcrumb-item" href="{{ breadcrumb.url }}">
+                                            {{ breadcrumb.name }}
                                         </a>
                                     {% endif %}
                                 {% endfor %}
@@ -75,22 +70,17 @@
                         </div>
                     {% endif %}
 
-                    {# tabs #}
+                    {% block tabs %}
                     {% if tabs %}
                         <div class="row">
                             <div class="col-sm-12 col">
                                 <ul class="nav nav-tabs" id="table-tabs" role="tablist">
-                                    {% for name, url in tabs %}
+                                    {% for tab in tabs %}
                                         <li class="nav-item">
-                                            {% if object.pk %}
-                                                {% arctic_url url object.pk as url %}
+                                            {% if tab.active %}
+                                                <a class="nav-link active" href="javascript:">{{ tab.name }}</a></li>
                                             {% else %}
-                                                {% arctic_url url as url %}
-                                            {% endif %}
-                                            {% if request.path == url %}
-                                                <a class="nav-link active" href="javascript:">{{ name }}</a></li>
-                                            {% else %}
-                                                <a class="nav-link" href="{{ url }}">{{ name }}</a></li>
+                                                <a class="nav-link" href="{{ tab.url }}">{{ tab.name }}</a></li>
                                             {% endif %}
                                         </li>
                                     {% endfor %}
@@ -98,8 +88,9 @@
                             </div>
                         </div>
                     {% endif %}
+                    {% endblock %}
 
-                    {# page messages #}
+                    {% block messages %}
                     {% if messages %}
                         {% for message in messages %}
                         <div class="row">
@@ -114,7 +105,9 @@
                         </div>
                         {% endfor %}
                     {% endif %}
-                        {% block content %}content here{% endblock %}
+                    {% endblock %}
+                    
+                    {% block content %}content here{% endblock %}
                     </div>
                 </div>
             </div>

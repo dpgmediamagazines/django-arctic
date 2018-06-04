@@ -8,15 +8,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## Pending
+## [unreleased]
 
 ### Added
 
-- added data attribute data-id in base_data_table row to easily distinct rows
+- added data attribute data-id in base_data_table row to easily distinct rows [#296][296]
+- added collapsible and collapsible_gettext helper functions to help define
+  form layouts.
+- added confirmation dialog support in Form actions [#294][294]
+- Added modal iFrame support in Lists (`tool_links`, `field_links`, 
+  `action_links`) and Forms (`actions`) [#243][243]
 
 ## Changed
 
 - changed format of list items, simplified and moved to dict-like structure
+
+[296]: //github.com/sanoma/django-arctic/issues/296
+[294]: //github.com/sanoma/django-arctic/issues/294
+[243]: //github.com/sanoma/django-arctic/issues/243
+
 
 ## 1.1.1
 
