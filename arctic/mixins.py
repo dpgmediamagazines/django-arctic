@@ -112,7 +112,6 @@ class FormMixin(ModalMixin):
     actions = None             # Optional links such as list of linked items
     links = None
     readonly_fields = None
-    form_is_valid = False
     ALLOWED_COLUMNS = 12     # There are 12 columns available
 
     def get_cancel_url(self):

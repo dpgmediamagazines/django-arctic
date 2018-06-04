@@ -702,7 +702,6 @@ class UpdateView(FormMediaMixin, SuccessMessageMixin, FormMixin, View,
 
     links = None             # Optional links such as list of linked items
     readonly_fields = None   # Optional list of readonly fields
-    valid = False
 
     def get_page_title(self):
         if not self.page_title:
