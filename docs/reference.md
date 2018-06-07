@@ -662,6 +662,12 @@ This static method will return the data needed to generate a confirmation
 dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is 
 called.
 
+### `success_url`
+
+This parameter is optional, if not given, a default will be chosen according to
+context: if the View is inside a modal it will redirect to the parent window, 
+otherwise it will redirect to the previous page.
+
 
 # Mixins
 

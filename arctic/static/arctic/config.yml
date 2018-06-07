@@ -11,7 +11,6 @@ UNCSS_OPTIONS:
   html:
     - "src/**/*.html"
   ignore:
-    - !!js/regexp .foundation-mq
     - !!js/regexp ^\.is-.*
 
 # Gulp will reference these paths when it copies files
@@ -36,7 +35,7 @@ PATHS:
     - "node_modules/bootstrap/dist/js/bootstrap.js"
 
     # Arctic JS deps
-    - "src/assets/js/components/jquery.are-you-sure.js"
+    - "node_modules/jquery.are-you-sure/jquery.are-you-sure.js"
     - "node_modules/air-datepicker/dist/js/datepicker.js"
     - "node_modules/air-datepicker/dist/js/i18n/datepicker.en.js"
     - "node_modules/selectize/dist/js/standalone/selectize.js"
@@ -45,11 +44,8 @@ PATHS:
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
-    - "src/assets/js/components/conditional-field.js"
-    - "src/assets/js/components/form.js"
     - "src/assets/js/components/toggle_form.js"
     - "src/assets/js/components/widgets.js"
-    - "src/assets/js/components/sortable.js"
     - "src/assets/js/components/float_label.js"
     - "src/assets/js/components/modal.js"
     - "src/assets/js/!(app).js"

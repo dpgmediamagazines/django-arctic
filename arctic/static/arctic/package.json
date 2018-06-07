@@ -16,6 +16,7 @@
     "font-awesome": "^4.7.0",
     "iframe-resizer": "^3.6.1",
     "jquery": "^3.3.1",
+    "jquery.are-you-sure": "^1.9.0",
     "js-yaml": "^3.11.0",
     "popper.js": "^1.14.3",
     "rimraf": "^2.6.2",

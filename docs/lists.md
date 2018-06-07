@@ -246,7 +246,6 @@ The delete function will be an action link, so first let's create an
 
     class ArticleDeleteView(DeleteView):
         model = models.Article
-        success_url = reverse_lazy('articles:list')
         permission_required = 'delete_article'
 
 Expose the `ArticleDeleteView` on `articles/urls.py`:

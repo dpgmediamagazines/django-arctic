@@ -44,6 +44,28 @@ To style the `Delete` button as danger and keep its left position:
 
 ## Layouts
 
+By default forms display one field per row, but this can be customized without
+creating a new template by adding a layout property to either `FormView`, 
+`UpdateView` or `CreateView`.
+
+![form without layout](img/form-no-layout.png)
+
+To set the published field next to the title field, go to `articles.views.py` 
+and add the following layout property:
+
+layout = [
+    ('title', 'is_published'),
+    'description',
+    'category',
+]
+
+![form with layout 1](img/form-layout1.png)
+
+
+Adding a tuple around 2 or more fields will put them in the same row, by default
+the total length of the row will be evenly distributed, but it is also possible
+to 
+
 ## Inlines
 
 ## Widgets
