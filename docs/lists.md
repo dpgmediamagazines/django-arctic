@@ -209,6 +209,7 @@ form in `articles/views.py`:
     class ArticleUpdateView(UpdateView):
         model = models.Article
         fields = '__all__'
+        success_url = reverse_lazy('articles:list')
         permission_required = 'change_articles'
 
 Then expose the form on `articles/urls.py`:

@@ -744,6 +744,8 @@ class DeleteView(View, base.DeleteView):
     def get_success_url(self):
         if self.success_url:
             return self.success_url
+        if self.request.GET.get('inmodal'):
+            return reverse('arctic:redirect_to_parent')
         return self.request.META.get('HTTP_REFERER')
 
     def get_success_message(self, obj):

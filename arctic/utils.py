@@ -273,7 +273,7 @@ def reverse_url(url, obj, fallback_field=None):
         if url.startswith('#'):  # local url
             return url
         named_url = url
-        if fallback_field:
+        if obj and fallback_field:
             if type(obj) is dict:
                 args = [obj[fallback_field]]
             else:
