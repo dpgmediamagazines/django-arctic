@@ -14,8 +14,6 @@
             <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
                 <div class="form-group">
                     {% block widget %}
-                        {# checkbox or radio #}
-                        <div class="form-check">
                         {% if form_display == 'tabular' %}
                             {% include "arctic/partials/form_field_parts/form_field_tabular.html" %}
                         {% elif form_display == 'float-label' %}
@@ -24,7 +22,6 @@
                             {# default #}
                             {% include "arctic/partials/form_field_parts/form_field_stacked.html" %}
                         {% endif %}
-                        </div>
                     {% endblock %}
 
                     {% block errors %}

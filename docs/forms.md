@@ -53,18 +53,59 @@ creating a new template by adding a layout property to either `FormView`,
 To set the published field next to the title field, go to `articles.views.py` 
 and add the following layout property:
 
-layout = [
-    ('title', 'is_published'),
-    'description',
-    'category',
-]
+    layout = [
+        ('title', 'is_published'),
+        'description',
+        'category',
+    ]
 
 ![form with layout 1](img/form-layout1.png)
 
 
 Adding a tuple around 2 or more fields will put them in the same row, by default
 the total length of the row will be evenly distributed, but it is also possible
-to 
+to specify the length of a field based on a 12 column grid. For example to 
+increase the title length to 9 columns append the `|` character to the field 
+name followed by 9:
+
+    layout = [
+        ('title|9', 'published'),
+        'description',
+    ]
+
+![form with layout 1](img/form-layout2.png)
+
+Finally, forms can be divided in fieldsets, by using a dictionary where the
+keys are the titles of each fieldset:
+
+    layout = {
+        'Basic Information': [
+            ('title|9', 'published'),
+            'category',
+        ],
+        'Extended Information': [
+            'description',
+        ]
+    }
+
+To make a fieldset collapsible, just use the `collapsible` function:
+
+    from arctic.generics import collapsible as c
+
+    layout = {
+        'Basic Information': [
+            ('title|9', 'published'),
+            'category',
+        ],
+        c('Extended Information'): [
+            'description',
+        ]
+    }
+
+![form with layout and fieldsets](img/form-layout-fieldset.png)
+
+_Note: when using a Python version lower that 3.6, an OrderedDict needs to
+be used, since ordering is not maintained in earlier versions._
 
 ## Inlines
 

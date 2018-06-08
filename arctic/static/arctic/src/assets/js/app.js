@@ -34,10 +34,10 @@ $(document).ready(function() {
 
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
-            if (tab && tab.text[0] != '●') { 
-                tab.text = '● ' + tab.text;
+            if (tab && tab.text[0] != '•') { 
+                tab.text = '• ' + tab.text;
             }
-            document.title = '● ' + document.title;
+            document.title = '• ' + document.title;
         });
 
         $('form').on('clean.areYouSure', function() {
