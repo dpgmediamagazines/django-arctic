@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## [unreleased]
+## 1.2.0
 
 ### Added
 
@@ -16,8 +16,9 @@ Always reference the ticket number at the end of the issue description.
 - added collapsible and collapsible_gettext helper functions to help define
   form layouts.
 - added confirmation dialog support in Form actions [#294][294]
-- Added modal iFrame support in Lists (`tool_links`, `field_links`, 
+- added modal iFrame support in Lists (`tool_links`, `field_links`, 
   `action_links`) and Forms (`actions`) [#243][243]
+- extended tutorial documentation of Forms.
 
 ## Changed
 
