@@ -218,6 +218,16 @@ $(document).ready(function() {
             }
         });
     });
+    
+    $('[data-sorting-url] tr').on('dragstart', function(e) {
+        $(this).css('opacity', '0.5');
+        return true;
+    });
+    
+    $('[data-sorting-url] tr').on('dragend', function(e) {
+        $(this).css('opacity', 'inherit');
+        return true;
+    });
 
 
     // tooltips

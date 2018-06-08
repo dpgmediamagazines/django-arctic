@@ -4,7 +4,7 @@ from django.urls import reverse
 def test_article_list(admin_client, article):
     response = admin_client.get(reverse('articles:list'))
     assert response.status_code == 200
-    list_items = response.context['list_items'][0]
+    list_items = response.context['list_items'][0]['fields']
     item_dict = {}
     for item in list_items:
         try:

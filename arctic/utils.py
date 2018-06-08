@@ -136,6 +136,7 @@ def view_from_url(named_url):  # noqa
     current_path = None
     resolved_path = []
     ns_pattern = ''
+    ns_converters = {}
 
     # if it's a local url permission already given, so we just return true
     if named_url.startswith('#'):
@@ -172,6 +173,10 @@ def view_from_url(named_url):  # noqa
             extra, resolver = resolver.namespace_dict[ns]
             resolved_path.append(ns)
             ns_pattern = ns_pattern + extra
+            try:
+                ns_converters.update(resolver.pattern.converters)
+            except Exception:
+                pass
         except KeyError as key:
             if resolved_path:
                 raise NoReverseMatch(
@@ -181,7 +186,11 @@ def view_from_url(named_url):  # noqa
                 raise NoReverseMatch("%s is not a registered namespace" %
                                      key)
     if ns_pattern:
-        resolver = get_ns_resolver(ns_pattern, resolver)
+        try:
+            resolver = get_ns_resolver(ns_pattern, resolver,
+                                       tuple(ns_converters.items()))
+        except Exception:
+            resolver = get_ns_resolver(ns_pattern, resolver)
 
     # custom code, get view from reverse_dict
     reverse_dict = resolver.reverse_dict.dict()
@@ -264,7 +273,7 @@ def reverse_url(url, obj, fallback_field=None):
         if url.startswith('#'):  # local url
             return url
         named_url = url
-        if fallback_field:
+        if obj and fallback_field:
             if type(obj) is dict:
                 args = [obj[fallback_field]]
             else:
@@ -378,3 +387,14 @@ def generate_id(*s):
     with translation.override('en'):
         generated_id = slugify('-'.join([str(i) for i in s]))
     return generated_id
+
+
+def append_query_parameter(url, parameters, ignore_if_exists=True):
+    """ quick and dirty appending of query parameters to a url """
+    if ignore_if_exists:
+        for key in parameters.keys():
+            if key + '=' in url:
+                del parameters[key]
+    parameters_str = '&'.join(k + '=' + v for k, v in parameters.items())
+    append_token = '&' if '?' in url else '?'
+    return url + append_token + parameters_str

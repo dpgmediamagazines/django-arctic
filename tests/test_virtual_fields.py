@@ -28,9 +28,9 @@ class TestVirtualFields(object):
         self._assert_list_items_len(response, 1)
 
         item = response.context_data['list_items'][0]
-        assert item[0]['value'] == article.title
-        assert item[1]['value'] == article.description
-        assert item[3]['value'] == article.category.name
+        assert item['fields'][0]['value'] == article.title
+        assert item['fields'][1]['value'] == article.description
+        assert item['fields'][3]['value'] == article.category.name
 
     def test_missing_virtual_field(self, admin_client):
         """
@@ -42,7 +42,7 @@ class TestVirtualFields(object):
         response = self._request(admin_client)
 
         search_virtual_field = False
-        for field in response.context_data['list_items'][0]:
+        for field in response.context_data['list_items'][0]['fields']:
             if field['type'] == 'field' and 'virtual_field' in field['field']:
                 search_virtual_field = True
 

@@ -8,7 +8,7 @@ $(document).ready(function() {
     
     $('.float-label input, .float-label textarea').blur(function() {
         // Check if float label input is not empty, if so then add some CSS
-        if (($(this).val().length > 0) || ($(this).text() > 0)) {
+        if (($(this).val().length > 0) || ($(this).text().length > 0)) {
             $(this).removeClass('empty');
         }
         else {

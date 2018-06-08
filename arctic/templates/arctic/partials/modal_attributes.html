@@ -1,0 +1,14 @@
+{% if modal.type == 'confirm' %}
+    data-toggle="modal" 
+    data-target="#confirm-dialog"
+    data-confirm-title="{{ modal.title }}"
+    data-confirm-message="{{ modal.message|linebreaks }}"
+    data-confirm-ok="{{ modal.ok }}"
+    data-confirm-cancel="{{ modal.cancel }}"
+    data-confirm-class="{{ modal.class }}"
+{% elif modal.type == 'iframe' %}
+    data-toggle="modal" 
+    data-target="#iframe-modal"
+    {% if modal.height %}data-height="{{ modal.height }}"{% endif %}
+    data-size="{{ modal.size }}"
+{% endif %}

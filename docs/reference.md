@@ -399,13 +399,13 @@ will be available in a dropdown.
 This icon is used in the `tool_links` dropdown, by default an ellipsis `...`
 will be used.
 
-### `modals`
+### `modal_links`
 
 Dictionary of named urls that will be displayed in a modal.
-Currently only the `confirm` type is supported. 
-The format for this type is:
+Currently the `confirm` and `iframe` types are supported. 
+The options for these types are:
 
-    {    
+    [    
         'named_url': {
             'type': 'confirm',
             'title': 'Delete "{field_name}"',
@@ -414,12 +414,17 @@ The format for this type is:
             'cancel': 'Cancel',
             'class': 'this_modal_class', # optional 
         },
+        'named_url2': {
+            'type': 'iframe',
+            'size': ['small'|'large'] # optional - 'medium' is default
+            'height': height_in_pixels # optional - initial height 
+        }
         ...
-    }
+    ]
 
 Both `title` and `message` can contain field names wrapped as python template
 variables, which will be parsed into the field value for the row instance.
-Currently `modals` work with `action_links` and `field_links`.
+Currently `modal_links` work with `tool_links`, `action_links` and `field_links`.
  
 Confirm dialogs can be automatically picked up if a view includes the following method:
 
@@ -438,6 +443,7 @@ individual fields present in the object can be used with the string template
 markup.
 
 The use of the dialog can be disabled by return None in the confirm_dialog, if one already exists in the parent class.
+
 
 ### `simple_search_form_class`
 
@@ -656,6 +662,12 @@ This static method will return the data needed to generate a confirmation
 dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is 
 called.
 
+### `success_url`
+
+This parameter is optional, if not given, a default will be chosen according to
+context: if the View is inside a modal it will redirect to the parent window, 
+otherwise it will redirect to the previous page.
+
 
 # Mixins
 
@@ -743,10 +755,15 @@ optional description by using the `'fieldset|description'` syntax.
 When a fieldset name is prepended with a `-`, it will be collapsible and 
 displayed as collapsed, if prepended with a `+` it will be collapsible and 
 displayed as uncollapsed.
+A field can be made collapsible by using the utility function `collapsible`
+which has an optional parameter to display the fieldset collapsed by default.
+A `collapsible_gettext` function is also available that marks the Fieldset title
+as translatable.
+
 
 Examples:
 
-    from collections import OrderedDict
+    from arctic.generics import collapsible as c
 
     # category and tags on the same row, no fieldsets
     layout = ['title', 
@@ -756,13 +773,14 @@ Examples:
               'updated_at']
 
     # Two collapsible fieldsets, the first collapsed by default
-    layout = OrderedDict([
-        ('-fieldset', 
+    # on python < 3.6 use an OrderedDict
+    layout = {
+        c('fieldset', True): 
             ['title|10', 
-            ['category', 'updated_at|4']]),                
-        ('+fieldset2', 
-            ['tags']),
-        ])
+            ['category', 'updated_at|4']],                
+        c('fieldset2'): 
+            ['tags'],
+        }
     
 
     layout = [['published', 'updated_at']]
@@ -778,8 +796,9 @@ The third parameter can be a string with the positioning of the action - the
 accepted value is `left` (right is the default).
 It is also possible to pass a dictionary as the third item, all of its keys will
 be passed through to the template, the standard template recognizes the keys: 
-`position` (`left`), `style` (`link`, `primary`, `secondary` is default) and
-`id` (by default auto generated from the english version of the title).
+`position` (`left`), `style` (`link`, `primary`, `secondary` is default), 
+`form_action` (url) and `id` (by default auto generated from the english 
+version of the title).
 
 Example:
 
