@@ -72,10 +72,15 @@
             top: .75rem;
             left: .75rem;
             transition: all 0.2s;
-            width: 100%;
+            color: rgba($input-color, 0.7);
+            width: calc(100% - 1rem);
+            background-color: $input-bg;
+            padding-top: 4px;
+            padding-bottom: 2px;
+            margin-top: -4px;
             z-index: 2;
             white-space: nowrap;
-            opacity: .75;
+            opacity: 1;
         }
 
         .form-check-label {
