@@ -2,7 +2,7 @@
 
 <div class="row">
     {% block tool_links %}
-        <div class="col-auto">
+        <div class="col-auto form-group">
             {% for link in tool_links %}
                 {% if forloop.counter0 < tool_links_collapse %}
                     <a class="btn btn-{{ link.style }}" title="{{ link.label }}" href="{{ link.url }}" id="{{ link.id }}"
@@ -27,34 +27,35 @@
             {% endfor %}
         </div>
     {% endblock %}
-    {% if simple_search_form or advanced_search_form %}
     <div class="col">
-        <form action="" method="GET" class="search-form">
-            {% block search_form %}
-                <div id="arctic_search_form" class="form-group simple-search {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
-                    {% for field in simple_search_form %}
-                        {{ field }}
-                    {% endfor %}
-                    {% if advanced_search_form %}
-                    {% block advanced_search_form %}
-                        <a id="arctic_toggle_advanced_search_form_button" class="btn btn-secondary arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
-                            <i class="fa fa-sliders"></i>
-                        </a>
-                        <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
-                            {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
-                            <div class="form-block pull-right">
-                                <input type="reset" value="{% trans 'Clear' %}" class="btn btn-secondary" onClick='location.href = location.pathname'>
-                                <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
+    {% if not sorting_url %}
+        {% if simple_search_form or advanced_search_form %}
+            <form action="" method="GET" class="search-form">
+                {% block search_form %}
+                    <div id="arctic_search_form" class="form-group simple-search {% if simple_search_form.errors or advanced_search_form.errors %} invalid-form-field {% endif %}">
+                        {% for field in simple_search_form %}
+                            {{ field }}
+                        {% endfor %}
+                        {% if advanced_search_form %}
+                        {% block advanced_search_form %}
+                            <a id="arctic_toggle_advanced_search_form_button" class="btn btn-secondary arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                                <i class="fa fa-sliders"></i>
+                            </a>
+                            <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
+                                {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
+                                <div class="form-block pull-right">
+                                    <input type="reset" value="{% trans 'Clear' %}" class="btn btn-secondary" onClick='location.href = location.pathname'>
+                                    <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
+                                </div>
                             </div>
-                        </div>
-                    {% endblock %}
-                    {% endif %}
-                </div>
-            {% endblock %}
-        </form>
-    </div>
+                        {% endblock %}
+                        {% endif %}
+                    </div>
+                {% endblock %}
+            </form>
+        {% endif %}
     {% endif %}
-
+    </div>
 </div>
 
 {% block top_pagination %}
