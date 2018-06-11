@@ -110,6 +110,7 @@ In `urls.py` add the following:
 
         urlpatterns = [
             url(r'^login/$', LoginView.as_view(), name='login'),
+            url(r'^arctic/', include('arctic.urls', namespace='arctic')),
             url(r'^$', DashboardView.as_view(), name='index'),
         ]
 

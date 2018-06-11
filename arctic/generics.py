@@ -188,19 +188,24 @@ class View(RoleAuthentication, base.View):
                                        get_language())[0]
         dtformats['SHORT_DATETIME'] = get_format('DATETIME_INPUT_FORMATS',
                                                  get_language())[0]
+        firstweekday = calendar.firstweekday() + 1
+        if firstweekday == 7:
+            firstweekday = 0
+        day_names = calendar.day_name[-1:] + calendar.day_name[:-1]
+        day_abbr = calendar.day_abbr[-1:] + calendar.day_abbr[:-1]
         dtformats['DAYS'] = mark_safe(json.dumps(
-            [_(day) for day in calendar.day_name]))
+            [_(day) for day in day_names]))
         dtformats['DAYS_SHORT'] = mark_safe(json.dumps(
-            [_(day) for day in calendar.day_abbr]))
+            [_(day) for day in day_abbr]))
         dtformats['DAYS_MIN'] = mark_safe(json.dumps(
-            [_(day)[:2] for day in calendar.day_abbr]))
+            [_(day)[:2] for day in day_abbr]))
         dtformats['MONTHS'] = mark_safe(json.dumps(
             [_(day).capitalize() for day in calendar.month_name[1:]]))
         dtformats['MONTHS_SHORT'] = mark_safe(json.dumps(
             [_(day) for day in calendar.month_abbr[1:]]))
         dtformats['TODAY'] = _('Today')
         dtformats['CLEAR'] = _('Clear')
-        dtformats['FIRST_DAY'] = calendar.firstweekday()
+        dtformats['FIRST_DAY'] = firstweekday
 
         return dtformats
 
