@@ -74,7 +74,6 @@
             transition: all 0.2s;
             color: rgba($input-color, 0.7);
             width: calc(100% - 1rem);
-            background-color: $input-bg;
             padding-top: 4px;
             padding-bottom: 2px;
             margin-top: -4px;
@@ -82,6 +81,10 @@
             white-space: nowrap;
             opacity: 1;
         }
+
+        textarea:not([disabled]) + label {
+            background-color: $input-bg;
+        } 
 
         .form-check-label {
             position: relative;
