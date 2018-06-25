@@ -1,5 +1,6 @@
 # -*-*- encoding: utf-8 -*-*-
 from __future__ import unicode_literals
+from datetime import datetime
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -39,3 +40,22 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.term
+
+
+def filename(instance, filename):
+    return 'uploads/' + datetime.now().strftime("%Y%m%d%H%M%S%f") + '.jpg'
+
+
+class Image(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(upload_to=filename, null=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    order = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images'
+
+    def __str__(self):
+        return self.title

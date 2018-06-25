@@ -1,9 +1,9 @@
 from datetime import datetime
 
 import django
-from django.forms.widgets import (DateInput, DateTimeInput, Select,
-                                  SelectMultiple, TextInput, TimeInput, Input,
-                                  CheckboxSelectMultiple, RadioSelect)
+from django.forms.widgets import (ClearableFileInput, DateInput, DateTimeInput,
+                                  Select, SelectMultiple, TextInput, TimeInput,
+                                  Input, CheckboxSelectMultiple, RadioSelect)
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -150,6 +150,24 @@ class SearchInput(TextInput):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
             return super(SearchInput, self).render(name, value, attrs)
+
+        t = render_to_string(
+            template_name=self.template_name,
+            context=self.get_context(name, value, attrs)
+        )
+        return mark_safe(t)
+
+
+class BetterFileInput(ClearableFileInput):
+    """
+    File input replacement with Image preview
+    """
+    template_name = 'arctic/widgets/file_input.html'
+
+    def render(self, name, value, attrs=None):
+        """For django 1.10 compatibility"""
+        if django.VERSION >= (1, 11):
+            return super(BetterFileInput, self).render(name, value, attrs)
 
         t = render_to_string(
             template_name=self.template_name,

@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## [unreleased]
+
+### Added
+
+- added a better default file/image upload widget [#173][173]
+
+### Changed
+
+- upgraded django-extra-views to 1.11 [#300][300]
+
+[173]: //github.com/sanoma/django-arctic/issues/173
+[300]: //github.com/sanoma/django-arctic/issues/300
+
+
 ## 1.2.0
 
 ### Added

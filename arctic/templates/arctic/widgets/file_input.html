@@ -1,0 +1,12 @@
+{% load i18n %}
+{# if widget.is_initial %}{{ widget.initial_text }}: <a href="{{ widget.value.url }}">{{ widget.value }}</a>{% endif #}
+{#<label for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label><br>#}
+<div class="better-file">
+  <input type="{{ widget.type }}" class="form-control better-file-input" name="{{ widget.name }}" {% if widget.is_initial %}initial="{{ widget.value.url }}"{% endif %} {% include "django/forms/widgets/attrs.html" %}>
+  <label class="better-file-label" for="{{ widget.attrs.id }}" placeholder="{% trans 'Choose File' %}"><a href="#upload">{% trans 'Choose File' %}</a></label>
+{% if not widget.required %}
+  <input type="checkbox" class="better-file-clear-checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"> 
+  <a href="#{{ widget.clear_checkbox_label }}" class="better-file-clear" title={{ widget.clear_checkbox_label }} for="{{ widget.checkbox_id }}">✕</a>
+{% endif %}
+
+</div>

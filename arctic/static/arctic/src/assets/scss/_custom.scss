@@ -466,9 +466,9 @@ $custom-file-height:           2.5rem !default;
 $custom-file-width:            14rem !default;
 $custom-file-focus-box-shadow: 0 0 0 .075rem $white, 0 0 0 .2rem $brand-primary !default;
 
-$custom-file-padding-y:     1rem !default;
-$custom-file-padding-x:     .5rem !default;
-$custom-file-line-height:   1.5 !default;
+$custom-file-padding-y:     .55rem !default;
+$custom-file-padding-x:     .75rem !default;
+$custom-file-line-height:   1.25 !default;
 $custom-file-color:         $gray !default;
 $custom-file-bg:            $white !default;
 $custom-file-border-width:  $border-width !default;
@@ -478,7 +478,8 @@ $custom-file-box-shadow:    inset 0 .2rem .4rem rgba($black,.05) !default;
 $custom-file-button-color:  $custom-file-color !default;
 $custom-file-button-bg:     $gray-lighter !default;
 $custom-file-text: (
-  en: "Browse"
+  en: "Browse",
+  nl: "Bladeren"
 ) !default;
 
 

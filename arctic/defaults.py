@@ -8,6 +8,8 @@ ARCTIC_SITE_NAME = 'Arctic Site Name'
 ARCTIC_WIDGET_OVERLOADS = {
     'DateInput': 'arctic.widgets.DatePickerInput',
     'DateTimeInput': 'arctic.widgets.DateTimePickerInput',
+    'ClearableFileInput': 'arctic.widgets.BetterFileInput',
+    'FileInput': 'arctic.widgets.BetterFileInput',
     'TimeInput': 'arctic.widgets.TimePickerInput',
     'Select': 'arctic.widgets.StyledSelect',
     'SelectMultiple': 'arctic.widgets.SelectizeMultiple',

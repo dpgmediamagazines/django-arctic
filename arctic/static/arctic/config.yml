@@ -46,6 +46,7 @@ PATHS:
     - "src/assets/js/utils/helpers.js"
     - "src/assets/js/components/toggle_form.js"
     - "src/assets/js/components/widgets.js"
+    - "src/assets/js/components/file_input.js"
     - "src/assets/js/components/float_label.js"
     - "src/assets/js/components/modal.js"
     - "src/assets/js/!(app).js"
