@@ -51,7 +51,7 @@ unittest_results_*
 
 # Django stuff:
 *.log
-*/media/uploads/*
+uploads/
 
 # Sphinx documentation
 docs/_build/
