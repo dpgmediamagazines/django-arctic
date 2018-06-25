@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-03 11:24+0200\n"
+"POT-Creation-Date: 2018-06-25 15:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,90 +18,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: generics.py:205
+#: generics.py:206
 msgid "Today"
 msgstr "Vandaag"
 
-#: generics.py:206 templates/arctic/partials/base_data_table.html:42
+#: generics.py:207 templates/arctic/partials/base_data_table.html:47
 msgid "Clear"
 msgstr "Wissen"
 
-#: generics.py:691
+#: generics.py:674
 msgid "Page cannot be converted to an int."
 msgstr "Pagina kan niet omgezet worden naar een int."
 
-#: generics.py:696
+#: generics.py:679
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Ongeldige pagina (%(page_number)s): %(message)s"
 
-#: generics.py:723
+#: generics.py:688
 #, python-format
 msgid "\"%(object)s\" was successfully created"
 msgstr "\"%(object)s\" is aangemakt"
 
-#: generics.py:727
+#: generics.py:692
 #, python-format
 msgid "Create %s"
 msgstr "Aanmaken %s"
 
-#: generics.py:744
+#: generics.py:706
 #, python-format
 msgid "\"%(object)s\" was successfully updated"
 msgstr "\"%(object)s\" is bijgewerkt"
 
-#: generics.py:751
+#: generics.py:713
 #, python-format
 msgid "Edit %s"
 msgstr "%s bewerken"
 
-#: generics.py:787
+#: generics.py:743
 #, python-brace-format
 msgid "Delete \"{obj}\""
 msgstr "\"{obj}\" verwijderen"
 
-#: generics.py:788
+#: generics.py:744
 msgid "Are you sure you want to delete this?"
 msgstr "Weet je zeker dat je dit wilt verwijderen?"
 
-#: generics.py:789
+#: generics.py:745
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: generics.py:790
+#: generics.py:746
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: generics.py:794
+#: generics.py:757
 msgid "\"{}\" was successfully deleted."
 msgstr "\"{}\" is verwijderd."
 
-#: generics.py:833
+#: generics.py:795
 msgid "Login"
 msgstr "Inloggen"
 
-#: generics.py:866
+#: generics.py:828
 msgid "Invalid username/password combination"
 msgstr "Ongeldige gebruikersnaam/wachtwoord combinatie"
 
-#: mixins.py:105
+#: mixins.py:148
 msgid "Submit"
 msgstr "Submit"
 
-#: models.py:18
+#: models.py:18 users/views.py:23
 msgid "Role"
 msgstr "Rol"
 
-#: templates/arctic/base.html:36
+#: templates/arctic/base.html:35
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: templates/arctic/partials/base_data_table.html:43
+#: templates/arctic/partials/base_data_table.html:48
 #: templates/arctic/widgets/search_input.html:3
 msgid "Search"
 msgstr "Zoek"
 
-#: templates/arctic/partials/base_data_table.html:179
+#: templates/arctic/partials/base_data_table.html:168
 msgid "No result..."
 msgstr "Geen resultaat..."
 
@@ -142,6 +142,10 @@ msgstr "Volgende pagina"
 msgid "Last page"
 msgstr "Laatste pagina"
 
+#: templates/arctic/widgets/file_input.html:6
+msgid "Choose File"
+msgstr "Kies Bestand"
+
 #: users/forms.py:55
 msgid "New Password"
 msgstr "Nieuw Wachtwoord"
@@ -150,27 +154,43 @@ msgstr "Nieuw Wachtwoord"
 msgid "Leave this field empty if you don't want to change your password."
 msgstr "Laat dit veld leeg als u uw wachtwoord niet wilt wijzigen."
 
-#: users/views.py:16
+#: users/views.py:17
 msgid "Users"
 msgstr "Gebruikers"
 
-#: users/views.py:33
+#: users/views.py:22
+#, fuzzy
+#| msgid "Users"
+msgid "Username"
+msgstr "Gebruikers"
+
+#: users/views.py:24
+msgid "Active"
+msgstr "Actief"
+
+#: users/views.py:25
+#, fuzzy
+#| msgid "Login"
+msgid "Last Login"
+msgstr "Inloggen"
+
+#: users/views.py:37
 msgid "Create Users"
 msgstr "Gebruikers Aanmaken"
 
-#: users/views.py:39
+#: users/views.py:46
 msgid "Create User"
 msgstr "Gebruiker Aanmaken"
 
-#: users/views.py:46
+#: users/views.py:53
 msgid "User {} was successfully created"
 msgstr "Gebruiker {} is succesvol gemaakt"
 
-#: users/views.py:51
+#: users/views.py:58
 msgid "Change User"
 msgstr "Gebruiker Bijwerken"
 
-#: users/views.py:66
+#: users/views.py:73
 msgid "User {} was successfully updated"
 msgstr "Gebruiker {} is succesvol bijgewerkt"
 
