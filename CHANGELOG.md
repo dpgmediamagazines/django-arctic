@@ -18,6 +18,11 @@ Always reference the ticket number at the end of the issue description.
 
 - upgraded django-extra-views to 1.11 [#300][300]
 
+## Fixed
+
+- Calendar now displays the correct weekday labels
+
+
 [173]: //github.com/sanoma/django-arctic/issues/173
 [300]: //github.com/sanoma/django-arctic/issues/300
 

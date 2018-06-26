@@ -299,7 +299,8 @@ form.search-form {
     margin-bottom: 0;
 
     img {
-        max-height: 10rem; 
+        max-height: 10rem;
+        max-width: calc(100% - 2rem);
         display: block;
         margin: auto;
     }
