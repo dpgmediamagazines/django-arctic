@@ -7,12 +7,9 @@
     {% endcomment %}
     {% block control_group %}
 
-        {% if not layout %}
-            <div class="row {% if field.errors %}invalid-form-field{% endif %}">
-        {% endif %}
         {% block controls %}
             <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
-                <div class="form-group">
+                <div class="form-group {% if field.errors %}invalid-form-field{% endif %}">
                     {% block widget %}
                         {% if form_display == 'tabular' %}
                             {% include "arctic/partials/form_field_parts/form_field_tabular.html" %}
@@ -33,10 +30,6 @@
                     {% endblock %}
                 </div>
             </div>
-            {% endblock %}
-
-            {% if not layout %}
-                    </div>
-            {% endif %}
         {% endblock %}
+    {% endblock %}
 {% endif %}
