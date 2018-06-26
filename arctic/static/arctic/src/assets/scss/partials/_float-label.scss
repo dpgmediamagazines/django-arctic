@@ -162,4 +162,24 @@
     .editor-toolbar:after {
         margin-top: 5px;
     }
+
+    // better file input
+    .better-file {
+        input[type=file]+label.better-file-label {
+            width: 100%;
+            left: 0;
+            font-size: 100%;
+            padding-top: 1.2em;
+            padding-bottom: 0.4em;
+        }
+
+        .better-file-clear {
+            top: 1.2em;
+        }
+    }
+
+    .better-file+label {
+        font-size: 75%;
+        top: .25rem;       
+    }
 }
