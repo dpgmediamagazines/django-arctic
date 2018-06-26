@@ -6,7 +6,12 @@ function get_file_preview(target, url, filename) {
     }
     img.onload = function(evt) {
         target.html('<a href="' + this.src + '" target="_blank"><img src="' + this.src + '" /></a>');
-        target.prev().height(target.height());
+        if (target.height() < 22) {
+            setTimeout(function(){ target.prev().height(target.height()); }, 20);
+        }
+        else {
+            target.prev().height(target.height());            
+        }
     }
     img.src = url;
     if ($(target).next('.better-file-clear-checkbox')) {

@@ -48,7 +48,7 @@ def filename(instance, filename):
 
 class Image(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
-    image = models.ImageField(upload_to=filename, null=True)
+    image = models.ImageField(upload_to=filename, null=True, blank=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     order = models.IntegerField(null=True, blank=True)
 
