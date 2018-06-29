@@ -15,6 +15,5 @@ class TagsInline(InlineFormSet):
 
 
 class ImagesInline(InlineFormSet):
-    verbose_name = 'Images'
     model = Image
     fields = "__all__"
