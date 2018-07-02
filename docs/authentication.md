@@ -32,19 +32,19 @@ And in `settings.py` add a reference to `ARCTIC_MENU`:
 
 ## Setting up permissions in Views
 
-Every Arctic view needs a `permission_required` property, this property should 
+Every Arctic view needs a `permission_required` property, this should 
 be unique and will be used in the definition of roles. For example:
 
     permission_required = 'view_user'
 
-The convention to be used here is the same as what django uses for its model 
-based permissions: `<view|add|change|delete>_<entity>`
+The naming convention to be used here is the same as what Django uses for its 
+model based permissions: `<view|add|change|delete>_<entity>`
 
 
 ## Defining roles
 
-Roles are defined in the settings with the `ARCTIC_ROLES` dictionary, the key 
-of the dictionary is the role name, and its value is a list of permissions that
+Roles are defined in settings with the `ARCTIC_ROLES` dictionary, the key 
+of the dictionary is the role name, and its value a list of permissions that
 have been defined in the `premission_required` property of the Views, for
 example:
 
