@@ -5,6 +5,6 @@ pages:
 - Home: index.md
 - Lists: lists.md
 - Forms: forms.md
-- Authentication: forms.md
+- Authentication: authentication.md
 - Reference: reference.md
 - Frontend: frontend.md
