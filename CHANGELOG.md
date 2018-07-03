@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## [unreleased]
+## 1.3.1 (2018-07-03)
 
 ### Added
 
@@ -21,7 +21,7 @@ Always reference the ticket number at the end of the issue description.
 - fixed display of inline fields in forms without layouts
 
 
-## 1.3.0
+## 1.3.0 (2018-06-26)
 
 ### Added
 
@@ -40,7 +40,7 @@ Always reference the ticket number at the end of the issue description.
 [300]: //github.com/sanoma/django-arctic/issues/300
 
 
-## 1.2.0
+## 1.2.0 (2018-06-08)
 
 ### Added
 
@@ -61,7 +61,7 @@ Always reference the ticket number at the end of the issue description.
 [243]: //github.com/sanoma/django-arctic/issues/243
 
 
-## 1.1.1
+## 1.1.1 (2018-05-17)
 
 ### Changed
 
@@ -79,7 +79,7 @@ Always reference the ticket number at the end of the issue description.
   `QuickFiltersSelectMultiple` widget.
 
 
-## 1.1.0 (2017-04-20)
+## 1.1.0 (2018-04-20)
 
 ### Added
 
@@ -98,7 +98,7 @@ Always reference the ticket number at the end of the issue description.
 [286]: //github.com/sanoma/django-arctic/issues/286
 
 
-## 1.0.2 (2017-03-19)
+## 1.0.2 (2018-03-19)
 
 ### Fixed
 
@@ -118,7 +118,7 @@ Always reference the ticket number at the end of the issue description.
 [282]: //github.com/sanoma/django-arctic/issues/282
 
 
-## 1.0.1 (2017-03-01)
+## 1.0.1 (2018-03-01)
 
 ### Fixed
 - Search form JS submitting selector - [#248][248]
@@ -149,7 +149,7 @@ Always reference the ticket number at the end of the issue description.
 [269]: //github.com/sanoma/django-arctic/issues/269
 
 
-## 1.0.0
+## 1.0.0 (2018-01-31)
 
 ### Fixed
 
@@ -163,7 +163,7 @@ Always reference the ticket number at the end of the issue description.
 [242]: //github.com/sanoma/django-arctic/issues/242
 
 
-## 1.0.0-beta2
+## 1.0.0-beta2 (2018-01-19)
 
 ## Added
 
@@ -174,7 +174,7 @@ Always reference the ticket number at the end of the issue description.
 - Django 1.8 support
 
 
-## 1.0.0-beta1
+## 1.0.0-beta1 (2017-10-02)
 
 ## Added
 

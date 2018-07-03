@@ -34,7 +34,7 @@ class UserListView(ListView):
         'user__{}'.format(username_field): 'users:detail',
     }
     tool_links = [
-        (_('Create Users'), 'users:create', 'fa-plus'),
+        (_('Add User'), 'users:create', 'fa-plus'),
     ]
 
     def get_user__is_active_field(self, row_instance):
@@ -43,7 +43,7 @@ class UserListView(ListView):
 
 
 class UserCreateView(CreateView):
-    page_title = _('Create User')
+    page_title = _('Add User')
     model = UserRole
     success_url = reverse_lazy('users:list')
     form_class = UserCreationMultiForm

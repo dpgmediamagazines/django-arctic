@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-03 09:55+0200\n"
+"POT-Creation-Date: 2018-07-03 10:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,13 +170,9 @@ msgstr "Actief"
 msgid "Last Login"
 msgstr "Laatste Ingelogd"
 
-#: users/views.py:37
-msgid "Create Users"
-msgstr "Gebruikers Aanmaken"
-
-#: users/views.py:46
-msgid "Create User"
-msgstr "Gebruiker Aanmaken"
+#: users/views.py:37 users/views.py:46
+msgid "Add User"
+msgstr "Gebruiker Toevoegen"
 
 #: users/views.py:53
 msgid "User {} was successfully created"
@@ -189,6 +185,12 @@ msgstr "Gebruiker Bijwerken"
 #: users/views.py:73
 msgid "User {} was successfully updated"
 msgstr "Gebruiker {} is succesvol bijgewerkt"
+
+#~ msgid "Create Users"
+#~ msgstr "Gebruikers Aanmaken"
+
+#~ msgid "Create User"
+#~ msgstr "Gebruiker Aanmaken"
 
 #~ msgid "Create Article"
 #~ msgstr "Artikel Aanmaken"
