@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-25 15:19+0200\n"
+"POT-Creation-Date: 2018-07-03 09:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,20 +159,16 @@ msgid "Users"
 msgstr "Gebruikers"
 
 #: users/views.py:22
-#, fuzzy
-#| msgid "Users"
 msgid "Username"
-msgstr "Gebruikers"
+msgstr "Gebruikersnaam"
 
 #: users/views.py:24
 msgid "Active"
 msgstr "Actief"
 
 #: users/views.py:25
-#, fuzzy
-#| msgid "Login"
 msgid "Last Login"
-msgstr "Inloggen"
+msgstr "Laatste Ingelogd"
 
 #: users/views.py:37
 msgid "Create Users"

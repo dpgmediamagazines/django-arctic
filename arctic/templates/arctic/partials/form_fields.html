@@ -62,11 +62,12 @@
             {% include 'arctic/partials/form_field.html' %}
         {% endfor %}
     </div>
-    {% block errors %}
-        {% for error in form.non_field_errors %}
-            <span class="invalid-feedback">
-                {{ error }}
-            </span>
-        {% endfor %}
-    {% endblock %}
 {% endif %}
+
+{% block errors %}
+    {% for error in form.non_field_errors %}
+        <span class="invalid-feedback col form-group">
+            {{ error }}
+        </span>
+    {% endfor %}
+{% endblock %}

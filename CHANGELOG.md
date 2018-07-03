@@ -8,6 +8,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## [unreleased]
+
+### Added
+
+- added documentation for authentication/roles
+
+### Fixed
+
+- fixed bug with required attribute in checkboxes and radio buttons
+- improved logo display in the login screen
+- fixed display of inline fields in forms without layouts
+
+
 ## 1.3.0
 
 ### Added
