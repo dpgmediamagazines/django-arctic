@@ -188,7 +188,7 @@ class FormMixin(ModalMixin):
                         if action[2].get('style'):
                             allowed_action['custom_style'] = True
                         if action[2].get('form_action'):
-                            action[2]['form_action'] = self.in_modal(
+                            allowed_action['form_action'] = self.in_modal(
                                 reverse_url(action[2]['form_action'], obj))
                         allowed_action.update(action[2])
 
