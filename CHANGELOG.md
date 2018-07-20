@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## Pending
+
+### Fixed
+
+- get_actions: formaction dictionary was updated directly as class attribute
 
 ## 1.3.1 (2018-07-03)
 
