@@ -185,12 +185,12 @@ class FormMixin(ModalMixin):
                     if action[2] == 'left':
                         allowed_action['position'] = 'left'
                     elif type(action[2]) is dict:
+                        allowed_action.update(action[2])
                         if action[2].get('style'):
                             allowed_action['custom_style'] = True
                         if action[2].get('form_action'):
                             allowed_action['form_action'] = self.in_modal(
                                 reverse_url(action[2]['form_action'], obj))
-                        allowed_action.update(action[2])
 
                 if action[1] == 'submit':
                     last_submit_index = len(allowed_actions)
