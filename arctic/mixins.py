@@ -108,7 +108,6 @@ class FormMixin(ModalMixin):
     """
     use_widget_overloads = True
     layout = None
-    _fields = []
     actions = None             # Optional links such as list of linked items
     links = None
     readonly_fields = None
@@ -204,56 +203,53 @@ class FormMixin(ModalMixin):
             allowed_actions.append(default_action)
         return allowed_actions
 
-    def get_layout(self):
-        if not self.layout:
+    def get_layout(self, inline_layout=None, fields=None):
+        layout = inline_layout or self.layout
+        if not layout:
             return None
 
-        self._get_fields()
+        if not inline_layout:
+            fields = [field for field in self.get_form().fields]
+        if not fields:
+            return None
 
         allowed_rows = OrderedDict()
-        i = 0
-        py36_version = 50725104  # integer that represents python 3.6.0
-        if (type(self.layout) is OrderedDict) or \
-           (((type(self.layout) is dict) and sys.hexversion >= py36_version)):
-            for fieldset, rows in self.layout.items():
+        py36_version = 0x30600f0  # hex number that represents python 3.6.0
+        if (type(layout) is OrderedDict) or \
+           ((type(layout) is dict) and sys.hexversion >= py36_version):
+            for i, (fieldset, rows) in enumerate(layout.items()):
                 fieldset = self._return_fieldset(fieldset)
-                if isinstance(rows, six.string_types) or \
-                        isinstance(rows, six.text_type):
+                if isinstance(rows, six.string_types):
                     allowed_rows.update({i: {'fieldset': fieldset,
                                              'rows': rows}})
                 else:
-                    row = self._process_first_level(rows)
+                    row = self._process_first_level(rows, fields)
                     allowed_rows.update({i: {'fieldset': fieldset,
                                              'rows': row}})
-                i += 1
 
-        elif type(self.layout) in (list, tuple):
-            row = self._process_first_level(self.layout)
+        elif type(layout) in (list, tuple):
+            row = self._process_first_level(layout)
             fieldset = self._return_fieldset(0)
             allowed_rows.update({i: {'fieldset': fieldset,
                                      'rows': row}})
 
         else:
-            raise ImproperlyConfigured('LayoutMixin expects a list/tuple or '
+            raise ImproperlyConfigured('`layout` should be a list, tuple or '
                                        'a dict (OrderedDict if python < 3.6)')
-
         return allowed_rows
 
-    def _get_fields(self):
-        self._fields = [field for field in self.get_form().fields]
-
-    def _process_first_level(self, rows):
+    def _process_first_level(self, rows, fields):
         allowed_rows = []
         for row in rows:
             if isinstance(row, six.string_types) or \
                     isinstance(row, six.text_type):
-                allowed_rows.append(self._return_field(row))
+                allowed_rows.append(self._return_field(row, fields))
             elif type(row) in (list, tuple):
-                rows = self._process_row(row)
+                rows = self._process_row(row, fields)
                 allowed_rows.append(rows)
         return allowed_rows
 
-    def _process_row(self, row):
+    def _process_row(self, row, fields):
         has_column = {}
         has_no_column = {}
         sum_existing_column = 0
@@ -267,7 +263,7 @@ class FormMixin(ModalMixin):
                     isinstance(field, six.text_type):
                 name, column = self._split_str(field)
                 if column:
-                    has_column[index] = self._return_field(field)
+                    has_column[index] = self._return_field(field, fields)
                     sum_existing_column += int(column)
                 else:
                     has_no_column[index] = field
@@ -276,7 +272,7 @@ class FormMixin(ModalMixin):
                                                         sum_existing_column)
         has_no_column = self._set_has_no_columns(has_no_column,
                                                  col_avg,
-                                                 col_last)
+                                                 col_last, fields)
 
         # Merge it all back together to a dict, to preserve the order
         for index, field in enumerate(row):
@@ -290,7 +286,7 @@ class FormMixin(ModalMixin):
 
         return rows_to_list
 
-    def _set_has_no_columns(self, has_no_column, col_avg, col_last):
+    def _set_has_no_columns(self, has_no_column, col_avg, col_last, fields):
         """
         Regenerate has_no_column by adding the amount of columns at the end
         """
@@ -298,11 +294,11 @@ class FormMixin(ModalMixin):
             if index == len(has_no_column):
                 field_name = '{field}|{col_last}'.format(field=field,
                                                          col_last=col_last)
-                has_no_column[index] = self._return_field(field_name)
+                has_no_column[index] = self._return_field(field_name, fields)
             else:
                 field_name = '{field}|{col_avg}'.format(field=field,
                                                         col_avg=col_avg)
-                has_no_column[index] = self._return_field(field_name)
+                has_no_column[index] = self._return_field(field_name, fields)
         return has_no_column
 
     def _return_fieldset(self, fieldset):
@@ -374,9 +370,9 @@ class FormMixin(ModalMixin):
         elif len(field_items) == 1:
             return field_items[0], None
 
-    def _return_field(self, field):
+    def _return_field(self, field, fields):
         field_name, field_class = self._split_str(field)
-        if field_name in self._fields:
+        if field_name in fields:
             return {
                 'name': field_name,
                 'column': field_class,
@@ -461,18 +457,20 @@ class FormMixin(ModalMixin):
 
     def get_context_data(self, **kwargs):
         context = super(FormMixin, self).get_context_data(**kwargs)
+#        for v in vars(context['inlines'][0]):
+#            print (v)
+#        print (context['inlines'][0].form_kwargs)
         try:
-            i = 0
-            for formset in context['inlines']:
-                j = 0
-                if not hasattr(context['inlines'][i], 'verbose_name'):
-                    setattr(context['inlines'][i], 'verbose_name',
-                            formset.model._meta.verbose_name_plural)
-                for form in formset:
+            for i, formset in enumerate(context['inlines']):
+                try:
+                    verbose_name = self.inlines[i].verbose_name
+                except AttributeError:
+                    verbose_name = formset.model._meta.verbose_name_plural
+                setattr(context['inlines'][i], 'verbose_name', verbose_name)
+
+                for j, form in enumerate(formset):
                     context['inlines'][i][j].fields = \
                         self.update_form_fields(form).fields
-                    j += 1
-                i += 1
         except KeyError:
             pass
         return context

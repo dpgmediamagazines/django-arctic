@@ -233,6 +233,11 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 
-@register.filter()
+@register.filter
 def get_attr(obj, item, default=None):
     return getattr(obj, item, default)
+
+
+@register.filter
+def replace(s, old, new):
+    return s.replace(old, new)

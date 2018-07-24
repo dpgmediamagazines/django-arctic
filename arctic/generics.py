@@ -117,7 +117,9 @@ class View(RoleAuthentication, base.View):
                             breadcrumb[1]).has_permission(self.request.user):
                     continue
 
-                url = None if not breadcrumb[1] else reverse(breadcrumb[1])
+                obj = self if not hasattr(self, 'object') else self.object
+                url = None if not breadcrumb[1] else reverse_url(breadcrumb[1],
+                                                                 obj)
                 allowed_breadcrumbs.append({'name': breadcrumb[0], 'url': url})
             return allowed_breadcrumbs
 
