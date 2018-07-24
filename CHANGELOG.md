@@ -7,12 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## Pending
+
+## 1.3.2 (2018-07-24)
 
 ### Fixed
 
 - get_actions: formaction dictionary was updated directly as class attribute
 - get_actions: update dict in correct order
+
 
 ## 1.3.1 (2018-07-03)
 
