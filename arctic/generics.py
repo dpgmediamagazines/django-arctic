@@ -100,7 +100,7 @@ class View(RoleAuthentication, base.View):
         context['LOGOUT_URL'] = self.get_logout_url()
         context['media'] = self.media
         context['form_display'] = self.get_form_display()
-        context['in_modal'] = self.request.GET.get('in_modal', False)
+        context['in_modal'] = self.request.GET.get('inmodal', False)
         return context
 
     def get_breadcrumbs(self):
