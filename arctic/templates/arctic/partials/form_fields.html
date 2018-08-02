@@ -42,7 +42,7 @@
 
             <div id="js--collapse-form-{{forloop.counter}}" class="{% if layout_item.fieldset.collapsible == 'closed' %} collapse {% else %} show {% endif %}">
                 {% for row in layout_item.rows %}
-                    <div class="row {% if row.field.errors %} invalid-form-field{% endif %}">
+                    <div class="{% if row.field.errors %} invalid-form-field{% endif %}">
                         {% if row|typename == 'dict' %}
                             {% include 'arctic/partials/form_field.html' with field=row.field style=style column=row.column layout=True %}
                         {% else %}

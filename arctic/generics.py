@@ -56,6 +56,7 @@ class View(RoleAuthentication, base.View):
     requires_login = True
     urls = {}
     form_display = None
+    in_modal = False
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -99,6 +100,7 @@ class View(RoleAuthentication, base.View):
         context['LOGOUT_URL'] = self.get_logout_url()
         context['media'] = self.media
         context['form_display'] = self.get_form_display()
+        context['in_modal'] = self.request.GET.get('in_modal', False)
         return context
 
     def get_breadcrumbs(self):

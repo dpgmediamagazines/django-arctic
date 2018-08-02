@@ -1,4 +1,4 @@
-{% extends request.GET.inmodal|yesno:"arctic/base_modal.html,arctic/base.html" %}
+{% extends in_modal|yesno:"arctic/base_modal.html,arctic/base.html" %}
 
 {% load i18n arctic_tags staticfiles %}
 
@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ in_modal }}
     <div class="row">
         <div class="col">
             <div class="form-size">
@@ -44,7 +45,7 @@
                         {% block inlines_form_fields %}
                             {% include "arctic/partials/form_fields_inline.html" with form=form %}
                         {% endblock %}
-                        {% if not forloop.last %}    
+                        {% if not forloop.last %}
                             <hr><br>
                         {% endif %}
                     {% endfor %}
@@ -96,5 +97,3 @@
 {% include 'arctic/partials/modal_dialogs.html' %}
 
 {% endblock %}
-
-
