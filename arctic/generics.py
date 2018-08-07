@@ -425,7 +425,7 @@ class ListView(View, ListMixin, base.ListView):
         for obj in objects:
             field_classes = self.get_field_classes(obj)
             row = {
-                'id': getattr(obj, self.primary_key),  # for row data id attr
+                'id': self.get_primary_value(obj),  # for row data id attr
                 'fields': [],
                 'actions': [],
                 'sorting_field': None
@@ -447,7 +447,8 @@ class ListView(View, ListMixin, base.ListView):
                     if len(embeded_list) > self.max_embeded_list_items:
                         embeded_list = embeded_list[:-1] + ['...']
                     field['value'] = embeded_list
-                if field_name in field_links.keys():
+                # don't try to find url for value that is None for related objects.
+                if field_name in field_links.keys() and field['value'] is not None:
                     field['url'] = self.in_modal(reverse_url(
                         field_links[field_name], obj, self.primary_key))
                     field['modal'] = self.get_modal_link(
@@ -462,7 +463,7 @@ class ListView(View, ListMixin, base.ListView):
             if self.sorting_field:
                 row['sorting_field'] = {
                     'type': 'sorting',
-                    'id': getattr(obj, self.primary_key),
+                    'id': self.get_primary_value(obj),
                     'value': getattr(obj, self.sorting_field)
                 }
             items.append(row)
@@ -484,6 +485,13 @@ class ListView(View, ListMixin, base.ListView):
         except (AttributeError, TypeError):
             # finally get field's value
             return find_attribute(obj, field_name)
+
+    def get_primary_value(self, obj):
+        # while using annotate (group by) the object is a dict
+        if type(obj) == dict:
+            return obj.get(self.primary_key)
+
+        return getattr(obj, self.primary_key)
 
     def get_prefix(self):
         return self.prefix + '-' if self.prefix else ''
