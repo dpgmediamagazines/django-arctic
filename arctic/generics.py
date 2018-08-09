@@ -447,8 +447,10 @@ class ListView(View, ListMixin, base.ListView):
                     if len(embeded_list) > self.max_embeded_list_items:
                         embeded_list = embeded_list[:-1] + ['...']
                     field['value'] = embeded_list
-                # don't try to find url for value that is None for related objects.
-                if field_name in field_links.keys() and field['value'] is not None:
+                # don't try to find url for value that
+                # is None for related objects.
+                if (field_name in field_links.keys() and
+                   field['value'] is not None):
                     field['url'] = self.in_modal(reverse_url(
                         field_links[field_name], obj, self.primary_key))
                     field['modal'] = self.get_modal_link(
