@@ -3,7 +3,7 @@
     {% if field.is_hidden %}
         {{ field }}
     {% else %}
-        <div class="row {% if row.field.errors %} invalid-form-field{% endif %}">
+        <div class="{% if row.field.errors %} invalid-form-field{% endif %}">
             {% include 'arctic/partials/form_field.html' %}
         </div>
         {% block errors %}

@@ -5,7 +5,7 @@ function modal_close() {
 }
 
 $(document).ready(function() {
-    
+
     $('iframe').iFrameResize({
         scrolling: true,
         warningTimeout: 0,
@@ -35,16 +35,23 @@ $(document).ready(function() {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var size = button.data('size');
         var height = button.data('height');
+        var url = button.prop('href');
+        var prefix = '?';
+        var urlArr = url.split('?')
         if (size == 'large') {
             modal.find('.modal-dialog').addClass('modal-lg');
         }
         else if (size == 'small') {
-            modal.find('.modal-dialog').addClass('modal-sm'); 
+            modal.find('.modal-dialog').addClass('modal-sm');
         }
         if (height) {
-            modal.find('iframe').css('height', height);             
+            modal.find('iframe').css('height', height);
         }
-        modal.find('iframe').prop('src', button.prop('href') + '?inmodal=True');
+        //check if url already has parameters
+        if (urlArr.length > 1 && urlArr[1] !== '') {
+            prefix = '&';
+        }
+        modal.find('iframe').prop('src', url +  prefix + 'inmodal=True');
     });
 
     $('#iframe-modal').on('hidden.bs.modal', function (event) {

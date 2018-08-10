@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.3.3
+
+- fix bug with iframe view containing params
+- add variable in_modal to context
+- listview: fix for getting reverse exception for links
+  to related objects that are None.
+- listview: make it compatible to annotate (group by)
+
 
 ## 1.3.2 (2018-07-24)
 
