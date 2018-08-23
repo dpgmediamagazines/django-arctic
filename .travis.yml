@@ -7,8 +7,9 @@ python:
 matrix:
   fast_finish: true
 before_install:
-  - pip install flake8
+  - pip install flake8 black
   - flake8
+  - black . --check
 install:
   - pip install tox-travis
   - pip install coveralls

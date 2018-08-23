@@ -5,8 +5,12 @@ import re
 
 import django
 
-from django.template import Node, Library, TemplateSyntaxError, \
-    VariableDoesNotExist
+from django.template import (
+    Node,
+    Library,
+    TemplateSyntaxError,
+    VariableDoesNotExist,
+)
 from django.template.loader import get_template
 
 # As of django 1.10, template rendering no longer accepts a context, but
@@ -18,8 +22,10 @@ from arctic.utils import arctic_setting
 if django.VERSION < (1, 9, 0):
     from django.template import Context
 else:
+
     def Context(x):
         return x
+
 
 register = Library()
 
@@ -43,7 +49,7 @@ def str_to_bool(val):
     if isinstance(val, str):
         val = val.lower()
 
-    return val in ['true', 'on', 'yes', True]
+    return val in ["true", "on", "yes", True]
 
 
 class PaginationNode(Node):
@@ -69,17 +75,17 @@ class PaginationNode(Node):
 
         # Unpack our keyword arguments, substituting defaults where necessary
 
-        PAGINATION_SETTINGS = arctic_setting('ARCTIC_PAGINATION')
+        PAGINATION_SETTINGS = arctic_setting("ARCTIC_PAGINATION")
 
-        show_label = str_to_bool(kwargs.get(
-            "show_label", PAGINATION_SETTINGS['show_label']
-        ))
-        show_first_last = str_to_bool(kwargs.get(
-            "show_first_last", PAGINATION_SETTINGS['show_first_last']
-        ))
-        range_length = kwargs.get(
-            "range", PAGINATION_SETTINGS["range"]
+        show_label = str_to_bool(
+            kwargs.get("show_label", PAGINATION_SETTINGS["show_label"])
         )
+        show_first_last = str_to_bool(
+            kwargs.get(
+                "show_first_last", PAGINATION_SETTINGS["show_first_last"]
+            )
+        )
+        range_length = kwargs.get("range", PAGINATION_SETTINGS["range"])
         if range_length is not None:
             range_length = int(range_length)
 
@@ -103,7 +109,7 @@ class PaginationNode(Node):
             else:
                 if range_length < 1:
                     raise Exception(
-                        "Optional argument \"range\" "
+                        'Optional argument "range" '
                         "expecting integer greater than 0"
                     )
                 elif range_length > page_count:
@@ -126,18 +132,21 @@ class PaginationNode(Node):
             last_page_index = page_count
 
         return get_template(
-            arctic_setting('ARCTIC_PAGINATION_TEMPLATE')
+            arctic_setting("ARCTIC_PAGINATION_TEMPLATE")
         ).render(
-            Context({
-                'page_obj': page,
-                'paginator': paginator,
-                'request': context['request'],
-                'show_first_last': show_first_last,
-                'page_range': page_range,
-                'first_page_index': first_page_index,
-                'last_page_index': last_page_index,
-                'show_label': show_label,
-            }))
+            Context(
+                {
+                    "page_obj": page,
+                    "paginator": paginator,
+                    "request": context["request"],
+                    "show_first_last": show_first_last,
+                    "page_range": page_range,
+                    "first_page_index": first_page_index,
+                    "last_page_index": last_page_index,
+                    "show_label": show_label,
+                }
+            )
+        )
 
 
 @register.tag
@@ -156,20 +165,23 @@ def arctic_paginate(parser, token):
     """
     bits = token.split_contents()
     if len(bits) < 2:
-        raise TemplateSyntaxError("'%s' takes at least one argument"
-                                  " (Page object reference)" % bits[0])
+        raise TemplateSyntaxError(
+            "'%s' takes at least one argument"
+            " (Page object reference)" % bits[0]
+        )
     page = parser.compile_filter(bits[1])
     kwargs = {}
     bits = bits[2:]
 
-    kwarg_re = re.compile(r'(\w+)=(.+)')
+    kwarg_re = re.compile(r"(\w+)=(.+)")
 
     if len(bits):
         for bit in bits:
             match = kwarg_re.match(bit)
             if not match:
                 raise TemplateSyntaxError(
-                    "Malformed arguments to bootstrap_pagination paginate tag")
+                    "Malformed arguments to bootstrap_pagination paginate tag"
+                )
             name, value = match.groups()
             kwargs[name] = parser.compile_filter(value)
 
