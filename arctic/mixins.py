@@ -247,9 +247,9 @@ class FormMixin(ModalMixin):
                     )
 
         elif type(layout) in (list, tuple):
-            row = self._process_first_level(layout)
+            row = self._process_first_level(layout, fields)
             fieldset = self._return_fieldset(0)
-            allowed_rows.update({i: {"fieldset": fieldset, "rows": row}})
+            allowed_rows.update({0: {"fieldset": fieldset, "rows": row}})
 
         else:
             raise ImproperlyConfigured(

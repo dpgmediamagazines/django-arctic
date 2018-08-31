@@ -1,5 +1,4 @@
-<div class="form-block {{ form_display }} inline-form{% if hide_form %} d-none{% endif %}">
-layout = {{ form.layout }}
+<div class="form-block {{ form_display }} inline-form{% if hide_form %}{# d-none #}{% endif %}">
 {% for field in form %}
     {% if field.is_hidden %}
         {{ field }}
