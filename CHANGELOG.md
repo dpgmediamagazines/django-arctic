@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+
+## [unreleased]
+
+- blackened code
+- added black check into CI
+
+
 ## 1.3.3
 
 - fix bug with iframe view containing params
