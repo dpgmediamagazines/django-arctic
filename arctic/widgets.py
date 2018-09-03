@@ -125,7 +125,7 @@ class QuickFiltersSelectMixin(object):
             context["widget"].optgroups = optgroups
         return context
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
             return super(QuickFiltersSelectMixin, self).render(
@@ -160,7 +160,7 @@ class SearchInput(TextInput):
 
     template_name = "arctic/widgets/search_input.html"
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
             return super(SearchInput, self).render(name, value, attrs)
@@ -179,7 +179,7 @@ class BetterFileInput(ClearableFileInput):
 
     template_name = "arctic/widgets/file_input.html"
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         """For django 1.10 compatibility"""
         if django.VERSION >= (1, 11):
             return super(BetterFileInput, self).render(name, value, attrs)
