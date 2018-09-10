@@ -84,11 +84,11 @@ class TestViewAssets(object):
 
     def test_regular_view_with_assets(self):
         view = ViewWithAssets()
-        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def _regular_view_with_media(self, settings):
         settings.ARCTIC_COMMON_MEDIA_ASSETS = {
@@ -97,31 +97,31 @@ class TestViewAssets(object):
             }
         }
         view = ViewWithAssets()
-        response = """<link href="/static/common.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/common.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def test_view_with_assets_and_forms(self):
         view = ViewWithAssetsAndForms()
-        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def test_form_view_with_form(self, rf):
         view = ViewWithForm()
         request = rf.get('/')
         view.request = request
-        response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/form1-1.js"></script>
 <script type="text/javascript" src="/static/form-common.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def _form_view_with_form_and_common_assets(self, rf, settings):
         settings.ARCTIC_COMMON_MEDIA_ASSETS = {
@@ -130,50 +130,50 @@ class TestViewAssets(object):
         view = ViewWithForm()
         request = rf.get('/')
         view.request = request
-        response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/common.js"></script>
 <script type="text/javascript" src="/static/form1-1.js"></script>
 <script type="text/javascript" src="/static/form-common.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def _form_view_with_assets_and_form(self, rf):
         view = FormViewWithAssets()
         request = rf.get('/')
         view.request = request
-        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>
 <script type="text/javascript" src="/static/form1-1.js"></script>
 <script type="text/javascript" src="/static/form-common.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def _form_view_with_assets_and_form_and_extra_assets(self, rf):
         view = FormViewWithAssetsAndExtraAssets()
         request = rf.get('/')
         view.request = request
-        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/form-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>
 <script type="text/javascript" src="/static/form1-1.js"></script>
 <script type="text/javascript" src="/static/form-common.js"></script>
 <script type="text/javascript" src="/static/extra.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def test_form_view_without_form_assets(self, rf):
         view = FormViewWithOutFormAssets()
         request = rf.get('/')
         view.request = request
-        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet" />
-<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet" />
+        response = """<link href="/static/view.css" type="text/css" media="all" rel="stylesheet">
+<link href="/static/view-common.css" type="text/css" media="all" rel="stylesheet">
 <script type="text/javascript" src="/static/view.js"></script>"""  # noqa
 
-        assert str(view.media) == response
+        assert str(view.media).replace(' />', '>') == response
 
     def test_view_without_assets(self):
         view = View()

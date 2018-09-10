@@ -37,8 +37,15 @@ window.arctic.utils = {
     },
 
     slugify: function ( text ) {
+        text = text.toLowerCase();
+
+        // remove accents, swap ñ for n, etc
+        let from = 'àáäâèéëêìíïîòóöôùúüûñç';
+        let to   = 'aaaaeeeeiiiioooouuuunc';
+        for (let i=0, l=from.length ; i<l ; i++) {
+            text = text.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
         return text
-            .toLowerCase()
             .replace( /[^\w ]+/g, '' )
             .replace( / +/g, '-' );
     }

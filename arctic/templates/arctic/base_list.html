@@ -1,4 +1,4 @@
-{% extends request.GET.inmodal|yesno:"arctic/base_modal.html,arctic/base.html" %}
+{% extends in_modal|yesno:"arctic/base_modal.html,arctic/base.html" %}
 
 {% block content %}
     {% block list_content %}

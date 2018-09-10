@@ -14,15 +14,15 @@ UserRole = get_user_role_model()
 
 # it would be even nicer to raise an error here to explicitly
 # ask user to set these properties but we need backwards compatibility
-DEFAULT_FIELDS = (User.USERNAME_FIELD, 'email', 'is_active')
-FIELDS_CREATE = getattr(User, 'FIELDS_CREATE', DEFAULT_FIELDS)
-FIELDS_UPDATE = getattr(User, 'FIELDS_UPDATE', DEFAULT_FIELDS)
+DEFAULT_FIELDS = (User.USERNAME_FIELD, "email", "is_active")
+FIELDS_CREATE = getattr(User, "FIELDS_CREATE", DEFAULT_FIELDS)
+FIELDS_UPDATE = getattr(User, "FIELDS_UPDATE", DEFAULT_FIELDS)
 
 
 class UserRoleForm(forms.ModelForm):
     class Meta:
         model = UserRole
-        fields = ('role',)
+        fields = ("role",)
 
 
 class UserCreationForm(user_forms.UserCreationForm):
@@ -32,18 +32,17 @@ class UserCreationForm(user_forms.UserCreationForm):
 
 
 class UserCreationMultiForm(MultiModelForm):
-    form_classes = OrderedDict([
-        ('user', UserCreationForm),
-        ('role', UserRoleForm),
-    ])
+    form_classes = OrderedDict(
+        [("user", UserCreationForm), ("role", UserRoleForm)]
+    )
 
     def save(self, commit=True):
         objects = super(UserCreationMultiForm, self).save(commit=False)
 
         if commit:
-            user = objects['user']
+            user = objects["user"]
             user.save()
-            user_role = objects['role']
+            user_role = objects["role"]
             user_role.user = user
             user_role.save()
 
@@ -55,8 +54,10 @@ class UserChangeForm(forms.ModelForm):
         label=_("New Password"),
         widget=forms.PasswordInput,
         required=False,
-        help_text=_("Leave this field empty if you don't want to change your "
-                    "password."),
+        help_text=_(
+            "Leave this field empty if you don't want to change your "
+            "password."
+        ),
     )
 
     class Meta:
@@ -75,7 +76,6 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserChangeMultiForm(MultiModelForm):
-    form_classes = OrderedDict([
-        ('user', UserChangeForm),
-        ('role', UserRoleForm),
-    ])
+    form_classes = OrderedDict(
+        [("user", UserChangeForm), ("role", UserRoleForm)]
+    )
