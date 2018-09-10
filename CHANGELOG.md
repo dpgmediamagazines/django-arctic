@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## Pending
+
+### Fixed
+
+- field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
+
+[310]: //github.com/sanoma/django-arctic/issues/310
+
+
 ## 1.3.2 (2018-07-24)
 
 ### Fixed
