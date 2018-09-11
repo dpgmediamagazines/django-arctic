@@ -20,14 +20,11 @@ Always reference the ticket number at the end of the issue description.
 [310]: //github.com/sanoma/django-arctic/issues/310
 
 
-## 1.3.3
+## 1.3.3.1
 
 ### Changed
-- Changed slugify function
-
-### Breaking
-- Previous slugify ignored characters with accents (é á etc...)
-  This can affect existing slug depending on how the project is setup
+- Changed slugify function, allow dashes (matches Django slugify)
+- Added a few more characters with accents
 
 
 ## 1.3.3
