@@ -2,3 +2,4 @@
 *.svg binary
 arctic/static/arctic/dist/** binary
 arctic/static/arctic/dist/** linguist-vendored
+CHANGELOG.md merge=union

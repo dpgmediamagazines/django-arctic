@@ -25,8 +25,8 @@ class IndefinitePaginator(Paginator):
         top = bottom + self.per_page
         # we don't know the total amount of items, so we ask for one extra item
         # if it exists then there's a next page
-        object_list = self.object_list[bottom:top + 1]
-        if (len(object_list) > self.per_page):
+        object_list = self.object_list[bottom : top + 1]
+        if len(object_list) > self.per_page:
             self.has_next = True
             object_list = object_list[:-1]
         return self._get_page(object_list, number, self)
@@ -44,7 +44,6 @@ class IndefinitePaginator(Paginator):
 
 
 class IndefinitePage(Page):
-
     def __init__(self, object_list, number, paginator):
         self.object_list = object_list
         self.number = number

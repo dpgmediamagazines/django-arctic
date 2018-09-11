@@ -15,12 +15,12 @@ class SimpleSearchForm(forms.Form):
         self.search_fields = search_fields
 
     def get_search_filter(self):
-        value = self.data.get('search')
+        value = self.data.get("search")
         if not value:
             return Q()
 
         q_list = []
         for field_name in self.search_fields:
-            q_list.append(Q(**{field_name + '__icontains': value}))
+            q_list.append(Q(**{field_name + "__icontains": value}))
 
         return reduce(operator.or_, q_list)

@@ -40,14 +40,16 @@
                     {% endblock %}
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
+                    <div class="inline-formset">
                     {% for form in formset %}
                         {% block inlines_form_fields %}
-                            {% include "arctic/partials/form_fields_inline.html" with form=form %}
+                            {% include "arctic/partials/form_fields_inline.html" with form=form hide_form=forloop.last %}
                         {% endblock %}
                         {% if not forloop.last %}
                             <hr><br>
                         {% endif %}
                     {% endfor %}
+                    </div>
                 {% endfor %}
             {% endif %}
             {% endblock inlines %}

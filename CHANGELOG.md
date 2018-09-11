@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+
+## [unreleased]
+
+### Added
+- blackened code
+- added black check into CI
+
+### Fixed
+- field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
+
+[310]: //github.com/sanoma/django-arctic/issues/310
+
+
+## 1.3.3
+
+### Changed
+- Changed slugify function
+
+### Breaking
+- Previous slugify ignored characters with accents (é á etc...)
+  This can affect existing slug depending on how the project is setup
+
+
 ## 1.3.3
 
 ### Changed

@@ -2,7 +2,7 @@
 {# This template makes it easier to overwrite all the labels for the different form types #}
 {{ field.label|safe }}
 {% if field.field.widget|typename != 'CheckboxInput' and field.field.widget|typename != 'RadioSelect' %}
-    {% if not field.field.required %}
+    {% if not field.field.required and not field.field.disabled %}
         <i class="optional-field-text">({% trans 'optional' %})</i>
     {% endif %}
 {% endif %}
