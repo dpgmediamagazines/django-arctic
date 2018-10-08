@@ -13,9 +13,11 @@ Always reference the ticket number at the end of the issue description.
 ### Added
 - blackened code
 - added black check into CI
+- Image file input now creates 2 events one on file selecting and another on removing
 
 ### Fixed
 - field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
+- Image field: Removing and adding the same image on file inputs now works
 
 [310]: //github.com/sanoma/django-arctic/issues/310
 

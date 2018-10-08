@@ -21,15 +21,15 @@ function get_file_preview(target, url, filename) {
     return false;
 }
 
-function arcticImageEvent(eventName, EventData) {
+function arcticImageEvent(eventName, eventData) {
     var arcticEvent = '';
     if(typeof(Event) === 'function') {
         //normal browsers
-        arcticEvent = new CustomEvent(eventName, { detail: EventData});
+        arcticEvent = new CustomEvent(eventName, { detail: eventData});
     } else {
         //IE browsers
         arcticEvent = document.createEvent('Event');
-        arcticEvent.detail = input;
+        arcticEvent.detail = eventData;
         arcticEvent.initEvent(eventName, true, true);
     }
     document.dispatchEvent(arcticEvent);
