@@ -20,6 +20,13 @@ Always reference the ticket number at the end of the issue description.
 [310]: //github.com/sanoma/django-arctic/issues/310
 
 
+## 1.3.3.1
+
+### Changed
+- Changed slugify function, allow dashes (matches Django slugify)
+- Added a few more characters with accents
+
+
 ## 1.3.3
 
 ### Changed
