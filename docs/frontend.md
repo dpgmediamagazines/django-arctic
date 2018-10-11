@@ -55,3 +55,22 @@ Optional
 * data-delete-handle - delete button
 * data-delete-placeholder - field to check as delete
 ```
+
+### Custom Events
+* Events
+    * Event name:  ```arcticImageAdded```
+        * Event data: ```input html element```
+        * Occurs after selecting an image on an Image field (similar to the JS change event on a file input)
+    * Event name:  ```arcticImageRemoved```
+        * Event data: ```input html element```
+        * Occurs after removing an image from a Image field
+
+    #
+    Events can be listened with
+    ```
+    document.addEventListener('eventname', function (e) {
+        //code to execute
+        //access the data with
+        console.log(e.detail)
+    }, false);
+    ```
