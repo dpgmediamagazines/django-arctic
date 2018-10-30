@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## pending
+
+### Fixed
+- allowed to specify url with obj id for all action buttons [#318][318]
+
+[318]: //github.com/sanoma/django-arctic/issues/318
+
+
 ## 1.3.2 (2018-07-24)
 
 ### Fixed
