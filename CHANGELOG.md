@@ -2,10 +2,58 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
+
+
+## [unreleased]
+
+### Added
+- blackened code
+- added black check into CI
+- Image file input now creates 2 events one on file selecting and another on removing
+
+### Fixed
+- field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
+- Image field: Removing and adding the same image on file inputs now works
+
+[310]: //github.com/sanoma/django-arctic/issues/310
+
+
+## 1.3.3.1
+
+### Changed
+- Changed slugify function, allow dashes (matches Django slugify)
+- Added a few more characters with accents
+
+
+## 1.3.3
+
+### Changed
+- Changed slugify function
+
+### Breaking
+- Previous slugify ignored characters with accents (é á etc...)
+  This can affect existing slug depending on how the project is setup
+
+
+## 1.3.3
+
+- fix bug with iframe view containing params
+- add variable in_modal to context
+- listview: fix for getting reverse exception for links
+  to related objects that are None.
+- listview: make it compatible to annotate (group by)
+
+
+## 1.3.2 (2018-07-24)
+
+### Fixed
+
+- get_actions: formaction dictionary was updated directly as class attribute
+- get_actions: update dict in correct order
 
 
 ## 1.3.1 (2018-07-03)
@@ -48,7 +96,7 @@ Always reference the ticket number at the end of the issue description.
 - added collapsible and collapsible_gettext helper functions to help define
   form layouts.
 - added confirmation dialog support in Form actions [#294][294]
-- added modal iFrame support in Lists (`tool_links`, `field_links`, 
+- added modal iFrame support in Lists (`tool_links`, `field_links`,
   `action_links`) and Forms (`actions`) [#243][243]
 - extended tutorial documentation of Forms.
 
@@ -75,7 +123,7 @@ Always reference the ticket number at the end of the issue description.
 ## Removed
 
 - QuickFiltersFormMixin this is no longer needed, the same functionality can be
-  added by using a `ChoiceField` with a `QuickFiltersSelect` or a 
+  added by using a `ChoiceField` with a `QuickFiltersSelect` or a
   `QuickFiltersSelectMultiple` widget.
 
 
@@ -178,7 +226,7 @@ Always reference the ticket number at the end of the issue description.
 
 ## Added
 
-- `DataListView`, a `ListView` that uses APIs as source of data - [#172][172] 
+- `DataListView`, a `ListView` that uses APIs as source of data - [#172][172]
 - Float Labels option for form displays - [#221][221]
 
 ## Changed
@@ -239,12 +287,12 @@ Always reference the ticket number at the end of the issue description.
 
 ### Changed
 
-- Simplified the frontend tooling, removing Bower and foundation-cli, setup is 
+- Simplified the frontend tooling, removing Bower and foundation-cli, setup is
   now based on npm and gulp - [#161][161]
 
 ### Fixed
 
-- In the listview, don't generate NoReverseMatch exception if any value of 
+- In the listview, don't generate NoReverseMatch exception if any value of
   the arguments is None.
 
 [161]: //github.com/sanoma/django-arctic/issues/161
@@ -254,7 +302,7 @@ Always reference the ticket number at the end of the issue description.
 
 ### Changed
 
-- `FormView`, `CreateView` and `UpdateView` added a `layout` property to 
+- `FormView`, `CreateView` and `UpdateView` added a `layout` property to
   easily customize positioning and width of form fields - [#75][75]
 - Added support for virtual fields in `ListView` - [#73][73]
 - Improved the date/time picker in Date/Time fields - [#78][78]

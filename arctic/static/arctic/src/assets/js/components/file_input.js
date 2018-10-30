@@ -10,7 +10,7 @@ function get_file_preview(target, url, filename) {
             setTimeout(function(){ target.prev().height(target.height()); }, 20);
         }
         else {
-            target.prev().height(target.height());            
+            target.prev().height(target.height());
         }
     }
     img.src = url;
@@ -18,7 +18,21 @@ function get_file_preview(target, url, filename) {
         $(target).next('.better-file-clear-checkbox').prop('checked', false);
         $(target).next().next().show();
     }
-    return false;    
+    return false;
+}
+
+function arcticImageEvent(eventName, eventData) {
+    var arcticEvent = '';
+    if(typeof(Event) === 'function') {
+        //normal browsers
+        arcticEvent = new CustomEvent(eventName, { detail: eventData});
+    } else {
+        //IE browsers
+        arcticEvent = document.createEvent('Event');
+        arcticEvent.detail = eventData;
+        arcticEvent.initEvent(eventName, true, true);
+    }
+    document.dispatchEvent(arcticEvent);
 }
 
 
@@ -30,7 +44,9 @@ $(document).ready(function() {
 
         $(input).change(function() {
             var url = URL.createObjectURL($(this).prop('files')[0])
-            get_file_preview(label, url, $(this).prop('files')[0].name)
+            get_file_preview(label, url, $(this).prop('files')[0].name);
+            var data = this;
+            arcticImageEvent('arcticImageAdded', data);
         });
 
         if ($(input).attr('initial')) {
@@ -52,10 +68,13 @@ $(document).ready(function() {
 
         $(clear).click(function() {
             var checkbox = $(this).prev();
+            var data = $(this).parent().parent().find('input[type=file]');
             $(checkbox).prop('checked', true);
             $(this).hide();
             $(label).html('<a href="#upload">' + $(label).attr('placeholder') + '</a>');
             $(label).prev().height(label.height());
+            data.val(null); //reset input field so we can add the same image again;
+            arcticImageEvent('arcticImageRemoved', data);
             return false;
         });
     });
