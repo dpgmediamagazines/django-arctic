@@ -1,9 +1,9 @@
-<div class="form-block {{ form_display }}">
+<div class="form-block {{ form_display }} inline-form{% if hide_form %}{# d-none #}{% endif %}">
 {% for field in form %}
     {% if field.is_hidden %}
         {{ field }}
     {% else %}
-        <div class="row {% if row.field.errors %} invalid-form-field{% endif %}">
+        <div class="{% if row.field.errors %} invalid-form-field{% endif %}">
             {% include 'arctic/partials/form_field.html' %}
         </div>
         {% block errors %}

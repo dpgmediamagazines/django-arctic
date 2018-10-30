@@ -1,4 +1,4 @@
-from __future__ import (absolute_import, unicode_literals)
+from __future__ import absolute_import, unicode_literals
 
 from collections import OrderedDict
 from copy import deepcopy
@@ -6,8 +6,13 @@ import importlib
 
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
-from django.urls import (get_ns_resolver, get_resolver, get_urlconf,
-                         NoReverseMatch, reverse)
+from django.urls import (
+    get_ns_resolver,
+    get_resolver,
+    get_urlconf,
+    NoReverseMatch,
+    reverse,
+)
 from django.template.defaultfilters import slugify
 from django.utils import translation
 
@@ -34,6 +39,7 @@ def is_active(menu_entry, url_name):
             return url_name in related_urls
     return False
 
+
 # TODO: menu needs to hide entries not available to a certain user role
 # by getting the view class from the named url we can check which permissions
 # are available:
@@ -45,10 +51,11 @@ def menu(menu_config=None, **kwargs):
     Tranforms a menu definition into a dictionary which is a frendlier format
     to parse in a template.
     """
-    request = kwargs.pop('request', None)
-    user = kwargs.pop('user', None)
-    url_full_name = ":".join([request.resolver_match.namespace,
-                              request.resolver_match.url_name])
+    request = kwargs.pop("request", None)
+    user = kwargs.pop("user", None)
+    url_full_name = ":".join(
+        [request.resolver_match.namespace, request.resolver_match.url_name]
+    )
 
     if not menu_config:
         menu_config = settings.ARCTIC_MENU
@@ -66,24 +73,25 @@ def menu(menu_config=None, **kwargs):
                 path = reverse(menu_entry[1])
             # icons and collapse are optional
             icon = None
-            if (len(menu_entry) >= 3) and \
-               (not type(menu_entry[2]) in (list, tuple)):
+            if (len(menu_entry) >= 3) and (
+                not type(menu_entry[2]) in (list, tuple)
+            ):
                 icon = menu_entry[2]
             active_weight = len(path) if path else 0
             menu_dict[menu_entry[0]] = {
-                'url': menu_entry[1],
-                'icon': icon,
-                'submenu': None,
-                'active': is_active(menu_entry, url_full_name),
-                'active_weight': active_weight
+                "url": menu_entry[1],
+                "icon": icon,
+                "submenu": None,
+                "active": is_active(menu_entry, url_full_name),
+                "active_weight": active_weight,
             }
 
             # check if the last item in a menu entry is a submenu
             submenu = _get_submenu(menu_entry)
             if submenu:
-                menu_dict[menu_entry[0]]['submenu'] = menu(submenu,
-                                                           user=user,
-                                                           request=request)
+                menu_dict[menu_entry[0]]["submenu"] = menu(
+                    submenu, user=user, request=request
+                )
     return menu_clean(menu_dict)
 
 
@@ -102,21 +110,21 @@ def menu_clean(menu_config):
     """
     max_weight = -1
     for _, value in list(menu_config.items()):
-        if value['submenu']:
-            for _, v in list(value['submenu'].items()):
-                if v['active']:
+        if value["submenu"]:
+            for _, v in list(value["submenu"].items()):
+                if v["active"]:
                     # parent inherits the weight of the axctive child
-                    value['active'] = True
-                    value['active_weight'] = v['active_weight']
+                    value["active"] = True
+                    value["active_weight"] = v["active_weight"]
 
-        if value['active']:
-            max_weight = max(value['active_weight'], max_weight)
+        if value["active"]:
+            max_weight = max(value["active_weight"], max_weight)
 
     if max_weight > 0:
         # one of the items is active: make items with lesser weight inactive
         for _, value in list(menu_config.items()):
-            if value['active'] and value['active_weight'] < max_weight:
-                value['active'] = False
+            if value["active"] and value["active_weight"] < max_weight:
+                value["active"] = False
     return menu_config
 
 
@@ -129,21 +137,23 @@ def view_from_url(named_url):  # noqa
 
     if type(named_url) in (list, tuple):
         named_url = named_url[0]
-    parts = named_url.split(':')
+    parts = named_url.split(":")
     parts.reverse()
     view = parts[0]
     path = parts[1:]
     current_path = None
     resolved_path = []
-    ns_pattern = ''
+    ns_pattern = ""
     ns_converters = {}
 
     # if it's a local url permission already given, so we just return true
-    if named_url.startswith('#'):
+    if named_url.startswith("#"):
+
         class LocalUrlDummyView:
             @staticmethod
             def has_permission(user):
                 return True
+
         return LocalUrlDummyView
 
     while path:
@@ -180,23 +190,23 @@ def view_from_url(named_url):  # noqa
         except KeyError as key:
             if resolved_path:
                 raise NoReverseMatch(
-                    "%s is not a registered namespace inside '%s'" %
-                    (key, ':'.join(resolved_path)))
+                    "%s is not a registered namespace inside '%s'"
+                    % (key, ":".join(resolved_path))
+                )
             else:
-                raise NoReverseMatch("%s is not a registered namespace" %
-                                     key)
+                raise NoReverseMatch("%s is not a registered namespace" % key)
     if ns_pattern:
         try:
-            resolver = get_ns_resolver(ns_pattern, resolver,
-                                       tuple(ns_converters.items()))
+            resolver = get_ns_resolver(
+                ns_pattern, resolver, tuple(ns_converters.items())
+            )
         except Exception:
             resolver = get_ns_resolver(ns_pattern, resolver)
 
     # custom code, get view from reverse_dict
     reverse_dict = resolver.reverse_dict.dict()
     for key, url_obj in reverse_dict.items():
-        if url_obj == reverse_dict[view] \
-                and key != view:
+        if url_obj == reverse_dict[view] and key != view:
             module = importlib.import_module(key.__module__)
             return getattr(module, key.__name__)
 
@@ -209,10 +219,10 @@ def find_attribute(obj, value):
     attribute a, findattr(x, 'y__a') will return the a attribute from the y
     model that exists in x.
     """
-    if '__' in value:
-        value_list = value.split('__')
+    if "__" in value:
+        value_list = value.split("__")
         attr = get_attribute(obj, value_list[0])
-        return find_attribute(attr, '__'.join(value_list[1:]))
+        return find_attribute(attr, "__".join(value_list[1:]))
     return get_attribute(obj, value)
 
 
@@ -235,10 +245,10 @@ def find_field_meta(obj, value):
     a chain of  connected objects is given in a string separated with double
     underscores.
     """
-    if '__' in value:
-        value_list = value.split('__')
+    if "__" in value:
+        value_list = value.split("__")
         child_obj = obj._meta.get_field(value_list[0]).rel.to
-        return find_field_meta(child_obj, '__'.join(value_list[1:]))
+        return find_field_meta(child_obj, "__".join(value_list[1:]))
     return obj._meta.get_field(value)
 
 
@@ -270,7 +280,7 @@ def reverse_url(url, obj, fallback_field=None):
             else:
                 args.append(find_attribute(obj, arg))
     else:
-        if url.startswith('#'):  # local url
+        if url.startswith("#"):  # local url
             return url
         named_url = url
         if obj and fallback_field:
@@ -282,7 +292,7 @@ def reverse_url(url, obj, fallback_field=None):
     # Instead of giving NoReverseMatch exception it's more desirable,
     # for field_links in listviews to just ignore the link.
     if fallback_field and not args:
-        return ''
+        return ""
 
     return reverse(named_url, args=args)
 
@@ -295,56 +305,54 @@ def arctic_setting(setting_name, valid_options=None):
     try:
         value = getattr(settings, setting_name)
         if valid_options and value not in valid_options:
-            error_message = 'Invalid value for {}, must be one of: {}'.format(
-                setting_name, str(valid_options))
+            error_message = "Invalid value for {}, must be one of: {}".format(
+                setting_name, str(valid_options)
+            )
             raise ImproperlyConfigured(error_message)
     except AttributeError:
         pass
     return getattr(settings, setting_name, getattr(defaults, setting_name))
 
 
-class RemoteDataSet():
-    url_template = '?{filters}{fields}{order}{paginate}'
-    paginate_template = '&offset={}&limit={}'
-    order_separator = ','
-    order_template = '&order={}'
-    fields_separator = ','
-    fields_template = '&fields={}'
-    filters_template = '{}'
-    filters_template_kv = '&{key}={value}'
+class RemoteDataSet:
+    url_template = "?{filters}{fields}{order}{paginate}"
+    paginate_template = "&offset={}&limit={}"
+    order_separator = ","
+    order_template = "&order={}"
+    fields_separator = ","
+    fields_template = "&fields={}"
+    filters_template = "{}"
+    filters_template_kv = "&{key}={value}"
     count = -1
-    _options = {'fields': '',
-                'order': '',
-                'filters': '',
-                'paginate': ''}
+    _options = {"fields": "", "order": "", "filters": "", "paginate": ""}
     page_size = None
 
     def fields(self, fields):
         if fields:
             fields_str = self.fields_separator.join(fields)
-            self._options['fields'] = self.fields_template.format(fields_str)
+            self._options["fields"] = self.fields_template.format(fields_str)
         return deepcopy(self)
 
     def order_by(self, order):
         if order:
             order_str = self.order_separator.join(order)
-            self._options['order'] = self.order_template.format(order_str)
+            self._options["order"] = self.order_template.format(order_str)
         return deepcopy(self)
 
     def filter(self, **kwargs):
         if kwargs:
-            filters = ''
+            filters = ""
             for key, value in kwargs.items():
                 filters += self.filters_template_kv.format(
-                    key=key,
-                    value=value)
-            self._options['filters'] = self.filters_template.format(filters)
+                    key=key, value=value
+                )
+            self._options["filters"] = self.filters_template.format(filters)
         return deepcopy(self)
 
     def get_url(self, start, stop):
-        self._options['paginate'] = self.paginate_template.format(start, stop)
+        self._options["paginate"] = self.paginate_template.format(start, stop)
         url = self.url_template.format(**self._options)
-        return url.replace('?&', '?')
+        return url.replace("?&", "?")
 
     def get(self, start, stop):
         pass
@@ -360,10 +368,12 @@ def offset_limit(func):
     """
     Decorator that converts python slicing to offset and limit
     """
+
     def func_wrapper(self, start, stop):
         offset = start
         limit = stop - start
         return func(self, offset, limit)
+
     return func_wrapper
 
 
@@ -372,8 +382,11 @@ def is_list_of_list(item):
     check whether the item is list (tuple)
     and consist of list (tuple) elements
     """
-    if type(item) in (list, tuple) and len(item) \
-            and isinstance(item[0], (list, tuple)):
+    if (
+        type(item) in (list, tuple)
+        and len(item)
+        and isinstance(item[0], (list, tuple))
+    ):
         return True
     return False
 
@@ -384,8 +397,8 @@ def generate_id(*s):
     it uses english as the base language in case some strings
     are translated, this ensures consistent ids
     """
-    with translation.override('en'):
-        generated_id = slugify('-'.join([str(i) for i in s]))
+    with translation.override("en"):
+        generated_id = slugify("-".join([str(i) for i in s]))
     return generated_id
 
 
@@ -393,8 +406,8 @@ def append_query_parameter(url, parameters, ignore_if_exists=True):
     """ quick and dirty appending of query parameters to a url """
     if ignore_if_exists:
         for key in parameters.keys():
-            if key + '=' in url:
+            if key + "=" in url:
                 del parameters[key]
-    parameters_str = '&'.join(k + '=' + v for k, v in parameters.items())
-    append_token = '&' if '?' in url else '?'
+    parameters_str = "&".join(k + "=" + v for k, v in parameters.items())
+    append_token = "&" if "?" in url else "?"
     return url + append_token + parameters_str

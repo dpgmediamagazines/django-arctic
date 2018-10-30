@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 
-from arctic.loading import (get_role_model, get_user_role_model)
+from arctic.loading import get_role_model, get_user_role_model
 
 from .mixins import RoleAuthentication
 
@@ -13,7 +13,7 @@ UserRole = get_user_role_model()
 def superuser_post_save(sender, instance, created, **kwargs):
     if created and instance.is_superuser:
         RoleAuthentication.sync()
-        admin = Role.objects.get(name='admin')
+        admin = Role.objects.get(name="admin")
         try:
             UserRole.objects.get(user=instance, role=admin)
         except UserRole.DoesNotExist:
