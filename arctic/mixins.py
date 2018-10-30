@@ -113,6 +113,7 @@ class FormMixin(ModalMixin):
     links = None
     readonly_fields = None
     ALLOWED_COLUMNS = 12     # There are 12 columns available
+    form = None     # store form instance to eliminate multiple form initialization
 
     def get_cancel_url(self):
         if self.request.GET.get('inmodal'):
@@ -452,12 +453,13 @@ class FormMixin(ModalMixin):
         return form
 
     def get_form(self, form_class=None):
-        form = super(FormMixin, self).get_form(form_class=None)
-        try:
-            form = self.update_form_fields(form)
-        except AttributeError:
-            pass
-        return form
+        if not self.form:
+            self.form = super(FormMixin, self).get_form(form_class=None)
+            try:
+                self.form = self.update_form_fields(self.form)
+            except AttributeError:
+                pass
+        return self.form
 
     def get_context_data(self, **kwargs):
         context = super(FormMixin, self).get_context_data(**kwargs)
