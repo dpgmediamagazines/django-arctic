@@ -8,30 +8,28 @@
     {% block control_group %}
 
         {% block controls %}
-            <div class="row">
-                <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
-                    <div class="form-group {% if field.errors %}invalid-form-field{% endif %}">
-                        {% block widget %}
-                            {% if form_display == 'tabular' %}
-                                {% include "arctic/partials/form_field_parts/form_field_tabular.html" %}
-                            {% elif form_display == 'float-label' %}
-                                {% include "arctic/partials/form_field_parts/form_field_float.html" %}
-                            {% else %}
-                                {# default #}
-                                {% include "arctic/partials/form_field_parts/form_field_stacked.html" %}
-                            {% endif %}
-                        {% endblock %}
+        <div class="{%if column %}col-sm-12 col-md-{{column}}{% endif %} col">
+            <div class="form-group {% if field.errors %}invalid-form-field{% endif %}">
+                {% block widget %}
+                    {% if form_display == 'tabular' %}
+                        {% include "arctic/partials/form_field_parts/form_field_tabular.html" %}
+                    {% elif form_display == 'float-label' %}
+                        {% include "arctic/partials/form_field_parts/form_field_float.html" %}
+                    {% else %}
+                        {# default #}
+                        {% include "arctic/partials/form_field_parts/form_field_stacked.html" %}
+                    {% endif %}
+                {% endblock %}
 
-                        {% block errors %}
-                            {% for error in field.errors %}
-                                <span class="invalid-feedback">
-                                    {{ error }}
-                                </span>
-                            {% endfor %}
-                        {% endblock %}
-                    </div>
-                </div>
+                {% block errors %}
+                    {% for error in field.errors %}
+                        <span class="invalid-feedback">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                {% endblock %}
             </div>
+        </div>
         {% endblock %}
     {% endblock %}
 {% endif %}
