@@ -18,8 +18,10 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 - field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
 - Image field: Removing and adding the same image on file inputs now works
+- allowed to specify url with obj id for all action buttons [#318][318]
 
 [310]: //github.com/sanoma/django-arctic/issues/310
+[318]: //github.com/sanoma/django-arctic/issues/318
 
 
 ## 1.3.3.1

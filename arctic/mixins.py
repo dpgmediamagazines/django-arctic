@@ -165,6 +165,11 @@ class FormMixin(ModalMixin):
 
         allowed_actions = []
         last_submit_index = -1
+        try:
+            obj = self.get_object()
+        except AttributeError:
+            obj = None
+
         for action in self.actions:
             # check permission based on named_url
             if (action[1] in ("cancel", "submit")) or view_from_url(
@@ -193,9 +198,6 @@ class FormMixin(ModalMixin):
                         obj = self.get_object()
                     except AttributeError:
                         obj = None
-                    allowed_action["url"] = self.in_modal(
-                        reverse_url(action[1], obj)
-                    )
                 if len(action) == 3:
                     if action[2] == "left":
                         allowed_action["position"] = "left"
