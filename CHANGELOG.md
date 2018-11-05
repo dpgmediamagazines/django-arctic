@@ -8,46 +8,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## [unreleased]
+## 1.3.3 (2018-11-05)
 
 ### Added
 - blackened code
 - added black check into CI
 - Image file input now creates 2 events one on file selecting and another on removing
 
-### Fixed
-- field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
-- Image field: Removing and adding the same image on file inputs now works
-- allowed to specify url with obj id for all action buttons [#318][318]
-
-[310]: //github.com/sanoma/django-arctic/issues/310
-[318]: //github.com/sanoma/django-arctic/issues/318
-
-
-## 1.3.3.1
-
 ### Changed
+
 - Changed slugify function, allow dashes (matches Django slugify)
 - Added a few more characters with accents
-
-
-## 1.3.3
-
-### Changed
-- Changed slugify function
-
-### Breaking
-- Previous slugify ignored characters with accents (é á etc...)
-  This can affect existing slug depending on how the project is setup
-
-
-## 1.3.3
-
 - fix bug with iframe view containing params
 - add variable in_modal to context
 - listview: fix for getting reverse exception for links
   to related objects that are None.
 - listview: make it compatible to annotate (group by)
+
+### Fixed
+
+- field_label: changed 'optional' suffix rendering condition for disabled=False [#310][310]
+- Image field: Removing and adding the same image on file inputs now works
+- allowed to specify url with obj id for all action buttons [#318][318]
+
+### Breaking
+
+- Previous slugify ignored characters with accents (é á etc...)
+  This can affect existing slug depending on how the project is setup
+
+[310]: //github.com/sanoma/django-arctic/issues/310
+[318]: //github.com/sanoma/django-arctic/issues/318
 
 
 ## 1.3.2 (2018-07-24)
@@ -56,7 +46,6 @@ Always reference the ticket number at the end of the issue description.
 
 - get_actions: formaction dictionary was updated directly as class attribute
 - get_actions: update dict in correct order
-
 
 ## 1.3.1 (2018-07-03)
 
