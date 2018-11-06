@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.3.4 (2018-11-06)
+
+### Fixed
+
+- fix for allowed to specify url with obj id for all action buttons [#318][318]
+
 
 ## 1.3.3 (2018-11-05)
 
 ### Added
+
 - blackened code
 - added black check into CI
 - Image file input now creates 2 events one on file selecting and another on removing
