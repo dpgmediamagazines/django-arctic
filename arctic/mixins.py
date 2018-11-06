@@ -194,10 +194,9 @@ class FormMixin(ModalMixin):
                         action[1], self
                     )
                     allowed_action["type"] = "link"
-                    try:
-                        obj = self.get_object()
-                    except AttributeError:
-                        obj = None
+                    allowed_action["url"] = self.in_modal(
+                        reverse_url(action[1], obj)
+                    )
                 if len(action) == 3:
                     if action[2] == "left":
                         allowed_action["position"] = "left"
