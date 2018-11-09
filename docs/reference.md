@@ -316,6 +316,8 @@ standard notation by prepending a minus to the field, for example `-name`.
 optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
+In case if some custom attributes required, they can be specified as last argument in form of dict.
+`('name', 'base_url', 'optional icon class', {'custom_attr_name': 'custom_attr_value'})`
 
 ### `get_field_actions(row)`
 
