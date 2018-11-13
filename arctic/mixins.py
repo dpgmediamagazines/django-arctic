@@ -711,19 +711,17 @@ class ListMixin(ModalMixin):
 
         return self._allowed_action_links
 
-    def _get_custom_attributes(self, action_link):
-        attributes = None
-        if len(action_link) == 4:
-            attributes = action_link[3]
-        # take into account that 3 parameter can be string icon class
-        elif len(action_link) == 3 and isinstance(action_link[2], dict):
-            attributes = action_link[2]
-        return attributes
-
     def _build_action_link(self, action_link):
-        icon = action_link[2] if len(action_link) >= 3 and isinstance(action_link[2], str) else None
+        icon, attributes = None, None
+        if len(action_link) == 3:
+            # icon can be 3-rd arg of link or specified inside inside dict with same index
+            if isinstance(action_link[2], str):
+                icon = action_link[2]
+            elif isinstance(action_link[2], dict):
+                icon = action_link[2].get('icon_class', None)
+                attributes = action_link[2].get('attributes', None)
         return {"label": action_link[0], "url": action_link[1],
-                "icon": icon, "attributes": self._get_custom_attributes(action_link)}
+                "icon": icon, "attributes": attributes}
 
     def get_tool_links(self):
         if not self.tool_links:
