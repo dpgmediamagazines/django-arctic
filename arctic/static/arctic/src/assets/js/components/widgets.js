@@ -30,6 +30,15 @@ function django2datepicker(django_format) {
     return datepicker_format;
 }
 
+function datetimeformatter(django_date, format) {
+    var date_valid = moment(django_date).isValid();
+    if (!date_valid) {
+        return null;
+    } else {
+        return moment(django_date, format).toDate();
+    }
+}
+
 
 $(document).ready(function() {
     $('[js-selectize]').each(function(index) {
@@ -118,7 +127,7 @@ $(document).ready(function() {
     $.fn.datepicker.language['en'] = datetime_picker_settings;
 
     $('[js-datepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-date")) == 'Invalid Date' ? null : new Date($(this).attr("data-date"))
+        var date = datetimeformatter($(this).attr("data-date"), datetime_picker_settings.dateFormat);
         var instance = this;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
@@ -142,7 +151,7 @@ $(document).ready(function() {
     });
 
     $('[js-timepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-time")) == 'Invalid Date' ? null : new Date($(this).attr("data-time"))
+        var date = datetimeformatter($(this).attr("data-time"), datetime_picker_settings.timeFormat);
         var instance = this;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
@@ -166,7 +175,7 @@ $(document).ready(function() {
     });
 
     $('[js-datetimepicker]').each(function(index) {
-        var date = new Date($(this).attr("data-datetime")) == 'Invalid Date' ? null : new Date($(this).attr("data-datetime"))
+        var date = datetimeformatter($(this).attr("data-datetime"), `${datetime_picker_settings.dateFormat} ${datetime_picker_settings.timeFormat}`);
         var instance = this;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
