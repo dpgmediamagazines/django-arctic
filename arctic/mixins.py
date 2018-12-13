@@ -191,7 +191,7 @@ class FormMixin(ModalMixin):
                         view_from_url(action[1]), action[1]
                     )
                     allowed_action["modal"] = self.get_modal_link(
-                        action[1], self
+                        action[1], obj
                     )
                     allowed_action["type"] = "link"
                     allowed_action["url"] = self.in_modal(
