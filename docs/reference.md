@@ -82,7 +82,7 @@ String representing the foreground color of the sidebar, for example '#ffffff',
 if not provided, a default color will be used.
 
 ## `ARCTIC_SITE_FAVICON`
-The url of favicon. It will will be displayed on all pages next to site title.
+The url of favicon.
 
 ## `ARCTIC_SITE_LOGO`
 
