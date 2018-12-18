@@ -5,6 +5,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+{% if SITE_FAVICON %}
+    <link rel="shortcut icon" href="{% static SITE_FAVICON %}"/>
+{% endif %}
+
 <title>
     {% block title %}
         {{ SITE_TITLE }} – {{ page_title }}
