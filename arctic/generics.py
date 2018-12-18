@@ -183,7 +183,7 @@ class View(RoleAuthentication, base.View):
         return arctic_setting("ARCTIC_SITE_LOGO")
 
     def get_site_favicon(self):
-        return getattr(settings, "ARCTIC_SITE_FAVICON", "/static/favicon.ico")
+        return getattr(settings, "ARCTIC_SITE_FAVICON", None)
 
     def get_site_name(self):
         return arctic_setting("ARCTIC_SITE_NAME")
