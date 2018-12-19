@@ -139,7 +139,7 @@
                                             {% block list_actions %}
                                             <div class="list-actions">
                                                 {% for action in row.actions %}
-                                                    <a href="{{ action.url }}" class="action-{{ action.label }} btn btn-secondary btn-sm show-on-hover" title="{{ action.label|capfirst }}"
+                                                    <a href="{{ action.url }}" class="action-{% if action.class %}{{ action.class }}{% else %}{{ action.label }}{% endif %} btn btn-secondary btn-sm show-on-hover" title="{{ action.label|capfirst }}"
                                                     {% include 'arctic/partials/modal_attributes.html' with modal=action.modal %}
                                                     {% if action.attributes %}
                                                         {% for attr_name, attr_value in action.attributes.items %}

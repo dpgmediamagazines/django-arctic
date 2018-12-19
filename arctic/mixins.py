@@ -675,6 +675,7 @@ class ListMixin(ModalMixin):
                     {
                         "label": field_action["label"],
                         "icon": field_action["icon"],
+                        "class": field_action['class'],
                         "url": self.in_modal(
                             reverse_url(
                                 field_action["url"], obj, self.primary_key
@@ -712,15 +713,16 @@ class ListMixin(ModalMixin):
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
-        icon, attributes = None, None
+        icon, action_class, attributes = None, None, None
         if len(action_link) == 3:
             # icon can be 3-rd arg of link or specified inside inside dict with same index
             if isinstance(action_link[2], str):
                 icon = action_link[2]
             elif isinstance(action_link[2], dict):
                 icon = action_link[2].get('icon_class', None)
+                action_class = action_link[2].get('action_class', None)
                 attributes = action_link[2].get('attributes', None)
-        return {"label": action_link[0], "url": action_link[1],
+        return {"label": action_link[0], "url": action_link[1], 'class': action_class,
                 "icon": icon, "attributes": attributes}
 
     def get_tool_links(self):

@@ -318,7 +318,7 @@ appear on the last column of the table and can apply a certain action, such
 as delete.
 In case if some custom attributes required, they can be specified as last argument in form of dict. In this case
 optional icon class can be provided as part of that argument dict
-`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'custom_attr_name': 'custom_attr_value'}})`
+`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'action_class': 'name', 'attributes': {'custom_attr_name': 'custom_attr_value'}})`
 
 ### `get_field_actions(row)`
 
