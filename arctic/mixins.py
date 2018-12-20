@@ -713,16 +713,18 @@ class ListMixin(ModalMixin):
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
-        icon, action_class, attributes = None, None, None
+        icon,  attributes = None, None
+        attributes_class = "action-{}".format(action_link[0])
         if len(action_link) == 3:
             # icon can be 3-rd arg of link or specified inside inside dict with same index
             if isinstance(action_link[2], str):
                 icon = action_link[2]
             elif isinstance(action_link[2], dict):
                 icon = action_link[2].get('icon_class', None)
-                action_class = action_link[2].get('action_class', None)
                 attributes = action_link[2].get('attributes', None)
-        return {"label": action_link[0], "url": action_link[1], 'class': action_class,
+                if attributes and attributes.get('class', None) and isinstance(attributes.get('class', None), list):
+                    attributes_class = " ".join(attributes.get('class'))
+        return {"label": action_link[0], "url": action_link[1], 'class': attributes_class,
                 "icon": icon, "attributes": attributes}
 
     def get_tool_links(self):
