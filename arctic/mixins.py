@@ -713,7 +713,7 @@ class ListMixin(ModalMixin):
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
-        icon,  attributes = None, None
+        icon, attributes = None, None
         attributes_class = "action-{}".format(action_link[0])
         if len(action_link) == 3:
             # icon can be 3-rd arg of link or specified inside inside dict with same index
