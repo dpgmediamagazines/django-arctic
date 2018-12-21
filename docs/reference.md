@@ -320,8 +320,9 @@ optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
 In case if some custom attributes required, they can be specified as last argument in form of dict. In this case
-optional icon class can be provided as part of that argument dict
-`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'custom_attr_name': 'custom_attr_value'}})`
+optional icon class can be provided as part of that argument dict. 
+Classes for action link can be specified as a list.
+`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'class': ['class0', 'class1'], 'custom_attr_name': 'custom_attr_value'}})`
 
 ### `get_field_actions(row)`
 
