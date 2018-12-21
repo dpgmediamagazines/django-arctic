@@ -81,6 +81,9 @@ if not provided, a default color will be used.
 String representing the foreground color of the sidebar, for example '#ffffff',
 if not provided, a default color will be used.
 
+## `ARCTIC_SITE_FAVICON`
+The url of favicon.
+
 ## `ARCTIC_SITE_LOGO`
 
 The url of the logo to be displayed on every page, it will also be the link to
@@ -316,6 +319,10 @@ standard notation by prepending a minus to the field, for example `-name`.
 optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
+In case if some custom attributes required, they can be specified as last argument in form of dict. In this case
+optional icon class can be provided as part of that argument dict. 
+Classes for action link can be specified as a list.
+`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'class': ['class0', 'class1'], 'custom_attr_name': 'custom_attr_value'}})`
 
 ### `get_field_actions(row)`
 

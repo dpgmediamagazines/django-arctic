@@ -191,7 +191,7 @@ class FormMixin(ModalMixin):
                         view_from_url(action[1]), action[1]
                     )
                     allowed_action["modal"] = self.get_modal_link(
-                        action[1], self
+                        action[1], obj
                     )
                     allowed_action["type"] = "link"
                     allowed_action["url"] = self.in_modal(
@@ -675,12 +675,14 @@ class ListMixin(ModalMixin):
                     {
                         "label": field_action["label"],
                         "icon": field_action["icon"],
+                        "class": field_action['class'],
                         "url": self.in_modal(
                             reverse_url(
                                 field_action["url"], obj, self.primary_key
                             )
                         ),
                         "modal": self.get_modal_link(field_action["url"], obj),
+                        'attributes': field_action["attributes"]
                     }
                 )
             return actions
@@ -711,8 +713,19 @@ class ListMixin(ModalMixin):
         return self._allowed_action_links
 
     def _build_action_link(self, action_link):
-        icon = action_link[2] if len(action_link) == 3 else None
-        return {"label": action_link[0], "url": action_link[1], "icon": icon}
+        icon, attributes = None, None
+        attributes_class = generate_id('action', action_link[0])
+        if len(action_link) == 3:
+            # icon can be 3-rd arg of link or specified inside inside dict with same index
+            if isinstance(action_link[2], str):
+                icon = action_link[2]
+            elif isinstance(action_link[2], dict):
+                icon = action_link[2].get('icon_class', None)
+                attributes = action_link[2].get('attributes', None)
+                if attributes and attributes.get('class', None) and isinstance(attributes.get('class', None), list):
+                    attributes_class = " ".join(attributes.get('class'))
+        return {"label": action_link[0], "url": action_link[1], 'class': attributes_class,
+                "icon": icon, "attributes": attributes}
 
     def get_tool_links(self):
         if not self.tool_links:

@@ -22,6 +22,11 @@ Always reference the ticket number at the end of the issue description.
 
 [324]: //github.com/sanoma/django-arctic/issues/324
 [322]: //github.com/sanoma/django-arctic/issues/322
+## pending:
+
+### Added
+
+- added wrappers with proper classes to blocks in base.html
 
 
 ## 1.3.4 (2018-11-06)

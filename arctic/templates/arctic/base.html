@@ -43,71 +43,82 @@
                     </header>
                     {% endblock %}
                     <div class="content-wrapper">
-                    {% block breadcrumbs%}
-                        {% if breadcrumbs %}
-                            <nav class="breadcrumb">
-                                {% for breadcrumb in breadcrumbs %}
-                                    {% if forloop.last %}
-                                        <span class="breadcrumb-item active">
-                                            {{ breadcrumb.name }}
-                                        </span>
-                                    {% else %}
-                                        <a class="breadcrumb-item" href="{{ breadcrumb.url }}">
-                                            {{ breadcrumb.name }}
-                                        </a>
-                                    {% endif %}
-                                {% endfor %}
-                            </nav>
-                        {% else %}
-                            &nbsp;
-                        {% endif %}
-                    {% endblock %}
-
-                    {# page page description #}
-                    {% if page_description %}
-                        <div class="row">
-                            <small>{{ page_description }}</small>
-                        </div>
-                    {% endif %}
-
-                    {% block tabs %}
-                    {% if tabs %}
-                        <div class="row">
-                            <div class="col-sm-12 col">
-                                <ul class="nav nav-tabs" id="table-tabs" role="tablist">
-                                    {% for tab in tabs %}
-                                        <li class="nav-item">
-                                            {% if tab.active %}
-                                                <a class="nav-link active" href="javascript:">{{ tab.name }}</a></li>
-                                            {% else %}
-                                                <a class="nav-link" href="{{ tab.url }}">{{ tab.name }}</a></li>
-                                            {% endif %}
-                                        </li>
+                        <div class="breadcrumb-block">
+                        {% block breadcrumbs%}
+                            {% if breadcrumbs %}
+                                <nav class="breadcrumb">
+                                    {% for breadcrumb in breadcrumbs %}
+                                        {% if forloop.last %}
+                                            <span class="breadcrumb-item active">
+                                                {{ breadcrumb.name }}
+                                            </span>
+                                        {% else %}
+                                            <a class="breadcrumb-item" href="{{ breadcrumb.url }}">
+                                                {{ breadcrumb.name }}
+                                            </a>
+                                        {% endif %}
                                     {% endfor %}
-                                </ul>
-                            </div>
+                                </nav>
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        {% endblock %}
                         </div>
-                    {% endif %}
-                    {% endblock %}
 
-                    {% block messages %}
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="row">
-                            <div class="col">
-                                <div class="alert alert-{{ message.tags }}" data-closable>
-                                    {{ message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                        <div class="page-description-block">
+                        {% block page_description %}
+                            {% if page_description %}
+                                <div class="row">
+                                    <small>{{ page_description }}</small>
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                        </div>
+
+                        <div class="tabs-block">
+                        {% block tabs %}
+                        {% if tabs %}
+                            <div class="row">
+                                <div class="col-sm-12 col">
+                                    <ul class="nav nav-tabs" id="table-tabs" role="tablist">
+                                        {% for tab in tabs %}
+                                            <li class="nav-item">
+                                                {% if tab.active %}
+                                                    <a class="nav-link active" href="javascript:">{{ tab.name }}</a></li>
+                                                {% else %}
+                                                    <a class="nav-link" href="{{ tab.url }}">{{ tab.name }}</a></li>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
+                        {% endif %}
+                        {% endblock %}
                         </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% endblock %}
-                    
-                    {% block content %}content here{% endblock %}
+
+                        <div class="messages-block">
+                        {% block messages %}
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="alert alert-{{ message.tags }}" data-closable>
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endblock %}
+                        </div>
+
+                        <div class="content-block">
+                        {% block content %}content here{% endblock %}
+                        </div>
                     </div>
                 </div>
             </div>
