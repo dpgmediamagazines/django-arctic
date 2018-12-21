@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## pending:
+
+### Added
+
+- added wrappers with proper classes to blocks in base.html
+
+
 ## 1.3.4 (2018-11-06)
 
 ### Fixed
