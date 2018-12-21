@@ -7,11 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## pending:
 
-### Added
+## 1.3.5 (2018-12-21)
 
-- added wrappers with proper classes to blocks in base.html
+### Fixed
+
+- Confirmation dialog title shows object name instead of object representation [#324][324]
+
+### Changed
+
+- Added wrapper classes to the different blocks in the templates, this improves
+  javascript manipulation of pages [#322][322]
+- Added ability to select custom class on action links
+
+[324]: //github.com/sanoma/django-arctic/issues/324
+[322]: //github.com/sanoma/django-arctic/issues/322
 
 
 ## 1.3.4 (2018-11-06)
