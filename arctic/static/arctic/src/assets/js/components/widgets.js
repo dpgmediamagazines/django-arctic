@@ -127,7 +127,6 @@ $(document).ready(function() {
     $.fn.datepicker.language['en'] = datetime_picker_settings;
 
     $('[js-datepicker]').each(function(index) {
-        debugger;
         var date = datetimeformatter($(this).attr("data-date"), $(this).attr('format') ? $(this).attr('format') : datetime_picker_settings.dateFormat);
         var instance = this;
         $(instance).attr('type', 'text');
