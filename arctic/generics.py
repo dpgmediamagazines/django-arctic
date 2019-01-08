@@ -588,6 +588,7 @@ class ListView(View, ListMixin, base.ListView):
         )
         context["simple_search_form"] = self.simple_search_form
         context["advanced_search_form"] = self.advanced_search_form
+        context["allow_csv_import"] = self.allow_csv_import
         return context
 
     @classmethod

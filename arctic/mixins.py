@@ -545,6 +545,7 @@ class ListMixin(ModalMixin):
     primary_key = "pk"
     sorting_field = None
     sorting_url = None
+    allow_csv_import = False  # to display an import link
 
     @property
     def simple_search_form(self):

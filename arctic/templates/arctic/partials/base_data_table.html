@@ -65,6 +65,11 @@
 {% block table %}
 <div class="row">
     {# data table #}
+    {% if allow_csv_import %}
+        <div class="col-sm-12 col">
+            <a id="csv_file_import" class="float-sm-right" href="#"><span class="fa fa-download"></span> {% trans 'Export' %}</a>
+        </div>
+    {% endif %}
     {% if list_items %}
         <div class="col-sm-12 col">
             <div class="arctic-card">
