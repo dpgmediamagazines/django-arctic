@@ -42,6 +42,7 @@ PATHS:
     - "node_modules/sortablejs/Sortable.js"
     - "node_modules/iframe-resizer/js/iframeResizer.js"
     - "node_modules/moment/min/moment.min.js"
+    - "node_modules/table2csv/src/table2csv.js"
 
     # Paths to your own project code are here
     - "src/assets/js/utils/helpers.js"
@@ -50,5 +51,6 @@ PATHS:
     - "src/assets/js/components/file_input.js"
     - "src/assets/js/components/float_label.js"
     - "src/assets/js/components/modal.js"
+    - "src/assets/js/components/csv_import.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
