@@ -910,7 +910,8 @@ class LoginView(FormView):
         return context
 
     def get(self, request, *args, **kwargs):
-        logout(request)
+        if request.user.is_authenticated:
+            return redirect("/")
         return super(LoginView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
