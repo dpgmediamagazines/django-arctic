@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## Pending
+
+### Fixed
+
+- Do not logout logged-in users which visit the login view, but redirect them to home
 
 ## 1.3.5 (2018-12-21)
 
