@@ -120,7 +120,8 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = location("media")
 MEDIA_URL = "/media/"
 
-LOGIN_URL = LOGOUT_URL = "login"
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
 
 
 try:

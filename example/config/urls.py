@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 
-from arctic.generics import LoginView
+from arctic.generics import LoginView, LogoutView
 from arctic.views import handler400, handler403, handler404, handler500  # noqa
 
 from countries.views import CountryAPIView, CountryListView
@@ -14,6 +14,7 @@ from dashboard.views import DashboardView
 urlpatterns = [
     url(r"^$", DashboardView.as_view(), name="index"),
     url(r"^login/$", LoginView.as_view(), name="login"),
+    url(r"^logout/$", LogoutView.as_view(), name="logout"),
     url(r"^articles/", include("articles.urls", "articles")),
     url(r"^users/", include("arctic.users.urls", namespace="users")),
     url(r"^countries/$", CountryListView.as_view(), name="countries-list"),

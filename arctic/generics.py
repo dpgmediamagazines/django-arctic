@@ -6,7 +6,7 @@ import json
 import extra_views
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import (
     FieldDoesNotExist,
@@ -933,3 +933,9 @@ class LoginView(FormView):
         return render(
             request, self.template_name, self.get_context_data(**kwargs)
         )
+
+
+class LogoutView(View):
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(settings.LOGIN_URL)

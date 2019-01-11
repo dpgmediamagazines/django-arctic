@@ -112,7 +112,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-LOGIN_URL = LOGOUT_URL = "login"
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
 
 # Arctic configuration
 ARCTIC_SITE_NAME = "{{ project_name }}'s Arctic website"
