@@ -122,6 +122,10 @@ Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
 and 'logout'. Could be set to `None` if you don't want to use authentication in your app.
 
+If the LOGIN_URL and LOGOUT_URL are the same, the LoginView will automatically logout
+the user when he visits the login page. If they are different, a logged in user will be
+redirected to the homepage of the CMS and not be logged out.
+
 # Generic Class Based Views
 
 Arctic provides a number of class based views that add integration with the

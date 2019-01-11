@@ -910,7 +910,11 @@ class LoginView(FormView):
         return context
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
+        # If the logout url is the login url, log the user out of the system
+        if settings.LOGOUT_URL == settings.LOGIN_URL:
+            logout(request)
+        # Else redirect a logged in user to the homepage
+        elif request.user.is_authenticated:
             return redirect("/")
         return super(LoginView, self).get(request, *args, **kwargs)
 
