@@ -109,6 +109,7 @@ class View(RoleAuthentication, base.View):
         context["SITE_NAME"] = self.get_site_name()
         context["SITE_TITLE"] = self.get_site_title()
         context["SITE_LOGO"] = self.get_site_logo()
+        context["SITE_FAVICON"] = self.get_site_favicon()
         context["SIDEBAR_BACKGROUND"] = self.get_sidebar_background()
         context["SIDEBAR_COLOR"] = self.get_sidebar_color()
         context["SIDEBAR_ALT_COLOR"] = self.get_sidebar_alt_color()
@@ -180,6 +181,9 @@ class View(RoleAuthentication, base.View):
 
     def get_site_logo(self):
         return arctic_setting("ARCTIC_SITE_LOGO")
+
+    def get_site_favicon(self):
+        return getattr(settings, "ARCTIC_SITE_FAVICON", None)
 
     def get_site_name(self):
         return arctic_setting("ARCTIC_SITE_NAME")
@@ -906,7 +910,12 @@ class LoginView(FormView):
         return context
 
     def get(self, request, *args, **kwargs):
-        logout(request)
+        # If the logout url is the login url, log the user out of the system
+        if settings.LOGOUT_URL == settings.LOGIN_URL:
+            logout(request)
+        # Else redirect a logged in user to the homepage
+        elif request.user.is_authenticated:
+            return redirect("/")
         return super(LoginView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -928,3 +937,9 @@ class LoginView(FormView):
         return render(
             request, self.template_name, self.get_context_data(**kwargs)
         )
+
+
+class LogoutView(View):
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(settings.LOGIN_URL)

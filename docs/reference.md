@@ -81,6 +81,9 @@ if not provided, a default color will be used.
 String representing the foreground color of the sidebar, for example '#ffffff',
 if not provided, a default color will be used.
 
+## `ARCTIC_SITE_FAVICON`
+The url of favicon.
+
 ## `ARCTIC_SITE_LOGO`
 
 The url of the logo to be displayed on every page, it will also be the link to
@@ -118,6 +121,10 @@ Should be overridden in case customization pagination.
 Being a pure Django settings, LOGIN_URL and LOGOUT_URL used in Arctic to display
 login and logout links. Both items supposed to be names of URLs. Defaults are 'login'
 and 'logout'. Could be set to `None` if you don't want to use authentication in your app.
+
+If the LOGIN_URL and LOGOUT_URL are the same, the LoginView will automatically logout
+the user when he visits the login page. If they are different, a logged in user will be
+redirected to the homepage of the CMS and not be logged out.
 
 # Generic Class Based Views
 
@@ -317,8 +324,9 @@ optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
 In case if some custom attributes required, they can be specified as last argument in form of dict. In this case
-optional icon class can be provided as part of that argument dict
-`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'custom_attr_name': 'custom_attr_value'}})`
+optional icon class can be provided as part of that argument dict. 
+Classes for action link can be specified as a list.
+`('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'class': ['class0', 'class1'], 'custom_attr_name': 'custom_attr_value'}})`
 
 ### `get_field_actions(row)`
 
