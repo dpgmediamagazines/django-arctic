@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## 1.3.6 (2019-01-22)
+
+### Fixed
+
+- Do not logout logged-in users which visit the login view, but redirect them to home
+- Set the correct language in the html tag
+
+
 ## 1.3.5 (2018-12-21)
 
 ### Fixed
