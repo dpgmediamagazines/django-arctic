@@ -12,6 +12,7 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 
 - Do not logout logged-in users which visit the login view, but redirect them to home
+- Set the correct language in the html tag
 
 ## 1.3.5 (2018-12-21)
 
