@@ -194,7 +194,7 @@ class TestListView(object):
         response = admin_client.get(reverse('articles:list'))
         assert 'csv_file_export' in response.content.decode()
 
-        ArticleListView.allow_csv_import = False
+        ArticleListView.allow_csv_export = False
         response = admin_client.get(reverse('articles:list'))
         assert 'csv_file_export' not in response.content.decode()
 
