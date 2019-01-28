@@ -873,7 +873,10 @@ class DeleteView(View, base.DeleteView):
 
         if can_delete and self.redirect:
             messages.success(request, self.get_success_message(self.object))
-            return self.delete(request, *args, **kwargs)
+            self.object = self.get_object()
+            success_url = self.get_success_url()
+            self.delete(request, *args, **kwargs)
+            return redirect(success_url)
 
         context = self.get_context_data(
             object=self.object,
@@ -882,6 +885,13 @@ class DeleteView(View, base.DeleteView):
             protected_objects=protected_objects,
         )
         return self.render_to_response(context)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object.delete()
 
     def post(self, request, *args, **kwargs):
         response = super(DeleteView, self).post(request, *args, **kwargs)
