@@ -187,16 +187,16 @@ class TestListView(object):
         """
         response = admin_client.get(reverse('articles:list'))
         # no export link as there are no items
-        assert 'csv_file_export' not in response.content.decode()
+        assert 'csv_file_export' not in response.content.decode('utf-8')
 
         ArticleFactory(title='title1', description='description1')
         ArticleFactory(title='title2', description='description2')
         response = admin_client.get(reverse('articles:list'))
-        assert 'csv_file_export' in response.content.decode()
+        assert 'csv_file_export' in response.content.decode('utf-8')
 
         ArticleListView.allow_csv_export = False
         response = admin_client.get(reverse('articles:list'))
-        assert 'csv_file_export' not in response.content.decode()
+        assert 'csv_file_export' not in response.content.decode('utf-8')
 
     def test_export_csv_file(self, admin_client):
         """
