@@ -12,7 +12,7 @@ Always reference the ticket number at the end of the issue description.
 
 ### Fixed
 
-- Fixed response in DeletionMixin after `delete` method is called [#334][334]
+- BREAKING! Fixed response in DeletionMixin after `delete` method is called [#334][334]
 
 [334]: //github.com/sanoma/django-arctic/issues/334
 
