@@ -873,8 +873,7 @@ class DeleteView(View, base.DeleteView):
 
         if can_delete and self.redirect:
             messages.success(request, self.get_success_message(self.object))
-            self.delete(request, *args, **kwargs)
-            return redirect(self.get_success_url())
+            return self.delete(request, *args, **kwargs)
 
         context = self.get_context_data(
             object=self.object,
