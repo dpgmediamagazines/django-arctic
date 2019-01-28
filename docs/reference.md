@@ -527,6 +527,11 @@ Example:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
 
+### `allow_csv_export`
+
+arctic allow you to export overview list data to CSV file. By default export link is hidden,
+in order to use it, you should set `allow_csv_export` to `True` in your `ListView` class.
+
 
 ## DataListView
 
