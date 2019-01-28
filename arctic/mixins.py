@@ -1,7 +1,7 @@
 """
 Basic mixins for generic class based views.
 """
-
+import csv
 import importlib
 import sys
 import warnings
@@ -9,6 +9,8 @@ import warnings
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
+from django.db.models.manager import Manager
+from django.http import HttpResponse
 from django.urls import reverse
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
@@ -545,6 +547,7 @@ class ListMixin(ModalMixin):
     primary_key = "pk"
     sorting_field = None
     sorting_url = None
+    allow_csv_export = False  # to display an export link
 
     @property
     def simple_search_form(self):
@@ -785,6 +788,61 @@ class ListMixin(ModalMixin):
                 data=data
             )
             return self._advanced_search_form
+
+    def csv_file_response(self):
+        """
+        Create and return the HttpResponse object with the appropriate CSV data
+        """
+        model = self.model
+        if model is None:
+            model = self.queryset.model
+
+        titles = []
+        displayed_fields = []
+        for field in self.get_fields():
+            if isinstance(field, tuple):
+                displayed_fields.append(field[0])
+                titles.append(field[1].capitalize())
+            else:
+                displayed_fields.append(field)
+                titles.append(field.capitalize())
+
+        file_name = self.get_page_title()
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(file_name)
+
+        # create and write the csv file
+        writer = csv.writer(response)
+        writer.writerow(titles)
+
+        m2m_fields = [m2m_f.attname for m2m_f in model._meta.many_to_many]
+        for obj in self.get_queryset():
+            row = []
+            for field in displayed_fields:
+                try:
+                    field_value = getattr(obj, field)
+                except AttributeError:
+                    field_value = self.get_field_value(field, obj)
+                # checks related_field and get relevant values
+                related_field = self._field_is_m2m(m2m_fields, field)
+                if related_field:
+                    related_manager = getattr(obj, related_field)
+                    field_value = ', '.join([str(obj) for obj in related_manager.get_queryset()])
+                # checks if still didn't get relevant 'field_value' value
+                if isinstance(field_value, Manager):
+                    field_value = ', '.join([str(obj) for obj in field_value.get_queryset()])
+                row.append(field_value)
+            writer.writerow(row)
+
+        return response
+
+    @staticmethod
+    def _field_is_m2m(m2m_fields_names, field):
+        field_name = field.split('__')[0]
+        for m2m_field in m2m_fields_names:
+            if m2m_field in field_name:
+                return m2m_field
+        return False
 
 
 class RoleAuthentication(object):
