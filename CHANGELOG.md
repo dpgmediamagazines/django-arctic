@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## 1.3.7 (2019-01-28)
+
+### Added
+
+- Added CSV file export function to the ListView mixin
+- Added export link to the table HTML
+
 ## 1.3.6 (2019-01-22)
 
 ### Fixed
