@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## pending
+
+### Fixed
+
+- BREAKING! Fixed response in DeletionMixin after `delete` method is called [#334][334]
+
+[334]: //github.com/sanoma/django-arctic/issues/334
+
+
 ## 1.3.6 (2019-01-22)
 
 ### Fixed
@@ -30,7 +39,6 @@ Always reference the ticket number at the end of the issue description.
 
 [324]: //github.com/sanoma/django-arctic/issues/324
 [322]: //github.com/sanoma/django-arctic/issues/322
-## pending:
 
 ## 1.3.5 (2018-12-21)
 
