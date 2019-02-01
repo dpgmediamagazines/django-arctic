@@ -13,8 +13,10 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 
 - BREAKING! Fixed response in DeletionMixin after `delete` method is called [#334][334]
+- Added default `select_multiple` attr for `QuickFiltersSelectMultiple` widget [#340][340]
 
 [334]: //github.com/sanoma/django-arctic/issues/334
+[340]: //github.com/sanoma/django-arctic/issues/340
 
 
 ## 1.3.6 (2019-01-22)
