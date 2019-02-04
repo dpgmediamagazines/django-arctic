@@ -151,10 +151,10 @@ class QuickFiltersSelectMultiple(
     """
     This widget is used to be able to have a more than one active filters
     """
-    def __init__(self, attrs):
+    def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
         attrs['select_multiple'] = True
-        super().__init__(attrs)
+        super().__init__(attrs, **kwargs)
 
 
 class SearchInput(TextInput):
