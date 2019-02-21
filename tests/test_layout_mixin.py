@@ -101,7 +101,7 @@ def test_layout_example_4(layout):
 
     assert layout[0]['fieldset']['title'] == 'fieldset'
     assert layout[0]['fieldset']['description'] is None
-    assert layout[0]['fieldset']['collapsible'] is 'closed'
+    assert layout[0]['fieldset']['collapsible'] == 'closed'
     assert layout[0]['rows'][0]['name'] == 'title'
     assert layout[0]['rows'][0]['column'] is None
     assert layout[0]['rows'][1]['name'] == 'title'
@@ -121,6 +121,6 @@ def test_layout_example_4(layout):
 
     assert layout[2]['fieldset']['title'] == 'fieldset3'
     assert layout[2]['fieldset']['description'] is None
-    assert layout[2]['fieldset']['collapsible'] is 'open'
+    assert layout[2]['fieldset']['collapsible'] == 'open'
     assert layout[2]['rows'][0]['name'] == 'published'
     assert layout[2]['rows'][0]['column'] is None
