@@ -13,8 +13,10 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 
 - BREAKING! Fixed response in DeletionMixin after `delete` method is called [#334][334]
+- Updated Selectize version [#334][334]
 
 [334]: //github.com/sanoma/django-arctic/issues/334
+[342]: //github.com/sanoma/django-arctic/issues/342
 
 
 ## 1.3.6 (2019-01-22)
