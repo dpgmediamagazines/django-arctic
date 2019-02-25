@@ -50,5 +50,6 @@ PATHS:
     - "src/assets/js/components/file_input.js"
     - "src/assets/js/components/float_label.js"
     - "src/assets/js/components/modal.js"
+    - "src/assets/js/components/csv_export.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"

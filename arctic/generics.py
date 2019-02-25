@@ -385,6 +385,11 @@ class ListView(View, ListMixin, base.ListView):
         objects = self.get_object_list()
         context = self.get_context_data(object_list=objects)
 
+        # checks if user want to export data to file
+        response_format = request.GET.get('format')
+        if response_format and response_format == 'csv':
+            return self.csv_file_response()
+
         return self.render_to_response(context)
 
     def get_object_list(self):
@@ -592,6 +597,7 @@ class ListView(View, ListMixin, base.ListView):
         )
         context["simple_search_form"] = self.simple_search_form
         context["advanced_search_form"] = self.advanced_search_form
+        context["allow_csv_export"] = self.allow_csv_export
         return context
 
     @classmethod

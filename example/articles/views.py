@@ -51,6 +51,7 @@ class ArticleListView(ListView):
     field_classes = {"published": ""}
 
     permission_required = "view_article"
+    allow_csv_export = True
 
     def get_field_actions(self, obj):
         actions = list(self.action_links)
@@ -204,6 +205,7 @@ class TagListView(ListView):
     field_links = {"term": "articles:tag-detail"}
     tool_links = [(_("Create Tag"), "articles:tag-create")]
     permission_required = "view_tag"
+    allow_csv_export = True
 
 
 class TagUpdateView(UpdateView):
