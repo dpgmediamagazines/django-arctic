@@ -250,6 +250,40 @@ function startListSorting() {
     });
 }
 
+function startDynamicInlines() {
+    let inlineFormSelector = '[data-inline-form]';
+    $('[data-inline-button]').off().on('click', function(e){
+        e.preventDefault();
+        let $parent = $(this).parent();
+        let $inlineForm = $parent.find(inlineFormSelector);
+        inlineForm = $inlineForm[$inlineForm.length -1];
+        selectizes = checkSelectizes();
+        let $clonedInline = $(inlineForm).clone().removeClass('hide');
+        $(inlineForm).before($clonedInline);
+        if (selectizes) {
+            startAllSelectizes();
+        }
+        startAllPickers();
+    });
+
+    function checkSelectizes() {
+        $selectize = $(inlineForm).find('[js-selectize-multiple], [js-selectize-autocomplete], [js-selectize]');
+        if ($selectize.length) {
+            for(let i=0, len = $selectize.length; i < len; i++) {
+                let selectize = $selectize[i];
+                if (selectize.selectize) {
+                    let value = $(selectize).val();
+                    selectize.selectize.destroy();
+                    $(selectize).val(value);
+                }
+            }
+            return true
+        }
+        return false
+    }
+ }
+
+
 function startAll() {
     startAllSelectizes();
     startAllPickers();
@@ -276,4 +310,5 @@ $(document).ready(function() {
 
 
     // dynamic inlines...
+    startDynamicInlines();
 });

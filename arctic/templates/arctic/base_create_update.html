@@ -45,8 +45,10 @@
                         {% block inlines_form_fields %}
                             {% include "arctic/partials/form_fields_inline.html" with form=form hide_form=forloop.last %}
                         {% endblock %}
-                        {% if not forloop.last %}
-                            <hr><br>
+                        {% if forloop.last %}
+                            <button class="btn btn-secondary" data-inline-button>
+                                <i title="Add Inline" class="fa fa-plus"></i>
+                            </button>
                         {% endif %}
                     {% endfor %}
                     </div>
