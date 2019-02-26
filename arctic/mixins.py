@@ -514,6 +514,7 @@ class FormMixin(ModalMixin):
                 except AttributeError:
                     verbose_name = formset.model._meta.verbose_name_plural
                 setattr(context["inlines"][i], "verbose_name", verbose_name)
+                context["inlines"][i].extra = 1
 
                 for j, form in enumerate(formset):
                     context["inlines"][i][j].fields = self.update_form_fields(
