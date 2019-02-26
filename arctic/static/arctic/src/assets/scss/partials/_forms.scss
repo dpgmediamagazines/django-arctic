@@ -356,7 +356,7 @@ form.search-form {
 .inline-formset {
     // The last child is the add inline button
     // and before last is the hidden form
-    .inline-form:nth-last-child(3) {
+    .inline-form:nth-last-child(1) {
         .inline-separator {
             display: none;
         }

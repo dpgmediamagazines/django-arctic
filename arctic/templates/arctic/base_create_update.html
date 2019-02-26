@@ -41,16 +41,18 @@
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
                     <div class="inline-formset">
-                    {% for form in formset %}
-                        {% block inlines_form_fields %}
-                            {% include "arctic/partials/form_fields_inline.html" with form=form hide_form=forloop.last %}
-                        {% endblock %}
-                        {% if forloop.last %}
-                            <button class="btn btn-secondary" data-inline-button>
-                                <i title="Add Inline" class="fa fa-plus"></i>
-                            </button>
-                        {% endif %}
-                    {% endfor %}
+                        <div js-sort-inlines>
+                            {# This div is closed inside the form_fields_inline before the last loop #}
+                            {% for form in formset %}
+                                {% block inlines_form_fields %}
+                                    {% include "arctic/partials/form_fields_inline.html" with form=form hide_form=forloop.last %}
+                                {% endblock %}
+                                {% if forloop.last %}
+                                    <button class="btn btn-secondary" data-inline-button>
+                                        <i title="Add Inline" class="fa fa-plus"></i>
+                                    </button>
+                                {% endif %}
+                            {% endfor %}
                     </div>
                 {% endfor %}
             {% endif %}

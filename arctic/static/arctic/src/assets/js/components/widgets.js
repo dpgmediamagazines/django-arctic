@@ -283,6 +283,26 @@ function startDynamicInlines() {
     }
  }
 
+ function startSortInlines() {
+     $('[js-sort-inlines]').each(function(index) {
+         Sortable.create(this, {
+             onUpdate: function (e) {
+                 let el = e.item.parentElement;
+                 let orderFields = el.querySelectorAll('input[name*="-order"]');
+                 if (orderFields.length) {
+                     for(let i=0, len = orderFields.length; i < len; i++) {
+                         field = orderFields[i];
+                         field.value = i;
+
+                         // Not needed if order fields are hidden
+                         field.dispatchEvent(new Event('change'));
+                     }
+                 }
+             }
+         });
+     });
+ }
+
 
 function startAll() {
     startAllSelectizes();
@@ -311,4 +331,5 @@ $(document).ready(function() {
 
     // dynamic inlines...
     startDynamicInlines();
+    startSortInlines();
 });
