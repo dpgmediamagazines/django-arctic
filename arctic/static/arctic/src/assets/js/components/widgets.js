@@ -259,11 +259,16 @@ function startDynamicInlines() {
         inlineForm = $inlineForm[$inlineForm.length -1];
         selectizes = checkSelectizes();
         let $clonedInline = $(inlineForm).clone().removeClass('hide');
-        $(inlineForm).before($clonedInline);
+        // Check for _set- add add + 1
+        // Modify _set-TOTAL_FORMS check value and use for the next set number
+        // append inside the sort div
+        // manually hide sort field
+        $(inlineForm).prev().append($clonedInline);
         if (selectizes) {
             startAllSelectizes();
         }
         startAllPickers();
+        startSortInlines();
     });
 
     function checkSelectizes() {
@@ -285,6 +290,7 @@ function startDynamicInlines() {
 
  function startSortInlines() {
      $('[js-sort-inlines]').each(function(index) {
+         console.log(this);
          Sortable.create(this, {
              onUpdate: function (e) {
                  let el = e.item.parentElement;
