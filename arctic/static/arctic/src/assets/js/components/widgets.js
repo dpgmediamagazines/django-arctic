@@ -107,6 +107,7 @@ $(document).ready(function() {
             create: false,
             load: function(query, callback) {
                 if (!query.length) return callback();
+                this.clearOptions();
                 $.ajax({
                     url: url + encodeURIComponent(query),
                     type: 'GET',
