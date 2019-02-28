@@ -259,17 +259,48 @@ function startDynamicInlines() {
         inlineForm = $inlineForm[$inlineForm.length -1];
         selectizes = checkSelectizes();
         let $clonedInline = $(inlineForm).clone().removeClass('hide');
-        // Check for _set- add add + 1
-        // Modify _set-TOTAL_FORMS check value and use for the next set number
-        // append inside the sort div
-        // manually hide sort field
+
+        // Change all the atributes in the hidden for for the next inline
+        let $nameSet = $(inlineForm).find('input[name*="_set-"]');
+        let $idSet = $(inlineForm).find('input[id*="_set-"]');
+        let $forSet = $(inlineForm).find('[for*="_set-"]');
+        let setNameArray = $nameSet[0].getAttribute('name').split('_');
+        let setName = setNameArray[0];
+
+        // find total number and increment
+        let $totalForm = $('input[name=' + setName + '_set-TOTAL_FORMS]');
+        let number = $totalForm.val();
+
+        // Find all id, names and for fields and replace the content with a +1 increment
+        // TODO decrement may not be needed remove to simplify
+        changeFields($nameSet, 'name', number - 1, false);
+        changeFields($idSet, 'id', number - 1, false);
+        changeFields($forSet, 'for', number - 1, false);
+        $totalForm.val(parseInt(number) + 1);
+
         $(inlineForm).prev().append($clonedInline);
         if (selectizes) {
             startAllSelectizes();
         }
         startAllPickers();
         startSortInlines();
+        floatLabels();
     });
+
+    function changeFields($set, type, number, decrement) {
+        let currentNumberAttr = '-' + number +'-';
+        let newNumber = !decrement ? number + 1 : number - 1;
+        if (newNumber < 0) {
+            newNumber = 0;
+        }
+        let newNumberAttr = '-' + newNumber +'-';
+        for(let i=0, len = $set.length; i < len; i++) {
+            item = $set[i];
+            attribute = item.getAttribute(type);
+            attribute = attribute.replace(currentNumberAttr, newNumberAttr);
+            item.setAttribute(type, attribute);
+        }
+    }
 
     function checkSelectizes() {
         $selectize = $(inlineForm).find('[js-selectize-multiple], [js-selectize-autocomplete], [js-selectize]');
@@ -290,7 +321,7 @@ function startDynamicInlines() {
 
  function startSortInlines() {
      $('[js-sort-inlines]').each(function(index) {
-         console.log(this);
+         // TODO manually hide sort field check sort field
          Sortable.create(this, {
              onUpdate: function (e) {
                  let el = e.item.parentElement;
@@ -301,7 +332,7 @@ function startDynamicInlines() {
                          field.value = i;
 
                          // Not needed if order fields are hidden
-                         field.dispatchEvent(new Event('change'));
+                         field.dispatchEvent(new Event('blur'));
                      }
                  }
              }
@@ -330,10 +361,14 @@ function startAllPickers() {
 
 
 $(document).ready(function() {
+    // Start all widgets fields
     startAll();
+
     // tooltips
     $('[data-toggle="tooltip"]').tooltip()
 
+    //float labels
+    floatLabels();
 
     // dynamic inlines...
     startDynamicInlines();

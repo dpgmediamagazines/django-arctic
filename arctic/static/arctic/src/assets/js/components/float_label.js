@@ -1,12 +1,12 @@
-$(document).ready(function() {
+function floatLabels() {
     $('.float-label input, .float-label textarea').each(function() {
         if (($(this).val().length == 0) && ($(this).text() == 0)) {
             $(this).addClass('empty');
             $(this).val('');
         }
     });
-    
-    $('.float-label input, .float-label textarea').blur(function() {
+
+    $('.float-label input, .float-label textarea').off().on('blur', function() {
         // Check if float label input is not empty, if so then add some CSS
         if (($(this).val().length > 0) || ($(this).text().length > 0)) {
             $(this).removeClass('empty');
@@ -30,4 +30,4 @@ $(document).ready(function() {
                 fontSize: '75%'
             });
     });
-});
+}
