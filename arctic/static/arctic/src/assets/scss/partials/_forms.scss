@@ -358,49 +358,50 @@ form.search-form {
         position: relative;
 
         &:hover {
-            .inline-form-grab-container,
-            .inline-form-delete-container {
+            .inline-form-grab,
+            .inline-form-delete {
                 display: block;
             }
 
         }
     }
     // The last child is the add inline button
-    // and before last is the hidden form
     .inline-form:nth-last-child(1) {
         .inline-separator {
             display: none;
         }
     }
-    .inline-form-grab-container {
+
+    .inline-helper-pane {
+        position: absolute;
+        top: 0;
+        left: -50px;
+        right: -50px;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .inline-form-grab {
         display: none;
         position: absolute;
         top: 0;
         left: -50px;
-        width: 60px;
+        width: 55px;
         height: 100%;
         opacity: 0.6;
+        cursor: grab;
 
-        .inline-form-grab.btn {
+        .fa {
             position: relative;
-            left: 10px;
-            cursor: grab;
+            left: 18px;
         }
     }
 
-    .inline-form-delete-container {
+    .inline-form-delete {
         display: none;
         position: absolute;
         top: 0;
-        right: -50px;
-        width: 60px;
-        height: 100%;
-        text-align: right;
+        right: -45px;
         opacity: 0.6;
-
-        .inline-form-delete {
-            position: relative;
-            right: 10px;
-        }
     }
 }

@@ -35,14 +35,13 @@ function arcticImageEvent(eventName, eventData) {
     document.dispatchEvent(arcticEvent);
 }
 
-
-$(document).ready(function() {
+function betterFile() {
     $('.better-file').each(function() {
         var input = $(this).find('input[type=file]');
         var label = $(this).find('label');
         var clear = $(this).find('.better-file-clear');
 
-        $(input).change(function() {
+        $(input).off().on('change', function() {
             var url = URL.createObjectURL($(this).prop('files')[0])
             get_file_preview(label, url, $(this).prop('files')[0].name);
             var data = this;
@@ -58,7 +57,7 @@ $(document).ready(function() {
             }
         }
 
-        $(label).click(function() {
+        $(label).off().on('click', function() {
             if ($(this).children().first().attr('href') == '#upload') {
                 $(this).prev().click();
                 return false;
@@ -66,7 +65,7 @@ $(document).ready(function() {
             return true;
         });
 
-        $(clear).click(function() {
+        $(clear).off().on('click', function() {
             var checkbox = $(this).prev();
             var data = $(this).parent().parent().find('input[type=file]');
             $(checkbox).prop('checked', true);
@@ -78,4 +77,4 @@ $(document).ready(function() {
             return false;
         });
     });
-});
+}

@@ -84,7 +84,7 @@
 
         textarea:not([disabled]) + label {
             background-color: $input-bg;
-        } 
+        }
 
         .form-check-label {
             position: relative;
@@ -133,6 +133,7 @@
 
     .selectize-control ~ label {
         user-select: none;
+        z-index: 10;
     }
 
     .selectize-control.single {
@@ -147,7 +148,7 @@
             margin-top: 5px;
         }
     }
-    
+
     // support for SimpleMDE editor with float labels
     .form-group div.editor-statusbar+label,
     .form-group div.editor-statusbar+style+label {
@@ -180,6 +181,6 @@
 
     .better-file+label {
         font-size: 75%;
-        top: .25rem;       
+        top: .25rem;
     }
 }
