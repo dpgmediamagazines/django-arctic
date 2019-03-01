@@ -15,7 +15,12 @@ function startSelectize() {
                 if ($(instance).next().find('.item').length == 0) {
                     $(instance).next().next().removeAttr('style');
                 }
-            }
+            },
+            // Selectize reoders search results to find best match.
+            // But we wan't to keep original order by default
+            score: function() {
+                return function() { return 1 };
+            }	            }
         });
     });
 }
@@ -43,6 +48,11 @@ function startSelectizeMultiple() {
                     value: input,
                     text: input
                 }
+            },
+            // Selectize reoders search results to find best match.
+            // But we wan't to keep original order by default
+            score: function() {
+                return function() { return 1 };
             }
         });
     });
@@ -59,6 +69,7 @@ function startSelectizeAutocomplete() {
             create: false,
             load: function(query, callback) {
                 if (!query.length) return callback();
+                this.clearOptions();
                 $.ajax({
                     url: url + encodeURIComponent(query),
                     type: 'GET',
