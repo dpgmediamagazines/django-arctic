@@ -20,7 +20,7 @@ function startSelectize() {
             // But we wan't to keep original order by default
             score: function() {
                 return function() { return 1 };
-            }	            }
+            }
         });
     });
 }
