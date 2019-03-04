@@ -41,7 +41,7 @@
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
                     <div class="inline-formset">
-                        <div js-sort-inlines>
+                        <div {% if inline_sort_field %} js-sort-inlines data-sort-field="{{ inline_sort_field }}" {% endif %}>
                             {# This div is closed inside the form_fields_inline before the last loop #}
                             {% for form in formset %}
                                 {% block inlines_form_fields %}

@@ -113,6 +113,7 @@ class FormMixin(ModalMixin):
     links = None
     readonly_fields = None
     ALLOWED_COLUMNS = 12  # There are 12 columns available
+    inline_sort_field = None  # Sort field for inline forms
     form = None
 
     def get_cancel_url(self):
@@ -502,6 +503,9 @@ class FormMixin(ModalMixin):
                 pass
         return self.form
 
+    def get_inline_sort_field(self):
+        return self.inline_sort_field
+
     def get_context_data(self, **kwargs):
         context = super(FormMixin, self).get_context_data(**kwargs)
         #        for v in vars(context['inlines'][0]):
@@ -515,6 +519,7 @@ class FormMixin(ModalMixin):
                     verbose_name = formset.model._meta.verbose_name_plural
                 setattr(context["inlines"][i], "verbose_name", verbose_name)
                 context["inlines"][i].extra = 1
+                context['inline_sort_field'] = self.get_inline_sort_field()
 
                 for j, form in enumerate(formset):
                     context["inlines"][i][j].fields = self.update_form_fields(

@@ -375,10 +375,14 @@ form.search-form {
     .inline-helper-pane {
         position: absolute;
         top: 0;
-        left: -50px;
+        left: 0;
         right: -50px;
         height: 100%;
         z-index: 0;
+
+        &--big {
+            left: -50px;
+        }
     }
 
     .inline-form-grab {

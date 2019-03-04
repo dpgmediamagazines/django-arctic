@@ -2,8 +2,10 @@ function startDynamicInlines() {
     let inlineFormSelector = '[data-inline-form]';
     hideFields(inlineFormSelector);
     deleteButton(inlineFormSelector);
+
     $('[data-inline-button]').off().on('click', function(e){
         e.preventDefault();
+
         let $parent = $(this).parent();
         let $inlineForm = $parent.find(inlineFormSelector);
         inlineForm = $inlineForm[$inlineForm.length -1];
@@ -77,7 +79,7 @@ function startDynamicInlines() {
     }
 
     function hideFields(inlineFormSelector) {
-        // hides delete and order fields
+        // hides delete
         let deleteInput = 'input[name*="DELETE"]';
         let $delete$Fields = $(inlineFormSelector).find(deleteInput);
         $delete$Fields.closest('.row').addClass('hide');
@@ -89,9 +91,6 @@ function startDynamicInlines() {
          for(let i=0, len = fields.length; i < len; i++) {
              field = fields[i];
              field.value = i;
-
-             // Not needed if order fields are hidden
-             field.dispatchEvent(new Event('blur'));
          }
      }
  }
@@ -99,12 +98,20 @@ function startDynamicInlines() {
  function startSortInlines() {
      // check if sort is enebale if so set the order on init
      $('[js-sort-inlines]').each(function(index) {
-         let orderFields = this.querySelectorAll('input[name*="-order"]');
+         // Hide order field
+         let orderFieldName = this.getAttribute('data-sort-field');
+         let orderInput = 'input[name*="-' + orderFieldName + '"]';
+         let orderFields = this.querySelectorAll(orderInput);
+         $(orderFields).closest('.row').addClass('hide');
+
          checkOrder(orderFields);
+
          Sortable.create(this, {
              handle: '.inline-form-grab',
              onUpdate: function (e) {
                  let el = e.item.parentElement;
+                 let orderFieldName = el.getAttribute('data-sort-field');
+                 let orderInput = 'input[name*="-' + orderFieldName + '"]';
                  let orderFields = el.querySelectorAll('input[name*="-order"]');
                  checkOrder(orderFields);
              }
