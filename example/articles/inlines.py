@@ -18,4 +18,4 @@ class ImagesInline(InlineFormSet):
     model = Image
     fields = "__all__"
     layout = {"blah": "bah"}
-    sorting_field = "order"
+    # sorting_field = "order"

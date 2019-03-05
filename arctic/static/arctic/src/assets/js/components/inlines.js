@@ -97,9 +97,9 @@ function startDynamicInlines() {
 
  function startSortInlines() {
      // check if sort is enebale if so set the order on init
-     $('[js-sort-inlines]').each(function(index) {
+     $('[data-sorting-field]').each(function(index) {
          // Hide order field
-         let orderFieldName = this.getAttribute('data-sort-field');
+         let orderFieldName = this.getAttribute('data-sorting-field');
          let orderInput = 'input[name*="-' + orderFieldName + '"]';
          let orderFields = this.querySelectorAll(orderInput);
          $(orderFields).closest('.row').addClass('hide');
