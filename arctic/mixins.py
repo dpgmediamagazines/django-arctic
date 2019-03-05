@@ -504,9 +504,6 @@ class FormMixin(ModalMixin):
 
     def get_context_data(self, **kwargs):
         context = super(FormMixin, self).get_context_data(**kwargs)
-        #        for v in vars(context['inlines'][0]):
-        #            print (v)
-        #        print (context['inlines'][0].form_kwargs)
         try:
             for i, formset in enumerate(context["inlines"]):
                 try:
@@ -515,6 +512,12 @@ class FormMixin(ModalMixin):
                     verbose_name = formset.model._meta.verbose_name_plural
                 setattr(context["inlines"][i], "verbose_name", verbose_name)
                 context["inlines"][i].extra = 1
+                if hasattr(self.inlines[i], "sorting_field"):
+                    setattr(
+                        context["inlines"][i],
+                        "sorting_field",
+                        self.inlines[i].sorting_field,
+                    )
 
                 for j, form in enumerate(formset):
                     context["inlines"][i][j].fields = self.update_form_fields(
@@ -676,14 +679,14 @@ class ListMixin(ModalMixin):
                     {
                         "label": field_action["label"],
                         "icon": field_action["icon"],
-                        "class": field_action['class'],
+                        "class": field_action["class"],
                         "url": self.in_modal(
                             reverse_url(
                                 field_action["url"], obj, self.primary_key
                             )
                         ),
                         "modal": self.get_modal_link(field_action["url"], obj),
-                        'attributes': field_action["attributes"]
+                        "attributes": field_action["attributes"],
                     }
                 )
             return actions
@@ -715,18 +718,27 @@ class ListMixin(ModalMixin):
 
     def _build_action_link(self, action_link):
         icon, attributes = None, None
-        attributes_class = generate_id('action', action_link[0])
+        attributes_class = generate_id("action", action_link[0])
         if len(action_link) == 3:
             # icon can be 3-rd arg of link or specified inside inside dict with same index
             if isinstance(action_link[2], str):
                 icon = action_link[2]
             elif isinstance(action_link[2], dict):
-                icon = action_link[2].get('icon_class', None)
-                attributes = action_link[2].get('attributes', None)
-                if attributes and attributes.get('class', None) and isinstance(attributes.get('class', None), list):
-                    attributes_class = " ".join(attributes.get('class'))
-        return {"label": action_link[0], "url": action_link[1], 'class': attributes_class,
-                "icon": icon, "attributes": attributes}
+                icon = action_link[2].get("icon_class", None)
+                attributes = action_link[2].get("attributes", None)
+                if (
+                    attributes
+                    and attributes.get("class", None)
+                    and isinstance(attributes.get("class", None), list)
+                ):
+                    attributes_class = " ".join(attributes.get("class"))
+        return {
+            "label": action_link[0],
+            "url": action_link[1],
+            "class": attributes_class,
+            "icon": icon,
+            "attributes": attributes,
+        }
 
     def get_tool_links(self):
         if not self.tool_links:
