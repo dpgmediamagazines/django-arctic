@@ -16,6 +16,15 @@
         {% endblock %}
     {% endif %}
 {% endfor %}
+    <div class="inline-helper-pane {% if inline_sort_field %}inline-helper-pane--big{% endif %}"></div>
+    {% if inline_sort_field %}
+        <div class="inline-form-grab">
+            <i class="fa fa-bars"></i>
+        </div>
+    {% endif %}
+    <div class="btn btn-secondary btn-sm inline-form-delete" js-inline-delete>
+        <i class="fa fa-trash fa-lg"></i>
+    </div>
     <div class="inline-separator">
         <hr><br>
     </div>

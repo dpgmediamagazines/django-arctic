@@ -74,3 +74,15 @@ Optional
         console.log(e.detail)
     }, false);
     ```
+
+### Javascript widgets (all of them are initialised on DOM load event)
+`startSelectize()` - Starts simple selectize
+`startSelectizeMultiple()` - Starts multiple selectize
+`startSelectizeAutocomplete()` - Starts autocomplete selectize
+`startAllSelectizes()` - Starts all 3 selectizes
+`startDatepicker()` - Starts datepicker
+`startTimePicker()` - Starts timepicker
+`startDateTimePicker()` - Starts date and time picker
+`startAllPickers()` - Starts all 3 pickers
+`betterFile()` - Starts better file input for image fields
+`startAllWidgets()` - Starts all of the above

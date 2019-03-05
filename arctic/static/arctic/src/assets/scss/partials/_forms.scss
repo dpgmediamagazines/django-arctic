@@ -354,11 +354,58 @@ form.search-form {
 
 // Inlines
 .inline-formset {
+    .inline-form {
+        position: relative;
+
+        &:hover {
+            .inline-form-grab,
+            .inline-form-delete {
+                display: block;
+            }
+
+        }
+    }
     // The last child is the add inline button
-    // and before last is the hidden form
     .inline-form:nth-last-child(1) {
         .inline-separator {
             display: none;
         }
+    }
+
+    .inline-helper-pane {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: -50px;
+        height: 100%;
+        z-index: 0;
+
+        &--big {
+            left: -50px;
+        }
+    }
+
+    .inline-form-grab {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: -50px;
+        width: 55px;
+        height: 100%;
+        opacity: 0.6;
+        cursor: grab;
+
+        .fa {
+            position: relative;
+            left: 18px;
+        }
+    }
+
+    .inline-form-delete {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: -45px;
+        opacity: 0.6;
     }
 }

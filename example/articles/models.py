@@ -56,7 +56,7 @@ class Image(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     order = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField("articles.Tag")
-    updated_at = models.DateTimeField(auto_now=True, null=True)
+    updated = models.DateTimeField(null=True)
 
     class Meta:
         ordering = ["order"]
