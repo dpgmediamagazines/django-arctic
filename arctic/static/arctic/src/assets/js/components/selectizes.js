@@ -4,7 +4,6 @@ function startSelectize() {
         $(instance).selectize({
             allowEmptyOption: true,
             highlight: false,
-            plugins: ['remove_button'],
             onFocus: function() {
                 $(instance).next().next().css({
                     top: '.3rem',
