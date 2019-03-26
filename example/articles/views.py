@@ -78,6 +78,7 @@ class ArticleUpdateView(UpdateView):
     model = Article
     # success_url = reverse_lazy('articles:list')
     inlines = [ImagesInline]
+    inline_sort_field = 'order'
     form_class = ArticleForm
     actions = [(_("Cancel"), "cancel"), (_("Save"), "submit")]
     layout = OrderedDict(
