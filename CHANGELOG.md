@@ -10,13 +10,27 @@ Always reference the ticket number at the end of the issue description.
 
 ## pending
 
+### Added
+- Added the creation of new inline forms dynamically with javascript
+- Added the ability to sort (with drag n drop) inline forms
+[201]: https://github.com/sanoma/django-arctic/issues/201
+
+### Changed
+- Javascript widgets are not initialised with anonymous functions anymore
+- Separated javascript widgets into their own files (selectize, pickers, float labels, inlines) 
+- Added new size (extra large) to modals
+
 ### Fixed
 
 - BREAKING! Fixed response in DeletionMixin after `delete` method is called [#334][334]
 - Added default `select_multiple` attr for `QuickFiltersSelectMultiple` widget [#340][340]
+- Updated Selectize version [#334][334]
+- Disabled options ordering by selectize in all Selectize widgets [#344][344]
 
 [334]: //github.com/sanoma/django-arctic/issues/334
 [340]: //github.com/sanoma/django-arctic/issues/340
+[342]: //github.com/sanoma/django-arctic/issues/342
+[344]: //github.com/sanoma/django-arctic/issues/344
 
 ## 1.3.7 (2019-01-28)
 

@@ -256,7 +256,7 @@ form.search-form {
         margin-bottom: 0;
         border-radius: 3px;
     }
- 
+
     button {
         border: 0;
         background: none;
@@ -267,9 +267,9 @@ form.search-form {
         margin-bottom: 0;
         border-radius: 3px;
     }
- 
+
     .search-query:focus + button {
-        z-index: 3;   
+        z-index: 3;
     }
 }
 
@@ -277,10 +277,10 @@ form.search-form {
     background-color: white;
 
     .btn-outline-secondary {
-        color: $btn-secondary-color;        
+        color: $btn-secondary-color;
     }
 
-    .btn-outline-secondary, 
+    .btn-outline-secondary,
     .btn-outline-secondary:not(:disabled):not(.disabled).active {
         border-color: $btn-secondary-border-color;
     }
@@ -319,7 +319,7 @@ form.search-form {
 
         &::after {
           border-color: $custom-file-focus-border-color;
-        } 
+        }
     }
 
     .better-file-label {
@@ -349,5 +349,63 @@ form.search-form {
         top: $custom-file-padding-y;
         z-index: 3;
         color: $custom-file-color;
+    }
+}
+
+// Inlines
+.inline-formset {
+    .inline-form {
+        position: relative;
+
+        &:hover {
+            .inline-form-grab,
+            .inline-form-delete {
+                display: block;
+            }
+
+        }
+    }
+    // The last child is the add inline button
+    .inline-form:nth-last-child(1) {
+        .inline-separator {
+            display: none;
+        }
+    }
+
+    .inline-helper-pane {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: -50px;
+        height: 100%;
+        z-index: 0;
+
+        &--big {
+            left: -50px;
+        }
+    }
+
+    .inline-form-grab {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: -50px;
+        width: 55px;
+        height: 100%;
+        opacity: 0.6;
+        cursor: grab;
+
+        .fa {
+            position: relative;
+            left: 18px;
+        }
+    }
+
+    .inline-form-delete {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: -45px;
+        opacity: 0.6;
     }
 }

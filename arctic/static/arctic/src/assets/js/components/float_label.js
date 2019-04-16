@@ -1,12 +1,14 @@
-$(document).ready(function() {
+function floatLabels() {
     $('.float-label input, .float-label textarea').each(function() {
         if (($(this).val().length == 0) && ($(this).text() == 0)) {
             $(this).addClass('empty');
             $(this).val('');
         }
     });
-    
-    $('.float-label input, .float-label textarea').blur(function() {
+
+    $('.float-label input, .float-label textarea').off('blur.float').on('blur.float', floatLabelsBlur);
+
+    function floatLabelsBlur() {
         // Check if float label input is not empty, if so then add some CSS
         if (($(this).val().length > 0) || ($(this).text().length > 0)) {
             $(this).removeClass('empty');
@@ -15,7 +17,7 @@ $(document).ready(function() {
             $(this).addClass('empty');
             $(this).val('');
         }
-    });
+    }
 
     // Selectize controls
     $('.float-label .selectize-input.has-items').each(function() {
@@ -30,4 +32,4 @@ $(document).ready(function() {
                 fontSize: '75%'
             });
     });
-});
+}

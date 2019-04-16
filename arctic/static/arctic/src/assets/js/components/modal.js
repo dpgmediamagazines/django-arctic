@@ -38,6 +38,9 @@ $(document).ready(function() {
         var url = button.prop('href');
         var prefix = '?';
         var urlArr = url.split('?')
+        if (size == 'extra-large') {
+            modal.find('.modal-dialog').addClass('modal-exlg');
+        }
         if (size == 'large') {
             modal.find('.modal-dialog').addClass('modal-lg');
         }
