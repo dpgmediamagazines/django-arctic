@@ -8,12 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## pending
+## 1.3.7 (2019-04-18)
 
 ### Added
 - Added the creation of new inline forms dynamically with javascript
-- Added the ability to sort (with drag n drop) inline forms
-[201]: https://github.com/sanoma/django-arctic/issues/201
+- Added the ability to sort (with drag n drop) inline forms [#201][201]
 
 ### Changed
 - Javascript widgets are not initialised with anonymous functions anymore
@@ -27,6 +26,7 @@ Always reference the ticket number at the end of the issue description.
 - Updated Selectize version [#334][334]
 - Disabled options ordering by selectize in all Selectize widgets [#344][344]
 
+[201]: //github.com/sanoma/django-arctic/issues/201
 [334]: //github.com/sanoma/django-arctic/issues/334
 [340]: //github.com/sanoma/django-arctic/issues/340
 [342]: //github.com/sanoma/django-arctic/issues/342
