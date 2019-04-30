@@ -10,8 +10,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
-                                    ValidationError)
+from django.core.exceptions import (
+    FieldDoesNotExist,
+    ImproperlyConfigured,
+    ValidationError,
+)
 from django.core.paginator import InvalidPage
 from django.db.models.deletion import Collector, ProtectedError
 from django.db.models.manager import Manager
@@ -27,12 +30,24 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-from .mixins import (FormMediaMixin, FormMixin, ListMixin, RoleAuthentication,
-                     SuccessMessageMixin)
+from .mixins import (
+    FormMediaMixin,
+    FormMixin,
+    ListMixin,
+    RoleAuthentication,
+    SuccessMessageMixin,
+)
 from .paginator import IndefinitePaginator
-from .utils import (append_query_parameter, arctic_setting, find_attribute,
-                    find_field_meta, get_field_class, menu, reverse_url,
-                    view_from_url)
+from .utils import (
+    append_query_parameter,
+    arctic_setting,
+    find_attribute,
+    find_field_meta,
+    get_field_class,
+    menu,
+    reverse_url,
+    view_from_url,
+)
 
 
 def collapsible(fiedset_name, collapsed=False):
@@ -616,8 +631,10 @@ class ListView(View, ListMixin, base.ListView):
                 titles.append(field.capitalize())
 
         file_name = self.get_page_title()
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(file_name)
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(
+            file_name
+        )
 
         # create and write the csv file
         writer = csv.writer(response)
@@ -635,10 +652,14 @@ class ListView(View, ListMixin, base.ListView):
                 related_field = self._field_is_m2m(m2m_fields, field)
                 if related_field:
                     related_manager = getattr(obj, related_field)
-                    field_value = ', '.join([str(obj) for obj in related_manager.get_queryset()])
+                    field_value = ", ".join(
+                        [str(obj) for obj in related_manager.get_queryset()]
+                    )
                 # checks if still didn't get relevant 'field_value' value
                 if isinstance(field_value, Manager):
-                    field_value = ', '.join([str(obj) for obj in field_value.get_queryset()])
+                    field_value = ", ".join(
+                        [str(obj) for obj in field_value.get_queryset()]
+                    )
                 row.append(field_value)
             writer.writerow(row)
 

@@ -805,7 +805,7 @@ class ListMixin(ModalMixin):
 
     @staticmethod
     def _field_is_m2m(m2m_fields_names, field):
-        field_name = field.split('__')[0]
+        field_name = field.split("__")[0]
         for m2m_field in m2m_fields_names:
             if m2m_field in field_name:
                 return m2m_field
