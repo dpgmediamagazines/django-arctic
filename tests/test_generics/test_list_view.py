@@ -50,14 +50,14 @@ class TestListView(object):
 
         self._assert_list_items_len(response, 0)
 
-    def test_one_tool_link(self, admin_client):
+    def test_two_tool_links(self, admin_client):
         """
         Single tool link display
         """
         response = self._request(admin_client)
 
         assert 'tool_links' in response.context_data
-        assert len(response.context_data['tool_links']) == 1
+        assert len(response.context_data['tool_links']) == 2
 
     def test_multiple_tool_links(self, admin_client):
         """
@@ -68,7 +68,7 @@ class TestListView(object):
         response = self._request(admin_client)
 
         assert 'tool_links' in response.context_data
-        assert len(response.context_data['tool_links']) == 2
+        assert len(response.context_data['tool_links']) == 3
 
     def test_no_tool_links(self, admin_client):
         """
