@@ -231,7 +231,7 @@ class FormMixin(ModalMixin):
             return None
 
         allowed_rows = OrderedDict()
-        py36_version = 0x30600f0  # hex number that represents python 3.6.0
+        py36_version = 0x30600F0  # hex number that represents python 3.6.0
         if (type(layout) is OrderedDict) or (
             (type(layout) is dict) and sys.hexversion >= py36_version
         ):
