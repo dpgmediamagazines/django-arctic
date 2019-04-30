@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
+## [unreleased]
+
+### Added
+
+- Added CSV file export function to the ListView
+
+
 ## 1.3.7 (2019-04-18)
 
 ### Added
@@ -31,13 +38,6 @@ Always reference the ticket number at the end of the issue description.
 [340]: //github.com/sanoma/django-arctic/issues/340
 [342]: //github.com/sanoma/django-arctic/issues/342
 [344]: //github.com/sanoma/django-arctic/issues/344
-
-## 1.3.7 (2019-01-28)
-
-### Added
-
-- Added CSV file export function to the ListView mixin
-- Added export link to the table HTML
 
 ## 1.3.6 (2019-01-22)
 

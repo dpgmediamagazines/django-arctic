@@ -181,23 +181,6 @@ class TestListView(object):
         assert len(list_items[0]['actions']) == 1
         assert len(list_items[1]['actions']) == 2
 
-    def test_csv_export_link_is_visible(self, admin_client):
-        """
-        CSV export link reflect on page
-        """
-        response = admin_client.get(reverse('articles:list'))
-        # no export link as there are no items
-        assert 'csv_file_export' not in response.content.decode('utf-8')
-
-        ArticleFactory(title='title1', description='description1')
-        ArticleFactory(title='title2', description='description2')
-        response = admin_client.get(reverse('articles:list'))
-        assert 'csv_file_export' in response.content.decode('utf-8')
-
-        ArticleListView.allow_csv_export = False
-        response = admin_client.get(reverse('articles:list'))
-        assert 'csv_file_export' not in response.content.decode('utf-8')
-
     def test_export_csv_file(self, admin_client):
         """
         Test csv file export functional

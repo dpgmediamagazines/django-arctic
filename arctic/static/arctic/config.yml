@@ -52,7 +52,6 @@ PATHS:
     - "src/assets/js/components/selectizes.js"
     - "src/assets/js/components/inlines.js"
     - "src/assets/js/components/modal.js"
-    - "src/assets/js/components/csv_export.js"
     - "src/assets/js/components/widgets.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"

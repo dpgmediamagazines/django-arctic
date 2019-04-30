@@ -66,11 +66,6 @@
 <div class="row">
     {# data table #}
     {% if list_items %}
-        {% if allow_csv_export %}
-            <div class="col-sm-12 col">
-                <a id="csv_file_export" class="float-sm-right" href="{{ request.build_absolute_uri }}"><span class="fa fa-download"></span> {% trans 'Export' %}</a>
-            </div>
-        {% endif %}
         <div class="col-sm-12 col">
             <div class="arctic-card">
                 {% if list_summary %}

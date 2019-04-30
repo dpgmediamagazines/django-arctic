@@ -47,11 +47,14 @@ class ArticleListView(ListView):
         "category": ("articles:category-detail", "category_id"),
     }
     tool_links_collapse = 2
-    tool_links = [(_("Create Article"), "articles:create", "fa-plus")]
+    tool_links = [
+        (_("Create Article"), "articles:create", "fa-plus"),
+        (_("Export CSV"), "get_csv_export_url", "fa-download"),
+    ]
     field_classes = {"published": ""}
 
     permission_required = "view_article"
-    allow_csv_export = True
+    allowed_exports = ["csv"]
 
     def get_field_actions(self, obj):
         actions = list(self.action_links)
@@ -79,7 +82,7 @@ class ArticleUpdateView(UpdateView):
     model = Article
     # success_url = reverse_lazy('articles:list')
     inlines = [ImagesInline]
-    inline_sort_field = 'order'
+    inline_sort_field = "order"
     form_class = ArticleForm
     actions = [(_("Cancel"), "cancel"), (_("Save"), "submit")]
     layout = OrderedDict(

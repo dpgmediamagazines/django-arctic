@@ -280,7 +280,7 @@ def reverse_url(url, obj, fallback_field=None):
             else:
                 args.append(find_attribute(obj, arg))
     else:
-        if url.startswith("#"):  # local url
+        if url[0] in "#/":  # local url or a path, just return it
             return url
         named_url = url
         if obj and fallback_field:

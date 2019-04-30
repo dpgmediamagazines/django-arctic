@@ -1,50 +1,38 @@
 from __future__ import division, unicode_literals
-from collections import OrderedDict
+
 import calendar
+import csv
 import json
+from collections import OrderedDict
 
 import extra_views
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import (
-    FieldDoesNotExist,
-    ImproperlyConfigured,
-    ValidationError,
-)
+from django.core.exceptions import (FieldDoesNotExist, ImproperlyConfigured,
+                                    ValidationError)
 from django.core.paginator import InvalidPage
-from django.urls import NoReverseMatch, reverse
-from django.utils.html import mark_safe
 from django.db.models.deletion import Collector, ProtectedError
+from django.db.models.manager import Manager
 from django.forms.widgets import Media
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, resolve_url
+from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
+from django.utils.html import mark_safe
 from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views import generic as base
 
-from .mixins import (
-    FormMediaMixin,
-    FormMixin,
-    ListMixin,
-    RoleAuthentication,
-    SuccessMessageMixin,
-)
+from .mixins import (FormMediaMixin, FormMixin, ListMixin, RoleAuthentication,
+                     SuccessMessageMixin)
 from .paginator import IndefinitePaginator
-from .utils import (
-    append_query_parameter,
-    arctic_setting,
-    find_attribute,
-    get_field_class,
-    find_field_meta,
-    menu,
-    reverse_url,
-    view_from_url,
-)
+from .utils import (append_query_parameter, arctic_setting, find_attribute,
+                    find_field_meta, get_field_class, menu, reverse_url,
+                    view_from_url)
 
 
 def collapsible(fiedset_name, collapsed=False):
@@ -352,6 +340,7 @@ class ListView(View, ListMixin, base.ListView):
     """
 
     prefix = ""  # Prefix for embedding multiple list views in detail view
+    allowed_exports = []  # to display an export link
 
     def __init__(self, **kwargs):
         super(ListView, self).__init__(**kwargs)
@@ -386,11 +375,20 @@ class ListView(View, ListMixin, base.ListView):
         context = self.get_context_data(object_list=objects)
 
         # checks if user want to export data to file
-        response_format = request.GET.get('format')
-        if response_format and response_format == 'csv':
-            return self.csv_file_response()
+        response_format = request.GET.get("format", None)
+        if response_format in self.allowed_exports:
+            if response_format == "csv":
+                return self.csv_file_response()
 
         return self.render_to_response(context)
+
+    def _get_export_url(self, format):
+        return append_query_parameter(
+            self.request.get_full_path(), {"format": format}
+        )
+
+    def get_csv_export_url(self):
+        return self._get_export_url("csv")
 
     def get_object_list(self):
         qs = self.get_queryset()
@@ -597,8 +595,54 @@ class ListView(View, ListMixin, base.ListView):
         )
         context["simple_search_form"] = self.simple_search_form
         context["advanced_search_form"] = self.advanced_search_form
-        context["allow_csv_export"] = self.allow_csv_export
         return context
+
+    def csv_file_response(self):
+        """
+        Create and return the HttpResponse object with the appropriate CSV data
+        """
+        model = self.model
+        if model is None:
+            model = self.queryset.model
+
+        titles = []
+        displayed_fields = []
+        for field in self.get_fields():
+            if isinstance(field, tuple):
+                displayed_fields.append(field[0])
+                titles.append(field[1].capitalize())
+            else:
+                displayed_fields.append(field)
+                titles.append(field.capitalize())
+
+        file_name = self.get_page_title()
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(file_name)
+
+        # create and write the csv file
+        writer = csv.writer(response)
+        writer.writerow(titles)
+
+        m2m_fields = [m2m_f.attname for m2m_f in model._meta.many_to_many]
+        for obj in self.get_queryset():
+            row = []
+            for field in displayed_fields:
+                try:
+                    field_value = getattr(obj, field)
+                except AttributeError:
+                    field_value = self.get_field_value(field, obj)
+                # checks related_field and get relevant values
+                related_field = self._field_is_m2m(m2m_fields, field)
+                if related_field:
+                    related_manager = getattr(obj, related_field)
+                    field_value = ', '.join([str(obj) for obj in related_manager.get_queryset()])
+                # checks if still didn't get relevant 'field_value' value
+                if isinstance(field_value, Manager):
+                    field_value = ', '.join([str(obj) for obj in field_value.get_queryset()])
+                row.append(field_value)
+            writer.writerow(row)
+
+        return response
 
     @classmethod
     def reorder(cls, rows):
