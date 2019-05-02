@@ -50,14 +50,14 @@ class TestListView(object):
 
         self._assert_list_items_len(response, 0)
 
-    def test_one_tool_link(self, admin_client):
+    def test_two_tool_links(self, admin_client):
         """
         Single tool link display
         """
         response = self._request(admin_client)
 
         assert 'tool_links' in response.context_data
-        assert len(response.context_data['tool_links']) == 1
+        assert len(response.context_data['tool_links']) == 2
 
     def test_multiple_tool_links(self, admin_client):
         """
@@ -68,7 +68,7 @@ class TestListView(object):
         response = self._request(admin_client)
 
         assert 'tool_links' in response.context_data
-        assert len(response.context_data['tool_links']) == 2
+        assert len(response.context_data['tool_links']) == 3
 
     def test_no_tool_links(self, admin_client):
         """
@@ -180,3 +180,18 @@ class TestListView(object):
         list_items = response.context_data['list_items']
         assert len(list_items[0]['actions']) == 1
         assert len(list_items[1]['actions']) == 2
+
+    def test_export_csv_file(self, admin_client):
+        """
+        Test csv file export functional
+        """
+        for i in range(30):
+            ArticleFactory(title="title{}".format(i), description='description{}'.format(i))
+
+        response = admin_client.get(reverse('articles:list'), {'format': 'csv'})
+        assert response.status_code == 200
+        assert response._headers['content-type'][1] == 'text/csv'
+        attach_file = 'Articles.csv'
+        assert attach_file in response._headers['content-disposition'][1]
+        # 2 more rows in file: titles and blank line
+        assert len(response._container) == 32

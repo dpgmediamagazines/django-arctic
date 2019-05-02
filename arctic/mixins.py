@@ -1,7 +1,6 @@
 """
 Basic mixins for generic class based views.
 """
-
 import importlib
 import sys
 import warnings
@@ -232,7 +231,7 @@ class FormMixin(ModalMixin):
             return None
 
         allowed_rows = OrderedDict()
-        py36_version = 0x30600f0  # hex number that represents python 3.6.0
+        py36_version = 0x30600F0  # hex number that represents python 3.6.0
         if (type(layout) is OrderedDict) or (
             (type(layout) is dict) and sys.hexversion >= py36_version
         ):
@@ -746,12 +745,17 @@ class ListMixin(ModalMixin):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                view = view_from_url(link[1])
-                if view.has_permission(self.request.user):
+                if callable(getattr(self, link[1], None)):
+                    url = getattr(self, link[1])
+                    view = None
+                else:
+                    url = reverse_url(link[1], None)
+                    view = view_from_url(link[1])
+                if (view is None) or view.has_permission(self.request.user):
                     self._extract_confirm_dialog(view, link[1])
                     allowed_tool_link = {
                         "label": link[0],
-                        "url": self.in_modal(reverse_url(link[1], None)),
+                        "url": self.in_modal(url),
                         "style": "secondary",
                         "id": generate_id("tool-link", link[0]),
                         "modal": self.get_modal_link(link[1]),
@@ -798,6 +802,14 @@ class ListMixin(ModalMixin):
                 data=data
             )
             return self._advanced_search_form
+
+    @staticmethod
+    def _field_is_m2m(m2m_fields_names, field):
+        field_name = field.split("__")[0]
+        for m2m_field in m2m_fields_names:
+            if m2m_field in field_name:
+                return m2m_field
+        return False
 
 
 class RoleAuthentication(object):
