@@ -13,6 +13,13 @@ Always reference the ticket number at the end of the issue description.
 ### Added
 
 - Added CSV file export function to the ListView
+- Added support for Django 2.2
+- Added support for Python 3.7
+
+## Removed
+
+- Removed support for Django 2.0
+- Removed support for Python 2.7 and 3.5
 
 
 ## 1.3.7 (2019-04-18)
