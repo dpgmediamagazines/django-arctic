@@ -21,22 +21,48 @@ from . import defaults
 
 def is_active(menu_entry, url_name):
     if url_name:
-        if menu_entry[1] == url_name:
+        menu_url = menu_entry[1]
+        if isinstance(menu_entry[1], (list, tuple)):
+            menu_url = menu_entry[1][0]
+        if menu_url == url_name:
             return True
         elif len(menu_entry) >= 3:
             related_urls = []
             related_submenus = []
 
             for menu_item in menu_entry[2:]:
+                if (menu_entry[0] == 'Categories'):
+                    print('menu_item')
+                    print(menu_item)
                 if is_list_of_list(menu_item):
                     # suppose it is submenus
                     related_submenus = menu_item
                 elif isinstance(menu_item, (tuple, list)):
                     # suppose it is related urls names
                     related_urls += list(menu_item)
-
-            related_urls += [submenu[1] for submenu in related_submenus]
+            # related_urls += [submenu[1] for submenu in related_submenus]
+            for submenu in related_submenus:
+                # if (menu_entry[0] == 'Categories'):
+                #     print('submenu')
+                #     print(submenu)
+                #     print('submenu 1')
+                #     print(submenu[1])
+                if isinstance(submenu[1], (list, tuple)):
+                    for item in submenu[1]:
+                        related_urls += [item]
+                else:
+                    related_urls += [submenu[1]]
+                # if (menu_entry[0] == 'Categories'):
+                #     print('related')
+                #     print(related_urls)
             return url_name in related_urls
+            # Split url by :
+            # url_list = url_name.split(':')
+            # del url_list[-1]
+            # url_name = ':'.join(url_list)
+            # for url in related_urls:
+            #     if url.startswith(url_name):
+            #         return True
     return False
 
 
@@ -66,11 +92,14 @@ def menu(menu_config=None, **kwargs):
 
             # check permission based on named_url
             path = None
-            if menu_entry[1]:
+            menu_url = menu_entry[1]
+            if isinstance(menu_entry[1], (list, tuple)):
+                menu_url = menu_entry[1][0]
+            if menu_url:
                 if not view_from_url(menu_entry[1]).has_permission(user):
                     continue
 
-                path = reverse(menu_entry[1])
+                path = reverse(menu_url)
             # icons and collapse are optional
             icon = None
             if (len(menu_entry) >= 3) and (
@@ -79,7 +108,7 @@ def menu(menu_config=None, **kwargs):
                 icon = menu_entry[2]
             active_weight = len(path) if path else 0
             menu_dict[menu_entry[0]] = {
-                "url": menu_entry[1],
+                "url": menu_url,
                 "icon": icon,
                 "submenu": None,
                 "active": is_active(menu_entry, url_full_name),
