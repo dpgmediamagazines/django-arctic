@@ -35,14 +35,18 @@ def is_active(menu_entry, url_name):
                     # suppose it is related urls names
                     related_urls += list(menu_item)
             related_urls += [submenu[1] for submenu in related_submenus]
-            # Split url by :
-            url_list = url_name.split(':')
-            del url_list[-1]
-            url_name = ':'.join(url_list)
-            # return url_name in related_urls
-            for url in related_urls:
-                if url.startswith(url_name):
-                    return True
+            if url_name in related_urls:
+                return True
+            # Check for * in the related url's
+            start_url = []
+            for related in related_urls:
+                if related.endswith('*'):
+                    start_url += [related]
+            if len(start_url):
+                url_base_name = url_name.split(':')
+                del url_base_name[-1]
+                url_base_name = ':'.join(url_base_name)
+                return [item.startswith(url_base_name) for item in start_url]
     return False
 
 
