@@ -527,6 +527,25 @@ Example:
                 conditions &= Q(created_on__gte=created_on_value)
             return conditions
 
+### `allowed_exports`
+
+It is possible to export the currently displayed ListView. This is enabled by
+setting the `allowed_exports` property to the allowed formats to be exported,
+currently only `csv` is available so:
+
+    allowed_exports = ["csv"]
+
+will enable CSV export, this export will respect all search filters, but will 
+not be limited by the pagination setting.
+
+To expose the export button on the ListView add the following to  the 
+`tool_links` property:
+
+    tool_links = [
+        ...
+        ("Export CSV", "get_csv_export_url", "fa-download"),
+        ...
+    ]
 
 ## DataListView
 

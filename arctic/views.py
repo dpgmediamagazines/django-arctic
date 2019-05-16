@@ -4,6 +4,7 @@ import json
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView as BaseTemplateView
@@ -42,14 +43,10 @@ class NotFoundView(TemplateView):
         return self.render_to_response(context, status=404)
 
 
-class InternalErrorView(TemplateView):
-    page_title = "Internal Error"
-    template_name = "arctic/500.html"
-    permission_required = ""
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context, status=500)
+def handler500(request, template_name="arctic/500.html"):
+    response = render(request, template_name)
+    response.status_code = 500
+    return response
 
 
 class AutoCompleteView(BaseView):
@@ -104,4 +101,3 @@ class RedirectToParentView(BaseTemplateView):
 handler400 = BadRequestView.as_view()
 handler403 = ForbiddenView.as_view()
 handler404 = NotFoundView.as_view()
-handler500 = InternalErrorView.as_view()
