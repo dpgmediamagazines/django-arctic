@@ -19,3 +19,4 @@ class ImagesInline(InlineFormSet):
     fields = "__all__"
     layout = {"blah": "bah"}
     sorting_field = "order"
+    factory_kwargs = {'extra': 1}
