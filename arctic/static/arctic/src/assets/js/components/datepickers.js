@@ -48,6 +48,7 @@ function startDatepicker() {
     $('[js-datepicker]').each(function(index) {
         var date = datetimeformatter($(this).attr("data-date"), $(this).attr('format') ? $(this).attr('format') : datetime_picker_settings.dateFormat);
         var instance = this;
+        var oldValue = this.value;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
             todayButton: true,
@@ -67,6 +68,9 @@ function startDatepicker() {
             })
 
         }).data('datepicker').selectDate(date);
+        if (oldValue) {
+            this.value = oldValue;
+        }
     });
 }
 
@@ -74,6 +78,7 @@ function startTimePicker() {
     $('[js-timepicker]').each(function(index) {
         var date = datetimeformatter($(this).attr("data-date"), $(this).attr('format') ? $(this).attr('format') : datetime_picker_settings.timeFormat);
         var instance = this;
+        var oldValue = this.value;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
             onlyTimepicker: true,
@@ -93,6 +98,9 @@ function startTimePicker() {
                 return inst;
             })
         }).data('datepicker').selectDate(date);
+        if (oldValue) {
+            this.value = oldValue;
+        }
     });
 }
 
@@ -100,6 +108,7 @@ function startDateTimePicker() {
     $('[js-datetimepicker]').each(function(index) {
         var date = datetimeformatter($(this).attr("data-datetime"),  $(this).attr('format') ? $(this).attr('format') : `${datetime_picker_settings.dateFormat} ${datetime_picker_settings.timeFormat}`);
         var instance = this;
+        var oldValue = this.value;
         $(instance).attr('type', 'text');
         $(instance).datepicker({
             language: 'en',
@@ -119,6 +128,9 @@ function startDateTimePicker() {
                 return inst;
             })
        }).data('datepicker').selectDate(date);
+       if (oldValue) {
+           this.value = oldValue;
+       }
     });
 }
 

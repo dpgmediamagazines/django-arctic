@@ -6,6 +6,7 @@ $marginMedium: 10px;
     margin: 0 0 .05rem; //small margin to fix rendering bug
     background-color: white;
     min-height: 1rem;
+    z-index: 1;
 }
 
 .selectize-dropdown {

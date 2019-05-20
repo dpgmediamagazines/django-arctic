@@ -10,6 +10,8 @@ textarea,
 select,
 select:not([size]):not([multiple]) {
     @extend .form-control;
+    position: relative;
+    z-index: 1;
 }
 
 .invalid-form-field {

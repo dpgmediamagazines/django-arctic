@@ -22,7 +22,7 @@
             <i class="fa fa-bars"></i>
         </div>
     {% endif %}
-    <div class="btn btn-secondary btn-sm inline-form-delete" js-inline-delete>
+    <div class="btn btn-secondary btn-sm inline-form-delete {% if formset.can_delete is False %} hide{% endif%}" js-inline-delete>
         <i class="fa fa-trash fa-lg"></i>
     </div>
     <div class="inline-separator">
