@@ -92,7 +92,7 @@ function startDynamicInlines() {
     }
 
     function checkMaxNum(inlineFormSelector) {
-        // Check if the form already reache dthe max number of fields
+        // Check if the form already reached dthe max number of fields
         let $addButton = $('[js-data-inline-button]');
         for(let i = 0, len = $addButton.length; i < len; i++) {
             let button = $addButton[i];
