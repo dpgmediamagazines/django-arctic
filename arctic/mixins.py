@@ -510,6 +510,8 @@ class FormMixin(ModalMixin):
                 except AttributeError:
                     verbose_name = formset.model._meta.verbose_name_plural
                 setattr(context["inlines"][i], "verbose_name", verbose_name)
+                extra = getattr(self.inlines[i], 'inline_extra', 1)
+                context["inlines"][i].extra = extra
                 if hasattr(self.inlines[i], "sorting_field"):
                     setattr(
                         context["inlines"][i],
