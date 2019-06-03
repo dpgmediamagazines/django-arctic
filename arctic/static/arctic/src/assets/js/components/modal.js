@@ -9,10 +9,10 @@ $(document).ready(function() {
     $('iframe').iFrameResize({
         scrolling: true,
         warningTimeout: 0,
-        resizedCallback: function(messageData) {
+        onResized: function(messageData) {
             $('#iframe-modal').modal('handleUpdate');
         },
-        messageCallback: function(messageData) {
+        onMessage: function(messageData) {
             if (messageData.message == 'close') {
                 $('#iframe-modal').modal('hide');
             }

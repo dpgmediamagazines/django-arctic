@@ -2,10 +2,11 @@ function startDynamicInlines() {
     let inlineFormSelector = '[data-inline-form]';
     hideFields(inlineFormSelector);
     deleteButton(inlineFormSelector);
+    checkMaxNum(inlineFormSelector);
 
-    $('[data-inline-button]').off().on('click', function(e){
+    $('[js-data-inline-button]').off().on('click', function(e){
         e.preventDefault();
-
+        let max_num = this.getAttribute('data-inline-max-num');
         let $parent = $(this).parent();
         let $inlineForm = $parent.find(inlineFormSelector);
         inlineForm = $inlineForm[$inlineForm.length -1];
@@ -37,6 +38,11 @@ function startDynamicInlines() {
         startSortInlines();
         floatLabels();
         betterFile();
+
+        // check max number
+        if (max_num == $inlineForm.length) {
+            $(this).hide();
+        }
     });
 
     function deleteButton(inlineFormSelector) {
@@ -83,6 +89,20 @@ function startDynamicInlines() {
         let deleteInput = 'input[name*="DELETE"]';
         let $delete$Fields = $(inlineFormSelector).find(deleteInput);
         $delete$Fields.closest('.row').addClass('hide');
+    }
+
+    function checkMaxNum(inlineFormSelector) {
+        // Check if the form already reached the max number of fields
+        let $addButton = $('[js-data-inline-button]');
+        for(let i = 0, len = $addButton.length; i < len; i++) {
+            let button = $addButton[i];
+            let $parent = $(button).parent();
+            let $inlineForm = $parent.find(inlineFormSelector);
+            let max_num = button.getAttribute('data-inline-max-num');
+            if (max_num == $inlineForm.length) {
+                $(button).hide();
+            }
+        }
     }
  }
 
