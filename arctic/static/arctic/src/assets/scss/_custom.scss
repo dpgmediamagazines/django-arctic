@@ -86,6 +86,11 @@ $sidebar-alt-color:    var(--sidebar-alt-color, lighten($black, 25%));
 $highlight-background: var(--highlight-background, #dfdff2);
 $highlight-color:      var(--highlight-color, $gray-dark);
 
+body#dark {
+  $sidebar-background:   var(--sidebar-background, #30454c);
+
+}
+
 
 // Options
 //
@@ -130,6 +135,12 @@ $sizes: (
 
 $body-bg:       $gray-lightest !default;
 $body-color:    $gray-dark !default;
+
+body#dark {
+  $body-bg:       $gray-dark !default;
+  $body-color:    $gray-lightest !default;
+
+}
 
 // Links
 //
