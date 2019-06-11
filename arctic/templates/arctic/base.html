@@ -8,7 +8,7 @@
         {% block head_extras %}{% endblock %}
     </head>
 
-    <body id="dark" class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %}">
 
         {% block body %}
         <div class="container-fluid">
@@ -139,6 +139,18 @@
                     timeFormat: "{{ DATETIME_FORMATS.TIME }}",
                     firstDay: {{ DATETIME_FORMATS.FIRST_DAY }}
                 }
+
+                {% if allow_dark_mode %}
+                    var mql = window.matchMedia("(prefers-color-scheme: dark)");
+                    function setDark(e) {
+                        document.body.id = (e.matches ? "dark" : "");
+                    }
+                    mql.addListener(setDark);
+                    document.addEventListener("DOMContentLoaded", function() {
+                        setDark(mql);
+                    });
+                {% endif %}
+
             </script>
             <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
             {{ media.js }}

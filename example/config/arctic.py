@@ -74,6 +74,8 @@ ARCTIC_ROLES = {
 
 ARCTIC_AUTOCOMPLETE = {"categories": ("articles.Category", "name")}
 
+ARCTIC_ALLOW_DARK_MODE = True
+
 # ARCTIC_SIDEBAR_BACKGROUND = '#BF1D1D'
 # ARCTIC_HIGHLIGHT_COLOR = '#9ec3d5'
 

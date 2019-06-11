@@ -124,6 +124,7 @@ class View(RoleAuthentication, base.View):
         context["media"] = self.media
         context["form_display"] = self.get_form_display()
         context["in_modal"] = self.request.GET.get("inmodal", False)
+        context["allow_dark_mode"] = self.get_allow_dark_mode()
         return context
 
     def get_breadcrumbs(self):
@@ -208,6 +209,9 @@ class View(RoleAuthentication, base.View):
 
     def get_highlight_background(self):
         return getattr(settings, "ARCTIC_HIGHLIGHT_BACKGROUND", None)
+
+    def get_allow_dark_mode(self):
+        return getattr(settings, "ARCTIC_ALLOW_DARK_MODE", None)
 
     def get_index_url(self):
         try:

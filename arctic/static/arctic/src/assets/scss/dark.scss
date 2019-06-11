@@ -1,0 +1,118 @@
+body#dark {
+    background-color: $gray-dark;
+    color: $gray-lightest;
+    
+    #sidebar {
+        background-color: var(--sidebar-background-dark, #203541);
+    }
+
+    .sidebar__submenu>li a.active>:after {
+        border-right: 0.8rem solid $gray-dark;
+    }
+
+    .sidebar__submenu>li a.active {
+        color: var(--sidebar-alt-color-dark, lighten($gray-light, 10%));
+    }
+
+    .arctic-card, log-in-form {
+        background-color: #252728;
+        color: $gray-lightest;
+        border-color: darken($gray, 5%);
+    }
+
+    .arctic-card__form-header .arctic-card__title {
+        color: $gray-lightest;
+        border-bottom: 1px solid $gray;
+    }
+
+    .form-control {
+        background-color: inherit;
+        color: $gray-lightest;
+        border: 1px solid $gray;
+    }
+
+    .float-label .form-group label {
+        color: lighten($gray-light, 10%);
+    }
+    .float-label .form-group textarea:not([disabled])+label {
+        background-color: #252728;
+    }
+
+    .better-file .better-file-label {
+        background-color: transparent;
+        border: 1px solid $gray;        
+    }
+
+    .quick-filters {
+        background-color: transparent;
+    }
+
+    .btn-secondary, .btn-outline-secondary {
+        color: $gray-lightest;
+        background-color: inherit;
+        border-color: $gray;
+        &:hover {
+            background-color: darken($gray, 3%);
+        }
+    }
+
+    label.btn.btn-outline-secondary.active {
+        background-color: darken($gray, 3%);
+    }
+
+    .btn-secondary {
+        background-color: darken($gray, 8%);
+    }
+
+    .selectize-control {
+        background-color: #252728;
+    }
+
+    .selectize-input {
+        background-color: #252728;
+        border: 1px solid $gray;
+    }
+
+    .selectize-control.single .item {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    .table {
+        background-color: #252728;
+        color: inherit;
+
+        thead th {
+            border-bottom: 2px solid $gray;
+        }
+
+        th, td {
+            border-top: 1px solid $gray;
+        }
+
+        tr {
+            background-color: #252728;
+            .list-actions-placeholder {
+                background-color: #252728;            
+            }
+        }
+        
+        tbody tr:hover {
+                color: inherit;
+                background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr:nth-of-type(odd) {
+            background-color: lighten(#252728, 2%);
+            .list-actions-placeholder {
+                background-color: lighten(#252728, 2%);            
+            }
+        }
+
+        tbody tr:hover:nth-of-type(odd) {
+            color: inherit;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+    }
+}
