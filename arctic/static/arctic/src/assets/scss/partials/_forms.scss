@@ -375,12 +375,16 @@ form.search-form {
     .inline-helper-pane {
         position: absolute;
         top: 0;
-        left: 0;
-        right: -50px;
         height: 100%;
         z-index: 0;
 
-        &--big {
+        &--right {
+            right: -50px;
+            left: 100%;
+        }
+
+        &--left {
+            right: 100%;
             left: -50px;
         }
     }
