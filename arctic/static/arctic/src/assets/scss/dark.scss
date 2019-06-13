@@ -1,8 +1,11 @@
 body#dark {
-    background-color: $gray-dark;
     color: $gray-lightest;
+
+    &:not(.page-login) {
+        background-color: $gray-dark;
+    }
     
-    #sidebar {
+    #sidebar, &.page-login {
         background-color: var(--sidebar-background-dark, #203541);
     }
 
@@ -14,10 +17,14 @@ body#dark {
         color: var(--sidebar-alt-color-dark, lighten($gray-light, 10%));
     }
 
-    .arctic-card, log-in-form {
+    .arctic-card, .log-in-form, .popover, .modal-content {
         background-color: #252728;
         color: $gray-lightest;
         border-color: darken($gray, 5%);
+    }
+
+    .close {
+        color: $gray-lightest;
     }
 
     .arctic-card__form-header .arctic-card__title {
@@ -86,7 +93,7 @@ body#dark {
             border-bottom: 2px solid $gray;
         }
 
-        th, td {
+        tbody th, td {
             border-top: 1px solid $gray;
         }
 
