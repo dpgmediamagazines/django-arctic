@@ -27,6 +27,44 @@ body#dark {
         color: $gray-lightest;
     }
 
+    .nav-tabs .nav-link.active, 
+    .nav-tabs .nav-item.show .nav-link {
+        color: $gray-light;
+        border-color: darken($gray, 5%);
+        background-color: #252728;
+    }
+
+    .datepicker, .datepicker--nav, .datepicker--time, .datepicker--buttons {
+        color: darken($gray-lightest, 5%);
+        border-color: darken($gray, 5%);
+        background-color: lighten(#252728, 3%);
+    }
+
+    .datepicker--pointer {
+        background-color: lighten(#252728, 3%);
+        border-top: 1px solid darken($gray, 5%);
+        border-right: 1px solid darken($gray, 5%);
+    }
+
+    .datepicker--cell-day.-other-month-, 
+    .datepicker--cell-year.-other-decade- {
+        color: $gray-light;
+    }
+
+    .datepicker--cell-day.-other-month-:hover, .datepicker--cell-year.-other-decade-:hover,
+    .datepicker--cell.datepicker--cell-day:hover {
+        background-color: #252728;
+    }
+
+    .datepicker--time-current-hours:after, 
+    .datepicker--time-current-minutes:after {
+        background-color: lighten(#252728, 10%);
+    }
+
+    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus, .nav-tabs {
+        border-color: darken($gray, 5%);
+    }
+
     .arctic-card__form-header .arctic-card__title {
         color: $gray-lightest;
         border-bottom: 1px solid $gray;
