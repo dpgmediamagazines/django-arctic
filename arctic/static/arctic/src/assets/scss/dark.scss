@@ -1,10 +1,10 @@
-body#dark {
+body.dark {
     color: $gray-lightest;
 
     &:not(.page-login) {
         background-color: $gray-dark;
     }
-    
+
     #sidebar, &.page-login {
         background-color: var(--sidebar-background-dark, #203541);
     }
@@ -27,7 +27,7 @@ body#dark {
         color: $gray-lightest;
     }
 
-    .nav-tabs .nav-link.active, 
+    .nav-tabs .nav-link.active,
     .nav-tabs .nav-item.show .nav-link {
         color: $gray-light;
         border-color: darken($gray, 5%);
@@ -46,7 +46,7 @@ body#dark {
         border-right: 1px solid darken($gray, 5%);
     }
 
-    .datepicker--cell-day.-other-month-, 
+    .datepicker--cell-day.-other-month-,
     .datepicker--cell-year.-other-decade- {
         color: $gray-light;
     }
@@ -56,7 +56,7 @@ body#dark {
         background-color: #252728;
     }
 
-    .datepicker--time-current-hours:after, 
+    .datepicker--time-current-hours:after,
     .datepicker--time-current-minutes:after {
         background-color: lighten(#252728, 10%);
     }
@@ -85,7 +85,7 @@ body#dark {
 
     .better-file .better-file-label {
         background-color: transparent;
-        border: 1px solid $gray;        
+        border: 1px solid $gray;
     }
 
     .quick-filters {
@@ -138,10 +138,10 @@ body#dark {
         tr {
             background-color: #252728;
             .list-actions-placeholder {
-                background-color: #252728;            
+                background-color: #252728;
             }
         }
-        
+
         tbody tr:hover {
                 color: inherit;
                 background-color: rgba(255, 255, 255, 0.05);
@@ -150,7 +150,7 @@ body#dark {
         tbody tr:nth-of-type(odd) {
             background-color: lighten(#252728, 2%);
             .list-actions-placeholder {
-                background-color: lighten(#252728, 2%);            
+                background-color: lighten(#252728, 2%);
             }
         }
 

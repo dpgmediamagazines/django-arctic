@@ -143,7 +143,8 @@
                 {% if allow_dark_mode %}
                     var mql = window.matchMedia("(prefers-color-scheme: dark)");
                     function setDark(e) {
-                        document.body.id = (e.matches ? "dark" : "");
+                        let className = e.matches ? "dark" : "light"
+                        document.body.classList.add(className);
                     }
                     mql.addListener(setDark);
                     document.addEventListener("DOMContentLoaded", function() {
