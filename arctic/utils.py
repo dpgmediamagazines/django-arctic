@@ -46,7 +46,8 @@ def is_active(menu_entry, url_name):
                 url_base_name = url_name.split(':')
                 del url_base_name[-1]
                 url_base_name = ':'.join(url_base_name)
-                return [item.startswith(url_base_name) for item in start_url]
+                for item in start_url:
+                    return item.startswith(url_base_name)
     return False
 
 
