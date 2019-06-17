@@ -17,7 +17,8 @@ body#dark {
         color: var(--sidebar-alt-color-dark, lighten($gray-light, 10%));
     }
 
-    .arctic-card, .log-in-form, .popover, .modal-content {
+    .arctic-card, .log-in-form, .popover, .modal-content,
+    .selectize-dropdown {
         background-color: #252728;
         color: $gray-lightest;
         border-color: darken($gray, 5%);
