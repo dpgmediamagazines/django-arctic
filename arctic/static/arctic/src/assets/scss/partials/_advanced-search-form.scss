@@ -1,0 +1,7 @@
+.advanced-form-popover {
+    opacity: 0;
+
+    &.visible {
+        opacity: 1;
+    }
+}
