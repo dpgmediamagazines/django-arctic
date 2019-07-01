@@ -2,11 +2,11 @@ pytest==3.4.*
 pytest-cov==2.5.*
 pytest-django==3.2.*
 pytest-pythonpath==0.7.*
-factory-boy==2.11.*
-mixer==6.0.*
+factory-boy==2.12.*
+mixer==6.1.*
 isort==4.3.*
-flake8==3.5.*
+flake8==3.7.*
 pep8==1.7.*
 # for checking html
-beautifulsoup4==4.6.*
-Pillow==5.1.*
+beautifulsoup4==4.7.*
+Pillow==6.0.*

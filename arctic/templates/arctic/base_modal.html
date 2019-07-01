@@ -1,5 +1,7 @@
 {% extends "arctic/base.html" %}
-{% load i18n staticfiles arctic_tags %}
+{% load i18n static arctic_tags %}
+
+{% block body_class %}{{ block.super }} arctic-modal{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
