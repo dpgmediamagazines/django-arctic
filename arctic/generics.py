@@ -413,13 +413,10 @@ class ListView(View, ListMixin, base.ListView):
 
         return self.render_to_response(context)
 
-    def _get_export_url(self, format):
+    def get_export_url(self, format):
         return append_query_parameter(
             self.request.get_full_path(), {"format": format}
         )
-
-    def get_csv_export_url(self):
-        return self._get_export_url("csv")
 
     def get_object_list(self):
         qs = self.get_queryset()

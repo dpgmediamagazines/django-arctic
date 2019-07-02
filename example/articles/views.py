@@ -49,7 +49,7 @@ class ArticleListView(ListView):
     tool_links_collapse = 2
     tool_links = [
         (_("Create Article"), "articles:create", "fa-plus"),
-        (_("Export CSV"), "get_csv_export_url", "fa-download"),
+        (_("Export CSV"), ("get_export_url", "csv"), "fa-download"),
     ]
     field_classes = {"published": ""}
 
