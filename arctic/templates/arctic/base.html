@@ -28,12 +28,12 @@
                             {{ page_title }}
                         </h3>
                         <nav class="nav dropdown header__menu">
-                            {% if allow_dark_mode == 'Toggle' %}
-                            <div class="dark-mode-toggle">
+                            {% if allow_dark_mode %}
+                            <div id="dark-mode-container" class="dark-mode-toggle hide">
                                 <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
-                                        <label class="custom-control-label" for="darkModeSwitch"></label>
+                                        <input type="checkbox" class="custom-control-input" id="dark-mode-switch">
+                                        <label class="custom-control-label" for="dark-mode-switch"></label>
                                     </div>
                                 <i class="fa fa-moon-o dark-mode-toggle__icon" aria-hidden="true"></i>
                             </div>
@@ -149,24 +149,11 @@
                     timeFormat: "{{ DATETIME_FORMATS.TIME }}",
                     firstDay: {{ DATETIME_FORMATS.FIRST_DAY }}
                 }
-
                 {% if allow_dark_mode %}
-                    var mql = window.matchMedia("(prefers-color-scheme: dark)");
-                    function toggleDark(state) {
-                        if (state){
-                            document.body.classList.add("dark");
-                        } else {
-                            document.body.classList.remove("dark");
-                        }
-                    }
-                    {% if allow_dark_mode != 'Toggle' %}
-                    mql.addListener(toggleDark);
-                    document.addEventListener("DOMContentLoaded", function() {
-                        toggleDark(mql.matches);
-                    });
-                    {% else %}
-                    var darkModeSwitch = document.getElementById('darkModeSwitch');
-
+                var startDarkToggle = function() {
+                    var darkModeSwitch = document.getElementById('dark-mode-switch');
+                    var darkModeContainer = document.getElementById('dark-mode-container');
+                    darkModeContainer.classList.remove('hide');
                     darkModeSwitch.addEventListener("change", function(event) {
                         toggleDark(event.target.checked);
                         localStorage.setItem('darkMode', event.target.checked);
@@ -179,7 +166,39 @@
                         darkModeSwitch.checked = true; //does not trigger change event
                         toggleDark(true);
                     }
-                    {% endif %}
+                }
+                var startDarkMode = function() {
+                    if (allowDarkMode != 'Toggle') {
+                        // check if browser does not suport and turn on toggle
+                        if (!mqd.matches) {
+                            var mql = window.matchMedia("(prefers-color-scheme: light)");
+                            var mqnp = window.matchMedia("(prefers-color-scheme: no-preference)");
+                            if (!mql.matches && !mqnp.matches) {
+                                startDarkToggle();
+                                return false;
+                            }
+                        }
+                        mqd.addListener(toggleDark);
+                        document.addEventListener("DOMContentLoaded", function() {
+                            toggleDark(mqd.matches);
+                        });
+
+                    } else {
+                        startDarkToggle();
+                    }
+                }
+
+                function toggleDark(state) {
+                    if (state) {
+                        document.body.classList.add("dark");
+                    } else {
+                        document.body.classList.remove("dark");
+                    }
+                }
+
+                var allowDarkMode = '{{ allow_dark_mode }}';
+                var mqd = window.matchMedia("(prefers-color-scheme: dark)");
+                startDarkMode();
                 {% endif %}
 
             </script>

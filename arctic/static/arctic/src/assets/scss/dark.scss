@@ -21,7 +21,7 @@ body.dark {
         color: var(--sidebar-alt-color-dark, lighten($gray-light, 10%));
     }
 
-    .arctic-card, .log-in-form, .popover, .modal-content,
+    .arctic-card, .log-in-form, .popover, .popover-body, .modal-content,
     .selectize-dropdown {
         background-color: #252728;
         color: $gray-lightest;
@@ -88,6 +88,10 @@ body.dark {
         background-color: #252728;
     }
 
+    .form-group .label-element {
+        color: lighten($gray-light, 10%);
+    }
+
     .better-file .better-file-label {
         background-color: transparent;
         border: 1px solid $gray;
@@ -131,6 +135,10 @@ body.dark {
     .selectize-input {
         background-color: #252728;
         border: 1px solid $gray;
+
+        input {
+            color: $gray-lightest;
+        }
     }
 
     .selectize-control.single .item {
