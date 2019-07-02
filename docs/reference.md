@@ -543,7 +543,7 @@ To expose the export button on the ListView add the following to  the
 
     tool_links = [
         ...
-        ("Export CSV", "get_csv_export_url", "fa-download"),
+        ("Export CSV", ("get_export_url", "csv"), "fa-download"),
         ...
     ]
 
