@@ -642,7 +642,7 @@ class ListView(View, ListMixin, base.ListView):
         writer.writerow(titles)
 
         m2m_fields = [m2m_f.attname for m2m_f in model._meta.many_to_many]
-        for obj in self.get_queryset():
+        for obj in self.get_object_list():
             row = []
             for field in displayed_fields:
                 try:

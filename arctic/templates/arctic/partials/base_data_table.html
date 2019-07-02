@@ -1,4 +1,4 @@
-{% load i18n staticfiles arctic_tags arctic_pagination_tags %}
+{% load i18n static arctic_tags arctic_pagination_tags %}
 
 <div class="row">
     {% block tool_links %}
@@ -38,16 +38,22 @@
                         {% endfor %}
                         {% if advanced_search_form %}
                         {% block advanced_search_form %}
-                            <a id="arctic_toggle_advanced_search_form_button" class="btn btn-secondary arctic_toggle_form_button" data-toggle="popover" data-placement="bottom" data-container="#arctic_search_form" data-popover_content_container="#arctic_advanced_search">
+                            <a id="arctic_toggle_advanced_search_form_button" data-popover-container=".advanced-form-popover" class="btn btn-secondary arctic_toggle_form_button">
                                 <i class="fa fa-sliders"></i>
                             </a>
-                            <div class="artic_toggle_form hidden" id="arctic_advanced_search" hidden>
-                                {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
-                                <div class="form-block pull-right">
-                                    <input type="reset" value="{% trans 'Clear' %}" class="btn btn-secondary" onClick='location.href = location.pathname'>
-                                    <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
+                            <div class="popover bs-popover-bottom advanced-form-popover hide" x-placement="bottom">
+                                <div class="arrow"></div>
+                                <div class="popover-body">
+                                    <div class="artic_toggle_form hidden" id="arctic_advanced_search" >
+                                        {% include "arctic/partials/form_fields.html" with form=advanced_search_form %}
+                                        <div class="form-block pull-right">
+                                            <input type="reset" value="{% trans 'Clear' %}" class="btn btn-secondary" onClick='location.href = location.pathname'>
+                                            <input type="submit" value="{% trans 'Search' %}" class="btn btn-primary">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
                         {% endblock %}
                         {% endif %}
                     </div>

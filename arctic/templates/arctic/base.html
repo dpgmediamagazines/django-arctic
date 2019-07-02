@@ -1,4 +1,4 @@
-{% load i18n staticfiles arctic_tags %}
+{% load i18n static arctic_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
@@ -28,6 +28,16 @@
                             {{ page_title }}
                         </h3>
                         <nav class="nav dropdown header__menu">
+                            {% if allow_dark_mode == 'Toggle' %}
+                            <div class="dark-mode-toggle">
+                                <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
+                                        <label class="custom-control-label" for="darkModeSwitch"></label>
+                                    </div>
+                                <i class="fa fa-moon-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                            </div>
+                            {% endif %}
                             {% if not request.user.is_anonymous %}
                                 {% if LOGOUT_URL %}
                                     <a href="#" class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
@@ -142,14 +152,34 @@
 
                 {% if allow_dark_mode %}
                     var mql = window.matchMedia("(prefers-color-scheme: dark)");
-                    function setDark(e) {
-                        let className = e.matches ? "dark" : "light"
-                        document.body.classList.add(className);
+                    function toggleDark(state) {
+                        if (state){
+                            document.body.classList.add("dark");
+                        } else {
+                            document.body.classList.remove("dark");
+                        }
                     }
-                    mql.addListener(setDark);
+                    {% if allow_dark_mode != 'Toggle' %}
+                    mql.addListener(toggleDark);
                     document.addEventListener("DOMContentLoaded", function() {
-                        setDark(mql);
+                        toggleDark(mql.matches);
                     });
+                    {% else %}
+                    var darkModeSwitch = document.getElementById('darkModeSwitch');
+
+                    darkModeSwitch.addEventListener("change", function(event) {
+                        toggleDark(event.target.checked);
+                        localStorage.setItem('darkMode', event.target.checked);
+                        var darkModeStorage = localStorage.getItem('darkMode');
+                    });
+
+                    // check if dark mode is on
+                    var darkModeStorage = localStorage.getItem('darkMode');
+                    if (darkModeStorage == 'true') {
+                        darkModeSwitch.checked = true; //does not trigger change event
+                        toggleDark(true);
+                    }
+                    {% endif %}
                 {% endif %}
 
             </script>

@@ -1,17 +1,60 @@
 /* Toggle Form functionality. Wraps a form inside a popover. Used for advanced search. */
 
 (function($) {
-    $('.arctic_toggle_form_button').each(function(){
-        var selector = $(this).data('popover_content_container');
-        var form = $(selector).contents();
+    var container = ''
 
-        $(this).data('form', form);
-    }).popover({
-        content: function () {
-            return $(this).data('form');
-        },
-        html: true
+    $('.arctic_toggle_form_button').off('click.advancedForm').on('click.advancedForm', function() {
+        container = $(this).data('popover-container');
+        if (!$(container).hasClass('hide')) {
+            hidePopover(container);
+            return;
+        }
+        $(container).removeClass('hide');
+        $(this).attr('aria-describedby', 'true');
+        setPosition();
+        setTimeout(function(){ dismissOnClick(container); }, 0);
     });
+
+    var setPosition = function () {
+        $(container).removeAttr('style');
+        var $arrow = $(container).find('.arrow');
+        $arrow.removeAttr('style');
+        var marginRight = 24;
+        var buttonPosition = $('.arctic_toggle_form_button')[0].getBoundingClientRect()
+        var offset = $(container)[0].getBoundingClientRect();
+        var windowWidth = document.documentElement.clientWidth;
+        var newTop = offset.top - buttonPosition.top + buttonPosition.height;
+
+        if (offset.top < buttonPosition.top) {
+            newTop = buttonPosition.top - offset.top + buttonPosition.height + 2;
+        }
+
+        var newLeft = Math.abs(offset.left - (windowWidth - offset.width - marginRight));
+        var translateProp = 'translate3d(' + newLeft + 'px, ' + newTop + 'px, 0px)';
+
+        $(container).css({
+            'position': 'absolute',
+            'transform': translateProp,
+            'will-change': 'transform',
+        });
+
+        //calculate arrow position
+        var arrowOffset = $arrow[0].getBoundingClientRect();
+        var newLeft = buttonPosition.left - arrowOffset.left + buttonPosition.width/2 - 3;
+        $($arrow).css({
+            'left': newLeft + 'px',
+        });
+
+        $(container).addClass('visible');
+    };
+
+    var hidePopover = function(container) {
+        $('body').off('click.popover');
+        $(container).addClass('hide');
+        $(container).addClass('visible');
+        $(container).removeAttr('style');
+        $('.arctic_toggle_form_button').removeAttr('aria-describedby');
+    };
 
     var checkIfDatepicker = function ($target) {
         if ($target.attr('class').indexOf('datepicker') > -1) {
@@ -22,7 +65,7 @@
     };
 
     var dismissOnClick = function () {
-        $('body').on('click.popover', function(e) {
+        $('body').off('click.popover').on('click.popover', function(e) {
             var target = e.target;
             if (!$(target).is('.popover') &&
                 !$(target).parents().is('.popover') &&
@@ -31,13 +74,17 @@
                 ) {
                     //check if it's a datepicker container
                 if (!checkIfDatepicker($(target))) {
-                    $('body').off('click.popover');
-                    $('.arctic_toggle_form_button').popover('hide');
+                    hidePopover(container);
                 }
             }
         });
     };
-    $('.arctic_toggle_form_button').on('show.bs.popover', dismissOnClick);
+
+    var resizeTimeout = false;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(setPosition(), 250);
+    });
 
     // Make popover visible in case advanced search form errors
     var hasAdvancedSearchErrors = $('#arctic_advanced_search').find('.invalid-form-field, .invalid-feedback').length > 0;

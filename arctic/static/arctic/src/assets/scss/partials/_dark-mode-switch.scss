@@ -1,0 +1,38 @@
+.dark-mode-toggle {
+    margin-right: 12px;
+    .custom-control-input:focus ~ .custom-control-label::before {
+        box-shadow: none;
+    }
+
+    .custom-control {
+        display: inline-block;
+    }
+
+    &__icon {
+        position: relative;
+        font-size: 16px;
+        top: -5px;
+        pointer-events: none;
+        &:first-child {
+            margin-right: 5px;
+            color: orangered;
+        }
+        &:last-child {
+            margin-left: -20px;
+            color: darkblue;
+            opacity: 0.5;
+        }
+    }
+}
+
+body.dark {
+    .dark-mode-toggle__icon {
+        &:last-child {
+            color: lightskyblue;
+            opacity: 1;
+        }
+        &:first-child {
+            opacity: 0.3;
+        }
+    }
+}
