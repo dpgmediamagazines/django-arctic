@@ -117,6 +117,9 @@ class View(RoleAuthentication, base.View):
         context["SIDEBAR_COLOR"] = self.get_sidebar_color()
         context["SIDEBAR_ALT_COLOR"] = self.get_sidebar_alt_color()
         context["HIGHLIGHT_BACKGROUND"] = self.get_highlight_background()
+        context["SIDEBAR_ALT_COLOR_DARK"] = self.get_sidebar_alt_color_dark()
+        context["SIDEBAR_COLOR_DARK"] = self.get_sidebar_color_dark()
+        context["SIDEBAR_BACKGROUND_DARK"] = self.get_sidebar_background_dark()
         context["HIGHLIGHT_COLOR"] = self.get_highlight_color()
         context["DATETIME_FORMATS"] = self.get_datetime_formats()
         context["LOGIN_URL"] = self.get_login_url()
@@ -209,6 +212,15 @@ class View(RoleAuthentication, base.View):
 
     def get_highlight_background(self):
         return getattr(settings, "ARCTIC_HIGHLIGHT_BACKGROUND", None)
+
+    def get_sidebar_alt_color_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_ALT_COLOR_DARK", None)
+
+    def get_sidebar_color_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_COLOR_DARK", None)
+
+    def get_sidebar_background_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_BACKGROUND_DARK", None)
 
     def get_allow_dark_mode(self):
         return getattr(settings, "ARCTIC_ALLOW_DARK_MODE", None)

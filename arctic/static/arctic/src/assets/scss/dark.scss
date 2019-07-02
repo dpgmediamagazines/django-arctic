@@ -9,6 +9,10 @@ body.dark {
         background-color: var(--sidebar-background-dark, #203541);
     }
 
+    .sidebar__menu>li a {
+        color: var(--sidebar-color-dark, #ECEEEF);
+    }
+
     .sidebar__submenu>li a.active>:after {
         border-right: 0.8rem solid $gray-dark;
     }
@@ -90,6 +94,16 @@ body.dark {
     }
 
     .quick-filters {
+        background-color: transparent;
+
+        .btn-outline-secondary {
+            &:hover {
+                color: $gray-lightest;
+            }
+        }
+    }
+
+    .search-input button {
         background-color: transparent;
     }
 

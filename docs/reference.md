@@ -20,7 +20,7 @@ The callback url also needs to be setup in `urls.py`:
 ## `ARCTIC_COMMON_MEDIA_ASSETS`
 
 Dictionary with JS/CSS resources, that has to be added to all pages. Note, the View has to be inherited from
-`arctic.generics.View` to work. 
+`arctic.generics.View` to work.
 Example configuration is:
 
     ARCTIC_COMMON_MEDIA_ASSETS = {
@@ -34,7 +34,7 @@ Example configuration is:
 
 Defines how the forms should be displayed, options are:
 
-- `float-field` - this is the default option, it shows a label in the form 
+- `float-field` - this is the default option, it shows a label in the form
   field that 'floats' up when the field is filled.
 
 - `stacked` - the labels are shown on top of the fields.
@@ -76,9 +76,29 @@ command.
 String representing the background color of the sidebar, for example '#cccccc',
 if not provided, a default color will be used.
 
+## `ARCTIC_SIDEBAR_BACKGROUND_DARK`
+
+String representing the background color of the sidebar for dark mode, for example '#cccccc',
+if not provided, a default color will be used.
+
 ## `ARCTIC_SIDEBAR_COLOR`
 
 String representing the foreground color of the sidebar, for example '#ffffff',
+if not provided, a default color will be used.
+
+## `ARCTIC_SIDEBAR_COLOR_DARK`
+
+String representing the foreground color of the sidebar for dark mode, for example '#ffffff',
+if not provided, a default color will be used.
+
+## `ARCTIC_SIDEBAR_ALT_COLOR`
+
+String representing the active state÷ text color of the sidebar, for example '#ffffff',
+if not provided, a default color will be used.
+
+## `ARCTIC_SIDEBAR_ALT_COLOR_DARK`
+
+String representing the active state÷ text color of the sidebar for dark mode, for example '#ffffff',
 if not provided, a default color will be used.
 
 ## `ARCTIC_SITE_FAVICON`
@@ -100,8 +120,8 @@ Title of the site to be used in the title tag. If not set it will use
 
 ## `ARCTIC_PAGINATION`
 
-Default pagination settings for `arctic_paginate` templatetag. 
-All params should be defined in case overriding default settings. 
+Default pagination settings for `arctic_paginate` templatetag.
+All params should be defined in case overriding default settings.
 
     ARCTIC_PAGINATION = {
         'show_label': True,
@@ -112,7 +132,7 @@ All params should be defined in case overriding default settings.
 
 ## `ARCTIC_PAGINATION_TEMPLATE`
 
-Default pagination template used by `arctic_paginate` templatetag. 
+Default pagination template used by `arctic_paginate` templatetag.
 Should be overridden in case customization pagination.
 
     ARCTIC_PAGINATION_TEMPLATE = 'arctic/partials/pagination.html'
@@ -172,8 +192,8 @@ Can be `True` or `False`, default is `True`.
 
 ### `Media`
 
-optional inner class indicating extra media assets to be included. If View is instance of FormView, 
-or CreateView/UpdateView generics all assets defined in form used in the view will be also included. 
+optional inner class indicating extra media assets to be included. If View is instance of FormView,
+or CreateView/UpdateView generics all assets defined in form used in the view will be also included.
 
 Example:
 
@@ -189,7 +209,7 @@ Example:
 For more information on the Media class usage check the [Django Form Assets documentation](https://docs.djangoproject.com/en/dev/topics/forms/media/)
 
 ### `get_media_assets`
-adds media assets dynamically to view. Does not overrides media from `Media` class but allows to set additional assets 
+adds media assets dynamically to view. Does not overrides media from `Media` class but allows to set additional assets
  on the fly.
 
 **Methods**
@@ -281,27 +301,27 @@ list of fields that can be ordered by clicking on the field's header column.
 
 ### `virtual ordering fields`
 
-Via the fields property, it's possible to add virtual ordering fields. 
-This is very userfull if we need to order by one of virtual field. For this 
-you should extend the view with custom ordering fields. A virtual ordering field 
-does need an accompanying method written like "get_{}_ordering_field". 
+Via the fields property, it's possible to add virtual ordering fields.
+This is very userfull if we need to order by one of virtual field. For this
+you should extend the view with custom ordering fields. A virtual ordering field
+does need an accompanying method written like "get_{}_ordering_field".
 
 Example:
 
     class MyListView(arctic.ListView):
         fields = (model_field1, model_field2, not_a_model)
         ordering_fields = (model_field1, model_field2, not_a_model)
-        
+
         def get_not_a_model_field(row_instance):
             return row_instance.created_at_UTC or row_instance.created_at_CET
-        
+
         def get_not_a_model_ordering_field():
             return 'created_at_UTC'
 
 ### `sorting_field`
 
-setting this property with a numberic database field will enable drag and drop 
-sorting of rows in a `ListView`. Arctic urls need to be included for the 
+setting this property with a numberic database field will enable drag and drop
+sorting of rows in a `ListView`. Arctic urls need to be included for the
 callback urls; in the project's urls.py ensure the following is present:
 
     urlpatterns = [
@@ -309,7 +329,7 @@ callback urls; in the project's urls.py ensure the following is present:
         url(r'^arctic/', include('arctic.urls', namespace='arctic')),
     ]
 
-When `sorting_field` is set, the following properties cannot be used: 
+When `sorting_field` is set, the following properties cannot be used:
 `ordering_fields`, `search_fields`, `default_ordering`, `advanced_search_form_class`
 or `paginate_by`.
 
@@ -324,26 +344,26 @@ optional list of `('name', 'base_url', 'optional icon class')` links, that
 appear on the last column of the table and can apply a certain action, such
 as delete.
 In case if some custom attributes required, they can be specified as last argument in form of dict. In this case
-optional icon class can be provided as part of that argument dict. 
+optional icon class can be provided as part of that argument dict.
 Classes for action link can be specified as a list.
 `('name', 'base_url', 'optional icon class', {'icon_class': 'fa', 'attributes': {'class': ['class0', 'class1'], 'custom_attr_name': 'custom_attr_value'}})`
 
 ### `get_field_actions(row)`
 
 optional method to specify `action_links` per each row.
-This method should return action links in same format, as `action_links` has. 
+This method should return action links in same format, as `action_links` has.
 All returned actions, that are not defined in `action_links` field will be ignored.
-Suggested approach is to remove actions from `action_links` copy, 
+Suggested approach is to remove actions from `action_links` copy,
 not preferred for current row:
 
     def get_field_actions(self, obj):
         actions = self.action_links.copy()
-    
+
         if obj.is_published:
             actions = filter(lambda a: a != ('delete', 'staticpages:delete', 'fa-trash'), actions)
         else:
             actions = filter(lambda a: a != ('deactivate', 'staticpages:deactivate', 'fa-power-off'), actions)
-    
+
         return actions
 
 
@@ -351,10 +371,10 @@ not preferred for current row:
 
 dictionary of `{'field': 'base_url', ...}` that creates a link on the
 content of the specified field that can apply a certain action, like edit.
-By default the field link will use the current row id to create a link together 
-with the `base_url`, if needed, the `base_url` can be given as a list or tuple where the first parameter is the named url followed by one or more field names, 
-these field names can use the double underscore notation to access related 
-objects, for example: `('category:list', 'category__slug')` 
+By default the field link will use the current row id to create a link together
+with the `base_url`, if needed, the `base_url` can be given as a list or tuple where the first parameter is the named url followed by one or more field names,
+these field names can use the double underscore notation to access related
+objects, for example: `('category:list', 'category__slug')`
 
 ### `field_classes`
 
@@ -362,7 +382,7 @@ dictionary of `{'field': 'css class', ...}` that adds an extra class to the spec
 can transform the field data into a graphic representation.
 
 ### `get_{}_field_classes(row_instance)`
-optional method to specify field classes per each row instance. 
+optional method to specify field classes per each row instance.
 Should return string of css classes `'css class'`.
 
 Example:
@@ -383,10 +403,10 @@ This field contains links not connected to any individual table rows.
 It is a list of tupples containing 2 items and an optional third.
 The first item is the title of the link, and the second is a named url.
 
-The optional third parameter can be a string with an icon (if no icon is 
+The optional third parameter can be a string with an icon (if no icon is
 provided the link will display the given title)
 It is also possible to pass a dictionary as the third item, all of its keys will
-be passed through to the template, the standard template recognizes the keys: 
+be passed through to the template, the standard template recognizes the keys:
 `icon`, `style` (`link`, `primary`, `secondary` is default) and
 `id` (by default auto generated from the english version of the title).
 
@@ -402,7 +422,7 @@ Example:
 
 ### `tool_links_collapse`
 
-A number defining how many `tool_links` are to be displayed, any extra items 
+A number defining how many `tool_links` are to be displayed, any extra items
 will be available in a dropdown.
 
 ### `tool_links_icon`
@@ -413,22 +433,22 @@ will be used.
 ### `modal_links`
 
 Dictionary of named urls that will be displayed in a modal.
-Currently the `confirm` and `iframe` types are supported. 
+Currently the `confirm` and `iframe` types are supported.
 The options for these types are:
 
     [    
         'named_url': {
             'type': 'confirm',
             'title': 'Delete "{field_name}"',
-            'message': 'Would you like to delete this?', 
-            'ok': 'Delete', 
+            'message': 'Would you like to delete this?',
+            'ok': 'Delete',
             'cancel': 'Cancel',
-            'class': 'this_modal_class', # optional 
+            'class': 'this_modal_class', # optional
         },
         'named_url2': {
             'type': 'iframe',
             'size': ['small'|'large'] # optional - 'medium' is default
-            'height': height_in_pixels # optional - initial height 
+            'height': height_in_pixels # optional - initial height
         }
         ...
     ]
@@ -436,21 +456,21 @@ The options for these types are:
 Both `title` and `message` can contain field names wrapped as python template
 variables, which will be parsed into the field value for the row instance.
 Currently `modal_links` work with `tool_links`, `action_links` and `field_links`.
- 
+
 Confirm dialogs can be automatically picked up if a view includes the following method:
 
-    @staticmethod 
+    @staticmethod
     def confirm_dialog():
         return {
             'title': 'Delete "{field_name}"',
             'message': 'Would you like to delete this?',
             'ok': 'Delete',
             'cancel': 'Cancel',
-            'class': 'this_dialog_class', # optional 
+            'class': 'this_dialog_class', # optional
         }
 
-The `obj` variable references the string representation of the object. Other 
-individual fields present in the object can be used with the string template 
+The `obj` variable references the string representation of the object. Other
+individual fields present in the object can be used with the string template
 markup.
 
 The use of the dialog can be disabled by return None in the confirm_dialog, if one already exists in the parent class.
@@ -458,9 +478,9 @@ The use of the dialog can be disabled by return None in the confirm_dialog, if o
 
 ### `simple_search_form_class`
 
-By default Arctic uses `SimpleSearchForm` to search the fields defined in 
+By default Arctic uses `SimpleSearchForm` to search the fields defined in
 `search_fields`.
-This form can be replaced by another one with extended functionality, 
+This form can be replaced by another one with extended functionality,
 for example:
 
     class ExampleListView(ListView):
@@ -516,7 +536,7 @@ Example:
                                           widget=forms.DateInput(attrs={'js-datepicker': ''}))
         created_on = forms.DateTimeField(required=False,
                                           widget=forms.DateInput(attrs={'js-datepicker': ''}))
-                                      
+
         def get_search_filter(self):
             conditions = Q()
             modified_on_value = self.cleaned_data.get('modified_on')
@@ -535,10 +555,10 @@ currently only `csv` is available so:
 
     allowed_exports = ["csv"]
 
-will enable CSV export, this export will respect all search filters, but will 
+will enable CSV export, this export will respect all search filters, but will
 not be limited by the pagination setting.
 
-To expose the export button on the ListView add the following to  the 
+To expose the export button on the ListView add the following to  the
 `tool_links` property:
 
     tool_links = [
@@ -551,18 +571,18 @@ To expose the export button on the ListView add the following to  the
 
 `class arctic.generics.DataListView`
 
-This view is similar in features to ListView but displays tabular data from an 
-API source instead of a django model, it includes a default template and is 
+This view is similar in features to ListView but displays tabular data from an
+API source instead of a django model, it includes a default template and is
 able to do filtering, sorting, pagination and linking.
-The biggest difference here is that DataListView requires a RemoteDataSet 
+The biggest difference here is that DataListView requires a RemoteDataSet
 instance instead of a model.
 
-A `RemoteDataSet` is a `QuerySet`-like object that acts as a gateway between 
-the `DataListView` and an API at the very least it needs to implement the 
+A `RemoteDataSet` is a `QuerySet`-like object that acts as a gateway between
+the `DataListView` and an API at the very least it needs to implement the
 following:
 
 - `url_template` property with optional `{filters}`, `{fields}`, `{order}` or
-  `{paginate}` format paramenters, which in turn can be customized with their 
+  `{paginate}` format paramenters, which in turn can be customized with their
   own templates.
 
 - `get()` method which accepts two parameters, by default `start` and `stop` or,
@@ -676,26 +696,26 @@ This view deletes data defined from a django model.
 
 ### `redirect`
 
-If `True` it will delete the object and imediately redirect to the success url 
+If `True` it will delete the object and imediately redirect to the success url
 not displaying the confirmation view.
 
 **Methods**
 
 ### `get_success_message(obj)`
 
-This method will return the success message to be displayed after the deletion 
+This method will return the success message to be displayed after the deletion
 of an object.
 
 ### `confirm_dialog()`
 
-This static method will return the data needed to generate a confirmation 
-dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is 
+This static method will return the data needed to generate a confirmation
+dialog. Whenever this View is used in `action_links` or `field_links` in a `ListView`, a confirmation dialog will be displayed before the DeleteView is
 called.
 
 ### `success_url`
 
 This parameter is optional, if not given, a default will be chosen according to
-context: if the View is inside a modal it will redirect to the parent window, 
+context: if the View is inside a modal it will redirect to the parent window,
 otherwise it will redirect to the previous page.
 
 
@@ -713,18 +733,18 @@ roles defined in settings with the database instances.
 
 ### `permission_required`
 
-This property defines which permissions should be checked when trying to access 
+This property defines which permissions should be checked when trying to access
 the view. When object based permission is needed, a method can be created
 in the View with a matching name as the required permission. This method should
 return a `True` if the permission is accepted or `False` if rejected.
 
-It's either possible to define the permission as string, or as a list of 
+It's either possible to define the permission as string, or as a list of
 strings - when checking on multiple permissions.
 
 The property is mandatory by concept (when `login_required` is `False`),
 so you have to define it when creating new Views.
 
-The strings describing the permission can be anything, but it's advisable to 
+The strings describing the permission can be anything, but it's advisable to
 follow Django's conventions, by using `<view|add|change|delete>_<entity>`
 whenever it makes sense, for example `permission_required = 'view_user'`.
 
@@ -750,7 +770,7 @@ permissions, only one permission is needed to validate a user's role.
 
 `class arctic.mixins.RoleAuthentication`
 
-This class provides common behaviours for `CreateView`, `UpdateView` and 
+This class provides common behaviours for `CreateView`, `UpdateView` and
 `FormView`
 
 **Properties**
@@ -759,7 +779,7 @@ This class provides common behaviours for `CreateView`, `UpdateView` and
 
 Defines how a form will be displayed, the options are:
 
-- `float-field` - this is the default option, it shows a label in the form 
+- `float-field` - this is the default option, it shows a label in the form
   field that 'floats' up when the field is filled.
 
 - `stacked` - the labels are shown on top of the fields.
@@ -775,15 +795,15 @@ List of fields to be displayed in a 12-column grid system.
 By default a field will expand to full width, 12 columns.
 It is possible to specify how many columns a field should use with the
 `'field|n'` syntax where `n` can be a number from 1 to 12.
-Fields can also be grouped into a single row by wrapping a list around them - 
+Fields can also be grouped into a single row by wrapping a list around them -
 `('field1', 'field2', 'field3')` if no amount of columns is given then these
 fields will be evenly sized to fill up the entire row.
 
-Fieldsets are also supported giving `layout` a dictionary where each key 
-is the fieldset name and the values a field list. A fieldset can have an 
+Fieldsets are also supported giving `layout` a dictionary where each key
+is the fieldset name and the values a field list. A fieldset can have an
 optional description by using the `'fieldset|description'` syntax.
-When a fieldset name is prepended with a `-`, it will be collapsible and 
-displayed as collapsed, if prepended with a `+` it will be collapsible and 
+When a fieldset name is prepended with a `-`, it will be collapsible and
+displayed as collapsed, if prepended with a `+` it will be collapsible and
 displayed as uncollapsed.
 A field can be made collapsible by using the utility function `collapsible`
 which has an optional parameter to display the fieldset collapsed by default.
@@ -796,22 +816,22 @@ Examples:
     from arctic.generics import collapsible as c
 
     # category and tags on the same row, no fieldsets
-    layout = ['title', 
-              'description', 
-              ['category', 'tags'], 
-              'published', 
+    layout = ['title',
+              'description',
+              ['category', 'tags'],
+              'published',
               'updated_at']
 
     # Two collapsible fieldsets, the first collapsed by default
     # on python < 3.6 use an OrderedDict
     layout = {
-        c('fieldset', True): 
-            ['title|10', 
+        c('fieldset', True):
+            ['title|10',
             ['category', 'updated_at|4']],                
-        c('fieldset2'): 
+        c('fieldset2'):
             ['tags'],
         }
-    
+
 
     layout = [['published', 'updated_at']]
 
@@ -820,21 +840,21 @@ Examples:
 This field is used to add a number of links and buttons to the form.
 It is a list of tupples containing 2 items and an optional third.
 The first item is the title of the action, and the second is either a named url,
-`submit` or `cancel`. 
+`submit` or `cancel`.
 
-The third parameter can be a string with the positioning of the action - the 
+The third parameter can be a string with the positioning of the action - the
 accepted value is `left` (right is the default).
 It is also possible to pass a dictionary as the third item, all of its keys will
-be passed through to the template, the standard template recognizes the keys: 
-`position` (`left`), `style` (`link`, `primary`, `secondary` is default), 
-`form_action` (url) and `id` (by default auto generated from the english 
+be passed through to the template, the standard template recognizes the keys:
+`position` (`left`), `style` (`link`, `primary`, `secondary` is default),
+`form_action` (url) and `id` (by default auto generated from the english
 version of the title).
 
 Example:
 
     actions = [
          ('Back to List', 'articles:list', 'left'),
-         ('Cancel', 'cancel'), 
+         ('Cancel', 'cancel'),
          ('Save as draft', 'submit'),
          ('Save', 'submit'),
     ]
@@ -887,4 +907,3 @@ You can simply use built-in views:
 
 Or inherit your classes to overwrite default behaviour and links. Please not that if you want to use
 built-in views you need to define their urls under `users` namespace.
-
