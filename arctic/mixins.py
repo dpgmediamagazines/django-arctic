@@ -510,7 +510,7 @@ class FormMixin(ModalMixin):
                 except AttributeError:
                     verbose_name = formset.model._meta.verbose_name_plural
                 setattr(context["inlines"][i], "verbose_name", verbose_name)
-                extra = getattr(self.inlines[i], 'inline_extra', 1)
+                extra = getattr(self.inlines[i], "inline_extra", 1)
                 context["inlines"][i].extra = extra
                 if hasattr(self.inlines[i], "sorting_field"):
                     setattr(
@@ -746,8 +746,11 @@ class ListMixin(ModalMixin):
         else:
             allowed_tool_links = []
             for link in self.tool_links:
-                if callable(getattr(self, link[1], None)):
-                    url = getattr(self, link[1])
+                if (
+                    (type(link[1]) in [tuple, list])
+                    and callable(getattr(self, link[1][0], None))
+                ) or callable(getattr(self, link[1], None)):
+                    url = getattr(self, link[1][0])(*link[1][1:])
                     view = None
                 else:
                     url = reverse_url(link[1], None)

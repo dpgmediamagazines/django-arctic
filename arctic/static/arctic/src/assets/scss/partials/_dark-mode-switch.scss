@@ -1,0 +1,53 @@
+.dark-mode-toggle {
+    margin-top: -4px;
+    margin-right: 16px;
+
+    .btn {
+        &:hover {
+            .fa-sun-o {
+                opacity: 1;
+            }
+
+            .fa-moon-o {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__icon {
+        position: relative;
+        &.fa-sun-o {
+            color: darkorange;
+        }
+        &.fa-moon-o {
+            color: darkblue;
+            opacity: 0.3;
+        }
+    }
+}
+
+body.dark {
+    .dark-mode-toggle {
+        .btn {
+            &:hover {
+                .fa-sun-o {
+                    opacity: 1;
+                }
+
+                .fa-moon-o {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &__icon {
+            &.fa-moon-o {
+                color: lightskyblue;
+                opacity: 1;
+            }
+            &.fa-sun-o {
+                opacity: 0.3;
+            }
+        }
+    }
+}

@@ -117,6 +117,9 @@ class View(RoleAuthentication, base.View):
         context["SIDEBAR_COLOR"] = self.get_sidebar_color()
         context["SIDEBAR_ALT_COLOR"] = self.get_sidebar_alt_color()
         context["HIGHLIGHT_BACKGROUND"] = self.get_highlight_background()
+        context["SIDEBAR_ALT_COLOR_DARK"] = self.get_sidebar_alt_color_dark()
+        context["SIDEBAR_COLOR_DARK"] = self.get_sidebar_color_dark()
+        context["SIDEBAR_BACKGROUND_DARK"] = self.get_sidebar_background_dark()
         context["HIGHLIGHT_COLOR"] = self.get_highlight_color()
         context["DATETIME_FORMATS"] = self.get_datetime_formats()
         context["LOGIN_URL"] = self.get_login_url()
@@ -124,6 +127,7 @@ class View(RoleAuthentication, base.View):
         context["media"] = self.media
         context["form_display"] = self.get_form_display()
         context["in_modal"] = self.request.GET.get("inmodal", False)
+        context["dark_mode"] = self.get_dark_mode()
         return context
 
     def get_breadcrumbs(self):
@@ -208,6 +212,18 @@ class View(RoleAuthentication, base.View):
 
     def get_highlight_background(self):
         return getattr(settings, "ARCTIC_HIGHLIGHT_BACKGROUND", None)
+
+    def get_sidebar_alt_color_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_ALT_COLOR_DARK", None)
+
+    def get_sidebar_color_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_COLOR_DARK", None)
+
+    def get_sidebar_background_dark(self):
+        return getattr(settings, "ARCTIC_SIDEBAR_BACKGROUND_DARK", None)
+
+    def get_dark_mode(self):
+        return getattr(settings, "ARCTIC_DARK_MODE", None)
 
     def get_index_url(self):
         try:
@@ -397,13 +413,10 @@ class ListView(View, ListMixin, base.ListView):
 
         return self.render_to_response(context)
 
-    def _get_export_url(self, format):
+    def get_export_url(self, format):
         return append_query_parameter(
             self.request.get_full_path(), {"format": format}
         )
-
-    def get_csv_export_url(self):
-        return self._get_export_url("csv")
 
     def get_object_list(self):
         qs = self.get_queryset()

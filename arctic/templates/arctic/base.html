@@ -28,6 +28,20 @@
                             {{ page_title }}
                         </h3>
                         <nav class="nav dropdown header__menu">
+                            {% if dark_mode %}
+                            <div id="dark-mode-container" class="dark-mode-toggle hide">
+                                <div class="btn-group btn-group-toggle">
+                                  <label class="btn btn-sm" for="light-radio">
+                                    <input type="radio" name="dark-option" id="light-radio" autocomplete="off">
+                                    <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                  </label>
+                                  <label class="btn btn-sm" for="dark-radio">
+                                    <input type="radio" name="dark-option" id="dark-radio" autocomplete="off">
+                                    <i class="fa fa-moon-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                  </label>
+                                </div>
+                            </div>
+                            {% endif %}
                             {% if not request.user.is_anonymous %}
                                 {% if LOGOUT_URL %}
                                     <a href="#" class="nav-link dropdown-toggle" id="user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ request.user|get_attr:request.user.USERNAME_FIELD }}</a>
@@ -139,6 +153,62 @@
                     timeFormat: "{{ DATETIME_FORMATS.TIME }}",
                     firstDay: {{ DATETIME_FORMATS.FIRST_DAY }}
                 }
+                {% if dark_mode %}
+                var startDarkToggle = function() {
+                    var darkModeRadio = document.getElementsByName("dark-option");
+                    var darkModeContainer = document.getElementById('dark-mode-container');
+                    var lightRadio = document.getElementById('light-radio');
+                    var darkRadio = document.getElementById('dark-radio');
+                    darkModeContainer.classList.remove('hide');
+                    for (let i = 0; i < darkModeRadio.length; i++) {
+                        darkModeRadio[i].addEventListener("change", function(event) {
+                            toggleDark(darkRadio.checked);
+                            localStorage.setItem('darkMode', darkRadio.checked);
+                            var darkModeStorage = localStorage.getItem('darkMode');
+                        });
+                    }
+
+                    // check if dark mode is on
+                    var darkModeStorage = localStorage.getItem('darkMode');
+                    if (darkModeStorage == 'true') {
+                        darkRadio.checked = true; //does not trigger change event
+                        toggleDark(true);
+                    }
+                }
+                var startDarkMode = function() {
+                    if (darkMode != 'toggle') {
+                        // check if browser does not suport and turn on toggle
+                        if (!mqd.matches) {
+                            var mql = window.matchMedia("(prefers-color-scheme: light)");
+                            var mqnp = window.matchMedia("(prefers-color-scheme: no-preference)");
+                            if (!mql.matches && !mqnp.matches) {
+                                startDarkToggle();
+                                return false;
+                            }
+                        }
+                        mqd.addListener(toggleDark);
+                        document.addEventListener("DOMContentLoaded", function() {
+                            toggleDark(mqd.matches);
+                        });
+
+                    } else {
+                        startDarkToggle();
+                    }
+                }
+
+                function toggleDark(state) {
+                    if (state) {
+                        document.body.classList.add("dark");
+                    } else {
+                        document.body.classList.remove("dark");
+                    }
+                }
+
+                var darkMode = '{{ dark_mode }}';
+                var mqd = window.matchMedia("(prefers-color-scheme: dark)");
+                startDarkMode();
+                {% endif %}
+
             </script>
             <script src="{% static "arctic/dist/assets/js/app.js" %}"></script>
             {{ media.js }}

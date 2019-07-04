@@ -1,0 +1,186 @@
+body.dark {
+    color: $gray-lightest;
+
+    &:not(.page-login) {
+        background-color: $gray-dark;
+    }
+
+    #sidebar, &.page-login {
+        background-color: var(--sidebar-background-dark, #203541);
+    }
+
+    .sidebar__menu>li a {
+        color: var(--sidebar-color-dark, #ECEEEF);
+    }
+
+    .sidebar__submenu>li a.active>:after {
+        border-right: 0.8rem solid $gray-dark;
+    }
+
+    .sidebar__submenu>li a.active {
+        color: var(--sidebar-alt-color-dark, lighten($gray-light, 10%));
+    }
+
+    .arctic-card, .log-in-form, .popover, .popover-body, .modal-content,
+    .selectize-dropdown {
+        background-color: #252728;
+        color: $gray-lightest;
+        border-color: darken($gray, 5%);
+    }
+
+    .close {
+        color: $gray-lightest;
+    }
+
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+        color: $gray-light;
+        border-color: darken($gray, 5%);
+        background-color: #252728;
+    }
+
+    .datepicker, .datepicker--nav, .datepicker--time, .datepicker--buttons {
+        color: darken($gray-lightest, 5%);
+        border-color: darken($gray, 5%);
+        background-color: lighten(#252728, 3%);
+    }
+
+    .datepicker--pointer {
+        background-color: lighten(#252728, 3%);
+        border-top: 1px solid darken($gray, 5%);
+        border-right: 1px solid darken($gray, 5%);
+    }
+
+    .datepicker--cell-day.-other-month-,
+    .datepicker--cell-year.-other-decade- {
+        color: $gray-light;
+    }
+
+    .datepicker--cell-day.-other-month-:hover, .datepicker--cell-year.-other-decade-:hover,
+    .datepicker--cell.datepicker--cell-day:hover {
+        background-color: #252728;
+    }
+
+    .datepicker--time-current-hours:after,
+    .datepicker--time-current-minutes:after {
+        background-color: lighten(#252728, 10%);
+    }
+
+    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus, .nav-tabs {
+        border-color: darken($gray, 5%);
+    }
+
+    .arctic-card__form-header .arctic-card__title {
+        color: $gray-lightest;
+        border-bottom: 1px solid $gray;
+    }
+
+    .form-control {
+        background-color: inherit;
+        color: $gray-lightest;
+        border: 1px solid $gray;
+    }
+
+    .float-label .form-group label {
+        color: lighten($gray-light, 10%);
+    }
+    .float-label .form-group textarea:not([disabled])+label {
+        background-color: #252728;
+    }
+
+    .form-group .label-element {
+        color: lighten($gray-light, 10%);
+    }
+
+    .better-file .better-file-label {
+        background-color: transparent;
+        border: 1px solid $gray;
+    }
+
+    .quick-filters {
+        background-color: transparent;
+
+        .btn-outline-secondary {
+            &:hover {
+                color: $gray-lightest;
+            }
+        }
+    }
+
+    .search-input button {
+        background-color: transparent;
+    }
+
+    .btn-secondary, .btn-outline-secondary {
+        color: $gray-lightest;
+        background-color: inherit;
+        border-color: $gray;
+        &:hover {
+            background-color: darken($gray, 3%);
+        }
+    }
+
+    label.btn.btn-outline-secondary.active {
+        background-color: darken($gray, 3%);
+    }
+
+    .btn-secondary {
+        background-color: darken($gray, 8%);
+    }
+
+    .selectize-control {
+        background-color: #252728;
+    }
+
+    .selectize-input {
+        background-color: #252728;
+        border: 1px solid $gray;
+
+        input {
+            color: $gray-lightest;
+        }
+    }
+
+    .selectize-control.single .item {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    .table {
+        background-color: #252728;
+        color: inherit;
+
+        thead th {
+            border-bottom: 2px solid $gray;
+        }
+
+        tbody th, td {
+            border-top: 1px solid $gray;
+        }
+
+        tr {
+            background-color: #252728;
+            .list-actions-placeholder {
+                background-color: #252728;
+            }
+        }
+
+        tbody tr:hover {
+                color: inherit;
+                background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr:nth-of-type(odd) {
+            background-color: lighten(#252728, 2%);
+            .list-actions-placeholder {
+                background-color: lighten(#252728, 2%);
+            }
+        }
+
+        tbody tr:hover:nth-of-type(odd) {
+            color: inherit;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+    }
+}

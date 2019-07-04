@@ -38,6 +38,15 @@
         {% if HIGHLIGHT_COLOR %}
             --highlight-color: {{HIGHLIGHT_COLOR}};
         {% endif %}
+        {% if SIDEBAR_COLOR_DARK %}
+            --sidebar-color-dark: {{SIDEBAR_COLOR_DARK}};
+        {% endif %}
+        {% if SIDEBAR_BACKGROUND_DARK %}
+            --sidebar-background-dark: {{SIDEBAR_BACKGROUND_DARK}};
+        {% endif %}
+        {% if SIDEBAR_ALT_COLOR_DARK %}
+            --sidebar-alt-color-dark: {{SIDEBAR_ALT_COLOR_DARK}};
+        {% endif %}
     }
     {% block arctic__extra_styles %}{% endblock %}
 </style>

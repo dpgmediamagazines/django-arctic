@@ -416,7 +416,8 @@ def generate_id(*s):
 def append_query_parameter(url, parameters, ignore_if_exists=True):
     """ quick and dirty appending of query parameters to a url """
     if ignore_if_exists:
-        for key in parameters.keys():
+        keys = list(parameters.keys())
+        for key in keys:
             if key + "=" in url:
                 del parameters[key]
     parameters_str = "&".join(k + "=" + v for k, v in parameters.items())
