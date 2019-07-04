@@ -1,38 +1,82 @@
 .dark-mode-toggle {
-    margin-right: 12px;
-    .custom-control-input:focus ~ .custom-control-label::before {
-        box-shadow: none;
-    }
+    margin-top: -4px;
+    margin-right: 16px;
 
-    .custom-control {
-        display: inline-block;
+    .btn {
+        &.btn-light {
+            &.active {
+                background-color: transparent;
+                border-color: transparent;
+            }
+
+            &.focus {
+                box-shadow: none;
+            }
+        }
+        &:hover {
+            background-color: transparent;
+            border-color: transparent;
+
+            .fa-sun-o {
+                opacity: 1;
+            }
+
+            .fa-moon-o {
+                opacity: 1;
+            }
+        }
     }
 
     &__icon {
         position: relative;
-        font-size: 16px;
-        top: -5px;
-        pointer-events: none;
-        &:first-child {
-            margin-right: 5px;
+        &.fa-sun-o {
             color: orangered;
         }
-        &:last-child {
-            margin-left: -20px;
+        &.fa-moon-o {
             color: darkblue;
-            opacity: 0.5;
+            opacity: 0.3;
         }
     }
 }
 
 body.dark {
-    .dark-mode-toggle__icon {
-        &:last-child {
-            color: lightskyblue;
-            opacity: 1;
+    .dark-mode-toggle {
+        .btn {
+            &.btn-light {
+                background-color: transparent;
+                border-color: transparent;
+
+                &.active {
+                    background-color: transparent;
+                    border-color: transparent;
+                }
+
+                &.focus {
+                    box-shadow: none;
+                }
+            }
+            &:hover {
+                background-color: transparent;
+                border-color: transparent;
+
+                .fa-sun-o {
+                    opacity: 1;
+                }
+
+                .fa-moon-o {
+                    opacity: 1;
+                }
+            }
         }
-        &:first-child {
-            opacity: 0.3;
+
+        &__icon {
+            &.fa-moon-o {
+                color: lightskyblue;
+                opacity: 1;
+            }
+            &.fa-sun-o {
+                opacity: 0.3;
+            }
         }
     }
 }

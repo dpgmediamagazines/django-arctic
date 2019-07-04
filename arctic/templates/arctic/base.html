@@ -30,12 +30,16 @@
                         <nav class="nav dropdown header__menu">
                             {% if dark_mode %}
                             <div id="dark-mode-container" class="dark-mode-toggle hide">
-                                <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="dark-mode-switch">
-                                        <label class="custom-control-label" for="dark-mode-switch"></label>
-                                    </div>
-                                <i class="fa fa-moon-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                <div class="btn-group btn-group-toggle">
+                                  <label class="btn btn-light btn-sm" for="light-radio">
+                                    <input type="radio" name="dark-option" id="light-radio" autocomplete="off">
+                                    <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                  </label>
+                                  <label class="btn btn-light btn-sm" for="dark-radio">
+                                    <input type="radio" name="dark-option" id="dark-radio" autocomplete="off">
+                                    <i class="fa fa-moon-o dark-mode-toggle__icon" aria-hidden="true"></i>
+                                  </label>
+                                </div>
                             </div>
                             {% endif %}
                             {% if not request.user.is_anonymous %}
@@ -151,19 +155,23 @@
                 }
                 {% if dark_mode %}
                 var startDarkToggle = function() {
-                    var darkModeSwitch = document.getElementById('dark-mode-switch');
+                    var darkModeRadio = document.getElementsByName("dark-option");
                     var darkModeContainer = document.getElementById('dark-mode-container');
+                    var lightRadio = document.getElementById('light-radio');
+                    var darkRadio = document.getElementById('dark-radio');
                     darkModeContainer.classList.remove('hide');
-                    darkModeSwitch.addEventListener("change", function(event) {
-                        toggleDark(event.target.checked);
-                        localStorage.setItem('darkMode', event.target.checked);
-                        var darkModeStorage = localStorage.getItem('darkMode');
-                    });
+                    for (let i = 0; i < darkModeRadio.length; i++) {
+                        darkModeRadio[i].addEventListener("change", function(event) {
+                            toggleDark(darkRadio.checked);
+                            localStorage.setItem('darkMode', darkRadio.checked);
+                            var darkModeStorage = localStorage.getItem('darkMode');
+                        });
+                    }
 
                     // check if dark mode is on
                     var darkModeStorage = localStorage.getItem('darkMode');
                     if (darkModeStorage == 'true') {
-                        darkModeSwitch.checked = true; //does not trigger change event
+                        darkRadio.checked = true; //does not trigger change event
                         toggleDark(true);
                     }
                 }
