@@ -28,7 +28,7 @@
                             {{ page_title }}
                         </h3>
                         <nav class="nav dropdown header__menu">
-                            {% if allow_dark_mode %}
+                            {% if dark_mode %}
                             <div id="dark-mode-container" class="dark-mode-toggle hide">
                                 <i class="fa fa-sun-o dark-mode-toggle__icon" aria-hidden="true"></i>
                                     <div class="custom-control custom-switch">
@@ -149,7 +149,7 @@
                     timeFormat: "{{ DATETIME_FORMATS.TIME }}",
                     firstDay: {{ DATETIME_FORMATS.FIRST_DAY }}
                 }
-                {% if allow_dark_mode %}
+                {% if dark_mode %}
                 var startDarkToggle = function() {
                     var darkModeSwitch = document.getElementById('dark-mode-switch');
                     var darkModeContainer = document.getElementById('dark-mode-container');
@@ -168,7 +168,7 @@
                     }
                 }
                 var startDarkMode = function() {
-                    if (allowDarkMode != 'Toggle') {
+                    if (darkMode != 'toggle') {
                         // check if browser does not suport and turn on toggle
                         if (!mqd.matches) {
                             var mql = window.matchMedia("(prefers-color-scheme: light)");
@@ -196,7 +196,7 @@
                     }
                 }
 
-                var allowDarkMode = '{{ allow_dark_mode }}';
+                var darkMode = '{{ dark_mode }}';
                 var mqd = window.matchMedia("(prefers-color-scheme: dark)");
                 startDarkMode();
                 {% endif %}

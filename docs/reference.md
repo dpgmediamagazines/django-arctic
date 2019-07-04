@@ -101,11 +101,11 @@ if not provided, a default color will be used.
 String representing the active state÷ text color of the sidebar for dark mode, for example '#ffffff',
 if not provided, a default color will be used.
 
-## `ARCTIC_ALLOW_DARK_MODE`
+## `ARCTIC_DARK_MODE`
 
-Accepts 2 values a bollean or a string 'Toggle'. If True is selected then arctic will follow the browser value for dark mode,
+Accepts 2 values a bolean or a string 'toggle'. If True is selected then arctic will follow the browser value for dark mode,
 In case the browser does not support dark mode a toggle will be show.
-If 'Toggle' is selected a toggle switch will show next to the user name.
+If 'toggle' is selected a toggle switch will show next to the user name.
 
 ## `ARCTIC_SITE_FAVICON`
 The url of favicon.
