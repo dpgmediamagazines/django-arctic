@@ -11,10 +11,16 @@ Always reference the ticket number at the end of the issue description.
 ## [unreleased]
 
 ### Added
-
+- Added Dark Mode support
 - Added CSV file export function to the ListView
+- Added ability to use * to keep sidebar open for menu urls
 - Added support for Django 2.2
 - Added support for Python 3.7
+
+### Fixed
+- Fixed advanced search form was being removed from the DOM when it was closed
+- Fixed old packages
+- Fixed inline form bugs with datepicker and max number of forms allowed
 
 ## Removed
 
@@ -30,7 +36,7 @@ Always reference the ticket number at the end of the issue description.
 
 ### Changed
 - Javascript widgets are not initialised with anonymous functions anymore
-- Separated javascript widgets into their own files (selectize, pickers, float labels, inlines) 
+- Separated javascript widgets into their own files (selectize, pickers, float labels, inlines)
 - Added new size (extra large) to modals
 
 ### Fixed
