@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Always reference the ticket number at the end of the issue description.
 
 
-## [unreleased]
+## 1.4.0 (2019-07-04)
 
 ### Added
 - Added Dark Mode support
