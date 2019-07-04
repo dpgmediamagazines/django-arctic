@@ -3,20 +3,7 @@
     margin-right: 16px;
 
     .btn {
-        &.btn-light {
-            &.active {
-                background-color: transparent;
-                border-color: transparent;
-            }
-
-            &.focus {
-                box-shadow: none;
-            }
-        }
         &:hover {
-            background-color: transparent;
-            border-color: transparent;
-
             .fa-sun-o {
                 opacity: 1;
             }
@@ -30,7 +17,7 @@
     &__icon {
         position: relative;
         &.fa-sun-o {
-            color: orangered;
+            color: darkorange;
         }
         &.fa-moon-o {
             color: darkblue;
@@ -42,23 +29,7 @@
 body.dark {
     .dark-mode-toggle {
         .btn {
-            &.btn-light {
-                background-color: transparent;
-                border-color: transparent;
-
-                &.active {
-                    background-color: transparent;
-                    border-color: transparent;
-                }
-
-                &.focus {
-                    box-shadow: none;
-                }
-            }
             &:hover {
-                background-color: transparent;
-                border-color: transparent;
-
                 .fa-sun-o {
                     opacity: 1;
                 }
