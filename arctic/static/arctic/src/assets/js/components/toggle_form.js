@@ -30,12 +30,11 @@
         }
 
         var newLeft = Math.abs(offset.left - (windowWidth - offset.width - marginRight));
-        var translateProp = 'translate3d(' + newLeft + 'px, ' + newTop + 'px, 0px)';
+        var translateProp = 'translate(' + newLeft + 'px, ' + newTop + 'px)';
 
         $(container).css({
             'position': 'absolute',
             'transform': translateProp,
-            'will-change': 'transform',
         });
 
         //calculate arrow position

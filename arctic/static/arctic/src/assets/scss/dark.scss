@@ -183,4 +183,14 @@ body.dark {
         }
 
     }
+
+    .bs-popover-auto[x-placement^=bottom] > .arrow::after,
+    .bs-popover-bottom > .arrow::after {
+        border-bottom-color: #252728;
+    }
+
+    .bs-popover-auto[x-placement^=bottom] > .arrow::before,
+    .bs-popover-bottom > .arrow::before {
+        border-bottom-color: #292b2c;
+    }
 }
