@@ -16,6 +16,9 @@
     });
 
     var setPosition = function () {
+        if (!$('.arctic_toggle_form_button').length) {
+            return false;
+        }
         $(container).removeAttr('style');
         var $arrow = $(container).find('.arrow');
         $arrow.removeAttr('style');

@@ -193,4 +193,10 @@ body.dark {
     .bs-popover-bottom > .arrow::before {
         border-bottom-color: #292b2c;
     }
+
+    .spinner-container {
+        & .path {
+            stroke: white;
+        }
+    }
 }

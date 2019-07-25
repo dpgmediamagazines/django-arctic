@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.4.1 unreleased
+
+### Added
+- Javascript function to show/hide a loader icon
+
+### Fixed
+- Fixed dark mode inside modal windows
+- Fixed blurry text in the advanced form actions
 
 ## 1.4.0 (2019-07-04)
 

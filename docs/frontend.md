@@ -86,3 +86,7 @@ Optional
 `startAllPickers()` - Starts all 3 pickers
 `betterFile()` - Starts better file input for image fields
 `startAllWidgets()` - Starts all of the above
+
+### Show/Hide loading icon
+`show_artic_loader()` - Shows a loading icon (if none is already there) in the center of the screen
+`hide_artic_loader()` - Hides loading icon
