@@ -1,6 +1,6 @@
-pytest==3.4.*
-pytest-cov==2.5.*
-pytest-django==3.2.*
+pytest==5.0.*
+pytest-cov==2.7.*
+pytest-django==3.5.*
 pytest-pythonpath==0.7.*
 factory-boy==2.12.*
 mixer==6.1.*
