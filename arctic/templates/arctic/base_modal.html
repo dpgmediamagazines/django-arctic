@@ -33,5 +33,7 @@
 
 {% block scripts_bottom %}
     {{ block.super }}
-    <script src="{% static "arctic/dist/assets/js/iframeResizer.contentWindow.min.js" %}"></script>
+    {% block iframe_resizer %}
+        <script src="{% static "arctic/dist/assets/js/iframeResizer.contentWindow.min.js" %}"></script>
+    {% endblock %}
 {% endblock %}
