@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## 1.4.1 unreleased
+## 1.4.1 (2019-08-01)
 
 ### Added
 - Javascript function to show/hide a loader icon
