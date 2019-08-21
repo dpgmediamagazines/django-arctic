@@ -36,12 +36,10 @@ def test_start_new_project():
     """
     Test creating a new app with createapp bootstrap command.
     """
-    app_name = 'new_app'
+    app_name = 'newapp'
     app_path = project_path + '/new_app'
     os.mkdir(app_path)
     apps_py_bin = os.path.join(app_path, 'apps.py')
-
-    env = os.environ.copy()
 
     args = ['arctic', 'createapp', app_name, app_path]
     retcode = call(args, env=env)
