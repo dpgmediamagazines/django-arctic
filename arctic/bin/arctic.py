@@ -92,9 +92,6 @@ def create_project(parser, options, args):
     )
 
 
-COMMANDS = {"start": create_project}
-
-
 def create_app(parser, options, args):
     # Validate args
     if len(args) < 2:
@@ -178,12 +175,16 @@ def create_app(parser, options, args):
     )
 
 
-COMMANDS = {"createapp": create_app}
+COMMANDS = {
+    "start": create_project,
+    "createapp": create_app,
+}
 
 
 def main():
     # Parse options
-    parser = OptionParser(usage="Usage: arctic start project_name [directory]")
+    parser = OptionParser(usage="Usage: arctic start project_name [directory]"
+                                "Usage: arctic createapp appname [directory]")
     (options, args) = parser.parse_args()
 
     # Find command
