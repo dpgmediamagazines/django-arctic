@@ -123,9 +123,9 @@ def create_app(parser, options, args):
         )
 
     print((
-           bcolors.HEADER
-           + "Creating an App named {}"
-           + bcolors.ENDC + "\n").format(app_name))
+          bcolors.HEADER
+          + "Creating an App named {}"
+          + bcolors.ENDC + "\n").format(app_name))
 
     # First find the path to Arctic
     import arctic
