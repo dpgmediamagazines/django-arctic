@@ -123,10 +123,10 @@ def create_app(parser, options, args):
         )
 
     print(
-        (bcolors.HEADER +
-         "Creating an App named {}" +
-         bcolors.ENDC + "\n").format(app_name)
-         )
+        (bcolors.HEADER
+         + "Creating an App named {}"
+         + bcolors.ENDC + "\n").format(app_name)
+        )
 
     # First find the path to Arctic
     import arctic
@@ -151,16 +151,16 @@ def create_app(parser, options, args):
     print((
         "Congratulations! {0} folder has been created it contains the "
         "following structure.\n\n"
-        + bcolors.OKBLUE +
-        " -{0}\n"
+        + bcolors.OKBLUE
+        + " -{0}\n"
         " ---__init__.py\n"
         " ---apps.py\n"
         " ---forms.py\n"
         " ---models.py\n"
         " ---urls.py\n"
         " ---views.py\n\n"
-        + bcolors.ENDC +
-        "The next steps are:\n\n"
+        + bcolors.ENDC
+        + "The next steps are:\n\n"
         "  Add the app name to " + bcolors.UNDERLINE + "INSTALLED_APPS" + bcolors.ENDC + " in the settings.py\n"  # NOQA
         + bcolors.OKGREEN + "\"{0}\"," + bcolors.ENDC + "\n"
         "  Add the app name and path to " + bcolors.UNDERLINE + "ARCTIC_MENU" + bcolors.ENDC + " in the settings.py\n"  # NOQA
