@@ -28,12 +28,6 @@ class {{ camel_case_app_name }}ListView(ListView):
         (_("Create {{ app_name }}"), "{{ app_name }}:create", "fa-plus"),
     ]
 
-    #
-    # field_links = {
-    #     "title": "articles:detail",
-    #     "category": ("articles:category-detail", "category_id"),
-    # }
-
     # Some optional fields
     # paginate_by = 10
     # ordering_fields = ['field_name1', ..]

@@ -599,6 +599,10 @@ class ListMixin(ModalMixin):
         """
         Hook to dynamically change the fields that will be displayed
         """
+        if self.fields == '__all__':
+            return [
+                f.name for f in self.model._meta.get_fields()
+            ]
         if strip_labels:
             return [
                 f[0] if type(f) in (tuple, list) else f for f in self.fields
