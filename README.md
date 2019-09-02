@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/sanoma/django-arctic.svg?branch=develop)](https://travis-ci.org/sanoma/django-arctic)
 [![Coverage Status](https://coveralls.io/repos/github/sanoma/django-arctic/badge.svg?branch=develop)](https://coveralls.io/github/sanoma/django-arctic)
 [![Read the Docs](https://readthedocs.org/projects/django-arctic/badge/?version=latest)](https://django-arctic.readthedocs.io/en/latest/)
+[![Downloads](https://pepy.tech/badge/django-arctic/month)](https://pepy.tech/project/django-arctic/month)
 
 Django Arctic is a framework that speeds up the creation of custom content 
 management systems.
