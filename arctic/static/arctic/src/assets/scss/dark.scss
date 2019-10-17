@@ -81,6 +81,33 @@ body.dark {
         border: 1px solid $gray;
     }
 
+    .form-control:disabled,
+    .form-control[readonly],
+    input:disabled[type=color],
+    input:disabled[type=email],
+    input:disabled[type=number],
+    input:disabled[type=password],
+    input:disabled[type=search],
+    input:disabled[type=tel],
+    input:disabled[type=text],
+    input:disabled[type=url],
+    input[readonly][type=color],
+    input[readonly][type=email],
+    input[readonly][type=number],
+    input[readonly][type=password],
+    input[readonly][type=search],
+    input[readonly][type=tel],
+    input[readonly][type=text],
+    input[readonly][type=url],
+    select:disabled,
+    select:disabled:not([size]):not([multiple]),
+    select[readonly],
+    select[readonly]:not([size]):not([multiple]),
+    textarea:disabled,
+    textarea[readonly] {
+        background-color: $gray;
+    }
+
     .float-label .form-group label {
         color: lighten($gray-light, 10%);
     }
