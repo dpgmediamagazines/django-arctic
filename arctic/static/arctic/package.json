@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "air-datepicker": "^2.2.3",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^4.4.0",
     "font-awesome": "^4.7.0",
     "iframe-resizer": "4.2.8",
     "jquery": "^3.4.1",
