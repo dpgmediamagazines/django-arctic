@@ -1,4 +1,4 @@
 -e .
 -r test.txt
 pypandoc==1.4
-django==2.2.*
+django==3.0
