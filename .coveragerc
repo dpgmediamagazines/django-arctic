@@ -13,3 +13,4 @@ omit =
     setup.py,
     .tox/*,
     site_packages/*
+    project_template/*

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## Unreleased
+
+### Added
+Adds a createapp command to arctic #387
+
 ## 1.4.1 (2019-08-01)
 
 ### Added
