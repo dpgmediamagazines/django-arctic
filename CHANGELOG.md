@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## Unreleased
+## 1.4.2 (2019-12-12)
 
 ### Added
-Adds a createapp command to arctic #387
+Adds a createapp command to arctic [#387][387]
+
+### Changed
+Updated a number of frontend and backend dependencies
+
+[387]: //github.com/sanoma/django-arctic/issues/387
 
 ## 1.4.1 (2019-08-01)
 
