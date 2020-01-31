@@ -4,6 +4,7 @@ import calendar
 import csv
 import json
 from collections import OrderedDict
+import re
 
 import extra_views
 from django.conf import settings
@@ -653,6 +654,7 @@ class ListView(View, ListMixin, base.ListView):
         writer = csv.writer(response)
         writer.writerow(titles)
 
+        re_strip_tags = re.compile(r'<.*?>')
         m2m_fields = [m2m_f.attname for m2m_f in model._meta.many_to_many]
         for obj in self.get_object_list():
             row = []
@@ -673,7 +675,7 @@ class ListView(View, ListMixin, base.ListView):
                     field_value = ", ".join(
                         [str(obj) for obj in field_value.get_queryset()]
                     )
-                row.append(field_value)
+                row.append(re.sub(re_strip_tags, '', field_value).strip())
             writer.writerow(row)
 
         return response
