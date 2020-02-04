@@ -4,7 +4,6 @@ import calendar
 import csv
 import json
 from collections import OrderedDict
-import re
 
 import extra_views
 from django.conf import settings
@@ -24,7 +23,10 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
-from django.utils.html import mark_safe
+from django.utils.html import (
+    mark_safe,
+    strip_tags,
+)
 from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
 from django.utils.translation import ugettext as _
@@ -654,7 +656,6 @@ class ListView(View, ListMixin, base.ListView):
         writer = csv.writer(response)
         writer.writerow(titles)
 
-        re_strip_tags = re.compile(r'<.*?>')
         m2m_fields = [m2m_f.attname for m2m_f in model._meta.many_to_many]
         for obj in self.get_object_list():
             row = []
@@ -675,7 +676,7 @@ class ListView(View, ListMixin, base.ListView):
                     field_value = ", ".join(
                         [str(obj) for obj in field_value.get_queryset()]
                     )
-                row.append(re.sub(re_strip_tags, '', str(field_value)).strip())
+                row.append(strip_tags(field_value))
             writer.writerow(row)
 
         return response
