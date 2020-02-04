@@ -23,7 +23,10 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
-from django.utils.html import mark_safe
+from django.utils.html import (
+    mark_safe,
+    strip_tags,
+)
 from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
 from django.utils.translation import ugettext as _
@@ -673,7 +676,7 @@ class ListView(View, ListMixin, base.ListView):
                     field_value = ", ".join(
                         [str(obj) for obj in field_value.get_queryset()]
                     )
-                row.append(field_value)
+                row.append(strip_tags(field_value))
             writer.writerow(row)
 
         return response
