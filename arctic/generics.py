@@ -675,7 +675,7 @@ class ListView(View, ListMixin, base.ListView):
                     field_value = ", ".join(
                         [str(obj) for obj in field_value.get_queryset()]
                     )
-                row.append(re.sub(re_strip_tags, '', field_value).strip())
+                row.append(re.sub(re_strip_tags, '', str(field_value)).strip())
             writer.writerow(row)
 
         return response
