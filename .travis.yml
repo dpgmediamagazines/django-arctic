@@ -2,12 +2,10 @@ sudo: false
 language: python
 python:
   - 3.6
+  - 3.7
+  - 3.8
 matrix:
   fast_finish: true
-  include:
-  - python: 3.7
-    dist: xenial
-    sudo: true
 
 before_install:
   - pip install flake8

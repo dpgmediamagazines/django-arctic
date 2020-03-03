@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## [unreleased]
+
+### Added
+Compatibility with Django 3.0 and Python 3.8
+
 ## 1.4.2 (2019-12-12)
 
 ### Added
