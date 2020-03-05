@@ -16,6 +16,6 @@ exclude = '''
   | static
   | migrations
   | tests
-  | project_template
+  | \project_template
 )/
 '''
