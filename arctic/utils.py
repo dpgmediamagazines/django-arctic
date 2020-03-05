@@ -1,19 +1,19 @@
 from __future__ import absolute_import, unicode_literals
 
+import importlib
 from collections import OrderedDict
 from copy import deepcopy
-import importlib
 
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
+from django.template.defaultfilters import slugify
 from django.urls import (
+    NoReverseMatch,
     get_ns_resolver,
     get_resolver,
     get_urlconf,
-    NoReverseMatch,
     reverse,
 )
-from django.template.defaultfilters import slugify
 from django.utils import translation
 
 from . import defaults
@@ -40,12 +40,12 @@ def is_active(menu_entry, url_name):
             # Check for * in the related url's
             start_url = []
             for related in related_urls:
-                if related.endswith('*'):
+                if related.endswith("*"):
                     start_url += [related]
             if len(start_url):
-                url_base_name = url_name.split(':')
+                url_base_name = url_name.split(":")
                 del url_base_name[-1]
-                url_base_name = ':'.join(url_base_name)
+                url_base_name = ":".join(url_base_name)
                 for item in start_url:
                     return item.startswith(url_base_name)
     return False
