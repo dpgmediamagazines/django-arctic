@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
-## [unreleased]
+## 1.5.0 (2020-03-05)
 
 ### Added
-Compatibility with Django 3.0 and Python 3.8
+Compatibility with Django 3.0 and Python 3.8 [#442][442]
+
+[442]: //github.com/sanoma/django-arctic/issues/442
 
 ## 1.4.2 (2019-12-12)
 
