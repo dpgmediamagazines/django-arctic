@@ -1,20 +1,20 @@
 # TODO: Move extra views into our own views. So we can override where needed
-from extra_views import InlineFormSet
+from extra_views import InlineFormSetFactory
 
 from .models import Article, Image
 
 
-class ArticleInline(InlineFormSet):
+class ArticleInline(InlineFormSetFactory):
     model = Article
     fields = "__all__"
 
 
-class TagsInline(InlineFormSet):
+class TagsInline(InlineFormSetFactory):
     model = Article.tags.through
     fields = "__all__"
 
 
-class ImagesInline(InlineFormSet):
+class ImagesInline(InlineFormSetFactory):
     model = Image
     fields = "__all__"
     layout = {"blah": "bah"}
