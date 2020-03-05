@@ -4,19 +4,17 @@ Basic mixins for generic class based views.
 import importlib
 import sys
 import warnings
+from collections import OrderedDict
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.urls import reverse
-from django.utils import six
-from django.utils.translation import ugettext_lazy as _
-
-from collections import OrderedDict
+from django.utils.translation import gettext_lazy as _
 
 from .forms import SimpleSearchForm
 from .loading import get_role_model, get_user_role_model
-from .utils import arctic_setting, reverse_url, view_from_url, generate_id
+from .utils import arctic_setting, generate_id, reverse_url, view_from_url
 from .widgets import SelectizeAutoComplete
 
 Role = get_role_model()
@@ -237,7 +235,7 @@ class FormMixin(ModalMixin):
         ):
             for i, (fieldset, rows) in enumerate(layout.items()):
                 fieldset = self._return_fieldset(fieldset)
-                if isinstance(rows, six.string_types):
+                if isinstance(rows, str):
                     allowed_rows.update(
                         {i: {"fieldset": fieldset, "rows": rows}}
                     )
@@ -262,9 +260,7 @@ class FormMixin(ModalMixin):
     def _process_first_level(self, rows, fields):
         allowed_rows = []
         for row in rows:
-            if isinstance(row, six.string_types) or isinstance(
-                row, six.text_type
-            ):
+            if isinstance(row, str):
                 allowed_rows.append(self._return_field(row, fields))
             elif type(row) in (list, tuple):
                 rows = self._process_row(row, fields)
@@ -281,9 +277,7 @@ class FormMixin(ModalMixin):
             # Yeah, like this isn't incomprehensible yet. Let's add recursion
             if type(field) in (list, OrderedDict):
                 _row[index] = self._process_row(field)
-            elif isinstance(field, six.string_types) or isinstance(
-                field, six.text_type
-            ):
+            elif isinstance(field, str):
                 name, column = self._split_str(field)
                 if column:
                     has_column[index] = self._return_field(field, fields)
@@ -599,10 +593,8 @@ class ListMixin(ModalMixin):
         """
         Hook to dynamically change the fields that will be displayed
         """
-        if self.fields == '__all__':
-            return [
-                f.name for f in self.model._meta.get_fields()
-            ]
+        if self.fields == "__all__":
+            return [f.name for f in self.model._meta.get_fields()]
         if strip_labels:
             return [
                 f[0] if type(f) in (tuple, list) else f for f in self.fields
@@ -893,7 +885,7 @@ class RoleAuthentication(object):
                 "Define {0}.permission_required, or override "
                 "{0}.get_permission_required().".format(cls.__name__)
             )
-        if isinstance(cls.permission_required, six.string_types):
+        if isinstance(cls.permission_required, str):
             if cls.permission_required != "":
                 perms = (cls.permission_required,)
             else:

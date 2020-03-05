@@ -1,9 +1,10 @@
 from collections import OrderedDict
-import pytest
-from django.urls import ResolverMatch, reverse
-from django.http import HttpRequest
-from django.utils.translation import ugettext_lazy as _
 
+from django.http import HttpRequest
+from django.urls import ResolverMatch, reverse
+from django.utils.translation import gettext_lazy as _
+
+import pytest
 from arctic import utils
 
 

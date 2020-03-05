@@ -5,7 +5,6 @@ import csv
 import json
 from collections import OrderedDict
 
-import extra_views
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -23,15 +22,14 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
-from django.utils.html import (
-    mark_safe,
-    strip_tags,
-)
-from django.utils.http import is_safe_url, quote
+from django.utils.html import mark_safe, strip_tags
+from django.utils.http import quote
 from django.utils.text import capfirst
-from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
+from django.utils.translation import gettext as _
 from django.views import generic as base
+
+import extra_views
 
 from .mixins import (
     FormMediaMixin,
@@ -51,6 +49,13 @@ from .utils import (
     reverse_url,
     view_from_url,
 )
+
+try:
+    from django.utils.http import url_has_allowed_host_and_scheme
+except ImportError:
+    from django.utils.http import (
+        is_safe_url as url_has_allowed_host_and_scheme,
+    )
 
 
 def collapsible(fiedset_name, collapsed=False):
@@ -484,9 +489,10 @@ class ListView(View, ListMixin, base.ListView):
                         item["label"] = field_name
                 item["name"] = prefix + name
                 if name in ordering_fields:
-                    item["order_url"], item[
-                        "order_direction"
-                    ] = self.ordering_url(name)
+                    (
+                        item["order_url"],
+                        item["order_direction"],
+                    ) = self.ordering_url(name)
                 result.append(item)
 
         return result
@@ -1013,7 +1019,7 @@ class LoginView(FormView):
             login(request, user)
 
             next_url = request.GET.get("next")
-            if is_safe_url(next_url, request.get_host()):
+            if url_has_allowed_host_and_scheme(next_url, request.get_host()):
                 return redirect(next_url)
 
             return redirect("/")
