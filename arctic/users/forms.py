@@ -6,8 +6,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
 from arctic.loading import get_user_role_model
-
-from .multiform import MultiModelForm
+from arctic.multiform import MultiModelForm
 
 User = get_user_model()
 UserRole = get_user_role_model()
