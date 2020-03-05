@@ -3,7 +3,7 @@ from collections import OrderedDict
 from django import forms
 from django.contrib.auth import forms as user_forms
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from arctic.loading import get_user_role_model
 from arctic.multiform import MultiModelForm

@@ -23,7 +23,7 @@ from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
 from django.utils.html import mark_safe, strip_tags
-from django.utils.http import is_safe_url, quote
+from django.utils.http import quote, url_has_allowed_host_and_scheme
 from django.utils.text import capfirst
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
@@ -1012,7 +1012,7 @@ class LoginView(FormView):
             login(request, user)
 
             next_url = request.GET.get("next")
-            if is_safe_url(next_url, request.get_host()):
+            if url_has_allowed_host_and_scheme(next_url, request.get_host()):
                 return redirect(next_url)
 
             return redirect("/")
