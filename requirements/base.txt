@@ -1,3 +1,2 @@
 setuptools
 django-extra-views==0.13.0
-django-betterforms==1.2
