@@ -23,7 +23,7 @@ from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
 from django.utils.html import mark_safe, strip_tags
-from django.utils.http import quote, url_has_allowed_host_and_scheme
+from django.utils.http import quote
 from django.utils.text import capfirst
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
@@ -49,6 +49,13 @@ from .utils import (
     reverse_url,
     view_from_url,
 )
+
+try:
+    from django.utils.http import url_has_allowed_host_and_scheme
+except ImportError:
+    from django.utils.http import (
+        is_safe_url as url_has_allowed_host_and_scheme,
+    )
 
 
 def collapsible(fiedset_name, collapsed=False):
