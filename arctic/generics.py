@@ -26,7 +26,7 @@ from django.utils.html import mark_safe, strip_tags
 from django.utils.http import is_safe_url, quote
 from django.utils.text import capfirst
 from django.utils.translation import get_language
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views import generic as base
 
 import extra_views

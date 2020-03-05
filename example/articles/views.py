@@ -1,8 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
+from collections import OrderedDict
+
 from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from arctic.generics import (
     CreateView,
@@ -12,9 +14,8 @@ from arctic.generics import (
     UpdateView,
 )
 from arctic.generics import collapsible_gettext as _c
-from collections import OrderedDict
 
-from .forms import ArticleForm, AdvancedArticleSearchForm, FiltersAndSearchForm
+from .forms import AdvancedArticleSearchForm, ArticleForm, FiltersAndSearchForm
 from .inlines import ImagesInline
 from .models import Article, Category, Tag
 

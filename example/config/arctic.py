@@ -1,5 +1,4 @@
-from django.utils.translation import ugettext_lazy as _
-
+from django.utils.translation import gettext_lazy as _
 
 ARCTIC_SITE_NAME = _("Arctic Example")
 ARCTIC_FORM_DISPLAY = "float-label"
