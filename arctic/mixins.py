@@ -28,19 +28,22 @@ class SuccessMessageMixin(object):
     """
 
     success_message = ""
+    message_delivered = False
 
     def form_valid(self, form):
         response = super(SuccessMessageMixin, self).form_valid(form)
         success_message = self.get_success_message(form.cleaned_data)
-        if success_message:
+        if success_message and not self.message_delivered:
             messages.success(self.request, success_message)
+            self.message_delivered = True
         return response
 
     def forms_valid(self, form, inlines):
         response = super(SuccessMessageMixin, self).forms_valid(form, inlines)
         success_message = self.get_success_message(form.cleaned_data)
-        if success_message:
+        if success_message and not self.message_delivered:
             messages.success(self.request, success_message)
+            self.message_delivered = True
         return response
 
     def get_success_message(self, cleaned_data):
