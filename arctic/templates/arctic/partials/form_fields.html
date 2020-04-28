@@ -57,7 +57,7 @@
     {% endfor %}
 {% else %}
     {# TODO Move this section to it's own template file #}
-    <div class="form-block {{ form_display }}">
+    <div class="form-block {{ form_display }} no-gutters">
         {% for field in form %}
             {% include 'arctic/partials/form_field.html' %}
         {% endfor %}
