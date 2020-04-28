@@ -7,20 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.5.1 (2020-04-28)
+
+### Fixed
+- Buttons on forms without layouts are properly aligned
+- Support for LOGIN_REDIRECT_URL parameter
+- Fixed double success messages in forms with inlines
+
 ## 1.5.0 (2020-03-05)
 
 ### Added
-Compatibility with Django 3.0 and Python 3.8 [#442][442]
+- Compatibility with Django 3.0 and Python 3.8 [#442][442]
 
 [442]: //github.com/sanoma/django-arctic/issues/442
 
 ## 1.4.2 (2019-12-12)
 
 ### Added
-Adds a createapp command to arctic [#387][387]
+- Adds a createapp command to arctic [#387][387]
 
 ### Changed
-Updated a number of frontend and backend dependencies
+- Updated a number of frontend and backend dependencies
 
 [387]: //github.com/sanoma/django-arctic/issues/387
 
