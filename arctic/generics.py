@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import SuccessURLAllowedHostsMixin
 from django.core.exceptions import (
     FieldDoesNotExist,
     ImproperlyConfigured,
@@ -18,7 +19,7 @@ from django.core.paginator import InvalidPage
 from django.db.models.deletion import Collector, ProtectedError
 from django.db.models.manager import Manager
 from django.forms.widgets import Media
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import NoReverseMatch, reverse
 from django.utils.formats import get_format
@@ -982,10 +983,11 @@ class DeleteView(View, base.DeleteView):
         return response
 
 
-class LoginView(FormView):
+class LoginView(SuccessURLAllowedHostsMixin, FormView):
     template_name = "arctic/login.html"
     page_title = _("Login")
     requires_login = False
+    redirect_authenticated_user = False
     form_class = AuthenticationForm
 
     def __init__(self, *args, **kwargs):
@@ -1001,13 +1003,39 @@ class LoginView(FormView):
         context["messages"] = set(self.messages)
         return context
 
+    def get_success_url(self):
+        url = self.get_redirect_url()
+        return url or resolve_url(settings.LOGIN_REDIRECT_URL)
+
+    def get_redirect_url(self):
+        """Return the user-originating redirect URL if it's safe."""
+        redirect_to = self.request.POST.get(
+            self.redirect_field_name,
+            self.request.GET.get(self.redirect_field_name, ""),
+        )
+        url_is_safe = url_has_allowed_host_and_scheme(
+            url=redirect_to,
+            allowed_hosts=self.get_success_url_allowed_hosts(),
+            require_https=self.request.is_secure(),
+        )
+        return redirect_to if url_is_safe else ""
+
     def get(self, request, *args, **kwargs):
         # If the logout url is the login url, log the user out of the system
         if settings.LOGOUT_URL == settings.LOGIN_URL:
             logout(request)
         # Else redirect a logged in user to the homepage
-        elif request.user.is_authenticated:
-            return redirect("/")
+        elif (
+            self.redirect_authenticated_user
+            and self.request.user.is_authenticated
+        ):
+            redirect_to = self.get_success_url()
+            if redirect_to == self.request.path:
+                raise ValueError(
+                    "Redirection loop for authenticated user detected. Check that "
+                    "your LOGIN_REDIRECT_URL doesn't point to a login page."
+                )
+            return HttpResponseRedirect(redirect_to)
         return super(LoginView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
