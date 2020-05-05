@@ -15,7 +15,7 @@
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
     "iframe-resizer": "4.2.10",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "jquery.are-you-sure": "^1.9.0",
     "js-yaml": "^3.13.1",
     "moment": "^2.22.2",
