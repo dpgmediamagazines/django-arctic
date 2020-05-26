@@ -17,7 +17,7 @@
     "iframe-resizer": "4.2.10",
     "jquery": "^3.5.1",
     "jquery.are-you-sure": "^1.9.0",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "moment": "^2.22.2",
     "popper.js": "^1.16.1",
     "rimraf": "^3.0.2",
