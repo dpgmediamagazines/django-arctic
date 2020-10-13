@@ -12,19 +12,19 @@
   },
   "dependencies": {
     "air-datepicker": "^2.2.3",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.5.2",
     "font-awesome": "^4.7.0",
     "iframe-resizer": "4.2.11",
     "jquery": "^3.5.1",
     "jquery.are-you-sure": "^1.9.0",
     "js-yaml": "^3.14.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "rimraf": "^3.0.2",
     "sass-burger": "^1.3.1",
     "selectize": "^0.12.5",
-    "sortablejs": "^1.10.2",
-    "yargs": "^15.3.1"
+    "sortablejs": "^1.12.0",
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
@@ -40,7 +40,7 @@
     "gulp-extname": "^0.2.2",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
-    "gulp-load-plugins": "^2.0.3",
+    "gulp-load-plugins": "^2.0.5",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-strip-comments": "^2.5.2",
