@@ -42,7 +42,7 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-load-plugins": "^2.0.5",
     "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sourcemaps": "^3.0.0",
     "gulp-strip-comments": "^2.5.2",
     "gulp-uglify": "^3.0.2",
     "gulp-uncss": "^1.0.6"
