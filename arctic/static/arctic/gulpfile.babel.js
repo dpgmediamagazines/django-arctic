@@ -1,6 +1,5 @@
 'use strict';
 
-import plugins from 'gulp-load-plugins';
 import yargs from 'yargs';
 import gulp from 'gulp';
 import rimraf from 'rimraf';
@@ -8,8 +7,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import strip from 'gulp-strip-comments';
 
-// Load all Gulp plugins into one variable
-const $ = plugins();
+const $ = require('gulp-load-plugins')();
 
 // Check for --production flag. Compresses everything, doesn't generate an
 // source map etc so the final result is nice and clean for production usage
