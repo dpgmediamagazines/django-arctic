@@ -23,7 +23,7 @@
         var $arrow = $(container).find('.arrow');
         $arrow.removeAttr('style');
         var marginRight = 24;
-        var buttonPosition = $('.arctic_toggle_form_button')[0].getBoundingClientRect()
+        var buttonPosition = $('.arctic_toggle_form_button')[0].getBoundingClientRect();
         var offset = $(container)[0].getBoundingClientRect();
         var windowWidth = document.documentElement.clientWidth;
         var newTop = offset.top - buttonPosition.top + buttonPosition.height;
@@ -33,6 +33,9 @@
         }
 
         var newLeft = Math.abs(offset.left - (windowWidth - offset.width - marginRight));
+        if ((newLeft + buttonPosition.left) > buttonPosition.left) {
+            newLeft = 16; // 1 rem
+        }
         var translateProp = 'translate(' + newLeft + 'px, ' + newTop + 'px)';
 
         $(container).css({
