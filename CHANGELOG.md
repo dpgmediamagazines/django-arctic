@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.5.2 (2020-12-28)
+
+## Fixed
+- Positioning of advanced search dialog is now correct when trigger button
+  in positioned on the left side
+
+## Changed
+- Updated frontend dependencies to their latest versions
+
+## Added
+- Compatibility with Django 3.1 and Python 3.9
+
 ## 1.5.1 (2020-04-28)
 
 ### Fixed

@@ -3,7 +3,7 @@ import shutil
 import sys
 from setuptools import find_packages, setup
 
-__VERSION__ = "1.5.1"
+__VERSION__ = "1.5.2"
 
 
 def read_md(f):
@@ -78,6 +78,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     version=__VERSION__,
     long_description=read_md("README.md"),

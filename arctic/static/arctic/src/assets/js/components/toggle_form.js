@@ -33,7 +33,7 @@
         }
 
         var newLeft = Math.abs(offset.left - (windowWidth - offset.width - marginRight));
-        if ((newLeft + buttonPosition.left) > buttonPosition.left) {
+        if ((offset.left + newLeft) >= buttonPosition.left) {
             newLeft = 16; // 1 rem
         }
         var translateProp = 'translate(' + newLeft + 'px, ' + newTop + 'px)';
