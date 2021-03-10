@@ -13,16 +13,16 @@ function startDynamicInlines() {
         selectizes = checkSelectizes();
         let $clonedInline = $(inlineForm).clone().removeClass('hide');
 
-        // Change all the atributes in the hidden for for the next inline
-        let $nameSet = $(inlineForm).find('input[name*="_set-"]');
-        let $idSet = $(inlineForm).find('input[id*="_set-"]');
-        let $forSet = $(inlineForm).find('[for*="_set-"]');
-        let setNameArray = $nameSet[0].getAttribute('name').split('_');
-        let setName = setNameArray[0];
-
         // find total number and increment
-        let $totalForm = $('input[name=' + setName + '_set-TOTAL_FORMS]');
+        let $totalForm = $parent.find('input[name*="TOTAL_FORMS"]');
         let number = $totalForm.val();
+
+        // Change all the atributes in the hidden for for the next inline
+        let $nameSet = $(inlineForm).find('input[name]');
+        let $idSet = $(inlineForm).find('input[id]');
+        let $forSet = $(inlineForm).find('label[for]');
+        let setNameArray = $nameSet[0].getAttribute('name').split('-' + (parseInt(number) - 1));
+        let setName = setNameArray[0];
 
         // Find all id, names and for fields and replace the content with a +1 increment
         changeFields($nameSet, 'name', number);
