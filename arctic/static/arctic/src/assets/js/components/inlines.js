@@ -14,7 +14,7 @@ function startDynamicInlines() {
         let $clonedInline = $(inlineForm).clone().removeClass('hide');
 
         // find total number and increment
-        let $totalForm = $parent.find('input[name*="TOTAL_FORMS"]');
+        let $totalForm = $parent.parent().find('input[name*="TOTAL_FORMS"]');
         let number = $totalForm.val();
 
         // Change all the atributes in the hidden for for the next inline
