@@ -48,7 +48,7 @@
                                     {% include "arctic/partials/form_fields_inline.html" with form=form hide_form=forloop.last %}
                                 {% endblock %}
                                 {% if forloop.last %}
-                                    <button class="btn btn-secondary btn-sm" data-inline-max-num="{{ formset.max_num }}" js-data-inline-button>
+                                    <button class="add-inline btn btn-secondary btn-sm" data-inline-max-num="{{ formset.max_num }}" js-data-inline-button>
                                         <i title="Add Inline" class="fa fa-plus"></i>
                                     </button>
                                 {% endif %}

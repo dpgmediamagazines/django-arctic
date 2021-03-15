@@ -1,5 +1,5 @@
-{% if hide_form %} </div> {% endif %}
-<div class="form-block {{ form_display }} inline-form{% if hide_form %} hide {% endif %}" data-inline-form>
+{% if hide_form %} {#</div>#} {% endif %}
+<div class="form-block {{ form_display }} inline-form {% if hide_form %}hide{% else %}show{% endif %} " data-inline-form>
 {% for field in form %}
     {% if field.is_hidden %}
         {{ field }}

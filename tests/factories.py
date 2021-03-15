@@ -1,11 +1,17 @@
 import datetime
 
 from django.contrib.auth import get_user_model
-from factory import DjangoModelFactory, Sequence, \
-    SubFactory, fuzzy, PostGenerationMethodCall, post_generation, compat
 
 from arctic.models import Role, UserRole
 from articles.models import Article, Category, Tag
+from factory import (
+    PostGenerationMethodCall,
+    Sequence,
+    SubFactory,
+    fuzzy,
+    post_generation,
+)
+from factory.django import DjangoModelFactory
 
 
 class CategoryFactory(DjangoModelFactory):
@@ -27,7 +33,7 @@ class ArticleFactory(DjangoModelFactory):
     category = SubFactory(CategoryFactory)
     published = fuzzy.FuzzyChoice([True, False])
     updated_at = fuzzy.FuzzyDateTime(datetime.datetime(2016, 1, 1,
-                                                       tzinfo=compat.UTC))
+                                                       tzinfo=datetime.timezone.utc))
 
     class Meta:
         model = Article

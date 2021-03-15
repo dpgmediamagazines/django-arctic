@@ -366,7 +366,7 @@ form.search-form {
         }
     }
     // The last child is the add inline button
-    .inline-form:nth-last-child(1) {
+    .inline-form.show:nth-last-child(1) {
         .inline-separator {
             display: none;
         }

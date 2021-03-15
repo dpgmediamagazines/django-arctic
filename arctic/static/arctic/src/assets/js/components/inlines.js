@@ -9,9 +9,11 @@ function startDynamicInlines() {
         let max_num = this.getAttribute('data-inline-max-num');
         let $parent = $(this).parent();
         let $inlineForm = $parent.find(inlineFormSelector);
-        inlineForm = $inlineForm[$inlineForm.length -1];
+        inlineForm = $inlineForm.last();
         selectizes = checkSelectizes();
-        let $clonedInline = $(inlineForm).clone().removeClass('hide');
+        $inlineForm.find(".inline-separator").show();
+        inlineForm.find(".inline-separator").hide();
+        let $clonedInline = inlineForm.clone().removeClass('hide').addClass("show");
 
         // find total number and increment
         let $totalForm = $parent.parent().find('input[name*="TOTAL_FORMS"]');
@@ -29,7 +31,7 @@ function startDynamicInlines() {
         changeFields($idSet, 'id', number);
         changeFields($forSet, 'for', number);
         $totalForm.val(parseInt(number) + 1);
-        $(inlineForm).prev().append($clonedInline);
+        inlineForm.prev().append($clonedInline);
         if (selectizes) {
             startAllSelectizes();
         }
@@ -38,9 +40,8 @@ function startDynamicInlines() {
         startSortInlines();
         floatLabels();
         betterFile();
-
         // check max number
-        if (max_num == $inlineForm.length) {
+        if (max_num == $inlineForm.filter(":visible").length + 1) {
             $(this).hide();
         }
     });
@@ -51,8 +52,10 @@ function startDynamicInlines() {
         let deleteInput = 'input[name*="DELETE"]';
         $(deleteButtonSelector).off().on('click', function() {
             $parent = $(this).closest(inlineFormSelector);
+            $parent.parent().parent().find("button[js-data-inline-button]").show();
             $deleteCheckbox = $parent.find(deleteInput);
             $deleteCheckbox[0].checked = true;
+            $parent.removeClass('show');
             $parent.addClass('hide');
         });
     }

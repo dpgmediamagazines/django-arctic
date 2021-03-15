@@ -20,3 +20,4 @@ class ImagesInline(InlineFormSetFactory):
     layout = {"blah": "bah"}
     sorting_field = "order"
     inline_extra = 1
+    factory_kwargs = {"max_num": 7}
