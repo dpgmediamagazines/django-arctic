@@ -4,7 +4,7 @@ pytest-django==4.1.*
 pytest-pythonpath==0.7.*
 factory-boy==3.2.*
 isort==5.7.*
-flake8==3.8.*
+flake8==3.9.*
 pep8==1.7.*
 # for checking html
 beautifulsoup4==4.9.*
