@@ -3,7 +3,7 @@ import shutil
 import sys
 from setuptools import find_packages, setup
 
-__VERSION__ = "1.5.2"
+__VERSION__ = "1.5.3"
 
 
 def read_md(f):

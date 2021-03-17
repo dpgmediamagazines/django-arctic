@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+
+## 1.5.3 (2021-03-17)
+
+## Fixed
+- Creating new inlines that use a related_name with the set_ prefix
+- max_num support to limit maximum number of inlines
+
+## Changed
+- Updated dependencies to their latest versions
+
+
 ## 1.5.2 (2020-12-28)
 
 ## Fixed
@@ -19,6 +30,7 @@ Always reference the ticket number at the end of the issue description.
 ## Added
 - Compatibility with Django 3.1 and Python 3.9
 
+
 ## 1.5.1 (2020-04-28)
 
 ### Fixed
@@ -26,12 +38,14 @@ Always reference the ticket number at the end of the issue description.
 - Support for LOGIN_REDIRECT_URL parameter
 - Fixed double success messages in forms with inlines
 
+
 ## 1.5.0 (2020-03-05)
 
 ### Added
 - Compatibility with Django 3.0 and Python 3.8 [#442][442]
 
 [442]: //github.com/sanoma/django-arctic/issues/442
+
 
 ## 1.4.2 (2019-12-12)
 
@@ -43,6 +57,7 @@ Always reference the ticket number at the end of the issue description.
 
 [387]: //github.com/sanoma/django-arctic/issues/387
 
+
 ## 1.4.1 (2019-08-01)
 
 ### Added
@@ -51,6 +66,7 @@ Always reference the ticket number at the end of the issue description.
 ### Fixed
 - Fixed dark mode inside modal windows
 - Fixed blurry text in the advanced form actions
+
 
 ## 1.4.0 (2019-07-04)
 
@@ -95,6 +111,7 @@ Always reference the ticket number at the end of the issue description.
 [340]: //github.com/sanoma/django-arctic/issues/340
 [342]: //github.com/sanoma/django-arctic/issues/342
 [344]: //github.com/sanoma/django-arctic/issues/344
+
 
 ## 1.3.6 (2019-01-22)
 

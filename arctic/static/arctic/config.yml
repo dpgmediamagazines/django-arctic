@@ -5,8 +5,6 @@ PORT: 8000
 UNCSS_OPTIONS:
   html:
     - "src/**/*.html"
-  ignore:
-    - !!js/regexp ^\.is-.*
 
 # Gulp will reference these paths when it copies files
 PATHS:
@@ -34,7 +32,7 @@ PATHS:
     - "node_modules/air-datepicker/dist/js/datepicker.js"
     - "node_modules/air-datepicker/dist/js/i18n/datepicker.en.js"
     - "node_modules/selectize/dist/js/standalone/selectize.js"
-    - "node_modules/sortablejs/dist/sortable.umd.js"
+    - "node_modules/sortablejs/Sortable.js"
     - "node_modules/iframe-resizer/js/iframeResizer.js"
     - "node_modules/moment/min/moment.min.js"
 
