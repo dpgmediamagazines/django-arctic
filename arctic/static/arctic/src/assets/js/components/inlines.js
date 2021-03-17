@@ -11,9 +11,7 @@ function startDynamicInlines() {
         let $inlineForm = $parent.find(inlineFormSelector);
         inlineForm = $inlineForm.last();
         selectizes = checkSelectizes();
-        $inlineForm.find(".inline-separator").show();
-        inlineForm.find(".inline-separator").hide();
-        let $clonedInline = inlineForm.clone().removeClass('hide').addClass("show");
+        let $clonedInline = inlineForm.clone().removeClass('hide');
 
         // find total number and increment
         let $totalForm = $parent.parent().find('input[name*="TOTAL_FORMS"]');

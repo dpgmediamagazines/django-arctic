@@ -356,6 +356,7 @@ form.search-form {
 .inline-formset {
     .inline-form {
         position: relative;
+        margin-top: 3rem;
 
         &:hover {
             .inline-form-grab,
@@ -366,10 +367,8 @@ form.search-form {
         }
     }
     // The last child is the add inline button
-    .inline-form.show:nth-last-child(1) {
-        .inline-separator {
-            display: none;
-        }
+    .inline-form:first-child {
+        margin-top: 0;
     }
 
     .inline-helper-pane {
