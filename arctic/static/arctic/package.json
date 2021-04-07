@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
+    "@babel/register": "^7.13.14",
     "@babel/preset-env": "^7.13.12",
-    "@babel/register": "^7.13.8",
     "babel-jest": "^26.6.3",
     "babel-register": "^6.26.0",
     "core-js": "^3.9.1",
