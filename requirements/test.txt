@@ -1,6 +1,6 @@
 pytest==6.2.*
 pytest-cov==2.11.*
-pytest-django==4.1.*
+pytest-django==4.2.*
 pytest-pythonpath==0.7.*
 factory-boy==3.2.*
 isort==5.8.*
