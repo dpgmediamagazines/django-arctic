@@ -1,2 +1,2 @@
 setuptools
-django-extra-views==0.13.0
+django-extra-views==0.14.0
