@@ -3,7 +3,7 @@ pytest-cov==2.12.*
 pytest-django==4.2.*
 pytest-pythonpath==0.7.*
 factory-boy==3.2.*
-isort==5.8.*
+isort==5.9.*
 flake8==3.9.*
 pep8==1.7.*
 # for checking html
