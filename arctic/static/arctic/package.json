@@ -47,7 +47,7 @@
     "gulp-strip-comments": "^2.5.2",
     "gulp-uglify": "^3.0.2",
     "gulp-uncss": "^1.0.6",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.9"
   },
   "babel": {
     "presets": [
