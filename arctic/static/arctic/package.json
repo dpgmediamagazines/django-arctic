@@ -30,7 +30,7 @@
     "@babel/core": "^7.14.3",
     "@babel/register": "^7.13.16",
     "@babel/preset-env": "^7.14.1",
-    "babel-jest": "^27.0.2",
+    "babel-jest": "^27.1.1",
     "core-js": "^3.12.1",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^8.0.0",
