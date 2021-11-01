@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Always reference the ticket number at the end of the issue description.
 
+## 1.5.4 (2021-11-01)
+- Updated dependencies to their latest versions
 
 ## 1.5.3 (2021-03-17)
 
