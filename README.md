@@ -1,7 +1,7 @@
 # Django Arctic
 [![PyPi version](https://img.shields.io/pypi/v/django-arctic.svg)](https://pypi.python.org/pypi/django-arctic/)
-[![Build Status](https://travis-ci.org/sanoma/django-arctic.svg?branch=develop)](https://travis-ci.org/sanoma/django-arctic)
-[![Coverage Status](https://coveralls.io/repos/github/sanoma/django-arctic/badge.svg?branch=develop)](https://coveralls.io/github/sanoma/django-arctic)
+[![Build Status](https://travis-ci.org/dpgmediamagzines/django-arctic.svg?branch=develop)](https://travis-ci.org/dpgmediamagazines/django-arctic)
+[![Coverage Status](https://coveralls.io/repos/github/dpgmediamagazines/django-arctic/badge.svg?branch=develop)](https://coveralls.io/github/dpgmediamagazines/django-arctic)
 [![Read the Docs](https://readthedocs.org/projects/django-arctic/badge/?version=latest)](https://django-arctic.readthedocs.io/en/latest/)
 [![Downloads](https://pepy.tech/badge/django-arctic/month)](https://pepy.tech/project/django-arctic/month)
 
