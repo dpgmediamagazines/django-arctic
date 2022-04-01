@@ -1,5 +1,5 @@
 -e .
 -r test.txt
 pypandoc==1.6.4
-twine==3.4.2
+twine==4.0.0
 django==3.2.9
