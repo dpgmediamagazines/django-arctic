@@ -7,5 +7,5 @@ isort==5.9.*
 flake8==4.0.*
 pep8==1.7.*
 # for checking html
-beautifulsoup4==4.10.*
+beautifulsoup4==4.11.*
 Pillow==8.4.*
