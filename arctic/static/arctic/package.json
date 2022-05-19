@@ -11,7 +11,7 @@
     "build": "gulp build --production"
   },
   "dependencies": {
-    "air-datepicker": "^3.0.1",
+    "air-datepicker": "^3.2.0",
     "bootstrap": "^4.6.1",
     "font-awesome": "^4.7.0",
     "iframe-resizer": "4.3.2",
