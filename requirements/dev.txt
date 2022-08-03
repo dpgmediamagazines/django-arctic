@@ -2,4 +2,4 @@
 -r test.txt
 pypandoc==1.6.4
 twine==3.4.2
-django==3.2.9
+django==4.1
