@@ -8,4 +8,4 @@ flake8==4.0.*
 pep8==1.7.*
 # for checking html
 beautifulsoup4==4.10.*
-Pillow==8.4.*
+Pillow==9.3.*
